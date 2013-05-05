@@ -61,6 +61,7 @@ void render()
             // Next pressed key
             cur = cur->next;
         }
+        if (cur == NULL) break;
 
         KeyInfo * key = &kbinfo->definedKeys[cur->code];
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
@@ -96,14 +97,17 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 {
     KBDLLHOOKSTRUCT *info = (KBDLLHOOKSTRUCT*)lParam;
 
+    bool extended = (info->flags & LLKHF_EXTENDED) != 0;
+    int code = (extended && info->vkCode == 13) ? 1025 : info->vkCode;
+
     switch (wParam) {
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
         {
 #if version == 1
-            pressed[info->vkCode] = true;
+            pressed[code] = true;
 #else if version == 2
-            fPressed = insert(fPressed, info->vkCode);
+            fPressed = insert(fPressed, code);
 #endif
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
@@ -111,7 +115,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 #ifdef debug
             // Display the last pressed keycode in the window title
             std::ostringstream convert;
-            convert << info->vkCode;
+            convert << code;
             std::string result = convert.str();
             SetWindowText(hWnd, (LPSTR)result.c_str());
 #endif
@@ -121,9 +125,9 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
     case WM_KEYUP:
     case WM_SYSKEYUP:
 #if version == 1
-        pressed[info->vkCode] = false;
+        pressed[code] = false;
 #else if version == 2
-        fPressed = remove(fPressed, info->vkCode);
+        fPressed = remove(fPressed, code);
 #endif 
         if (info->vkCode == 160) shiftDown1 = false;
         if (info->vkCode == 161) shiftDown2 = false;
@@ -175,10 +179,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // create the window and use the result as the handle
     hWnd = CreateWindowEx(NULL, "NohBoardClass", "NohBoard", WS_EX_TOOLWINDOW | WS_EX_LAYERED,
-                          300, 300,    // position of the window
-                          kbinfo->width, kbinfo->height,    // dimensions of the window
-                          NULL, NULL,    // parent null, menus null
-                          hInstance, NULL);    // application / multiple window
+                          300, 300,                      // position of the window
+                          kbinfo->width, kbinfo->height, // dimensions of the window
+                          NULL, NULL,                    // parent null, menus null
+                          hInstance, NULL);              // application, multiple window
     ShowWindow(hWnd, nCmdShow);
 
     // Low level keyboard hook
@@ -190,6 +194,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Message loop
     MSG msg;
     bool bStopping = false;
+    int counter = 0;
     while(!bStopping)
     {
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -198,10 +203,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         if(msg.message == WM_QUIT)
             bStopping = true;
 
-        render();
+        if (counter < 3) counter += 1;
+        else
+        {
+            counter = 0;
+            render();
+        }
 
-        // Every 20 ms should be enough (20 fps)
-        Sleep(50);
+        // Every 5 ms should be enough (200 / 4 = 50 fps)
+        Sleep(5);
     }
 
     delete kbinfo;
