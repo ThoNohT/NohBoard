@@ -28,7 +28,7 @@ int CapsLetters(bool changeOnCaps)
 void render()
 {
     ds->prepareFrame();
-#if version == 1
+#if method == 1
     // Loop through all keys defined for this keyboard
     typedef std::map<int, KeyInfo>::iterator it_type;
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
@@ -39,18 +39,18 @@ void render()
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
-                            D3DCOLOR_XRGB(config->GetInt("pressedR"), config->GetInt("pressedG"), config->GetInt("pressedB")));
+                            D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
         }
         else
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
-                            D3DCOLOR_XRGB(config->GetInt("looseR"), config->GetInt("looseG"), config->GetInt("looseB")));
+                            D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
         }
-        ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt("fontR"), config->GetInt("fontG"), config->GetInt("fontB")),
-                        CapsLetters(key->changeOnCaps) ? (LPSTR)key->shiftText.c_str() : (LPSTR)key->text.c_str());
+        ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
+            CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str());
     }
-#else if version == 2
+#else if method == 2
     lnode * cur = fPressed;
     // Loop through all pressed nodes
     while (cur != NULL)
@@ -69,7 +69,7 @@ void render()
                         key->x + key->width, key->y + key->height, 
                         D3DCOLOR_XRGB(config->GetInt("pressedR"), config->GetInt("pressedG"), config->GetInt("pressedB")));
         ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt("fontR"), config->GetInt("fontG"), config->GetInt("fontB")),
-                    CapsLetters(key->changeOnCaps) ? (LPSTR)key->shiftText.c_str() : (LPSTR)key->text.c_str());
+                    CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str());
 
         // Next pressed key
         cur = cur->next;
@@ -104,9 +104,9 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
         {
-#if version == 1
+#if method == 1
             pressed[code] = true;
-#else if version == 2
+#else if method == 2
             fPressed = insert(fPressed, code);
 #endif
             if (info->vkCode == 160) shiftDown1 = true;
@@ -114,19 +114,19 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
         
 #ifdef debug
             // Display the last pressed keycode in the window title
-            std::ostringstream convert;
+            std::wostringstream convert;
             convert << code;
-            std::string result = convert.str();
-            SetWindowText(hWnd, (LPSTR)result.c_str());
+            std::wstring result = convert.str();
+            SetWindowText(hWnd, (LPWSTR)result.c_str());
 #endif
         }
         break;
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
-#if version == 1
+#if method == 1
         pressed[code] = false;
-#else if version == 2
+#else if method == 2
         fPressed = remove(fPressed, code);
 #endif 
         if (info->vkCode == 160) shiftDown1 = false;
@@ -137,23 +137,13 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
     return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
 }
 
-void SetKeyInfo(KeyInfo &info, int id, float x, float y,
-                float width, float height,
-                LPSTR text, LPSTR shiftText)
-{
-    info.id = id;
-    info.x = x; info.y = y;
-    info.width = width; info.height = height;
-    info.text = text; info.shiftText = shiftText;
-}
-
 bool LoadKeyboard()
 {
-    kbinfo = KBParser::ParseFile((LPSTR)config->GetString("keyboardFile").c_str());
+    kbinfo = KBParser::ParseFile((LPWSTR)config->GetString(L"keyboardFile").c_str());
 
     if (kbinfo == NULL) return false;
 
-    if (kbinfo->KBVersion != keyboardVersion) MessageBox(hWnd, "The keyboard configuration version is unequal to the required version, while this might still work, the results are unpredictable.", "Warning", MB_ICONWARNING | MB_OK);
+    if (kbinfo->KBVersion != keyboardVersion) MessageBox(hWnd, L"The keyboard configuration version is unequal to the required version, while this might still work, the results are unpredictable.", L"Warning", MB_ICONWARNING | MB_OK);
     return true;
 }
 
@@ -162,7 +152,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     config = new ConfigParser(configfile);
 
     if (!LoadKeyboard()) {
-        MessageBox(hWnd, "The keyboard config file could not be read, I will close now.", "Keyboard error", MB_ICONERROR | MB_OK);
+        MessageBox(hWnd, L"The keyboard config file could not be read, I will close now.", L"Keyboard error", MB_ICONERROR | MB_OK);
         return 0;
     }
 
@@ -174,11 +164,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hInstance = hInstance;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-    wc.lpszClassName = "NohBoardClass";
+    wc.lpszClassName = L"NohBoardClass";
     RegisterClassEx(&wc);
 
     // create the window and use the result as the handle
-    hWnd = CreateWindowEx(NULL, "NohBoardClass", "NohBoard", WS_EX_TOOLWINDOW | WS_EX_LAYERED,
+    hWnd = CreateWindowEx(NULL, L"NohBoardClass", L"NohBoard", WS_EX_TOOLWINDOW | WS_EX_LAYERED,
                           300, 300,                      // position of the window
                           kbinfo->width, kbinfo->height, // dimensions of the window
                           NULL, NULL,                    // parent null, menus null

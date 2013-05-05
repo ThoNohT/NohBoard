@@ -21,7 +21,7 @@
 
 void D3DStuff::prepareFrame()
 {
-    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(config->GetInt("backR"), config->GetInt("backG"), config->GetInt("backB")), 1.0f, 0);
+    d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(config->GetInt(L"backR"), config->GetInt(L"backG"), config->GetInt(L"backB")), 1.0f, 0);
     d3ddev->BeginScene();
 }
 
@@ -48,7 +48,7 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
                       D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev);
 
     D3DXCreateFont(d3ddev, 18, 0, 1, 1, false, DEFAULT_CHARSET, 
-        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Arial", &font);
+        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, L"Arial", &font);
 }
 
 void D3DStuff::cleanD3D(void)
@@ -105,8 +105,8 @@ void D3DStuff::drawBox(float x1, float y1, float x2, float y2, D3DCOLOR color)
     d3ddev->DrawPrimitive(D3DPT_LINESTRIP, 0, 4);
 }
 
-void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPSTR text)
+void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPWSTR text)
 {
-    if (text == "") return;
-    font->DrawText(NULL, text, strlen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
+    if (text == L"") return;
+    font->DrawText(NULL, text, wcslen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
 }

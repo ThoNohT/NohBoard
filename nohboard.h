@@ -23,9 +23,10 @@
 #include "llist.h"
 #include <string>
 
-#define version 2
+#define version 1
+#define method 1
 #define keyboardVersion 1
-#define configfile "NohBoard.config"
+#define configfile L"NohBoard.config"
 
 #define debug // This enables some debugging functions
 

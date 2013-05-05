@@ -21,29 +21,29 @@
 #include <iostream>
 #include <fstream>
 
-using std::string; using std::map;
+using std::wstring; using std::map;
 
-ConfigParser::ConfigParser(LPSTR filename)
+ConfigParser::ConfigParser(LPWSTR filename)
 {
     // Load some defaults
-    config["keyboardFile"] = "us_intl.kb";
-    config["backR"] = "0";
-    config["backG"] = "0";
-    config["backB"] = "100";
-    config["pressedR"] = "255";
-    config["pressedG"] = "255";
-    config["pressedB"] = "255";
-    config["looseR"] = "100";
-    config["looseG"] = "100";
-    config["looseB"] = "100";
-    config["fontR"] = "0";
-    config["fontG"] = "0";
-    config["fontB"] = "0";
+    config[L"keyboardFile"] = L"us_intl.kb";
+    config[L"backR"] = L"0";
+    config[L"backG"] = L"0";
+    config[L"backB"] = L"100";
+    config[L"pressedR"] = L"255";
+    config[L"pressedG"] = L"255";
+    config[L"pressedB"] = L"255";
+    config[L"looseR"] = L"100";
+    config[L"looseG"] = L"100";
+    config[L"looseB"] = L"100";
+    config[L"fontR"] = L"0";
+    config[L"fontG"] = L"0";
+    config[L"fontB"] = L"0";
 
     // Read the general settings
-    string word;
-    string value;
-    std::ifstream is(filename);
+    wstring word;
+    wstring value;
+    std::wifstream is(filename);
     while (is.good() && is)
     {
         is >> word >> value;
@@ -51,30 +51,30 @@ ConfigParser::ConfigParser(LPSTR filename)
     }
 }
 
-void ConfigParser::SaveSettings(LPSTR filename)
+void ConfigParser::SaveSettings(LPWSTR filename)
 {
-  std::ofstream os;
+  std::wofstream os;
   os.open(filename, std::ios::trunc);
-  map<string, string>::iterator curr,end;
+  map<wstring, wstring>::iterator curr,end;
   for( curr = config.begin(), end = config.end();  curr != end;  curr++ )
       os << curr->first << " " << curr->second <<  "\n";
   os.close();
 }
 
-bool ConfigParser::HasItem(string word)
+bool ConfigParser::HasItem(wstring word)
 {
     return config.find(word) != config.end();
 }
 
-int ConfigParser::GetInt(string word)
+int ConfigParser::GetInt(wstring word)
 {
     if (!HasItem(word)) return -1;
-    string s = config[word];
-    return atoi(s.c_str()); 
+    wstring s = config[word];
+    return std::stoi(s.c_str()); 
 }
 
-string ConfigParser::GetString(string word)
+wstring ConfigParser::GetString(wstring word)
 {
-    if (!HasItem(word)) return "";
+    if (!HasItem(word)) return L"";
     return config[word];
 }

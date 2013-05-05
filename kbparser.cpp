@@ -1,4 +1,4 @@
-/********************************************************************************
+﻿/********************************************************************************
  Copyright (C) 2012 Eric Bataille <e.c.p.bataille@gmail.com>
 
  This program is free software; you can redistribute it and/or modify
@@ -21,15 +21,15 @@
 #include <iostream>
 #include <fstream>
 
-using std::string;
+using std::wstring;
 
-KBInfo * KBParser::ParseFile(string filename)
+KBInfo * KBParser::ParseFile(wstring filename)
 {
     KBInfo *kbinfo = new KBInfo;
-
-    string word;
+    wstring word;
     int value;
-    std::ifstream is(filename);
+
+    std::wifstream is(filename);
     if (!is.good()) return NULL;
     
     // Read the general settings
@@ -47,12 +47,12 @@ KBInfo * KBParser::ParseFile(string filename)
     unsigned short id;
     int changeOnCaps;
     float x, y, width, height;
-    string text, shifttext;
+    wstring text, shifttext;
     int i = 0;
     while (is && i < kbinfo->nKeysDefined)
     {
         is >> word >> id >> x >> y >> width >> height >> text >> shifttext >> changeOnCaps;
-        if (word == "key")
+        if (word == L"key")
         {
             // Sanitize strings
             text = ParseStuff(text);
@@ -68,13 +68,14 @@ KBInfo * KBParser::ParseFile(string filename)
     return kbinfo;
 }
 
-string KBParser::ParseStuff(string text)
+wstring KBParser::ParseStuff(wstring text)
 {
-    text = doReplace(text, "%20%", " ");
-    return doReplace(text, "%0%", "");
+    text = doReplace(text, L"%20%", L" ");
+    return doReplace(text, L"%0%", L"");
+
 }
 
-string KBParser::doReplace(string text, string find, string replace)
+wstring KBParser::doReplace(wstring text, wstring find, wstring replace)
 {
     while (true)
     {
@@ -84,24 +85,24 @@ string KBParser::doReplace(string text, string find, string replace)
     }
 }
 
-int KBParser::ParseValue(KBInfo * kbinfo, string word, int value, int n)
+int KBParser::ParseValue(KBInfo * kbinfo, wstring word, int value, int n)
 {
-    if (word == "width")
+    if (word == L"width")
     {
         kbinfo->width = value;
         return n+1;
     }
-    if (word == "height")
+    if (word == L"height")
     {
         kbinfo->height = value;
         return n+1;
     }
-    if (word == "nKeysDefined")
+    if (word == L"nKeysDefined")
     {
         kbinfo->nKeysDefined = value;
         return n+1;
     }
-    if (word == "KBVersion")
+    if (word == L"KBVersion")
     {
         kbinfo->KBVersion = value;
         return n+1;
@@ -111,7 +112,7 @@ int KBParser::ParseValue(KBInfo * kbinfo, string word, int value, int n)
 
 void KBParser::SetKeyInfo(KeyInfo &info, int id, float x, float y,
                 float width, float height, int changeOnCaps,
-                string text, string shiftText)
+                wstring text, wstring shiftText)
 {
     info.id = id;
     info.x = x; info.y = y;

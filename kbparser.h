@@ -29,7 +29,7 @@ struct KeyInfo
     float x, y;
     float width, height;
     bool changeOnCaps;
-    std::string text, shiftText;
+    std::wstring text, shiftText;
 };
 
 struct KBInfo
@@ -44,12 +44,12 @@ struct KBInfo
 class KBParser
 {
 private:
-    static int ParseValue(KBInfo * kbinfo, std::string word, int value, int n);
+    static int ParseValue(KBInfo * kbinfo, std::wstring word, int value, int n);
     static void SetKeyInfo(KeyInfo &info, int id, float x, float y,
                 float width, float height, int changeOnCaps,
-                std::string text, std::string shiftText);
-    static std::string ParseStuff(std::string text);
-    static std::string doReplace(std::string text, std::string find, std::string replace);
+                std::wstring text, std::wstring shiftText);
+    static std::wstring ParseStuff(std::wstring text);
+    static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
 public:
-    static KBInfo * ParseFile(std::string filename);
+    static KBInfo * ParseFile(std::wstring filename);
 };

@@ -25,13 +25,13 @@
 
 class ConfigParser
 {
-    std::map<std::string, std::string> config;
+    std::map<std::wstring, std::wstring> config;
 
 private:
-    bool HasItem(std::string word);
+    bool HasItem(std::wstring word);
 public:
-    void SaveSettings(LPSTR filename);
-    ConfigParser::ConfigParser(LPSTR filename);
-    int GetInt(std::string word);
-    std::string GetString(std::string word);
+    void SaveSettings(LPWSTR filename);
+    ConfigParser::ConfigParser(LPWSTR filename);
+    int GetInt(std::wstring word);
+    std::wstring GetString(std::wstring word);
 };
