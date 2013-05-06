@@ -146,7 +146,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     ZeroMemory(&chooserData, sizeof(chooserData));
                     chooserData.lStructSize = sizeof(chooserData);
                     chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_ANYCOLOR;
+                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
                     chooserData.rgbResult = config->GetColor(L"back");
                     chooserData.lpCustColors = custColors;
 
@@ -165,7 +165,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     ZeroMemory(&chooserData, sizeof(chooserData));
                     chooserData.lStructSize = sizeof(chooserData);
                     chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_ANYCOLOR;
+                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
                     chooserData.rgbResult = config->GetColor(L"loose");
                     chooserData.lpCustColors = custColors;
 
@@ -184,7 +184,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     ZeroMemory(&chooserData, sizeof(chooserData));
                     chooserData.lStructSize = sizeof(chooserData);
                     chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_ANYCOLOR;
+                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
                     chooserData.rgbResult = config->GetColor(L"pressed");
                     chooserData.lpCustColors = custColors;
 
@@ -203,7 +203,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     ZeroMemory(&chooserData, sizeof(chooserData));
                     chooserData.lStructSize = sizeof(chooserData);
                     chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_ANYCOLOR;
+                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
                     chooserData.rgbResult = config->GetColor(L"font");
                     chooserData.lpCustColors = custColors;
 
