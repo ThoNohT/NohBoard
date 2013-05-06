@@ -28,7 +28,11 @@
 #define keyboardVersion 1
 #define configfile L"NohBoard.config"
 
-#define debug // This enables some debugging functions
+//#define debug // This enables some debugging functions
+
+// Threading
+bool bStopping = false;
+CRITICAL_SECTION csKB;
 
 D3DStuff *ds;
 

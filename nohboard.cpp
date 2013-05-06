@@ -28,6 +28,7 @@ int CapsLetters(bool changeOnCaps)
 void render()
 {
     ds->prepareFrame();
+    EnterCriticalSection(&csKB);
 #if method == 1
     // Loop through all keys defined for this keyboard
     typedef std::map<int, KeyInfo>::iterator it_type;
@@ -75,6 +76,7 @@ void render()
         cur = cur->next;
     }
 #endif
+    LeaveCriticalSection(&csKB);
     ds->finalizeFrame();
 }
 
@@ -104,7 +106,9 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
         {
+            EnterCriticalSection(&csKB);
 #if method == 1
+            
             pressed[code] = true;
 #else if method == 2
             fPressed = insert(fPressed, code);
@@ -120,10 +124,12 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
             SetWindowText(hWnd, (LPWSTR)result.c_str());
 #endif
         }
+        LeaveCriticalSection(&csKB);
         break;
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
+        EnterCriticalSection(&csKB);
 #if method == 1
         pressed[code] = false;
 #else if method == 2
@@ -131,6 +137,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 #endif 
         if (info->vkCode == 160) shiftDown1 = false;
         if (info->vkCode == 161) shiftDown2 = false;
+        LeaveCriticalSection(&csKB);
         break;
     }
 
@@ -146,6 +153,17 @@ bool LoadKeyboard()
     if (kbinfo->KBVersion != keyboardVersion) MessageBox(hWnd, L"The keyboard configuration version is unequal to the required version, while this might still work, the results are unpredictable.", L"Warning", MB_ICONWARNING | MB_OK);
     return true;
 }
+
+DWORD WINAPI RenderThread(LPVOID lpParam) 
+{ 
+    while(!bStopping)
+    {
+        render();
+        // Every 33 ms should be enough (30 fps)
+        Sleep(33);
+    }
+    return 0;
+} 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -168,7 +186,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RegisterClassEx(&wc);
 
     // create the window and use the result as the handle
-    hWnd = CreateWindowEx(NULL, L"NohBoardClass", L"NohBoard", WS_EX_TOOLWINDOW | WS_EX_LAYERED,
+    hWnd = CreateWindowEx(NULL, L"NohBoardClass", L"NohBoard", WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
                           300, 300,                      // position of the window
                           kbinfo->width, kbinfo->height, // dimensions of the window
                           NULL, NULL,                    // parent null, menus null
@@ -180,10 +198,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
    
     ds = new D3DStuff;
     ds->initD3D(hWnd, kbinfo, config);
-    
+
+    // Start threading stuff and critical section
+    if (!InitializeCriticalSectionAndSpinCount(&csKB,0x00000400)) 
+        return 0;
+    DWORD   dwRThreadId;
+    HANDLE  hRThread;
+    hRThread = CreateThread( NULL, 0, RenderThread, NULL, 0, &dwRThreadId);   
+
     // Message loop
     MSG msg;
-    bool bStopping = false;
     int counter = 0;
     while(!bStopping)
     {
@@ -193,25 +217,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         if(msg.message == WM_QUIT)
             bStopping = true;
 
-        if (counter < 3) counter += 1;
-        else
-        {
-            counter = 0;
-            render();
-        }
-
-        // Every 5 ms should be enough (200 / 4 = 50 fps)
-        Sleep(5);
+        Sleep(2);
     }
+    return 0; 
 
+    // Merge message loop and delete critical section
+    WaitForSingleObject(hRThread, INFINITE);
+    DeleteCriticalSection(&csKB);
+
+    // Stop handling the keyboard
     delete kbinfo;
-
-    ds->cleanD3D();
-
     UnhookWindowsHookEx(keyboardHook);
 
+    // Close direct3d
+    ds->cleanD3D();
     delete ds;
 
+    // Save settings and end
     config->SaveSettings(configfile);
     delete config;
     return msg.wParam;
