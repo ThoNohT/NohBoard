@@ -26,3 +26,5 @@ ipch/
 *.zip
 *.lnk
 *.chm
+
+NohBoard.config
