@@ -77,6 +77,10 @@
     <ClInclude Include="d3dstuff.h" />
     <ClInclude Include="llist.h" />
     <ClInclude Include="nohboard.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NohBoard.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

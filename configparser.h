@@ -34,4 +34,10 @@ public:
     ConfigParser::ConfigParser(LPWSTR filename);
     int GetInt(std::wstring word);
     std::wstring GetString(std::wstring word);
+    COLORREF GetColor(std::wstring cat);
+    std::wstring ConfigParser::GetColorText(std::wstring cat, std::wstring prefix);
+
+    void SetInt(std::wstring word, int value);
+    void SetString(std::wstring word, std::wstring value);
+    void SetColor(std::wstring cat, COLORREF color);
 };

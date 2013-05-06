@@ -17,6 +17,7 @@
 ********************************************************************************/
 
 
+#include "resource.h"
 #include "d3dstuff.h"
 #include "kbparser.h"
 #include "configparser.h"
@@ -39,6 +40,7 @@ D3DStuff *ds;
 
 HHOOK keyboardHook = NULL;
 HWND hWnd;
+HINSTANCE hInstMain;
 
 // List of key pressed statuses
 lnode *fPressed = NULL;
@@ -47,6 +49,16 @@ bool shiftDown1 = false;
 bool shiftDown2 = false;
 bool shiftDown() { return shiftDown1 || shiftDown2; }
 
+// Settings window
+COLORREF custColors[16];
+std::wstring initialLayout;
+
 // Configuration stuff
 ConfigParser * config;
 KBInfo *kbinfo;
+
+enum
+{
+    ID_LOADSETTINGS=5000,
+    ID_EXITNOHBOARD
+};

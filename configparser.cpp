@@ -51,6 +51,37 @@ ConfigParser::ConfigParser(LPWSTR filename)
     }
 }
 
+COLORREF ConfigParser::GetColor(wstring cat)
+{
+    wstring wordr = cat;
+    wstring wordg = cat;
+    wstring wordb = cat;
+    wordr += L"R";
+    wordg += L"G";
+    wordb += L"B";
+
+    return RGB(GetInt(wordr), GetInt(wordg), GetInt(wordb));
+}
+
+wstring ConfigParser::GetColorText(wstring cat, wstring prefix)
+{
+    wstring wordr = cat;
+    wstring wordg = cat;
+    wstring wordb = cat;
+    wordr += L"R";
+    wordg += L"G";
+    wordb += L"B";
+    std::wstring colortext = prefix;
+    colortext += L"(";
+    colortext += GetString(wordr);
+    colortext += L",";
+    colortext += GetString(wordg);
+    colortext += L",";
+    colortext += GetString(wordb);
+    colortext += L")";
+    return colortext;
+}
+
 void ConfigParser::SaveSettings(LPWSTR filename)
 {
   std::wofstream os;
@@ -77,4 +108,27 @@ wstring ConfigParser::GetString(wstring word)
 {
     if (!HasItem(word)) return L"";
     return config[word];
+}
+
+void ConfigParser::SetInt(std::wstring word, int value)
+{
+    SetString(word, std::to_wstring((long long)value));
+}
+
+void ConfigParser::SetString(std::wstring word, std::wstring value)
+{
+    config[word] = value;
+}
+
+void ConfigParser::SetColor(std::wstring cat, COLORREF color)
+{
+    wstring wordr = cat;
+    wstring wordg = cat;
+    wstring wordb = cat;
+    wordr += L"R";
+    wordg += L"G";
+    wordb += L"B";
+    SetInt(wordr, GetRValue(color));
+    SetInt(wordg, GetGValue(color));
+    SetInt(wordb, GetBValue(color));
 }
