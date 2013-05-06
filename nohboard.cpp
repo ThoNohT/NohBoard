@@ -90,6 +90,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 return 0;
             }
             break;
+        case WM_PAINT:
+            bRender = true;
+            break;
     }
 
     return DefWindowProc (hWnd, message, wParam, lParam);
@@ -101,6 +104,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 
     bool extended = (info->flags & LLKHF_EXTENDED) != 0;
     int code = (extended && info->vkCode == 13) ? 1025 : info->vkCode;
+
 
     switch (wParam) {
     case WM_KEYDOWN:
@@ -125,6 +129,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 #endif
         }
         LeaveCriticalSection(&csKB);
+        bRender = true;
         break;
 
     case WM_KEYUP:
@@ -138,6 +143,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
         if (info->vkCode == 160) shiftDown1 = false;
         if (info->vkCode == 161) shiftDown2 = false;
         LeaveCriticalSection(&csKB);
+        bRender = true;
         break;
     }
 
@@ -156,9 +162,19 @@ bool LoadKeyboard()
 
 DWORD WINAPI RenderThread(LPVOID lpParam) 
 { 
+    int count = 0;
     while(!bStopping)
     {
-        render();
+        if (bRender)
+        {
+            render();
+            bRender = false;
+            count = 0;
+        } else {
+            count++;
+            if (count > 9)
+                bRender = true;
+        }
         // Every 33 ms should be enough (30 fps)
         Sleep(33);
     }
@@ -211,15 +227,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int counter = 0;
     while(!bStopping)
     {
+        GetMessage(&msg, hWnd, 0, 0); TranslateMessage(&msg); DispatchMessage(&msg);
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         { TranslateMessage(&msg); DispatchMessage(&msg); }
 
         if(msg.message == WM_QUIT)
             bStopping = true;
-
-        Sleep(2);
     }
-    return 0; 
 
     // Merge message loop and delete critical section
     WaitForSingleObject(hRThread, INFINITE);

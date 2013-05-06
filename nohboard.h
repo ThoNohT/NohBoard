@@ -33,6 +33,7 @@
 // Threading
 bool bStopping = false;
 CRITICAL_SECTION csKB;
+bool bRender = false;
 
 D3DStuff *ds;
 
