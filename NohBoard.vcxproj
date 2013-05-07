@@ -84,6 +84,9 @@
   <ItemGroup>
     <ResourceCompile Include="NohBoard.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NohBoard.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
