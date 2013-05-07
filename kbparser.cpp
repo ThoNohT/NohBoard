@@ -70,6 +70,60 @@ KBInfo * KBParser::ParseFile(wstring filename)
 
 wstring KBParser::ParseStuff(wstring text)
 {
+    // Workaround: To allow for some special characters now, simply add these conversions
+    WCHAR letters[10] = { 'A', 'O', 'E', 'I', 'U', 'a', 'o', 'e', 'i', 'u' };
+    wstring dac[10] = { L"Ä", L"Ö", L"Ë", L"Ï", L"Ü", L"ä", L"ö", L"ë", L"ï", L"ü" };
+    wstring til[10] = { L"Ã", L"Õ", L"Ẽ", L"Ï", L"Ũ", L"ã", L"õ",  L"ẽ", L"ï", L"ũ" };
+    wstring cir[10] = { L"Â", L"Ô", L"Ê", L"Î", L"Ũ", L"â", L"ô",  L"ê", L"î", L"ũ" };
+    wstring gra[10] = { L"À", L"Ò", L"È", L"Ì", L"Ù", L"à", L"ò",  L"è", L"ì", L"ù" };
+    wstring aig[10] = { L"Á", L"Ó", L"É", L"Í", L"Ú", L"á", L"ó",  L"é", L"í", L"ú" };
+    for (int i = 0; i < 10; i++)
+    {
+        wstring dacn =  L"%\"";
+        dacn += letters[i];
+        dacn += '%';
+
+        wstring tiln = L"%~";
+        tiln += letters[i];
+        tiln += '%';
+
+        wstring cirn = L"%^";
+        cirn += letters[i];
+        cirn += '%';
+
+        wstring gran = L"%'";
+        gran += letters[i];
+        gran += '%';
+
+        wstring aign = L"%";
+        aign += letters[i];
+        aign += L"'%";
+
+        text = doReplace(text, dacn, dac[i]);
+        text = doReplace(text, tiln, til[i]);
+        text = doReplace(text, cirn, cir[i]);
+        text = doReplace(text, gran, gra[i]);
+        text = doReplace(text, aign, aig[i]);
+    }
+    // Some more special characters
+    text = doReplace(text, L"%/o%", L"ø");
+    text = doReplace(text, L"%/O%", L"Ø");
+    text = doReplace(text, L"%ae%", L"æ");
+    text = doReplace(text, L"%AE%", L"Æ");
+    text = doReplace(text, L"%oe%", L"œ");
+    text = doReplace(text, L"%OE%", L"Œ");
+    text = doReplace(text, L"%,c%", L"ç");
+    text = doReplace(text, L"%,C%", L"Ç");
+
+    // Signs
+    text = doReplace(text, L"%up%", L"↑");
+    text = doReplace(text, L"%down%", L"↓");
+    text = doReplace(text, L"%left%", L"←");
+    text = doReplace(text, L"%right%", L"→");
+    text = doReplace(text, L"%return%", L"↵");
+    text = doReplace(text, L"%shift%", L"⇑");
+
+    // whitespace
     text = doReplace(text, L"%20%", L" ");
     return doReplace(text, L"%0%", L"");
 
