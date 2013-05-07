@@ -90,12 +90,25 @@ void SaveKBLayout(HWND hwnd)
     GetWindowText(hwndKBCombo, newLayout, nCharacters);
     std::wstring newLayoutStr = newLayout;
     if (newLayoutStr != initialLayout)
-    {
         config->SetString(L"keyboardFile", newLayoutStr);
-        MessageBox(hwnd, L"The keyboard layout has changed, a restart is required to apply this change.",
-                    L"Changing keyboard layout", MB_ICONEXCLAMATION | MB_OK);
-    }
     delete newLayout;
+}
+
+void UpdateSettingsTitle(HWND hwnd)
+{
+    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+    int nCharacters = GetWindowTextLength(hwndKBCombo)+1;
+    WCHAR * newLayout = new WCHAR[nCharacters];
+    GetWindowText(hwndKBCombo, newLayout, nCharacters);
+    std::wstring newLayoutStr = newLayout;
+    if (newLayoutStr == initialLayout)
+    {
+        SetWindowText(hwnd, L"NohBoard settings");
+    }
+    else
+    {
+        SetWindowText(hwnd, L"NohBoard settings (restart required)");
+    }
 }
 
 void ChangeColor(HWND hwnd, std::wstring cat, DWORD ctrlID, std::wstring description)
@@ -134,9 +147,6 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
                     SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
 
-                    // Keyboard layout stuff
-                    initialLayout = config->GetString(L"keyboardFile");
-
                     // Find all files in the current directory
                     std::wstring appDir = NBTools::GetApplicationDirectory();
                     appDir += L"*";
@@ -145,6 +155,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     Wow64DisableWow64FsRedirection(&oldFSRVal);
                     WIN32_FIND_DATA ffd;
                     HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+                    std::wstring currentLayout = config->GetString(L"keyboardFile");
                     if (INVALID_HANDLE_VALUE != hFind)
                     {
                         do
@@ -154,10 +165,11 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                             SendMessage(hwndKBCombo, CB_ADDSTRING, 0, (LPARAM)name.c_str());
                         } while(FindNextFile(hFind, &ffd) != 0);
                         FindClose(hFind);
-                        SendMessage(hwndKBCombo, CB_SETCURSEL, SendMessage(hwndKBCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)initialLayout.c_str()), 0);
+                        SendMessage(hwndKBCombo, CB_SETCURSEL, SendMessage(hwndKBCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)currentLayout.c_str()), 0);
                     }
                     Wow64RevertWow64FsRedirection(&oldFSRVal);
 
+                    UpdateSettingsTitle(hwnd);
                     return TRUE;
                 }
                 break;
@@ -214,6 +226,12 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 case IDC_CHANGEFONTCOLOR:
                     ChangeColor(hwnd, L"font", IDC_FONTCOLOR, L"Font color: ");
                     RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
+                case IDC_KBLAYOUT:
+                    if (HIWORD(wParam) == CBN_SELCHANGE)
+                    {
+                        UpdateSettingsTitle(hwnd);
+                    }
                     break;
                 }
                 break;
@@ -362,6 +380,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     hInstMain = hInstance;
     config = new ConfigParser(configfile);
+    initialLayout = config->GetString(L"keyboardFile"); // Store this so we know if it has changed
 
     if (!LoadKeyboard()) {
         MessageBox(hWnd, L"The keyboard config file could not be read, I will close now.", L"Keyboard error", MB_ICONERROR | MB_OK);
@@ -380,7 +399,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RegisterClassEx(&wc);
 
     // create the window and use the result as the handle
-    hWnd = CreateWindowEx(NULL, L"NohBoardClass", L"NohBoard", WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
+    hWnd = CreateWindowEx(NULL, L"NohBoardClass", version_string, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
                           300, 300,                      // position of the window
                           kbinfo->width, kbinfo->height, // dimensions of the window
                           NULL, NULL,                    // parent null, menus null

@@ -24,8 +24,9 @@
 #include "configparser.h"
 #include "llist.h"
 #include <string>
-
-#define version 1
+// Version 0xMMmmbb (Major.minor.build)
+#define version 0x000100
+#define version_string L"NohBoard v0.1b"
 #define method 1
 #define keyboardVersion 1
 #define configfile L"NohBoard.config"
