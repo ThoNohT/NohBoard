@@ -80,150 +80,150 @@ void render()
     ds->finalizeFrame();
 }
 
+
+void SaveKBLayout(HWND hwnd)
+{
+    // Ensure that the keyboard layout is saved
+    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+    int nCharacters = GetWindowTextLength(hwndKBCombo)+1;
+    WCHAR * newLayout = new WCHAR[nCharacters];
+    GetWindowText(hwndKBCombo, newLayout, nCharacters);
+    std::wstring newLayoutStr = newLayout;
+    if (newLayoutStr != initialLayout)
+    {
+        config->SetString(L"keyboardFile", newLayoutStr);
+        MessageBox(hwnd, L"The keyboard layout has changed, a restart is required to apply this change.",
+                    L"Changing keyboard layout", MB_ICONEXCLAMATION | MB_OK);
+    }
+    delete newLayout;
+}
+
+void ChangeColor(HWND hwnd, std::wstring cat, DWORD ctrlID, std::wstring description)
+{
+    CHOOSECOLOR chooserData;
+    ZeroMemory(&chooserData, sizeof(chooserData));
+    chooserData.lStructSize = sizeof(chooserData);
+    chooserData.hwndOwner = GetParent(hwnd);
+    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
+    chooserData.rgbResult = config->GetColor(cat);
+    chooserData.lpCustColors = custColors;
+
+    if(ChooseColor(&chooserData))
+    {
+        config->SetColor(cat, chooserData.rgbResult);
+        HWND hwndLabel = GetDlgItem(hwnd, ctrlID);
+        SetWindowText(hwndLabel, config->GetColorText(cat,description).c_str());
+    }
+}
+
 INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
- switch(message)
-    {
-        case WM_INITDIALOG:
-            {
-                for(int i=0; i<16; i++) custColors[i] = 0xC0C0C0;
+     switch(message)
+        {
+            case WM_INITDIALOG:
+                {
+                    for(int i=0; i<16; i++) custColors[i] = 0xC0C0C0;
 
-                // Set the text for the color labels
-                HWND hwndBGColor = GetDlgItem(hwnd, IDC_BGCOLOR);
-                HWND hwndLooseColor = GetDlgItem(hwnd, IDC_LOOSECOLOR);
-                HWND hwndPressedColor = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
-                HWND hwndFontColor = GetDlgItem(hwnd, IDC_FONTCOLOR);
-                SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
-                SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
-                SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
-                SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
+                    // Set the text for the color labels
+                    HWND hwndBGColor = GetDlgItem(hwnd, IDC_BGCOLOR);
+                    HWND hwndLooseColor = GetDlgItem(hwnd, IDC_LOOSECOLOR);
+                    HWND hwndPressedColor = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
+                    HWND hwndFontColor = GetDlgItem(hwnd, IDC_FONTCOLOR);
+                    SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
+                    SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
+                    SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
+                    SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
 
-                // Keyboard layout stuff
-                initialLayout = config->GetString(L"keyboardFile");
-                return TRUE;
-            }
-            break;
-        case WM_CTLCOLORSTATIC:
-		    if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_BGCOLOR)
-		    {
-			    HDC hdc = (HDC)wParam;
-                SetTextColor(hdc, config->GetColor(L"back"));
-                SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			    return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		    }
-		    if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_LOOSECOLOR)
-		    {
-			    HDC hdc = (HDC)wParam;
-                SetTextColor(hdc, config->GetColor(L"loose"));
-                SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			    return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		    }
-		    if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_PRESSEDCOLOR)
-		    {
-			    HDC hdc = (HDC)wParam;
-                SetTextColor(hdc, config->GetColor(L"pressed"));
-                SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			    return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		    }
-		    if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_FONTCOLOR)
-		    {
-			    HDC hdc = (HDC)wParam;
-                SetTextColor(hdc, config->GetColor(L"font"));
-                SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			    return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		    }
-            break;
+                    // Keyboard layout stuff
+                    initialLayout = config->GetString(L"keyboardFile");
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam))
-            {
-            case IDCLOSE:
+                    // Find all files in the current directory
+                    std::wstring appDir = NBTools::GetApplicationDirectory();
+                    appDir += L"*";
+                    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+                    PVOID oldFSRVal;
+                    Wow64DisableWow64FsRedirection(&oldFSRVal);
+                    WIN32_FIND_DATA ffd;
+                    HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+                    if (INVALID_HANDLE_VALUE != hFind)
+                    {
+                        do
+                        {
+                            std::wstring name = ffd.cFileName;
+                            if (!NBTools::EndsWith(name, L".kb")) continue;
+                            SendMessage(hwndKBCombo, CB_ADDSTRING, 0, (LPARAM)name.c_str());
+                        } while(FindNextFile(hFind, &ffd) != 0);
+                        FindClose(hFind);
+                        SendMessage(hwndKBCombo, CB_SETCURSEL, SendMessage(hwndKBCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)initialLayout.c_str()), 0);
+                    }
+                    Wow64RevertWow64FsRedirection(&oldFSRVal);
+
+                    return TRUE;
+                }
+                break;
+            case WM_CTLCOLORSTATIC:
+		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_BGCOLOR)
+		        {
+			        HDC hdc = (HDC)wParam;
+                    SetTextColor(hdc, config->GetColor(L"back"));
+                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
+			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
+		        }
+		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_LOOSECOLOR)
+		        {
+			        HDC hdc = (HDC)wParam;
+                    SetTextColor(hdc, config->GetColor(L"loose"));
+                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
+			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
+		        }
+		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_PRESSEDCOLOR)
+		        {
+			        HDC hdc = (HDC)wParam;
+                    SetTextColor(hdc, config->GetColor(L"pressed"));
+                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
+			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
+		        }
+		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_FONTCOLOR)
+		        {
+			        HDC hdc = (HDC)wParam;
+                    SetTextColor(hdc, config->GetColor(L"font"));
+                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
+			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
+		        }
+                break;
+
+            case WM_COMMAND:
+                switch (LOWORD(wParam))
+                {
+                case IDCLOSE:
+                    SaveKBLayout(hwnd);
+                    EndDialog(hwnd, IDCANCEL);
+                    break;
+                case IDC_CHANGEBGCOLOR:
+                    ChangeColor(hwnd, L"back", IDC_BGCOLOR, L"Background color: ");
+                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
+                case IDC_CHANGELOOSECOLOR:
+                     ChangeColor(hwnd, L"loose", IDC_LOOSECOLOR, L"Loose key color: ");
+                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
+                case IDC_CHANGEPRESSEDCOLOR:
+                    ChangeColor(hwnd, L"pressed", IDC_PRESSEDCOLOR, L"Pressed key color: ");
+                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
+                case IDC_CHANGEFONTCOLOR:
+                    ChangeColor(hwnd, L"font", IDC_FONTCOLOR, L"Font color: ");
+                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
+                }
+                break;
+            case WM_CLOSE:
+                SaveKBLayout(hwnd);
                 EndDialog(hwnd, IDCANCEL);
                 break;
-            case IDC_CHANGEBGCOLOR:
-                {
-                    CHOOSECOLOR chooserData;
-                    ZeroMemory(&chooserData, sizeof(chooserData));
-                    chooserData.lStructSize = sizeof(chooserData);
-                    chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
-                    chooserData.rgbResult = config->GetColor(L"back");
-                    chooserData.lpCustColors = custColors;
+        }
 
-                    if(ChooseColor(&chooserData))
-                    {
-                        config->SetColor(L"back", chooserData.rgbResult);
-                        HWND hwndLabel = GetDlgItem(hwnd, IDC_BGCOLOR);
-                        SetWindowText(hwndLabel, config->GetColorText(L"back", L"Background color: ").c_str());
-                    }
-                }
-                RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                break;
-            case IDC_CHANGELOOSECOLOR:
-                {
-                    CHOOSECOLOR chooserData;
-                    ZeroMemory(&chooserData, sizeof(chooserData));
-                    chooserData.lStructSize = sizeof(chooserData);
-                    chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
-                    chooserData.rgbResult = config->GetColor(L"loose");
-                    chooserData.lpCustColors = custColors;
-
-                    if(ChooseColor(&chooserData))
-                    {
-                        config->SetColor(L"loose", chooserData.rgbResult);
-                        HWND hwndLabel = GetDlgItem(hwnd, IDC_LOOSECOLOR);
-                        SetWindowText(hwndLabel, config->GetColorText(L"loose", L"Loose key color: ").c_str());
-                    }
-                }
-                RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                break;
-            case IDC_CHANGEPRESSEDCOLOR:
-                {
-                    CHOOSECOLOR chooserData;
-                    ZeroMemory(&chooserData, sizeof(chooserData));
-                    chooserData.lStructSize = sizeof(chooserData);
-                    chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
-                    chooserData.rgbResult = config->GetColor(L"pressed");
-                    chooserData.lpCustColors = custColors;
-
-                    if(ChooseColor(&chooserData))
-                    {
-                        config->SetColor(L"pressed", chooserData.rgbResult);
-                        HWND hwndLabel = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
-                        SetWindowText(hwndLabel, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
-                    }
-                }
-                RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                break;
-            case IDC_CHANGEFONTCOLOR:
-                {
-                    CHOOSECOLOR chooserData;
-                    ZeroMemory(&chooserData, sizeof(chooserData));
-                    chooserData.lStructSize = sizeof(chooserData);
-                    chooserData.hwndOwner = GetParent(hwnd);
-                    chooserData.Flags = CC_RGBINIT | CC_FULLOPEN;
-                    chooserData.rgbResult = config->GetColor(L"font");
-                    chooserData.lpCustColors = custColors;
-
-                    if(ChooseColor(&chooserData))
-                    {
-                        config->SetColor(L"font", chooserData.rgbResult);
-                        HWND hwndLabel = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
-                        SetWindowText(hwndLabel, config->GetColorText(L"font", L"Font color: ").c_str());
-                    }
-                }
-                RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                break;
-            }
-            break;
-        case WM_CLOSE:
-            EndDialog(hwnd, IDCANCEL);
-            break;
-    }
-
- return FALSE;
+     return FALSE;
 }
 
 LRESULT HandleCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)

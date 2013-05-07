@@ -15,51 +15,37 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ********************************************************************************/
-
-
-#include "resource.h"
+                    
 #include "nbtools.h"
-#include "d3dstuff.h"
-#include "kbparser.h"
-#include "configparser.h"
-#include "llist.h"
-#include <string>
+#include <vector>
+#include <windows.h>
 
-#define version 1
-#define method 1
-#define keyboardVersion 1
-#define configfile L"NohBoard.config"
-
-//#define debug // This enables some debugging functions
-
-// Threading
-bool bStopping = false;
-CRITICAL_SECTION csKB;
-bool bRender = false;
-
-D3DStuff *ds;
-
-HHOOK keyboardHook = NULL;
-HWND hWnd;
-HINSTANCE hInstMain;
-
-// List of key pressed statuses
-lnode *fPressed = NULL;
-bool pressed[256] = { false };
-bool shiftDown1 = false;
-bool shiftDown2 = false;
-bool shiftDown() { return shiftDown1 || shiftDown2; }
-
-// Settings window
-COLORREF custColors[16];
-std::wstring initialLayout;
-
-// Configuration stuff
-ConfigParser * config;
-KBInfo *kbinfo;
-
-enum
+std::wstring NBTools::GetApplicationPath()
 {
-    ID_LOADSETTINGS=5000,
-    ID_EXITNOHBOARD
-};
+    std::vector<WCHAR> curDir(MAX_PATH);
+    DWORD result = GetModuleFileName(NULL, &curDir[0], MAX_PATH);
+    while(result == curDir.size()) {
+        curDir.resize(curDir.size() * 2);
+        result = GetModuleFileName(NULL, &curDir[0], (DWORD)curDir.size());
+    }
+    return std::wstring(curDir.begin(), curDir.begin() + result);
+    return L"";
+}
+
+std::wstring NBTools::GetApplicationDirectory()
+{
+    std::wstring appPath = GetApplicationPath();
+    size_t pos = appPath.rfind('\\');
+    return appPath.substr(0, pos+1);
+}
+
+
+bool NBTools::EndsWith(std::wstring check, std::wstring end)
+{
+    if (check.length() >= end.length()) {
+        return (0 == check.compare(check.length() - end.length(), end.length(), end));
+    } else {
+        return false;
+    }
+
+}

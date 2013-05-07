@@ -70,6 +70,7 @@
     <ClCompile Include="kbparser.cpp" />
     <ClCompile Include="d3dstuff.cpp" />
     <ClCompile Include="nohboard.cpp" />
+    <ClCompile Include="nbtools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configparser.h" />
@@ -78,6 +79,7 @@
     <ClInclude Include="llist.h" />
     <ClInclude Include="nohboard.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="nbtools.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NohBoard.rc" />

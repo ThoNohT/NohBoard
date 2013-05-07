@@ -17,49 +17,13 @@
 ********************************************************************************/
 
 
-#include "resource.h"
-#include "nbtools.h"
-#include "d3dstuff.h"
-#include "kbparser.h"
-#include "configparser.h"
-#include "llist.h"
 #include <string>
 
-#define version 1
-#define method 1
-#define keyboardVersion 1
-#define configfile L"NohBoard.config"
 
-//#define debug // This enables some debugging functions
-
-// Threading
-bool bStopping = false;
-CRITICAL_SECTION csKB;
-bool bRender = false;
-
-D3DStuff *ds;
-
-HHOOK keyboardHook = NULL;
-HWND hWnd;
-HINSTANCE hInstMain;
-
-// List of key pressed statuses
-lnode *fPressed = NULL;
-bool pressed[256] = { false };
-bool shiftDown1 = false;
-bool shiftDown2 = false;
-bool shiftDown() { return shiftDown1 || shiftDown2; }
-
-// Settings window
-COLORREF custColors[16];
-std::wstring initialLayout;
-
-// Configuration stuff
-ConfigParser * config;
-KBInfo *kbinfo;
-
-enum
+class NBTools
 {
-    ID_LOADSETTINGS=5000,
-    ID_EXITNOHBOARD
+public:
+    static std::wstring GetApplicationPath();
+    static std::wstring GetApplicationDirectory();
+    static bool EndsWith(std::wstring check, std::wstring end);
 };
