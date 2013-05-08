@@ -425,12 +425,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int counter = 0;
     while(!bStopping)
     {
-        GetMessage(&msg, hWnd, 0, 0); TranslateMessage(&msg); DispatchMessage(&msg);
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         { TranslateMessage(&msg); DispatchMessage(&msg); }
 
         if(msg.message == WM_QUIT)
             bStopping = true;
+
+        Sleep(5);
     }
 
     // Merge message loop and delete critical section

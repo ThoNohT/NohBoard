@@ -48,7 +48,6 @@ public:
     void finalizeFrame();
     void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config);
     void cleanD3D(void);
-    void drawLine(float x1, float y1, float x2, float y2, D3DCOLOR color);
     void drawFillBox(float x1, float y1, float x2, float y2, D3DCOLOR color);
     void drawBox(float x1, float y1, float x2, float y2, D3DCOLOR color);
     void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPWSTR text);

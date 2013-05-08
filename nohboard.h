@@ -23,10 +23,11 @@
 #include "kbparser.h"
 #include "configparser.h"
 #include "llist.h"
+#include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000100
-#define version_string L"NohBoard v0.1b"
+#define version 0x000200
+#define version_string L"NohBoard v0.2b"
 #define method 1
 #define keyboardVersion 1
 #define configfile L"NohBoard.config"
@@ -35,9 +36,9 @@
 
 // Threading
 bool bStopping = false;
-CRITICAL_SECTION csKB;
 bool bRender = false;
-
+clock_t begin_time = 0;
+CRITICAL_SECTION csKB;
 D3DStuff *ds;
 
 HHOOK keyboardHook = NULL;

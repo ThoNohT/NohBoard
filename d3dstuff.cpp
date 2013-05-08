@@ -49,6 +49,8 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
 
     D3DXCreateFont(d3ddev, 18, 0, 1, 1, false, DEFAULT_CHARSET, 
         OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, L"Arial", &font);
+
+    d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &v_buffer, NULL);
 }
 
 void D3DStuff::cleanD3D(void)
@@ -58,26 +60,9 @@ void D3DStuff::cleanD3D(void)
     if (d3d) d3d->Release();
 }
 
-void D3DStuff::drawLine(float x1, float y1, float x2, float y2, D3DCOLOR color)
-{
-    VERTEX vertex[2] = { { x1, y1, 1.0f, 1.0f, color}, { x2, y2, 1.0f, 1.0f, color} };
-    d3ddev->CreateVertexBuffer(2*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &v_buffer, NULL);
-
-    VOID* pVoid;
-    v_buffer->Lock(0, 0, (void**)&pVoid, 0);
-    memcpy(pVoid, vertex, sizeof(vertex));
-    v_buffer->Unlock();
-
-    d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
-    d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
-    d3ddev->DrawPrimitive(D3DPT_LINESTRIP, 0, 1);
-}
-
-
 void D3DStuff::drawFillBox(float x1, float y1, float x2, float y2, D3DCOLOR color)
 {
     VERTEX vertex[5] = { { x1, y1, 1.0f, 1.0f, color}, { x2, y1, 1.0f, 1.0f, color}, { x2, y2, 1.0f, 1.0f, color}, { x1, y2, 1.0f, 1.0f, color}, { x1, y1, 1.0f, 1.0f, color} };
-    d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &v_buffer, NULL);
 
     VOID* pVoid;
     v_buffer->Lock(0, 0, (void**)&pVoid, 0);
@@ -93,7 +78,6 @@ void D3DStuff::drawBox(float x1, float y1, float x2, float y2, D3DCOLOR color)
 {
     VERTEX vertex[5] = { { x1, y1, 1.0f, 1.0f, color}, { x1, y2, 1.0f, 1.0f, color}, { x2, y2, 1.0f, 1.0f, color},
                         { x2, y1, 1.0f, 1.0f, color}, { x1, y1, 1.0f, 1.0f, color} };
-    d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &v_buffer, NULL);
 
     VOID* pVoid;
     v_buffer->Lock(0, 0, (void**)&pVoid, 0);
