@@ -114,6 +114,8 @@ wstring KBParser::ParseStuff(wstring text)
     text = doReplace(text, L"%OE%", L"Œ");
     text = doReplace(text, L"%,c%", L"ç");
     text = doReplace(text, L"%,C%", L"Ç");
+    text = doReplace(text, L"%''%", L"´");
+    text = doReplace(text, L"%par%", L"§");
 
     // Signs
     text = doReplace(text, L"%up%", L"↑");
