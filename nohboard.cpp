@@ -94,6 +94,18 @@ void SaveKBLayout(HWND hwnd)
     delete newLayout;
 }
 
+void SaveWindowPosition(HWND hwnd)
+{
+    // Don't store when minimized, it will place the window somewhere in a far away land
+    if (IsIconic(hwnd)) return;
+    
+    // Store window position
+    RECT windowPos;
+    GetWindowRect(hwnd, &windowPos);
+    config->SetInt(L"x", windowPos.left);
+    config->SetInt(L"y", windowPos.top);
+}
+
 void UpdateSettingsTitle(HWND hwnd)
 {
     HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
@@ -259,6 +271,7 @@ LRESULT HandleCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
         break;
     case ID_EXITNOHBOARD:
         bStopping = true;
+        SaveWindowPosition(hWnd);
         break;
     }
 
@@ -269,11 +282,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 {
     switch(message)
     {
+    case WM_CLOSE:
+        SaveWindowPosition(hWnd);
+        break;
         case WM_DESTROY:
-            {
-                PostQuitMessage(0);
-                return 0;
-            }
+            PostQuitMessage(0);
+            return 0;
             break;
         case WM_PAINT:
             bRender = true;
@@ -293,7 +307,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         case WM_COMMAND:
             return HandleCommand(hWnd, wParam, lParam);
             break;
-
     }
 
     return DefWindowProc (hWnd, message, wParam, lParam);
@@ -408,10 +421,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // create the window and use the result as the handle
     hWnd = CreateWindowEx(NULL, L"NohBoardClass", version_string, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
-                          300, 300,                      // position of the window
-                          kbinfo->width, kbinfo->height, // dimensions of the window
-                          NULL, NULL,                    // parent null, menus null
-                          hInstance, NULL);              // application, multiple window
+                          config->GetInt(L"x"), config->GetInt(L"y"), // position of the window
+                          kbinfo->width, kbinfo->height,              // dimensions of the window
+                          NULL, NULL,                                 // parent null, menus null
+                          hInstance, NULL);                           // application, multiple window
     ShowWindow(hWnd, nCmdShow);
 
     // Low level keyboard hook

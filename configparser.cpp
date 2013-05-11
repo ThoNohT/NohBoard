@@ -27,6 +27,8 @@ using std::wstring; using std::map;
 ConfigParser::ConfigParser(LPWSTR filename)
 {
     // Load some defaults
+    config[L"x"] = L"300";
+    config[L"y"] = L"300";
     config[L"keyboardFile"] = L"us_intl.kb";
     config[L"backR"] = L"0";
     config[L"backG"] = L"0";
