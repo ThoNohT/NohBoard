@@ -47,8 +47,8 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
     d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
                       D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev);
 
-    D3DXCreateFont(d3ddev, 18, 0, 1, 1, false, DEFAULT_CHARSET, 
-        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, L"Arial", &font);
+    D3DXCreateFont(d3ddev, config->GetInt(L"fontSize"), config->GetInt(L"fontWidth"), 1, 1, false, DEFAULT_CHARSET, 
+        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH, config->GetString(L"fontName").c_str(), &font);
 
     d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &v_buffer, NULL);
 }

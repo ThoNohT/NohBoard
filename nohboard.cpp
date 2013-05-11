@@ -104,10 +104,12 @@ void UpdateSettingsTitle(HWND hwnd)
     if (newLayoutStr == initialLayout)
     {
         SetWindowText(hwnd, L"NohBoard settings");
+        bRestart = false;
     }
     else
     {
         SetWindowText(hwnd, L"NohBoard settings (restart required)");
+        bRestart = true;
     }
 }
 
@@ -210,6 +212,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 case IDCLOSE:
                     SaveKBLayout(hwnd);
                     EndDialog(hwnd, IDCANCEL);
+                    if (bRestart)
+                        bStopping = true;
                     break;
                 case IDC_CHANGEBGCOLOR:
                     ChangeColor(hwnd, L"back", IDC_BGCOLOR, L"Background color: ");
@@ -238,6 +242,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
             case WM_CLOSE:
                 SaveKBLayout(hwnd);
                 EndDialog(hwnd, IDCANCEL);
+                if (bRestart)
+                    bStopping = true;
                 break;
         }
 
@@ -314,14 +320,15 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 #endif
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
-        
-#ifdef debug
-            // Display the last pressed keycode in the window title
-            std::wostringstream convert;
-            convert << code;
-            std::wstring result = convert.str();
-            SetWindowText(hWnd, (LPWSTR)result.c_str());
-#endif
+
+            if (config->GetInt(L"debug") == 1)
+            {
+                // Display the last pressed keycode in the window title
+                std::wostringstream convert;
+                convert << code;
+                std::wstring result = convert.str();
+                SetWindowText(hWnd, (LPWSTR)result.c_str());
+            }
         }
         LeaveCriticalSection(&csKB);
         bRender = true;
@@ -449,5 +456,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Save settings and end
     config->SaveSettings(configfile);
     delete config;
+
+    // Restart the program if required
+    if (bRestart)
+    {
+        std::wstring wAppPath = NBTools::GetApplicationPath();
+        std::string appPath;
+        appPath.assign(wAppPath.begin(), wAppPath.end());
+        WinExec(appPath.c_str(), SW_SHOW);
+    }
+        
     return msg.wParam;
 }

@@ -20,7 +20,9 @@
 #include <vector>
 #include <windows.h>
 
-std::wstring NBTools::GetApplicationPath()
+using std::wstring;
+
+wstring NBTools::GetApplicationPath()
 {
     std::vector<WCHAR> curDir(MAX_PATH);
     DWORD result = GetModuleFileName(NULL, &curDir[0], MAX_PATH);
@@ -28,19 +30,19 @@ std::wstring NBTools::GetApplicationPath()
         curDir.resize(curDir.size() * 2);
         result = GetModuleFileName(NULL, &curDir[0], (DWORD)curDir.size());
     }
-    return std::wstring(curDir.begin(), curDir.begin() + result);
+    return wstring(curDir.begin(), curDir.begin() + result);
     return L"";
 }
 
-std::wstring NBTools::GetApplicationDirectory()
+wstring NBTools::GetApplicationDirectory()
 {
-    std::wstring appPath = GetApplicationPath();
+    wstring appPath = GetApplicationPath();
     size_t pos = appPath.rfind('\\');
     return appPath.substr(0, pos+1);
 }
 
 
-bool NBTools::EndsWith(std::wstring check, std::wstring end)
+bool NBTools::EndsWith(wstring check, wstring end)
 {
     if (check.length() >= end.length()) {
         return (0 == check.compare(check.length() - end.length(), end.length(), end));
@@ -48,4 +50,14 @@ bool NBTools::EndsWith(std::wstring check, std::wstring end)
         return false;
     }
 
+}
+
+wstring NBTools::doReplace(wstring text, wstring find, wstring replace)
+{
+    while (true)
+    {
+        size_t pos = text.find(find);
+        if (0 > pos || pos > text.length()) return text;
+        text = text.replace(pos, find.length(), replace);
+    }
 }

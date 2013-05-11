@@ -26,4 +26,5 @@ public:
     static std::wstring GetApplicationPath();
     static std::wstring GetApplicationDirectory();
     static bool EndsWith(std::wstring check, std::wstring end);
+    static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
 };

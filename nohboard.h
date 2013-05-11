@@ -26,16 +26,15 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000202
-#define version_string L"NohBoard v0.3b2 (debug)"
+#define version 0x000205
+#define version_string L"NohBoard v0.3b5"
 #define method 1
 #define keyboardVersion 1
 #define configfile L"NohBoard.config"
 
-#define debug // This enables some debugging functions
-
 // Threading
 bool bStopping = false;
+bool bRestart = false;
 bool bRender = false;
 clock_t begin_time = 0;
 CRITICAL_SECTION csKB;

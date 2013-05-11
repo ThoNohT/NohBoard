@@ -1,4 +1,4 @@
-/********************************************************************************
+﻿/********************************************************************************
  Copyright (C) 2012 Eric Bataille <e.c.p.bataille@gmail.com>
 
  This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 
 
 #include "configparser.h"
+#include "nbtools.h"
 #include <iostream>
 #include <fstream>
 
@@ -39,6 +40,10 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"fontR"] = L"0";
     config[L"fontG"] = L"0";
     config[L"fontB"] = L"0";
+    config[L"fontName"] = L"Arial";
+    config[L"fontSize"] = L"18";
+    config[L"fontWidth"] = L"0";
+    config[L"debug"] = L"0";
 
     // Read the general settings
     wstring word;
@@ -107,7 +112,7 @@ int ConfigParser::GetInt(wstring word)
 wstring ConfigParser::GetString(wstring word)
 {
     if (!HasItem(word)) return L"";
-    return config[word];
+    return ParseIn(config[word]);
 }
 
 void ConfigParser::SetInt(std::wstring word, int value)
@@ -117,7 +122,7 @@ void ConfigParser::SetInt(std::wstring word, int value)
 
 void ConfigParser::SetString(std::wstring word, std::wstring value)
 {
-    config[word] = value;
+    config[word] = ParseOut(value);
 }
 
 void ConfigParser::SetColor(std::wstring cat, COLORREF color)
@@ -131,4 +136,14 @@ void ConfigParser::SetColor(std::wstring cat, COLORREF color)
     SetInt(wordr, GetRValue(color));
     SetInt(wordg, GetGValue(color));
     SetInt(wordb, GetBValue(color));
+}
+
+wstring ConfigParser::ParseIn(wstring text)
+{
+    return NBTools::doReplace(text, L"%20%", L" ");
+}
+
+wstring ConfigParser::ParseOut(wstring text)
+{
+    return NBTools::doReplace(text, L" ", L"%20%");
 }

@@ -18,6 +18,7 @@
 
 
 #include "kbparser.h"
+#include "nbtools.h"
 #include <iostream>
 #include <fstream>
 
@@ -57,8 +58,8 @@ KBInfo * KBParser::ParseFile(wstring filename)
             // Sanitize strings
             text = ParseStuff(text);
             shifttext = ParseStuff(shifttext);
-            kbinfo->definedKeys[id] = KeyInfo();
-            SetKeyInfo(kbinfo->definedKeys[id], id, x, y, width, height, changeOnCaps, text, shifttext);
+            kbinfo->definedKeys[i] = KeyInfo();
+            SetKeyInfo(kbinfo->definedKeys[i], id, x, y, width, height, changeOnCaps, text, shifttext);
             i += 1;
         }
     }
@@ -99,46 +100,35 @@ wstring KBParser::ParseStuff(wstring text)
         aign += letters[i];
         aign += L"'%";
 
-        text = doReplace(text, dacn, dac[i]);
-        text = doReplace(text, tiln, til[i]);
-        text = doReplace(text, cirn, cir[i]);
-        text = doReplace(text, gran, gra[i]);
-        text = doReplace(text, aign, aig[i]);
+        text = NBTools::doReplace(text, dacn, dac[i]);
+        text = NBTools::doReplace(text, tiln, til[i]);
+        text = NBTools::doReplace(text, cirn, cir[i]);
+        text = NBTools::doReplace(text, gran, gra[i]);
+        text = NBTools::doReplace(text, aign, aig[i]);
     }
     // Some more special characters
-    text = doReplace(text, L"%/o%", L"ø");
-    text = doReplace(text, L"%/O%", L"Ø");
-    text = doReplace(text, L"%ae%", L"æ");
-    text = doReplace(text, L"%AE%", L"Æ");
-    text = doReplace(text, L"%oe%", L"œ");
-    text = doReplace(text, L"%OE%", L"Œ");
-    text = doReplace(text, L"%,c%", L"ç");
-    text = doReplace(text, L"%,C%", L"Ç");
-    text = doReplace(text, L"%''%", L"´");
-    text = doReplace(text, L"%par%", L"§");
+    text = NBTools::doReplace(text, L"%/o%", L"ø");
+    text = NBTools::doReplace(text, L"%/O%", L"Ø");
+    text = NBTools::doReplace(text, L"%ae%", L"æ");
+    text = NBTools::doReplace(text, L"%AE%", L"Æ");
+    text = NBTools::doReplace(text, L"%oe%", L"œ");
+    text = NBTools::doReplace(text, L"%OE%", L"Œ");
+    text = NBTools::doReplace(text, L"%,c%", L"ç");
+    text = NBTools::doReplace(text, L"%,C%", L"Ç");
+    text = NBTools::doReplace(text, L"%''%", L"´");
+    text = NBTools::doReplace(text, L"%par%", L"§");
 
     // Signs
-    text = doReplace(text, L"%up%", L"↑");
-    text = doReplace(text, L"%down%", L"↓");
-    text = doReplace(text, L"%left%", L"←");
-    text = doReplace(text, L"%right%", L"→");
-    text = doReplace(text, L"%return%", L"↵");
-    text = doReplace(text, L"%shift%", L"⇑");
+    text = NBTools::doReplace(text, L"%up%", L"↑");
+    text = NBTools::doReplace(text, L"%down%", L"↓");
+    text = NBTools::doReplace(text, L"%left%", L"←");
+    text = NBTools::doReplace(text, L"%right%", L"→");
+    text = NBTools::doReplace(text, L"%return%", L"↵");
+    text = NBTools::doReplace(text, L"%shift%", L"⇑");
 
     // whitespace
-    text = doReplace(text, L"%20%", L" ");
-    return doReplace(text, L"%0%", L"");
-
-}
-
-wstring KBParser::doReplace(wstring text, wstring find, wstring replace)
-{
-    while (true)
-    {
-        size_t pos = text.find(find);
-        if (0 > pos || pos > text.length()) return text;
-        text = text.replace(pos, find.length(), replace);
-    }
+    text = NBTools::doReplace(text, L"%20%", L" ");
+    return NBTools::doReplace(text, L"%0%", L"");
 }
 
 int KBParser::ParseValue(KBInfo * kbinfo, wstring word, int value, int n)

@@ -49,7 +49,6 @@ private:
                 float width, float height, int changeOnCaps,
                 std::wstring text, std::wstring shiftText);
     static std::wstring ParseStuff(std::wstring text);
-    static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
 public:
     static KBInfo * ParseFile(std::wstring filename);
 };

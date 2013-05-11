@@ -29,6 +29,8 @@ class ConfigParser
 
 private:
     bool HasItem(std::wstring word);
+    static std::wstring ParseIn(std::wstring text);
+    static std::wstring ParseOut(std::wstring text);
 public:
     void SaveSettings(LPWSTR filename);
     ConfigParser::ConfigParser(LPWSTR filename);
