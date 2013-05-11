@@ -117,6 +117,10 @@ wstring KBParser::ParseStuff(wstring text)
     text = NBTools::doReplace(text, L"%,C%", L"Ç");
     text = NBTools::doReplace(text, L"%''%", L"´");
     text = NBTools::doReplace(text, L"%par%", L"§");
+    text = NBTools::doReplace(text, L"%circle%", L"°");
+    text = NBTools::doReplace(text, L"%mu%", L"µ");
+    text = NBTools::doReplace(text, L"%sqr%", L"²");
+    text = NBTools::doReplace(text, L"%gbp%", L"£");
 
     // Signs
     text = NBTools::doReplace(text, L"%up%", L"↑");
@@ -125,7 +129,7 @@ wstring KBParser::ParseStuff(wstring text)
     text = NBTools::doReplace(text, L"%right%", L"→");
     text = NBTools::doReplace(text, L"%return%", L"↵");
     text = NBTools::doReplace(text, L"%shift%", L"⇑");
-
+    text = NBTools::doReplace(text, L"%lup%", L"↖");
     // whitespace
     text = NBTools::doReplace(text, L"%20%", L" ");
     return NBTools::doReplace(text, L"%0%", L"");

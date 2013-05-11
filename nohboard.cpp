@@ -273,6 +273,8 @@ LRESULT HandleCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
         bStopping = true;
         SaveWindowPosition(hWnd);
         break;
+    case ID_RESETSIZE:
+        SetWindowPos(hWnd, NULL, 0, 0, kbinfo->width + extraX, kbinfo->height + extraY, SWP_NOMOVE);
     }
 
     return 0;
@@ -285,28 +287,36 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     case WM_CLOSE:
         SaveWindowPosition(hWnd);
         break;
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
-            break;
-        case WM_PAINT:
-            bRender = true;
-            break;
-        case WM_RBUTTONUP:
-            {
-                HMENU hMenu = CreatePopupMenu();
-	            AppendMenu(hMenu, MF_STRING, ID_LOADSETTINGS, L"Settings");
-                AppendMenu(hMenu, MF_STRING, ID_EXITNOHBOARD, L"Exit");
-                SetForegroundWindow(hWnd);
-                POINT p;
-                GetCursorPos(&p);
-                TrackPopupMenu(hMenu, TPM_LEFTALIGN, p.x, p.y, 0, hWnd, NULL);
-                DestroyMenu(hMenu);
-            }
-            break;
-        case WM_COMMAND:
-            return HandleCommand(hWnd, wParam, lParam);
-            break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+        break;
+    case WM_PAINT:
+        bRender = true;
+        break;
+    case WM_RBUTTONUP:
+        {
+            HMENU hMenu = CreatePopupMenu();
+	        AppendMenu(hMenu, MF_STRING, ID_LOADSETTINGS, L"Settings");
+            AppendMenu(hMenu, MF_STRING, ID_RESETSIZE, L"Reset window size");
+            AppendMenu(hMenu, MF_STRING, ID_EXITNOHBOARD, L"Exit");
+            SetForegroundWindow(hWnd);
+            POINT p;
+            GetCursorPos(&p);
+            TrackPopupMenu(hMenu, TPM_LEFTALIGN, p.x, p.y, 0, hWnd, NULL);
+            DestroyMenu(hMenu);
+        }
+        break;
+    case WM_COMMAND:
+        return HandleCommand(hWnd, wParam, lParam);
+        break;
+    case WM_WINDOWPOSCHANGING:
+        {
+            // Lock aspect ratio
+            LPWINDOWPOS wp = (LPWINDOWPOS)lParam;
+            wp->cy = (int) ((float)wp->cx / aspect);
+        }
+        break;
     }
 
     return DefWindowProc (hWnd, message, wParam, lParam);
@@ -407,6 +417,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return 0;
     }
 
+    // Create the window
     WNDCLASSEX wc;
     ZeroMemory(&wc, sizeof(WNDCLASSEX));
     wc.cbSize = sizeof(WNDCLASSEX);
@@ -420,12 +431,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     RegisterClassEx(&wc);
 
     // create the window and use the result as the handle
-    hWnd = CreateWindowEx(NULL, L"NohBoardClass", version_string, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
-                          config->GetInt(L"x"), config->GetInt(L"y"), // position of the window
-                          kbinfo->width, kbinfo->height,              // dimensions of the window
+    hWnd = CreateWindowEx(NULL, L"NohBoardClass", version_string, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU | WS_SIZEBOX,
+                          config->GetInt(L"x"), config->GetInt(L"y"), // coordinates of the window
+                          kbinfo->width + extraX,                     // width of the window
+                          kbinfo->height + extraY,                    // dimensions of the window
                           NULL, NULL,                                 // parent null, menus null
                           hInstance, NULL);                           // application, multiple window
     ShowWindow(hWnd, nCmdShow);
+
+    // Calculate the window aspect ratio
+    aspect = (float)((float)(kbinfo->width + extraX) / (float)(kbinfo->height + extraY));
 
     // Low level keyboard hook
     keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, NULL, NULL);

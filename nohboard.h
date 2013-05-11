@@ -26,11 +26,17 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000300
-#define version_string L"NohBoard v0.3b"
+#define version 0x000301
+#define version_string L"NohBoard v0.4b1"
 #define method 1
 #define keyboardVersion 1
 #define configfile L"NohBoard.config"
+
+// I changed from not sizable to sizable windows and now I need to add some magic numbers to the
+// widths and heights of the windows because for some reason the current numbers aren't good enough
+// anymore, and I don't want to bother forcing everyone to update their keyboard files.
+#define extraX 10
+#define extraY 10
 
 // Threading
 bool bStopping = false;
@@ -59,8 +65,14 @@ std::wstring initialLayout;
 ConfigParser * config;
 KBInfo *kbinfo;
 
+// Window sizing
+float aspect;
+float lastw;
+float lasth;
+
 enum
 {
     ID_LOADSETTINGS=5000,
-    ID_EXITNOHBOARD
+    ID_EXITNOHBOARD,
+    ID_RESETSIZE
 };
