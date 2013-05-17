@@ -1,7 +1,7 @@
-KBVersion 1
-width 1031
+KBVersion 2
+width 838
 height 361
-nKeysDefined 107
+nKeysDefined 90
 key 8 581 100 90 43 Backspc Backspc 0
 key 9 9 144 67 43 Tab Tab 0
 key 19 778 9 43 43 Pause Pause 0
@@ -92,20 +92,3 @@ key 13 605 144 12 43 %0% %0% 0
 key 13 617 144 54 87 %return% %return% 0
 key 192 529 188 43 43 %'u% % 0
 key 226 66 232 43 43 < > 0
-key 144 840 100 43 43 VNum VNum 0 
-key 96 840 276 87 43 0 0 0
-key 97 840 232 43 43 1 1 0
-key 98 884 232 43 43 2 2 0
-key 99 928 232 43 43 3 3 0
-key 100 840 188 43 43 4 4 0
-key 101 884 188 43 43 5 5 0
-key 102 928 188 43 43 6 6 0
-key 103 840 144 43 43 7 7 0
-key 104 884 144 43 43 8 8 0
-key 105 928 144 43 43 9 9 0
-key 106 928 100 43 43 * * 0
-key 107 972 144 43 87 + + 0
-key 109 972 100 43 43 - - 0
-key 110 928 276 43 43 . . 0
-key 111 884 100 43 43 / / 0
-key 1025 972 232 43 87 Entr Entr 0

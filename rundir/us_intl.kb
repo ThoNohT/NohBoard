@@ -1,10 +1,10 @@
-KBVersion 1
+KBVersion 2
 width 1031
 height 361
 nKeysDefined 104
 key 8 581 100 90 43 Backspc Backspc 0
 key 9 9 144 67 43 Tab Tab 0
-key 13 573 188 98 43 Return Return 0
+key 13 573 188 98 43 %return% %return% 0
 key 1025 972 232 43 87 Enter Enter 0
 key 19 778 9 43 43 Pause Pause 0
 key 27 9 9 43 43 Esc Esc 0
@@ -14,10 +14,10 @@ key 33 778 100 43 43 PgUp PgUp 0
 key 34 778 144 43 43 PgDn PgDn 0
 key 35 734 144 43 43 End End 0
 key 36 734 100 43 43 Home Home 0
-key 37 690 276 43 43 Left Left 0
-key 38 734 232 43 43 Up Up 0
-key 39 778 276 43 43 Right Right 0
-key 40 734 276 43 43 Down Down 0
+key 37 690 276 43 43 %left% %left% 0
+key 38 734 232 43 43 %up% %up% 0
+key 39 778 276 43 43 %right% %right% 0
+key 40 734 276 43 43 %down% %down% 0
 key 44 690 9 43 43 PrtScr PrtScr 0
 key 45 690 100 43 43 Ins Ins 0
 key 46 690 144 43 43 Del Del 0
@@ -89,8 +89,8 @@ key 122 586 9 43 43 F11 F11 0
 key 123 630 9 43 43 F12 F12 0
 key 144 840 100 43 43 NumL NumL 0
 key 145 734 9 43 43 ScrL ScrL 0
-key 160 9 232 100 43 Shift Shift 0
-key 161 550 232 121 43 Shift Shift 0
+key 160 9 232 100 43 %shift% %shift% 0
+key 161 550 232 121 43 %shift% %shift% 0
 key 162 9 276 65 43 Ctrl Ctrl 0
 key 163 617 276 54 43 Ctrl Ctrl 0
 key 164 130 276 56 43 Alt Alt 0
