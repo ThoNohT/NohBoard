@@ -26,8 +26,8 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000302
-#define version_string L"NohBoard v0.4b2"
+#define version 0x000400
+#define version_string L"NohBoard v0.4b"
 #define method 1
 #define keyboardVersion 2
 #define configfile L"NohBoard.config"
