@@ -1,0 +1,18 @@
+v 0.4b
+- AZERTY layouts added, as well as some user contributed special layouts.
+- Extra character conversions, required for AZERTY added.
+- Keyboard layouts names changed somewhat, layout files now have version 2. It is recommended to delete the old .kb files before updating to this version.
+- Display during full screen games fixed. Sadly, at the cost of Windows XP compatibility.
+
+v 0.3b
+- German keyboard layouts added.
+- Extra character conversions, required for german layout added.
+- Lots of extra configuration options in the config file - still need to be added to the settings menu.
+- Multiple key definitions for the same keycode possible (allows for custom shaped keys, most notably the Return key).
+
+v 0.2b
+- Fixed a memory leak.
+- Hopefully fixed NohBoard process staying active after closing.
+
+v 0.1b
+- First version.
