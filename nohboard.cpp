@@ -27,6 +27,8 @@ int CapsLetters(bool changeOnCaps)
 
 void render()
 {
+    if (IsIconic(hWnd)) return;
+
     ds->prepareFrame();
     EnterCriticalSection(&csKB);
 #if method == 1
@@ -79,7 +81,6 @@ void render()
     LeaveCriticalSection(&csKB);
     ds->finalizeFrame();
 }
-
 
 void SaveKBLayout(HWND hwnd)
 {
