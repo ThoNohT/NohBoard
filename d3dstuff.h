@@ -16,6 +16,7 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ********************************************************************************/
 
+//#define D3D_DEBUG_INFO // To log stuff about directx
 
 #include <d3d9.h>
 #include <d3dx9core.h>
@@ -35,7 +36,7 @@ class D3DStuff
 {
 private:
 
-    LPDIRECT3D9 d3d;
+    LPDIRECT3D9EX d3d;
     LPDIRECT3DDEVICE9 d3ddev;
     LPDIRECT3DVERTEXBUFFER9 v_buffer;
 
