@@ -26,10 +26,10 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000301
-#define version_string L"NohBoard v0.4b1"
+#define version 0x000302
+#define version_string L"NohBoard v0.4b2"
 #define method 1
-#define keyboardVersion 1
+#define keyboardVersion 2
 #define configfile L"NohBoard.config"
 
 // I changed from not sizable to sizable windows and now I need to add some magic numbers to the
