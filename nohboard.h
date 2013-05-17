@@ -26,8 +26,8 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000400
-#define version_string L"NohBoard v0.4b"
+#define version 0x000401
+#define version_string L"NohBoard v0.5b1"
 #define method 1
 #define keyboardVersion 2
 #define configfile L"NohBoard.config"
@@ -47,6 +47,7 @@ CRITICAL_SECTION csKB;
 D3DStuff *ds;
 
 HHOOK keyboardHook = NULL;
+HHOOK mouseHook = NULL;
 HWND hWnd;
 HINSTANCE hInstMain;
 

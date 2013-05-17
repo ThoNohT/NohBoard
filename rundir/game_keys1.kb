@@ -1,8 +1,10 @@
 KBVersion 2
 width 409
 height 233
-nKeysDefined 12
+nKeysDefined 14
 key 37 221 53 43 43 %left% %left% 0
+key 1026 221 108 43 40 LMB LMB 0
+key 1027 309 109 43 40 RMB RMB 0
 key 38 265 9 43 43 %up% %up% 0
 key 39 309 53 43 43 %right% %right% 0
 key 40 265 53 43 43 %down% %down% 0

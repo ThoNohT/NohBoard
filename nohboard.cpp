@@ -323,12 +323,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     return DefWindowProc (hWnd, message, wParam, lParam);
 }
 
-LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
+LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
     KBDLLHOOKSTRUCT *info = (KBDLLHOOKSTRUCT*)lParam;
 
     bool extended = (info->flags & LLKHF_EXTENDED) != 0;
-    int code = (extended && info->vkCode == 13) ? 1025 : info->vkCode;
+    int code = (extended && info->vkCode == 13) ? CKEY_ENTER : info->vkCode;
 
 
     switch (wParam) {
@@ -337,11 +337,11 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
         {
             EnterCriticalSection(&csKB);
 #if method == 1
-            
             pressed[code] = true;
 #else if method == 2
             fPressed = insert(fPressed, code);
 #endif
+            LeaveCriticalSection(&csKB);
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
 
@@ -354,7 +354,7 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
                 SetWindowText(hWnd, (LPWSTR)result.c_str());
             }
         }
-        LeaveCriticalSection(&csKB);
+        
         bRender = true;
         break;
 
@@ -366,14 +366,64 @@ LRESULT CALLBACK KeyboardHook(int nCode , WPARAM wParam , LPARAM lParam)
 #else if method == 2
         fPressed = remove(fPressed, code);
 #endif 
+        LeaveCriticalSection(&csKB);
+
         if (info->vkCode == 160) shiftDown1 = false;
         if (info->vkCode == 161) shiftDown2 = false;
-        LeaveCriticalSection(&csKB);
         bRender = true;
         break;
     }
 
     return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+}
+
+LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode < 0) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
+
+    int code = 0;
+    switch (wParam)
+    {
+    case WM_LBUTTONDOWN:
+        code = CKEY_LMBUTTON;
+    case WM_RBUTTONDOWN:
+        if (code == 0) code = CKEY_RMBUTTON;
+        EnterCriticalSection(&csKB);
+#if method == 1
+        pressed[code] = true;
+#else if method == 2
+        fPressed = insert(fPressed, code);
+#endif
+        LeaveCriticalSection(&csKB);
+
+        if (config->GetInt(L"debug") == 1)
+        {
+            // Display the last pressed keycode in the window title
+            std::wostringstream convert;
+            convert << code;
+            std::wstring result = convert.str();
+            SetWindowText(hWnd, (LPWSTR)result.c_str());
+        }
+        bRender = true;
+        break;
+
+    case WM_LBUTTONUP:
+        code = CKEY_LMBUTTON;
+    case WM_RBUTTONUP:
+        if (code == 0) code = CKEY_RMBUTTON;
+        EnterCriticalSection(&csKB);
+#if method == 1
+        pressed[code] = false;
+#else if method == 2
+        fPressed = remove(fPressed, code);
+#endif 
+        LeaveCriticalSection(&csKB);
+        bRender = true;
+        break;
+    }
+
+    
+    return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
 bool LoadKeyboard()
@@ -445,6 +495,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Low level keyboard hook
     keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, NULL, NULL);
+
+    // Low level mouse hook
+    mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHook, NULL, NULL);
    
     ds = new D3DStuff;
     ds->initD3D(hWnd, kbinfo, config);
@@ -474,9 +527,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     WaitForSingleObject(hRThread, INFINITE);
     DeleteCriticalSection(&csKB);
 
-    // Stop handling the keyboard
+    // Stop handling the keyboard and mouse
     delete kbinfo;
     UnhookWindowsHookEx(keyboardHook);
+    UnhookWindowsHookEx(mouseHook);
 
     // Close direct3d
     ds->cleanD3D();

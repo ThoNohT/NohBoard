@@ -19,7 +19,6 @@
 
 #include <string>
 
-
 class NBTools
 {
 public:
@@ -27,4 +26,12 @@ public:
     static std::wstring GetApplicationDirectory();
     static bool EndsWith(std::wstring check, std::wstring end);
     static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
+};
+
+
+// Custom key definitions, we use 1025 and up these
+enum{
+    CKEY_ENTER = 1025,  // Enter key on numpad
+    CKEY_LMBUTTON,      // Left mouse button
+    CKEY_RMBUTTON       // Right mouse button
 };
