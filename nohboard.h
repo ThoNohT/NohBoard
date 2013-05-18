@@ -26,9 +26,8 @@
 #include <time.h>
 #include <string>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000401
-#define version_string L"NohBoard v0.5b1"
-#define method 1
+#define version 0x000402
+#define version_string L"NohBoard v0.5b2"
 #define keyboardVersion 2
 #define configfile L"NohBoard.config"
 
@@ -53,7 +52,6 @@ HINSTANCE hInstMain;
 
 // List of key pressed statuses
 lnode *fPressed = NULL;
-bool pressed[256] = { false };
 bool shiftDown1 = false;
 bool shiftDown2 = false;
 bool shiftDown() { return shiftDown1 || shiftDown2; }

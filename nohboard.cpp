@@ -31,14 +31,14 @@ void render()
 
     ds->prepareFrame();
     EnterCriticalSection(&csKB);
-#if method == 1
+
     // Loop through all keys defined for this keyboard
     typedef std::map<int, KeyInfo>::iterator it_type;
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
     {
         KeyInfo * key = &iterator->second;
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
-        if (pressed[key->id])
+        if (inlist(fPressed, key->id))
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
@@ -53,31 +53,6 @@ void render()
         ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
             CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str());
     }
-#else if method == 2
-    lnode * cur = fPressed;
-    // Loop through all pressed nodes
-    while (cur != NULL)
-    {
-        // The key is not defined
-        if (kbinfo->definedKeys.find(cur->code) == kbinfo->definedKeys.end())
-        {
-            // Next pressed key
-            cur = cur->next;
-        }
-        if (cur == NULL) break;
-
-        KeyInfo * key = &kbinfo->definedKeys[cur->code];
-        RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
-        ds->drawFillBox(key->x, key->y,
-                        key->x + key->width, key->y + key->height, 
-                        D3DCOLOR_XRGB(config->GetInt("pressedR"), config->GetInt("pressedG"), config->GetInt("pressedB")));
-        ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt("fontR"), config->GetInt("fontG"), config->GetInt("fontB")),
-                    CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str());
-
-        // Next pressed key
-        cur = cur->next;
-    }
-#endif
     LeaveCriticalSection(&csKB);
     ds->finalizeFrame();
 }
@@ -330,17 +305,13 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
     bool extended = (info->flags & LLKHF_EXTENDED) != 0;
     int code = (extended && info->vkCode == 13) ? CKEY_ENTER : info->vkCode;
 
-
     switch (wParam) {
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
         {
+            // Add to pressed list
             EnterCriticalSection(&csKB);
-#if method == 1
-            pressed[code] = true;
-#else if method == 2
             fPressed = insert(fPressed, code);
-#endif
             LeaveCriticalSection(&csKB);
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
@@ -360,12 +331,9 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
+        // Remove from pressed list
         EnterCriticalSection(&csKB);
-#if method == 1
-        pressed[code] = false;
-#else if method == 2
         fPressed = remove(fPressed, code);
-#endif 
         LeaveCriticalSection(&csKB);
 
         if (info->vkCode == 160) shiftDown1 = false;
@@ -388,12 +356,9 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         code = CKEY_LMBUTTON;
     case WM_RBUTTONDOWN:
         if (code == 0) code = CKEY_RMBUTTON;
+        // Add to pressed list
         EnterCriticalSection(&csKB);
-#if method == 1
-        pressed[code] = true;
-#else if method == 2
         fPressed = insert(fPressed, code);
-#endif
         LeaveCriticalSection(&csKB);
 
         if (config->GetInt(L"debug") == 1)
@@ -411,12 +376,9 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         code = CKEY_LMBUTTON;
     case WM_RBUTTONUP:
         if (code == 0) code = CKEY_RMBUTTON;
+        // Remove from pressed list
         EnterCriticalSection(&csKB);
-#if method == 1
-        pressed[code] = false;
-#else if method == 2
         fPressed = remove(fPressed, code);
-#endif 
         LeaveCriticalSection(&csKB);
         bRender = true;
         break;

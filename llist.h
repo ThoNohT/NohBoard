@@ -96,3 +96,26 @@ lnode * insert(lnode * node, int code)
     prev->next = addFront(cur, code);
     return node;
 }
+
+bool inlist(lnode * node, int code)
+{
+    // Bleh, it will be called on an empty list yes
+    if (node == NULL) return false;
+
+    if (node->code == code)
+        return true;
+
+    lnode * cur = node;
+    lnode * prev;
+    while(cur->next != NULL && cur->code != code)
+    {
+        prev = cur;
+        cur = cur->next;
+    }
+
+    // We've found it, or are at the end and it doesn't exist
+    if (cur->code == code)
+        return true;
+
+    return false;
+}
