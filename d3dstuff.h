@@ -40,7 +40,8 @@ private:
     LPDIRECT3DDEVICE9 d3ddev;
     LPDIRECT3DVERTEXBUFFER9 v_buffer;
 
-    ID3DXFont *font;
+    ID3DXFont *fontBig;
+    ID3DXFont *fontSmall;
     KBInfo *kbinfo;
     ConfigParser *config;
 public:

@@ -43,7 +43,8 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"fontG"] = L"0";
     config[L"fontB"] = L"0";
     config[L"fontName"] = L"Arial";
-    config[L"fontSize"] = L"18";
+    config[L"fontSize"] = L"26";
+    config[L"fontSizeSmall"] = L"18";
     config[L"fontWidth"] = L"0";
     config[L"debug"] = L"0";
 
