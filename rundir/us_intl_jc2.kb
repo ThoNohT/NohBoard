@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 465
 height 267
 nKeysDefined 21
+category Games
 key 9 9 53 67 43 Tab Tab 0
 key 20 9 97 79 43 CapsLck CapsLck 0
 key 32 187 185 262 43 %0% %0% 0

@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 1031
 height 361
 nKeysDefined 107
+category Full
 key 8 581 100 90 43 Backspc Backspc 0
 key 9 9 144 67 43 Tab Tab 0
 key 19 778 9 43 43 Pause Pause 0

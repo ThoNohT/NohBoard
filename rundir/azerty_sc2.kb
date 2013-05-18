@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 400
 height 317
 nKeysDefined 31
+category Games
 key 27 9 12 43 43 Esc Esc 0
 key 32 187 232 200 43 %0% %0% 0
 key 49 53 56 43 43 & 1 0

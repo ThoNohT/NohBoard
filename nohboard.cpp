@@ -19,6 +19,7 @@
 
 #include "nohboard.h"
 #include <sstream>
+#include <fstream>
 
 int CapsLetters(bool changeOnCaps)
 {
@@ -30,9 +31,9 @@ void render()
     if (IsIconic(hWnd)) return;
 
     ds->prepareFrame();
-    EnterCriticalSection(&csKB);
 
     // Loop through all keys defined for this keyboard
+    EnterCriticalSection(&csKB);
     typedef std::map<int, KeyInfo>::iterator it_type;
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
     {
@@ -119,6 +120,42 @@ void ChangeColor(HWND hwnd, std::wstring cat, DWORD ctrlID, std::wstring descrip
     }
 }
 
+void FillFoundLayouts()
+{
+    std::wstring appDir = NBTools::GetApplicationDirectory();
+    appDir += L"*";
+    PVOID oldFSRVal;
+    Wow64DisableWow64FsRedirection(&oldFSRVal);
+    WIN32_FIND_DATA ffd;
+    HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+    
+    // Clear thingy before starting
+    typedef StrVectMap::iterator it_type;
+    for(it_type cur = foundLayouts.begin(); cur != foundLayouts.end(); cur++)
+        cur->second.clear();
+    foundLayouts.clear();
+
+    if (INVALID_HANDLE_VALUE != hFind)
+    {
+        // Loop the files and fill up the found keyboard layouts thingy
+        do
+        {
+            std::wstring name = ffd.cFileName;
+            if (!NBTools::EndsWith(name, L".kb")) continue;
+            // Find the category for this kbInfo
+            KBInfo * newKbInfo = KBParser::ParseFile((LPWSTR)name.c_str(), false);
+            if (newKbInfo->KBVersion != keyboardVersion)
+                continue;
+            if (foundLayouts.find(newKbInfo->Category) == foundLayouts.end())
+                foundLayouts[newKbInfo->Category] = StrVect();
+            // Add the file to its own category
+            foundLayouts[newKbInfo->Category].push_back(name);
+        } while(FindNextFile(hFind, &ffd) != 0);
+        FindClose(hFind);
+    }
+    Wow64RevertWow64FsRedirection(&oldFSRVal);
+}
+
 INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
      switch(message)
@@ -138,26 +175,29 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
 
                     // Find all files in the current directory
-                    std::wstring appDir = NBTools::GetApplicationDirectory();
-                    appDir += L"*";
-                    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
-                    PVOID oldFSRVal;
-                    Wow64DisableWow64FsRedirection(&oldFSRVal);
-                    WIN32_FIND_DATA ffd;
-                    HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+                    HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
+                    HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+                    FillFoundLayouts();
+                    // These are the items that need to be highlighted at the start
                     std::wstring currentLayout = config->GetString(L"keyboardFile");
-                    if (INVALID_HANDLE_VALUE != hFind)
-                    {
-                        do
-                        {
-                            std::wstring name = ffd.cFileName;
-                            if (!NBTools::EndsWith(name, L".kb")) continue;
-                            SendMessage(hwndKBCombo, CB_ADDSTRING, 0, (LPARAM)name.c_str());
-                        } while(FindNextFile(hFind, &ffd) != 0);
-                        FindClose(hFind);
-                        SendMessage(hwndKBCombo, CB_SETCURSEL, SendMessage(hwndKBCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)currentLayout.c_str()), 0);
+                    std::wstring currentCategory = kbinfo->Category;
+
+                    // Fill categories
+                    for(StrVectMap::iterator cur = foundLayouts.begin(); cur != foundLayouts.end(); cur++) {
+                        SendMessage(hwndKBCatCombo, CB_ADDSTRING, 0, (LPARAM)cur->first.c_str());
+
+                        if (cur->first == currentCategory) {
+                            // Fill layouts based on current category
+                            for(StrVect::size_type i = 0; i != cur->second.size(); i++)
+                                SendMessage(hwndKBLayoutCombo, CB_ADDSTRING, 0, (LPARAM)cur->second[i].c_str());
+
+                            // Set initial layout
+                            SendMessage(hwndKBLayoutCombo, CB_SETCURSEL, SendMessage(hwndKBLayoutCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)currentLayout.c_str()), 0);                    
+                        }
                     }
-                    Wow64RevertWow64FsRedirection(&oldFSRVal);
+                    // Set initial category
+                    SendMessage(hwndKBCatCombo, CB_SETCURSEL, SendMessage(hwndKBCatCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)currentCategory.c_str()), 0);                    
+
 
                     UpdateSettingsTitle(hwnd);
                     return TRUE;
@@ -221,10 +261,29 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     break;
                 case IDC_KBLAYOUT:
                     if (HIWORD(wParam) == CBN_SELCHANGE)
+                        UpdateSettingsTitle(hwnd);
+                    break;
+                case IDC_KBCAT:
+                    if (HIWORD(wParam) == CBN_SELCHANGE)
                     {
+                        HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
+                        HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+
+                        int nCharacters = GetWindowTextLength(hwndKBCatCombo)+1;
+                        WCHAR * newCat = new WCHAR[nCharacters];
+                        GetWindowText(hwndKBCatCombo, newCat, nCharacters);
+                        std::wstring newCatStr = newCat;
+
+                        //Clear the combo
+                        SendMessage(hwndKBLayoutCombo, CB_RESETCONTENT, 0, 0);
+
+                        // Fill layouts for the new category
+                        StrVect layouts = foundLayouts[newCatStr];
+                        for(StrVect::size_type i = 0; i != layouts.size(); i++)
+                            SendMessage(hwndKBLayoutCombo, CB_ADDSTRING, 0, (LPARAM)layouts[i].c_str());
+                        SendMessage(hwndKBLayoutCombo, CB_SETCURSEL, 0, 0);
                         UpdateSettingsTitle(hwnd);
                     }
-                    break;
                 }
                 break;
             case WM_CLOSE:
@@ -251,6 +310,12 @@ LRESULT HandleCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
         break;
     case ID_RESETSIZE:
         SetWindowPos(hWnd, NULL, 0, 0, kbinfo->width + extraX, kbinfo->height + extraY, SWP_NOMOVE);
+        break;
+    case ID_RESTART:
+        bStopping = true;
+        bRestart = true;
+        SaveWindowPosition(hWnd);
+        break;
     }
 
     return 0;
@@ -261,7 +326,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     switch(message)
     {
     case WM_CLOSE:
+        bStopping = true;
         SaveWindowPosition(hWnd);
+        return 0;
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -276,6 +343,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	        AppendMenu(hMenu, MF_STRING, ID_LOADSETTINGS, L"Settings");
             AppendMenu(hMenu, MF_STRING, ID_RESETSIZE, L"Reset window size");
             AppendMenu(hMenu, MF_STRING, ID_EXITNOHBOARD, L"Exit");
+            AppendMenu(hMenu, MF_STRING, ID_RESTART, L"Restart");
             SetForegroundWindow(hWnd);
             POINT p;
             GetCursorPos(&p);
@@ -300,6 +368,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
+    // Race conditions occur when hook is processed too early, apparently
+    if (!bRtReady) return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+
     KBDLLHOOKSTRUCT *info = (KBDLLHOOKSTRUCT*)lParam;
 
     bool extended = (info->flags & LLKHF_EXTENDED) != 0;
@@ -347,6 +418,9 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
+    // Race conditions occur when hook is processed too early, apparently
+    if (!bRtReady) return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+
     if (nCode < 0) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 
     int code = 0;
@@ -383,39 +457,82 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         bRender = true;
         break;
     }
-
     
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
-bool LoadKeyboard()
+bool fexists(const wchar_t *filename)
 {
-    kbinfo = KBParser::ParseFile((LPWSTR)config->GetString(L"keyboardFile").c_str());
+  std::wifstream ifile(filename);
+  return 0 != ifile;
+}
 
-    if (kbinfo == NULL) return false;
+LoadKBResult LoadKeyboard()
+{
+    bool foundAnotherFile = false;
+    if (!fexists(config->GetString(L"keyboardFile").c_str()))
+    {
+        std::wstring appDir = NBTools::GetApplicationDirectory();
+        appDir += L"*";
+        PVOID oldFSRVal;
+        Wow64DisableWow64FsRedirection(&oldFSRVal);
+        WIN32_FIND_DATA ffd;
+        HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+        if (INVALID_HANDLE_VALUE != hFind)
+        {
+            do
+            {
+                std::wstring name = ffd.cFileName;
+                if (!NBTools::EndsWith(name, L".kb")) continue;
 
-    if (kbinfo->KBVersion != keyboardVersion) MessageBox(hWnd, L"The keyboard configuration version is unequal to the required version, while this might still work, the results are unpredictable.", L"Warning", MB_ICONWARNING | MB_OK);
-    return true;
+                config->SetString(L"keyboardFile", name);
+                foundAnotherFile = true;
+                break;
+            } while(FindNextFile(hFind, &ffd) != 0);
+            FindClose(hFind);
+        }
+
+        Wow64RevertWow64FsRedirection(&oldFSRVal);
+        if (!foundAnotherFile)
+        {
+            return LKB_NOT_FOUND;
+        }
+    }
+
+    kbinfo = KBParser::ParseFile((LPWSTR)config->GetString(L"keyboardFile").c_str(), true);
+
+    if (kbinfo == NULL) return LKB_PARSE_ERROR;
+
+    if (kbinfo->KBVersion != keyboardVersion) 
+        return LKB_WRONG_VERSION;
+
+
+    return foundAnotherFile ? LKB_LOADED_OTHER_FILE : LKB_SUCCESS;
 }
 
 DWORD WINAPI RenderThread(LPVOID lpParam) 
 { 
     int count = 0;
+
     while(!bStopping)
     {
         if (bRender)
         {
             render();
             bRender = false;
+            // Ok, now start processing keys and clicks
+            if (!bRtReady) bRtReady = true;
             count = 0;
         } else {
             count++;
             if (count > 9)
                 bRender = true;
         }
+
         // Every 33 ms should be enough (30 fps)
         Sleep(33);
     }
+
     return 0;
 } 
 
@@ -423,11 +540,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     hInstMain = hInstance;
     config = new ConfigParser(configfile);
+
+    LoadKBResult lkbResult = LoadKeyboard();
+
     initialLayout = config->GetString(L"keyboardFile"); // Store this so we know if it has changed
 
-    if (!LoadKeyboard()) {
-        MessageBox(hWnd, L"The keyboard config file could not be read, I will close now.", L"Keyboard error", MB_ICONERROR | MB_OK);
+    switch (lkbResult)
+    {
+    case LKB_LOADED_OTHER_FILE:
+        MessageBox(hWnd, L"The keyboard layout file was not found, another layout file is now opened in stead, please go to settings to select the correct layout.", L"Warning", MB_ICONWARNING | MB_OK);
+        break;
+    case LKB_WRONG_VERSION:
+        MessageBox(hWnd, L"The keyboard layout file has an incorrect version, while this might still work, there is no guarantee.\r\nPlease download the latest keyboard files to ensure correct behaviour.", L"Warning", MB_ICONWARNING | MB_OK);
+        break;
+    case LKB_PARSE_ERROR:
+        MessageBox(hWnd, L"There was an error parsing the keyboard file, I will close now.", L"Keyboard error", MB_ICONERROR | MB_OK);
         return 0;
+        break;
+    case LKB_NOT_FOUND:
+        MessageBox(hWnd, L"No keyboard file could be found, I will close now.", L"Warning", MB_ICONWARNING | MB_OK);
+        return 0;
+        break;
+    case LKB_SUCCESS:
+        break;
     }
 
     // Create the window
@@ -476,6 +611,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int counter = 0;
     while(!bStopping)
     {
+
+        if (bStopping) {
+            // Stop handling the keyboard and mouse
+            UnhookWindowsHookEx(keyboardHook);
+            UnhookWindowsHookEx(mouseHook);
+        }
+
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         { TranslateMessage(&msg); DispatchMessage(&msg); }
 
@@ -487,12 +629,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Merge message loop and delete critical section
     WaitForSingleObject(hRThread, INFINITE);
+
     DeleteCriticalSection(&csKB);
 
-    // Stop handling the keyboard and mouse
     delete kbinfo;
-    UnhookWindowsHookEx(keyboardHook);
-    UnhookWindowsHookEx(mouseHook);
 
     // Close direct3d
     ds->cleanD3D();

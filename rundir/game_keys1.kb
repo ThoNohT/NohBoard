@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 409
 height 233
 nKeysDefined 14
+category Games
 key 37 221 53 43 43 %left% %left% 0
 key 1026 221 108 43 40 LMB LMB 0
 key 1027 309 109 43 40 RMB RMB 0

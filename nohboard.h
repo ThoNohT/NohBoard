@@ -25,10 +25,11 @@
 #include "llist.h"
 #include <time.h>
 #include <string>
+#include <vector>
 // Version 0xMMmmbb (Major.minor.build)
 #define version 0x000402
 #define version_string L"NohBoard v0.5b2"
-#define keyboardVersion 2
+#define keyboardVersion 3
 #define configfile L"NohBoard.config"
 
 // I changed from not sizable to sizable windows and now I need to add some magic numbers to the
@@ -37,10 +38,15 @@
 #define extraX 10
 #define extraY 10
 
+// Typedefs to make stuff easier
+typedef std::vector<std::wstring> StrVect;
+typedef std::map<std::wstring, StrVect> StrVectMap;
+
 // Threading
 bool bStopping = false;
 bool bRestart = false;
 bool bRender = false;
+bool bRtReady = false;
 clock_t begin_time = 0;
 CRITICAL_SECTION csKB;
 D3DStuff *ds;
@@ -59,6 +65,7 @@ bool shiftDown() { return shiftDown1 || shiftDown2; }
 // Settings window
 COLORREF custColors[16];
 std::wstring initialLayout;
+StrVectMap foundLayouts;
 
 // Configuration stuff
 ConfigParser * config;
@@ -73,5 +80,15 @@ enum
 {
     ID_LOADSETTINGS=5000,
     ID_EXITNOHBOARD,
-    ID_RESETSIZE
+    ID_RESETSIZE,
+    ID_RESTART
+};
+
+enum LoadKBResult
+{
+    LKB_SUCCESS,
+    LKB_LOADED_OTHER_FILE,
+    LKB_NOT_FOUND,
+    LKB_PARSE_ERROR,
+    LKB_WRONG_VERSION
 };

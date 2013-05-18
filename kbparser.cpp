@@ -24,27 +24,29 @@
 
 using std::wstring;
 
-KBInfo * KBParser::ParseFile(wstring filename)
+KBInfo * KBParser::ParseFile(wstring filename, bool full)
 {
     KBInfo *kbinfo = new KBInfo;
     wstring word;
-    int value;
+    wstring value;
 
     std::wifstream is(filename);
     if (!is.good()) return NULL;
     
     // Read the general settings
     int n = 0;
-    while (is && n < 4)
+    while (is && n < 5)
     {
         is >> word >> value;
         n = ParseValue(kbinfo, word, value, n);
     }
 
-    if (n < 4) return NULL;
+    if (n < 5) return NULL;
+
+    // If we only want general info, return stuff here
+    if (!full) return kbinfo;
 
     // Read the key definitions
-
     unsigned short id;
     int changeOnCaps;
     float x, y, width, height;
@@ -135,26 +137,31 @@ wstring KBParser::ParseStuff(wstring text)
     return NBTools::doReplace(text, L"%0%", L"");
 }
 
-int KBParser::ParseValue(KBInfo * kbinfo, wstring word, int value, int n)
+int KBParser::ParseValue(KBInfo * kbinfo, wstring word, wstring value, int n)
 {
     if (word == L"width")
     {
-        kbinfo->width = value;
+        kbinfo->width = stoi(value);
         return n+1;
     }
     if (word == L"height")
     {
-        kbinfo->height = value;
+        kbinfo->height = stoi(value);
         return n+1;
     }
     if (word == L"nKeysDefined")
     {
-        kbinfo->nKeysDefined = value;
+        kbinfo->nKeysDefined = stoi(value);
         return n+1;
     }
     if (word == L"KBVersion")
     {
-        kbinfo->KBVersion = value;
+        kbinfo->KBVersion = stoi(value);
+        return n+1;
+    }
+    if (word == L"category")
+    {
+        kbinfo->Category = value;
         return n+1;
     }
     return n;

@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 838
 height 361
 nKeysDefined 87
+category NoNum
 key 8 581 100 90 43 Backspc Backspc 0
 key 9 9 144 67 43 Tab Tab 0
 key 13 573 188 98 43 %return% %return% 0

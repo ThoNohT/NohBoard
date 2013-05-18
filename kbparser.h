@@ -37,6 +37,7 @@ struct KBInfo
     int width, height;
     int nKeysDefined;
     int KBVersion;
+    std::wstring Category;
 
     std::map<int, KeyInfo> definedKeys;
 };
@@ -44,11 +45,11 @@ struct KBInfo
 class KBParser
 {
 private:
-    static int ParseValue(KBInfo * kbinfo, std::wstring word, int value, int n);
+    static int ParseValue(KBInfo * kbinfo, std::wstring word, std::wstring value, int n);
     static void SetKeyInfo(KeyInfo &info, int id, float x, float y,
                 float width, float height, int changeOnCaps,
                 std::wstring text, std::wstring shiftText);
     static std::wstring ParseStuff(std::wstring text);
 public:
-    static KBInfo * ParseFile(std::wstring filename);
+    static KBInfo * ParseFile(std::wstring filename, bool full);
 };

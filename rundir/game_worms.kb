@@ -1,7 +1,8 @@
-KBVersion 2
+KBVersion 3
 width 560
 height 214
 nKeysDefined 27
+category Games
 key 37 184 140 44 44 %left% %left% 0
 key 38 230 94 44 44 %up% %up% 0
 key 39 276 140 44 44 %right% %right% 0
