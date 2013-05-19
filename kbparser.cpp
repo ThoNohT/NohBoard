@@ -123,6 +123,7 @@ wstring KBParser::ParseStuff(wstring text)
     text = NBTools::doReplace(text, L"%mu%", L"µ");
     text = NBTools::doReplace(text, L"%sqr%", L"²");
     text = NBTools::doReplace(text, L"%gbp%", L"£");
+    text = NBTools::doReplace(text, L"%ss%", L"ß");
 
     // Signs
     text = NBTools::doReplace(text, L"%up%", L"↑");
