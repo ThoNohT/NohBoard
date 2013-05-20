@@ -44,15 +44,18 @@ void render()
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
                             D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+            ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
+                        CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
         }
         else
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
                             D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+            ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
+                        CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
         }
-        ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
-            CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str());
+        
     }
     LeaveCriticalSection(&csKB);
     ds->finalizeFrame();
@@ -61,14 +64,9 @@ void render()
 void SaveKBLayout(HWND hwnd)
 {
     // Ensure that the keyboard layout is saved
-    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
-    int nCharacters = GetWindowTextLength(hwndKBCombo)+1;
-    WCHAR * newLayout = new WCHAR[nCharacters];
-    GetWindowText(hwndKBCombo, newLayout, nCharacters);
-    std::wstring newLayoutStr = newLayout;
+    std::wstring newLayoutStr = NBTools::GetWText(GetDlgItem(hwnd, IDC_KBLAYOUT));
     if (newLayoutStr != initialLayout)
         config->SetString(L"keyboardFile", newLayoutStr);
-    delete newLayout;
 }
 
 void SaveWindowPosition(HWND hwnd)
@@ -85,12 +83,17 @@ void SaveWindowPosition(HWND hwnd)
 
 void UpdateSettingsTitle(HWND hwnd)
 {
-    HWND hwndKBCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
-    int nCharacters = GetWindowTextLength(hwndKBCombo)+1;
-    WCHAR * newLayout = new WCHAR[nCharacters];
-    GetWindowText(hwndKBCombo, newLayout, nCharacters);
-    std::wstring newLayoutStr = newLayout;
-    if (newLayoutStr == initialLayout)
+    std::wstring newLayoutStr = NBTools::GetWText(GetDlgItem(hwnd, IDC_KBLAYOUT));
+    // Check all settings that might require a restart
+    bool settingsDiffer = false;
+    settingsDiffer = settingsDiffer || (initialLayout != newLayoutStr);
+    settingsDiffer = settingsDiffer || (initialLFS != config->GetString(L"fontSize"));
+    settingsDiffer = settingsDiffer || (initialSFS != config->GetString(L"fontSizeSmall"));
+    settingsDiffer = settingsDiffer || (initialLFW != config->GetString(L"fontWidth"));
+    settingsDiffer = settingsDiffer || (initialSFW != config->GetString(L"fontWidthSmall"));
+    settingsDiffer = settingsDiffer || (initialLF != config->GetString(L"fontName"));
+    settingsDiffer = settingsDiffer || (initialSF != config->GetString(L"fontNameSmall"));
+    if (!settingsDiffer)
     {
         SetWindowText(hwnd, L"NohBoard settings");
         bRestart = false;
@@ -169,10 +172,24 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     HWND hwndLooseColor = GetDlgItem(hwnd, IDC_LOOSECOLOR);
                     HWND hwndPressedColor = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
                     HWND hwndFontColor = GetDlgItem(hwnd, IDC_FONTCOLOR);
+                    HWND hwndPressedFontColor = GetDlgItem(hwnd, IDC_PRESSEDFONTCOLOR);
+                    HWND hwndLFSize = GetDlgItem(hwnd, IDC_LFONTSIZE);
+                    HWND hwndSFSize = GetDlgItem(hwnd, IDC_SFONTSIZE);
+                    HWND hwndLFWidth = GetDlgItem(hwnd, IDC_LFONTWIDTH);
+                    HWND hwndSFWidth = GetDlgItem(hwnd, IDC_SFONTWIDTH);
+                    HWND hwndLF = GetDlgItem(hwnd, IDC_LFONTNAME);
+                    HWND hwndSF = GetDlgItem(hwnd, IDC_SFONTNAME);
                     SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
                     SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
                     SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
+                    SetWindowText(hwndPressedFontColor, config->GetColorText(L"pressedFont", L"Pressed font color: ").c_str());
+                    SetWindowText(hwndLFSize, config->GetString(L"fontSize").c_str());
+                    SetWindowText(hwndSFSize, config->GetString(L"fontSizeSmall").c_str());
+                    SetWindowText(hwndLFWidth, config->GetString(L"fontWidth").c_str());
+                    SetWindowText(hwndSFWidth, config->GetString(L"fontWidthSmall").c_str());
+                    SetWindowText(hwndLF, config->GetString(L"fontName").c_str());
+                    SetWindowText(hwndSF, config->GetString(L"fontNameSmall").c_str());
 
                     // Find all files in the current directory
                     HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
@@ -204,36 +221,37 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 }
                 break;
             case WM_CTLCOLORSTATIC:
-		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_BGCOLOR)
-		        {
-			        HDC hdc = (HDC)wParam;
-                    SetTextColor(hdc, config->GetColor(L"back"));
-                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
+                {
+                    std::wstring colorName;
+                    // Set parameters for the different color controls
+                    HDC hdc = (HDC)wParam;
+                    switch (GetWindowLong((HWND)lParam, GWL_ID))
+		            {
+                    case IDC_BGCOLOR:
+                        colorName = L"back";
+                        break;
+                    case IDC_LOOSECOLOR:
+                        colorName = L"loose";
+                        break;
+                    case IDC_PRESSEDCOLOR:
+                        colorName = L"pressed";
+                        break;
+                    case IDC_FONTCOLOR:
+                        colorName = L"font";
+                        break;
+                    case IDC_PRESSEDFONTCOLOR:
+                        colorName = L"pressedFont";
+                        break;
+                    default:
+                        return false;
+                        break;
+		            }
+                    COLORREF c = config->GetColor(colorName);
+                    SetTextColor(hdc, c);
+                    SetBkColor(hdc, NBTools::IsBright(c) ? RGB(100, 100, 100) : GetSysColor(COLOR_3DFACE));
 			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		        }
-		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_LOOSECOLOR)
-		        {
-			        HDC hdc = (HDC)wParam;
-                    SetTextColor(hdc, config->GetColor(L"loose"));
-                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		        }
-		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_PRESSEDCOLOR)
-		        {
-			        HDC hdc = (HDC)wParam;
-                    SetTextColor(hdc, config->GetColor(L"pressed"));
-                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		        }
-		        if(GetWindowLong((HWND)lParam, GWL_ID) == IDC_FONTCOLOR)
-		        {
-			        HDC hdc = (HDC)wParam;
-                    SetTextColor(hdc, config->GetColor(L"font"));
-                    SetBkColor(hdc, GetSysColor(COLOR_3DFACE));
-			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
-		        }
+                }
                 break;
-
             case WM_COMMAND:
                 switch (LOWORD(wParam))
                 {
@@ -259,6 +277,10 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     ChangeColor(hwnd, L"font", IDC_FONTCOLOR, L"Font color: ");
                     RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
                     break;
+                case IDC_CHANGEPRESSEDFONTCOLOR:
+                    ChangeColor(hwnd, L"pressedFont", IDC_PRESSEDFONTCOLOR, L"Pressed font color: ");
+                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+                    break;
                 case IDC_KBLAYOUT:
                     if (HIWORD(wParam) == CBN_SELCHANGE)
                         UpdateSettingsTitle(hwnd);
@@ -266,13 +288,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 case IDC_KBCAT:
                     if (HIWORD(wParam) == CBN_SELCHANGE)
                     {
-                        HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
                         HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
-
-                        int nCharacters = GetWindowTextLength(hwndKBCatCombo)+1;
-                        WCHAR * newCat = new WCHAR[nCharacters];
-                        GetWindowText(hwndKBCatCombo, newCat, nCharacters);
-                        std::wstring newCatStr = newCat;
+                        std::wstring newCatStr = NBTools::GetWText(GetDlgItem(hwnd, IDC_KBCAT));
 
                         //Clear the combo
                         SendMessage(hwndKBLayoutCombo, CB_RESETCONTENT, 0, 0);
@@ -284,6 +301,49 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                         SendMessage(hwndKBLayoutCombo, CB_SETCURSEL, 0, 0);
                         UpdateSettingsTitle(hwnd);
                     }
+                    break;
+                case IDC_LFONTSIZE:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetInt(L"fontSize", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTSIZE))));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
+                case IDC_SFONTSIZE:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetInt(L"fontSizeSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTSIZE))));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
+                case IDC_LFONTWIDTH:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetInt(L"fontWidth", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTWIDTH))));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
+                case IDC_SFONTWIDTH:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetInt(L"fontWidthSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTWIDTH))));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
+                case IDC_LFONTNAME:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetString(L"fontName", NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTNAME)));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
+                case IDC_SFONTNAME:
+                    if (HIWORD(wParam) == EN_UPDATE)
+                    {
+                        config->SetString(L"fontNameSmall", NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTNAME)));
+                        UpdateSettingsTitle(hwnd);
+                    }
+                    break;
                 }
                 break;
             case WM_CLOSE:
@@ -291,6 +351,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 EndDialog(hwnd, IDCANCEL);
                 if (bRestart)
                     bStopping = true;
+                break;
+            case WM_NOTIFY:
                 break;
         }
 
@@ -485,9 +547,13 @@ LoadKBResult LoadKeyboard()
                 std::wstring name = ffd.cFileName;
                 if (!NBTools::EndsWith(name, L".kb")) continue;
 
-                config->SetString(L"keyboardFile", name);
-                foundAnotherFile = true;
-                break;
+                KBInfo * testKB = KBParser::ParseFile(name, false);
+                if (testKB->KBVersion == keyboardVersion)
+                {
+                    config->SetString(L"keyboardFile", name);
+                    foundAnotherFile = true;
+                    break;
+                }
             } while(FindNextFile(hFind, &ffd) != 0);
             FindClose(hFind);
         }
@@ -505,7 +571,6 @@ LoadKBResult LoadKeyboard()
 
     if (kbinfo->KBVersion != keyboardVersion) 
         return LKB_WRONG_VERSION;
-
 
     return foundAnotherFile ? LKB_LOADED_OTHER_FILE : LKB_SUCCESS;
 }
@@ -544,6 +609,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     LoadKBResult lkbResult = LoadKeyboard();
 
     initialLayout = config->GetString(L"keyboardFile"); // Store this so we know if it has changed
+    initialLFS = config->GetString(L"fontSize");
+    initialSFS = config->GetString(L"fontSizeSmall");
+    initialLFW = config->GetString(L"fontWidth");
+    initialSFW = config->GetString(L"fontWidthSmall");
+    initialLF = config->GetString(L"fontName");
+    initialSF = config->GetString(L"fontNameSmall");
 
     switch (lkbResult)
     {

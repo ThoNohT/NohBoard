@@ -61,3 +61,41 @@ wstring NBTools::doReplace(wstring text, wstring find, wstring replace)
         text = text.replace(pos, find.length(), replace);
     }
 }
+
+bool NBTools::IsBright(unsigned long c)
+{
+    int r = GetRValue(c);
+    int g = GetGValue(c);
+    int b = GetBValue(c);
+
+    return (r+g+b > 465);
+}
+
+wstring NBTools::GetWText(HWND hwnd)
+{
+    int nCharacters = GetWindowTextLength(hwnd)+1;
+    WCHAR * charray = new WCHAR[nCharacters];
+    GetWindowText(hwnd, charray, nCharacters);
+    std::wstring str = charray;
+    return str;
+}
+
+int NBTools::strToInt(std::wstring str)
+{
+    if (IsInt(str))
+        return stoi(str);
+
+    return 0;
+}
+
+
+ bool NBTools::IsInt(wstring & s)
+{
+   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+')))
+       return false;
+
+   wchar_t * p;
+   wcstol(s.c_str(), &p, 10);
+
+   return (*p == 0);
+}

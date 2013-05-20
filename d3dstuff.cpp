@@ -49,8 +49,8 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
 
     D3DXCreateFont(d3ddev, config->GetInt(L"fontSize"), config->GetInt(L"fontWidth"), 1, 1, false, DEFAULT_CHARSET, 
         OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH, config->GetString(L"fontName").c_str(), &fontBig);
-    D3DXCreateFont(d3ddev, config->GetInt(L"fontSizeSmall"), config->GetInt(L"fontWidth"), 1, 1, false, DEFAULT_CHARSET, 
-        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH, config->GetString(L"fontName").c_str(), &fontSmall);
+    D3DXCreateFont(d3ddev, config->GetInt(L"fontSizeSmall"), config->GetInt(L"fontWidthSmall"), 1, 1, false, DEFAULT_CHARSET, 
+        OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH, config->GetString(L"fontNameSmall").c_str(), &fontSmall);
 
     d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &v_buffer, NULL);
 }
@@ -93,20 +93,12 @@ void D3DStuff::drawBox(float x1, float y1, float x2, float y2, D3DCOLOR color)
     d3ddev->DrawPrimitive(D3DPT_LINESTRIP, 0, 4);
 }
 
-void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPWSTR text)
+void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPWSTR text, bool smallText)
 {
     if (text == L"") return;
 
-    RECT calcRect;
-    calcRect.bottom = rect.bottom;
-    calcRect.left = rect.left;
-    calcRect.right = rect.right;
-    calcRect.top = rect.top;
-    
-    fontBig->DrawText(NULL, text, wcslen(text), &calcRect, DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_CALCRECT, color);
-
-    if (calcRect.right > rect.right)
-        fontSmall->DrawText(NULL, text, wcslen(text), &calcRect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
+    if (smallText)
+        fontSmall->DrawText(NULL, text, wcslen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
     else
-        fontBig->DrawText(NULL, text, wcslen(text), &calcRect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
+        fontBig->DrawText(NULL, text, wcslen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
 }

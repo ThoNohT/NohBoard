@@ -18,6 +18,7 @@
 
 
 #include <string>
+#include <Windows.h>
 
 class NBTools
 {
@@ -26,6 +27,10 @@ public:
     static std::wstring GetApplicationDirectory();
     static bool EndsWith(std::wstring check, std::wstring end);
     static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
+    static bool IsBright(unsigned long c);
+    static std::wstring GetWText(HWND hwnd);
+    static int strToInt(std::wstring str);
+    static bool IsInt(std::wstring & s);
 };
 
 

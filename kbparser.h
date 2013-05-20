@@ -29,6 +29,7 @@ struct KeyInfo
     float x, y;
     float width, height;
     bool changeOnCaps;
+    bool smalltext;
     std::wstring text, shiftText;
 };
 
@@ -47,7 +48,7 @@ class KBParser
 private:
     static int ParseValue(KBInfo * kbinfo, std::wstring word, std::wstring value, int n);
     static void SetKeyInfo(KeyInfo &info, int id, float x, float y,
-                float width, float height, int changeOnCaps,
+                float width, float height, int changeOnCaps, int smallText,
                 std::wstring text, std::wstring shiftText);
     static std::wstring ParseStuff(std::wstring text);
 public:

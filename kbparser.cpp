@@ -27,47 +27,51 @@ using std::wstring;
 KBInfo * KBParser::ParseFile(wstring filename, bool full)
 {
     KBInfo *kbinfo = new KBInfo;
-    wstring word;
-    wstring value;
+    try {
+        wstring word;
+        wstring value;
 
-    std::wifstream is(filename);
-    if (!is.good()) return NULL;
+        std::wifstream is(filename);
+        if (!is.good()) return NULL;
     
-    // Read the general settings
-    int n = 0;
-    while (is && n < 5)
-    {
-        is >> word >> value;
-        n = ParseValue(kbinfo, word, value, n);
-    }
-
-    if (n < 5) return NULL;
-
-    // If we only want general info, return stuff here
-    if (!full) return kbinfo;
-
-    // Read the key definitions
-    unsigned short id;
-    int changeOnCaps;
-    float x, y, width, height;
-    wstring text, shifttext;
-    int i = 0;
-    while (is && i < kbinfo->nKeysDefined)
-    {
-        is >> word >> id >> x >> y >> width >> height >> text >> shifttext >> changeOnCaps;
-        if (word == L"key")
+        // Read the general settings
+        int n = 0;
+        while (is && n < 5)
         {
-            // Sanitize strings
-            text = ParseStuff(text);
-            shifttext = ParseStuff(shifttext);
-            kbinfo->definedKeys[i] = KeyInfo();
-            SetKeyInfo(kbinfo->definedKeys[i], id, x, y, width, height, changeOnCaps, text, shifttext);
-            i += 1;
+            is >> word >> value;
+            n = ParseValue(kbinfo, word, value, n);
         }
+
+        if (n < 5) return NULL;
+
+        // If we only want general info, return stuff here
+        if (!full) return kbinfo;
+
+        // Read the key definitions
+        unsigned short id;
+        int changeOnCaps, smallText;
+        float x, y, width, height;
+        wstring text, shifttext;
+        int i = 0;
+        while (is && i < kbinfo->nKeysDefined)
+        {
+            is >> word >> id >> x >> y >> width >> height >> text >> shifttext >> changeOnCaps >> smallText;
+            if (word == L"key")
+            {
+                // Sanitize strings
+                text = ParseStuff(text);
+                shifttext = ParseStuff(shifttext);
+                kbinfo->definedKeys[i] = KeyInfo();
+                SetKeyInfo(kbinfo->definedKeys[i], id, x, y, width, height, changeOnCaps, smallText, text, shifttext);
+                i += 1;
+            }
+        }
+
+        if (i < kbinfo->nKeysDefined) return NULL;
+    } catch(int)
+    {
+        return NULL;
     }
-
-    if (i < kbinfo->nKeysDefined) return NULL;
-
     return kbinfo;
 }
 
@@ -142,22 +146,22 @@ int KBParser::ParseValue(KBInfo * kbinfo, wstring word, wstring value, int n)
 {
     if (word == L"width")
     {
-        kbinfo->width = stoi(value);
+        kbinfo->width = NBTools::strToInt(value);
         return n+1;
     }
     if (word == L"height")
     {
-        kbinfo->height = stoi(value);
+        kbinfo->height = NBTools::strToInt(value);
         return n+1;
     }
     if (word == L"nKeysDefined")
     {
-        kbinfo->nKeysDefined = stoi(value);
+        kbinfo->nKeysDefined = NBTools::strToInt(value);
         return n+1;
     }
     if (word == L"KBVersion")
     {
-        kbinfo->KBVersion = stoi(value);
+        kbinfo->KBVersion = NBTools::strToInt(value);
         return n+1;
     }
     if (word == L"category")
@@ -169,12 +173,13 @@ int KBParser::ParseValue(KBInfo * kbinfo, wstring word, wstring value, int n)
 }
 
 void KBParser::SetKeyInfo(KeyInfo &info, int id, float x, float y,
-                float width, float height, int changeOnCaps,
+                float width, float height, int changeOnCaps, int smallText,
                 wstring text, wstring shiftText)
 {
     info.id = id;
     info.x = x; info.y = y;
     info.width = width; info.height = height;
     info.changeOnCaps = changeOnCaps == 1;
+    info.smalltext = smallText == 1;
     info.text = text; info.shiftText = shiftText;
 }

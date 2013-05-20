@@ -42,10 +42,15 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"fontR"] = L"0";
     config[L"fontG"] = L"0";
     config[L"fontB"] = L"0";
+    config[L"pressedFontR"] = L"0";
+    config[L"pressedFontG"] = L"0";
+    config[L"pressedFontB"] = L"0";
     config[L"fontName"] = L"Arial";
-    config[L"fontSize"] = L"26";
-    config[L"fontSizeSmall"] = L"18";
+    config[L"fontNameSmall"] = L"Arial";
+    config[L"fontSize"] = L"44";
+    config[L"fontSizeSmall"] = L"40";
     config[L"fontWidth"] = L"0";
+    config[L"fontWidthSmall"] = L"8";
     config[L"debug"] = L"0";
 
     // Read the general settings
@@ -109,7 +114,7 @@ int ConfigParser::GetInt(wstring word)
 {
     if (!HasItem(word)) return -1;
     wstring s = config[word];
-    return std::stoi(s.c_str()); 
+    return NBTools::strToInt(s.c_str()); 
 }
 
 wstring ConfigParser::GetString(wstring word)
