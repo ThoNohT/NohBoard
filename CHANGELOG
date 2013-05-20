@@ -1,3 +1,15 @@
+v 0.5b
+- Added a separate font color for pressed buttons.
+- Added support for a large and small font, font size switch per button => push KBVersion to 3.
+- Category added to KBFile, allowing grouping in settings window => push KBVersion to 3.
+- Bug fixed where unallocated memory was used to store and check pressed keys, now uses a linked list.
+- Extra controls for font name, size and width added to the settings window.
+- Fixed a memory leak due to not cleaning up fonts in Direct3d.
+- Added mouse click detection.
+- game_keys1.kb updated to showcase mouse buttons.
+- Fixed a race condition? Due to mouse click detection.
+- Make bright color texts readable in settings by changing to a dark background.
+
 v 0.4b
 - AZERTY layouts added, as well as some user contributed special layouts.
 - Extra character conversions, required for AZERTY added.

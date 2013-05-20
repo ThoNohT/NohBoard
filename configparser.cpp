@@ -47,10 +47,10 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"pressedFontB"] = L"0";
     config[L"fontName"] = L"Arial";
     config[L"fontNameSmall"] = L"Arial";
-    config[L"fontSize"] = L"44";
-    config[L"fontSizeSmall"] = L"40";
+    config[L"fontSize"] = L"24";
+    config[L"fontSizeSmall"] = L"20";
     config[L"fontWidth"] = L"0";
-    config[L"fontWidthSmall"] = L"8";
+    config[L"fontWidthSmall"] = L"0";
     config[L"debug"] = L"0";
 
     // Read the general settings
