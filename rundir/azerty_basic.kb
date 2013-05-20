@@ -3,77 +3,77 @@ width 838
 height 267
 nKeysDefined 74
 category Basic
-key 8 581 9 90 43 Backspc Backspc 0
-key 9 9 53 67 43 Tab Tab 0
-key 20 9 97 79 43 Caps Caps 0
-key 32 187 185 262 43 %0% %0% 0
-key 33 778 9 43 43 %up% %up% 0
-key 34 778 53 43 43 %down% %down% 0
-key 35 734 53 43 43 Fin Fin 0
-key 36 734 9 43 43 %lup% %lup% 0
-key 37 690 185 43 43 %left% %left% 0
-key 38 734 141 43 43 %up% %up% 0
-key 39 778 185 43 43 %right% %right% 0
-key 40 734 185 43 43 %down% %down% 0
-key 45 690 9 43 43 Inser Inser 0
-key 46 690 53 43 43 Suppr Suppr 0
-key 49 53 9 43 43 & 1 0
-key 50 97 9 43 43 %e'% 2 0
-key 51 141 9 43 43 " 3 0
-key 52 185 9 43 43 ' 4 0
-key 53 229 9 43 43 ( 5 0
-key 54 273 9 43 43 - 6 0
-key 55 317 9 43 43 %'e% 7 0
-key 56 361 9 43 43 _ 8 0
-key 57 405 9 43 43 %,c% 9 0
-key 48 449 9 43 43 %'a% 0 0
-key 219 493 9 43 43 ) %circle% 0
-key 187 537 9 43 43 = + 0
-key 65 77 53 43 43 a A 1
-key 66 286 141 43 43 b B 1
-key 67 198 141 43 43 c C 1
-key 68 177 97 43 43 d D 1
-key 69 165 53 43 43 e E 1
-key 70 221 97 43 43 f F 1
-key 71 265 97 43 43 g G 1
-key 72 309 97 43 43 h H 1
-key 73 385 53 43 43 i I 1
-key 74 353 97 43 43 j J 1
-key 75 397 97 43 43 k K 1
-key 76 441 97 43 43 l L 1
-key 77 485 97 43 43 m M 1
-key 78 330 141 43 43 n N 1
-key 79 429 53 43 43 o O 1
-key 80 473 53 43 43 p P 1
-key 81 89 97 43 43 q Q 1
-key 82 209 53 43 43 r R 1
-key 83 133 97 43 43 s S 1
-key 84 253 53 43 43 t T 1
-key 85 341 53 43 43 u U 1
-key 86 242 141 43 43 v V 1
-key 87 110 141 43 43 w W 1
-key 88 154 141 43 43 x X 1
-key 89 297 53 43 43 y Y 1
-key 90 121 53 43 43 z Z 1
-key 91 75 185 54 43 Win Win 0
-key 92 507 185 54 43 Win Win 0
-key 93 562 185 54 43 Menu Menu 0
-key 160 9 141 56 43 %shift% %shift% 0
-key 161 550 141 121 43 %shift% %shift% 0
-key 162 9 185 65 43 Ctrl Ctrl 0
-key 163 617 185 54 43 Ctrl Ctrl 0
-key 164 130 185 56 43 Alt Alt 0
-key 165 450 185 56 43 Alt%20%gr Alt%20%gr 0
-key 223 506 141 43 43 ! %par% 0
-key 188 374 141 43 43 , ? 0
-key 190 418 141 43 43 ; . 0
-key 191 462 141 43 43 : / 0
-key 222 9 9 43 43 %sqr% %0% 0
-key 221 517 53 43 43 ^ " 0
-key 186 561 53 43 43 $ %gbp% 0
-key 220 573 97 43 43 * %mu% 0
-key 13 605 53 12 43 %0% %0% 0
-key 13 605 53 12 43 %0% %0% 0
-key 13 617 53 54 87 %return% %return% 0
-key 192 529 97 43 43 %'u% % 0
-key 226 66 141 43 43 < > 0
+key 8 581 9 90 43 Backspc Backspc 0 1
+key 9 9 53 67 43 Tab Tab 0 1
+key 20 9 97 79 43 Caps Caps 0 1
+key 32 187 185 262 43 %0% %0% 0 0
+key 33 778 9 43 43 %up% %up% 1 1
+key 34 778 53 43 43 %down% %down% 0 1
+key 35 734 53 43 43 Fin Fin 0 1
+key 36 734 9 43 43 %lup% %lup% 0 0
+key 37 690 185 43 43 %left% %left% 0 1
+key 38 734 141 43 43 %up% %up% 0 1
+key 39 778 185 43 43 %right% %right% 0 1
+key 40 734 185 43 43 %down% %down% 0 1
+key 45 690 9 43 43 Inser Inser 0 1
+key 46 690 53 43 43 Supp Supp 0 1
+key 49 53 9 43 43 & 1 0 0
+key 50 97 9 43 43 %e'% 2 0 0
+key 51 141 9 43 43 " 3 0 0
+key 52 185 9 43 43 ' 4 0 0
+key 53 229 9 43 43 ( 5 0 0
+key 54 273 9 43 43 - 6 0 0
+key 55 317 9 43 43 %'e% 7 0 0
+key 56 361 9 43 43 _ 8 0 0
+key 57 405 9 43 43 %,c% 9 0 0
+key 48 449 9 43 43 %'a% 0 0 0
+key 219 493 9 43 43 ) %circle% 0 0
+key 187 537 9 43 43 = + 0 0
+key 65 77 53 43 43 a A 1 0
+key 66 286 141 43 43 b B 1 0
+key 67 198 141 43 43 c C 1 0
+key 68 177 97 43 43 d D 1 0
+key 69 165 53 43 43 e E 1 0
+key 70 221 97 43 43 f F 1 0
+key 71 265 97 43 43 g G 1 0
+key 72 309 97 43 43 h H 1 0
+key 73 385 53 43 43 i I 1 0
+key 74 353 97 43 43 j J 1 0
+key 75 397 97 43 43 k K 1 0
+key 76 441 97 43 43 l L 1 0
+key 77 485 97 43 43 m M 1 0
+key 78 330 141 43 43 n N 1 0
+key 79 429 53 43 43 o O 1 0
+key 80 473 53 43 43 p P 1 0
+key 81 89 97 43 43 q Q 1 0
+key 82 209 53 43 43 r R 1 0
+key 83 133 97 43 43 s S 1 0
+key 84 253 53 43 43 t T 1 0
+key 85 341 53 43 43 u U 1 0
+key 86 242 141 43 43 v V 1 0
+key 87 110 141 43 43 w W 1 0
+key 88 154 141 43 43 x X 1 0
+key 89 297 53 43 43 y Y 1 0
+key 90 121 53 43 43 z Z 1 0
+key 91 75 185 54 43 Win Win 0 1
+key 92 507 185 54 43 Win Win 0 1
+key 93 562 185 54 43 Menu Menu 0 1
+key 160 9 141 56 43 %shift% %shift% 0 0
+key 161 550 141 121 43 %shift% %shift% 0 0
+key 162 9 185 65 43 Ctrl Ctrl 0 1
+key 163 617 185 54 43 Ctrl Ctrl 0 1
+key 164 130 185 56 43 Alt Alt 0 1
+key 165 450 185 56 43 Alt%20%gr Alt%20%gr 0 1
+key 223 506 141 43 43 ! %par% 0 0
+key 188 374 141 43 43 , ? 0 0
+key 190 418 141 43 43 ; . 0 0
+key 191 462 141 43 43 : / 0 0
+key 222 9 9 43 43 %sqr% %0% 0 0
+key 221 517 53 43 43 ^ " 0 0
+key 186 561 53 43 43 $ %gbp% 0 0
+key 220 573 97 43 43 * %mu% 0 0
+key 13 605 53 12 43 %0% %0% 0 0
+key 13 605 53 12 43 %0% %0% 0 0
+key 13 617 53 54 87 %return% %return% 0 0
+key 192 529 97 43 43 %'u% % 0 0
+key 226 66 141 43 43 < > 0 0

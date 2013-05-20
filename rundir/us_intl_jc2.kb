@@ -3,24 +3,24 @@ width 465
 height 267
 nKeysDefined 21
 category Games
-key 9 9 53 67 43 Tab Tab 0
-key 20 9 97 79 43 CapsLck CapsLck 0
-key 32 187 185 262 43 %0% %0% 0
-key 49 53 9 43 43 1 1 0
-key 50 97 9 43 43 2 2 0
-key 51 141 9 43 43 3 3 0
-key 52 185 9 43 43 4 4 0
-key 53 229 9 43 43 5 5 0
-key 65 89 97 43 43 A A 1
-key 68 177 97 43 43 D D 1
-key 69 165 53 43 43 E E 1
-key 70 221 97 43 43 F F 1
-key 81 77 53 43 43 Q Q 1
-key 82 209 53 43 43 R R 1
-key 83 133 97 43 43 S S 1
-key 87 121 53 43 43 W W 1
-key 88 154 141 43 43 X X 1
-key 90 110 141 43 43 Z Z 1
-key 160 9 141 100 43 %shift% %shift% 0
-key 162 9 185 65 43 Ctrl Ctrl 0
-key 164 130 185 56 43 Alt Alt 0
+key 9 9 53 67 43 Tab Tab 0 1
+key 20 9 97 79 43 CapsLck CapsLck 0 1
+key 32 187 185 262 43 %0% %0% 0 0
+key 49 53 9 43 43 1 1 0 0
+key 50 97 9 43 43 2 2 0 0
+key 51 141 9 43 43 3 3 0 0
+key 52 185 9 43 43 4 4 0 0
+key 53 229 9 43 43 5 5 0 0
+key 65 89 97 43 43 A A 1 0
+key 68 177 97 43 43 D D 1 0
+key 69 165 53 43 43 E E 1 0
+key 70 221 97 43 43 F F 1 0
+key 81 77 53 43 43 Q Q 1 0
+key 82 209 53 43 43 R R 1 0
+key 83 133 97 43 43 S S 1 0
+key 87 121 53 43 43 W W 1 0
+key 88 154 141 43 43 X X 1 0
+key 90 110 141 43 43 Z Z 1 0
+key 160 9 141 100 43 %shift% %shift% 0 0
+key 162 9 185 65 43 Ctrl Ctrl 0 1
+key 164 130 185 56 43 Alt Alt 0 1
