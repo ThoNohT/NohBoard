@@ -52,6 +52,7 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"fontWidth"] = L"0";
     config[L"fontWidthSmall"] = L"0";
     config[L"debug"] = L"0";
+    config[L"hookMouse"] = L"1";
 
     // Read the general settings
     wstring word;
@@ -84,7 +85,7 @@ wstring ConfigParser::GetColorText(wstring cat, wstring prefix)
     wordr += L"R";
     wordg += L"G";
     wordb += L"B";
-    std::wstring colortext = prefix;
+    wstring colortext = prefix;
     colortext += L"(";
     colortext += GetString(wordr);
     colortext += L",";
@@ -117,23 +118,33 @@ int ConfigParser::GetInt(wstring word)
     return NBTools::strToInt(s.c_str()); 
 }
 
+bool ConfigParser::GetBool(wstring word)
+{
+    return GetInt(word) == 1;
+}
+
 wstring ConfigParser::GetString(wstring word)
 {
     if (!HasItem(word)) return L"";
     return ParseIn(config[word]);
 }
 
-void ConfigParser::SetInt(std::wstring word, int value)
+void ConfigParser::SetInt(wstring word, int value)
 {
     SetString(word, std::to_wstring((long long)value));
 }
 
-void ConfigParser::SetString(std::wstring word, std::wstring value)
+void ConfigParser::SetBool(wstring word, bool value)
+{
+    SetString(word, value ? L"1" : L"0");
+}
+
+void ConfigParser::SetString(wstring word, wstring value)
 {
     config[word] = ParseOut(value);
 }
 
-void ConfigParser::SetColor(std::wstring cat, COLORREF color)
+void ConfigParser::SetColor(wstring cat, COLORREF color)
 {
     wstring wordr = cat;
     wstring wordg = cat;

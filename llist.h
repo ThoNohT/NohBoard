@@ -31,7 +31,7 @@ lnode * addFront(lnode * node, int code)
     return temp;
 }
 
-void addEnd(lnode * node, int code)
+lnode * addEnd(lnode * node, int code)
 {
     lnode *temp = (lnode*)malloc(sizeof(lnode));
     temp->code = code;
@@ -41,6 +41,8 @@ void addEnd(lnode * node, int code)
       cur = cur->next;
 
     cur->next = temp;
+    
+    return temp;
 }
 
 // Remove the first occurrence of a node with set code from this node
@@ -118,4 +120,17 @@ bool inlist(lnode * node, int code)
         return true;
 
     return false;
+}
+
+void clear(lnode * node)
+{
+    if (node == NULL) return;
+
+    lnode * prev;
+    while (node != NULL)
+    {
+        prev = node;
+        node = prev->next;
+        free(prev);
+    }
 }

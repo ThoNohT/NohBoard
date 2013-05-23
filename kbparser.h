@@ -39,6 +39,7 @@ struct KBInfo
     int nKeysDefined;
     int KBVersion;
     std::wstring Category;
+    bool hasMouse;
 
     std::map<int, KeyInfo> definedKeys;
 };

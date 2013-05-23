@@ -27,8 +27,8 @@
 #include <string>
 #include <vector>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x000500
-#define version_string L"NohBoard v0.5b"
+#define version 0x000501
+#define version_string L"NohBoard v0.6b1"
 #define keyboardVersion 3
 #define configfile L"NohBoard.config"
 
@@ -67,7 +67,7 @@ COLORREF custColors[16];
 StrVectMap foundLayouts;
 // The following settings require restart and need to be tracked for changes
 std::wstring initialLayout;
-std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialSF;
+std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialSF, initialHookMouse;
 
 // Configuration stuff
 ConfigParser * config;

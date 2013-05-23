@@ -53,11 +53,16 @@ KBInfo * KBParser::ParseFile(wstring filename, bool full)
         float x, y, width, height;
         wstring text, shifttext;
         int i = 0;
+        kbinfo->hasMouse = false;
         while (is && i < kbinfo->nKeysDefined)
         {
             is >> word >> id >> x >> y >> width >> height >> text >> shifttext >> changeOnCaps >> smallText;
             if (word == L"key")
             {
+                // Check if we need mouse support at all
+                if (id == CKEY_LMBUTTON || id == CKEY_RMBUTTON)
+                    kbinfo->hasMouse = true;
+
                 // Sanitize strings
                 text = ParseStuff(text);
                 shifttext = ParseStuff(shifttext);

@@ -32,14 +32,26 @@ void render()
 
     ds->prepareFrame();
 
-    // Loop through all keys defined for this keyboard
+    // Copy to a local list for rendering
     EnterCriticalSection(&csKB);
+    lnode * fpRender = NULL, * temp = NULL;
+    lnode * node = fPressed;
+    while (node != NULL)
+    {
+        temp = insert(temp, node->code);
+        // Get a pointer to the head of the list
+        if (fpRender == NULL) fpRender = temp;
+        node = node->next;
+    }
+    LeaveCriticalSection(&csKB);
+
+    // Loop through all keys defined for this keyboard
     typedef std::map<int, KeyInfo>::iterator it_type;
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
     {
         KeyInfo * key = &iterator->second;
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
-        if (inlist(fPressed, key->id))
+        if (inlist(fpRender, key->id))
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
@@ -57,8 +69,10 @@ void render()
         }
         
     }
-    LeaveCriticalSection(&csKB);
     ds->finalizeFrame();
+
+    // Clear the local list
+    clear(fpRender);
 }
 
 void SaveKBLayout(HWND hwnd)
@@ -93,6 +107,7 @@ void UpdateSettingsTitle(HWND hwnd)
     settingsDiffer = settingsDiffer || (initialSFW != config->GetString(L"fontWidthSmall"));
     settingsDiffer = settingsDiffer || (initialLF != config->GetString(L"fontName"));
     settingsDiffer = settingsDiffer || (initialSF != config->GetString(L"fontNameSmall"));
+    settingsDiffer = settingsDiffer || (initialHookMouse != config->GetString(L"hookMouse"));
     if (!settingsDiffer)
     {
         SetWindowText(hwnd, L"NohBoard settings");
@@ -159,6 +174,111 @@ void FillFoundLayouts()
     Wow64RevertWow64FsRedirection(&oldFSRVal);
 }
 
+LRESULT HandleSettingsCommand(HWND hwnd, WPARAM wParam, LPARAM lParam)
+{
+    switch (LOWORD(wParam))
+    {
+    case IDCLOSE:
+        SaveKBLayout(hwnd);
+        EndDialog(hwnd, IDCANCEL);
+        if (bRestart)
+            bStopping = true;
+        break;
+    case IDC_CHANGEBGCOLOR:
+        ChangeColor(hwnd, L"back", IDC_BGCOLOR, L"Background color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+    case IDC_CHANGELOOSECOLOR:
+            ChangeColor(hwnd, L"loose", IDC_LOOSECOLOR, L"Loose key color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+    case IDC_CHANGEPRESSEDCOLOR:
+        ChangeColor(hwnd, L"pressed", IDC_PRESSEDCOLOR, L"Pressed key color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+    case IDC_CHANGEFONTCOLOR:
+        ChangeColor(hwnd, L"font", IDC_FONTCOLOR, L"Font color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+    case IDC_CHANGEPRESSEDFONTCOLOR:
+        ChangeColor(hwnd, L"pressedFont", IDC_PRESSEDFONTCOLOR, L"Pressed font color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+    case IDC_KBLAYOUT:
+        if (HIWORD(wParam) == CBN_SELCHANGE)
+            UpdateSettingsTitle(hwnd);
+        break;
+    case IDC_KBCAT:
+        if (HIWORD(wParam) == CBN_SELCHANGE)
+        {
+            HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
+            std::wstring newCatStr = NBTools::GetWText(GetDlgItem(hwnd, IDC_KBCAT));
+
+            //Clear the combo
+            SendMessage(hwndKBLayoutCombo, CB_RESETCONTENT, 0, 0);
+
+            // Fill layouts for the new category
+            StrVect layouts = foundLayouts[newCatStr];
+            for(StrVect::size_type i = 0; i != layouts.size(); i++)
+                SendMessage(hwndKBLayoutCombo, CB_ADDSTRING, 0, (LPARAM)layouts[i].c_str());
+            SendMessage(hwndKBLayoutCombo, CB_SETCURSEL, 0, 0);
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_LFONTSIZE:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetInt(L"fontSize", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTSIZE))));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_SFONTSIZE:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetInt(L"fontSizeSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTSIZE))));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_LFONTWIDTH:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetInt(L"fontWidth", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTWIDTH))));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_SFONTWIDTH:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetInt(L"fontWidthSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTWIDTH))));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_LFONTNAME:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetString(L"fontName", NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTNAME)));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_SFONTNAME:
+        if (HIWORD(wParam) == EN_UPDATE)
+        {
+            config->SetString(L"fontNameSmall", NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTNAME)));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_HOOKMOUSE:
+        if (HIWORD(wParam) == BN_CLICKED)
+        {
+            HWND hwndHMCheck = GetDlgItem(hwnd, IDC_HOOKMOUSE);
+            config->SetBool(L"hookMouse", BST_CHECKED == SendMessage(hwndHMCheck, BM_GETCHECK, 0, 0));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    }
+    return 0;
+}
+
 INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
      switch(message)
@@ -179,6 +299,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     HWND hwndSFWidth = GetDlgItem(hwnd, IDC_SFONTWIDTH);
                     HWND hwndLF = GetDlgItem(hwnd, IDC_LFONTNAME);
                     HWND hwndSF = GetDlgItem(hwnd, IDC_SFONTNAME);
+                    HWND hwndHookMouse = GetDlgItem(hwnd, IDC_HOOKMOUSE);
                     SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
                     SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
@@ -191,6 +312,9 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     SetWindowText(hwndLF, config->GetString(L"fontName").c_str());
                     SetWindowText(hwndSF, config->GetString(L"fontNameSmall").c_str());
 
+                    // set hook mouse checkbox state
+                    SendMessage(hwndHookMouse, BM_SETCHECK, config->GetBool(L"hookMouse") ? BST_CHECKED : BST_UNCHECKED, 0);
+                    
                     // Find all files in the current directory
                     HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
                     HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
@@ -214,8 +338,6 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     }
                     // Set initial category
                     SendMessage(hwndKBCatCombo, CB_SETCURSEL, SendMessage(hwndKBCatCombo, CB_FINDSTRINGEXACT, -1, (LPARAM)currentCategory.c_str()), 0);                    
-
-
                     UpdateSettingsTitle(hwnd);
                     return TRUE;
                 }
@@ -253,98 +375,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                 }
                 break;
             case WM_COMMAND:
-                switch (LOWORD(wParam))
-                {
-                case IDCLOSE:
-                    SaveKBLayout(hwnd);
-                    EndDialog(hwnd, IDCANCEL);
-                    if (bRestart)
-                        bStopping = true;
-                    break;
-                case IDC_CHANGEBGCOLOR:
-                    ChangeColor(hwnd, L"back", IDC_BGCOLOR, L"Background color: ");
-                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                    break;
-                case IDC_CHANGELOOSECOLOR:
-                     ChangeColor(hwnd, L"loose", IDC_LOOSECOLOR, L"Loose key color: ");
-                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                    break;
-                case IDC_CHANGEPRESSEDCOLOR:
-                    ChangeColor(hwnd, L"pressed", IDC_PRESSEDCOLOR, L"Pressed key color: ");
-                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                    break;
-                case IDC_CHANGEFONTCOLOR:
-                    ChangeColor(hwnd, L"font", IDC_FONTCOLOR, L"Font color: ");
-                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                    break;
-                case IDC_CHANGEPRESSEDFONTCOLOR:
-                    ChangeColor(hwnd, L"pressedFont", IDC_PRESSEDFONTCOLOR, L"Pressed font color: ");
-                    RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
-                    break;
-                case IDC_KBLAYOUT:
-                    if (HIWORD(wParam) == CBN_SELCHANGE)
-                        UpdateSettingsTitle(hwnd);
-                    break;
-                case IDC_KBCAT:
-                    if (HIWORD(wParam) == CBN_SELCHANGE)
-                    {
-                        HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
-                        std::wstring newCatStr = NBTools::GetWText(GetDlgItem(hwnd, IDC_KBCAT));
-
-                        //Clear the combo
-                        SendMessage(hwndKBLayoutCombo, CB_RESETCONTENT, 0, 0);
-
-                        // Fill layouts for the new category
-                        StrVect layouts = foundLayouts[newCatStr];
-                        for(StrVect::size_type i = 0; i != layouts.size(); i++)
-                            SendMessage(hwndKBLayoutCombo, CB_ADDSTRING, 0, (LPARAM)layouts[i].c_str());
-                        SendMessage(hwndKBLayoutCombo, CB_SETCURSEL, 0, 0);
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_LFONTSIZE:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetInt(L"fontSize", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTSIZE))));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_SFONTSIZE:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetInt(L"fontSizeSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTSIZE))));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_LFONTWIDTH:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetInt(L"fontWidth", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTWIDTH))));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_SFONTWIDTH:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetInt(L"fontWidthSmall", NBTools::strToInt(NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTWIDTH))));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_LFONTNAME:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetString(L"fontName", NBTools::GetWText(GetDlgItem(hwnd, IDC_LFONTNAME)));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                case IDC_SFONTNAME:
-                    if (HIWORD(wParam) == EN_UPDATE)
-                    {
-                        config->SetString(L"fontNameSmall", NBTools::GetWText(GetDlgItem(hwnd, IDC_SFONTNAME)));
-                        UpdateSettingsTitle(hwnd);
-                    }
-                    break;
-                }
+                return HandleSettingsCommand(hwnd, wParam, lParam);
                 break;
             case WM_CLOSE:
                 SaveKBLayout(hwnd);
@@ -393,6 +424,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         return 0;
         break;
     case WM_DESTROY:
+        bStopping = true;
         PostQuitMessage(0);
         return 0;
         break;
@@ -449,7 +481,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
 
-            if (config->GetInt(L"debug") == 1)
+            if (config->GetBool(L"debug"))
             {
                 // Display the last pressed keycode in the window title
                 std::wostringstream convert;
@@ -497,7 +529,7 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         fPressed = insert(fPressed, code);
         LeaveCriticalSection(&csKB);
 
-        if (config->GetInt(L"debug") == 1)
+        if (config->GetBool(L"debug"))
         {
             // Display the last pressed keycode in the window title
             std::wostringstream convert;
@@ -615,6 +647,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     initialSFW = config->GetString(L"fontWidthSmall");
     initialLF = config->GetString(L"fontName");
     initialSF = config->GetString(L"fontNameSmall");
+    initialHookMouse = config->GetString(L"hookMouse");
 
     switch (lkbResult)
     {
@@ -665,7 +698,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, NULL, NULL);
 
     // Low level mouse hook
-    mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHook, NULL, NULL);
+    if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
+        mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHook, NULL, NULL);
    
     ds = new D3DStuff;
     ds->initD3D(hWnd, kbinfo, config);
@@ -682,20 +716,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int counter = 0;
     while(!bStopping)
     {
-
         if (bStopping) {
-            // Stop handling the keyboard and mouse
+            // Stop handling the keyboard and mouse, before the last message handling,
+            // so we can dispatchy any still incoming messages
             UnhookWindowsHookEx(keyboardHook);
-            UnhookWindowsHookEx(mouseHook);
+            if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
+                UnhookWindowsHookEx(mouseHook);
         }
 
+        // Wait for a message
+        GetMessage(&msg, NULL, 0, 0); TranslateMessage(&msg); DispatchMessage(&msg);
+        // Then process any other messages
         while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         { TranslateMessage(&msg); DispatchMessage(&msg); }
-
-        if(msg.message == WM_QUIT)
-            bStopping = true;
-
-        Sleep(5);
     }
 
     // Merge message loop and delete critical section
