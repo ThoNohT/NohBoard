@@ -160,12 +160,12 @@ void FillFoundLayouts()
         {
             std::wstring name = ffd.cFileName;
             if (!NBTools::EndsWith(name, L".kb")) continue;
-            // Find the category for this kbInfo
             
+            // Only parse the right version files
             int kbVersion = KBParser::ParseVersion((LPWSTR)name.c_str());
-            if (kbVersion != keyboardVersion)
-                continue;
+            if (kbVersion != keyboardVersion) continue;
 
+            // Find the category for this kbInfo
             KBInfo * newKbInfo = KBParser::ParseFile((LPWSTR)name.c_str(), false);
             if (foundLayouts.find(newKbInfo->Category) == foundLayouts.end())
                 foundLayouts[newKbInfo->Category] = StrVect();
