@@ -513,7 +513,7 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
     // Race conditions occur when hook is processed too early, apparently
-    if (!bRtReady) return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+    if (!bRtReady) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 
     if (nCode < 0) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 
