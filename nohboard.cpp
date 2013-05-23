@@ -161,9 +161,12 @@ void FillFoundLayouts()
             std::wstring name = ffd.cFileName;
             if (!NBTools::EndsWith(name, L".kb")) continue;
             // Find the category for this kbInfo
-            KBInfo * newKbInfo = KBParser::ParseFile((LPWSTR)name.c_str(), false);
-            if (newKbInfo->KBVersion != keyboardVersion)
+            
+            int kbVersion = KBParser::ParseVersion((LPWSTR)name.c_str());
+            if (kbVersion != keyboardVersion)
                 continue;
+
+            KBInfo * newKbInfo = KBParser::ParseFile((LPWSTR)name.c_str(), false);
             if (foundLayouts.find(newKbInfo->Category) == foundLayouts.end())
                 foundLayouts[newKbInfo->Category] = StrVect();
             // Add the file to its own category
@@ -579,8 +582,8 @@ LoadKBResult LoadKeyboard()
                 std::wstring name = ffd.cFileName;
                 if (!NBTools::EndsWith(name, L".kb")) continue;
 
-                KBInfo * testKB = KBParser::ParseFile(name, false);
-                if (testKB->KBVersion == keyboardVersion)
+                int kbVersion = KBParser::ParseVersion(name);
+                if (kbVersion == keyboardVersion)
                 {
                     config->SetString(L"keyboardFile", name);
                     foundAnotherFile = true;

@@ -188,3 +188,31 @@ void KBParser::SetKeyInfo(KeyInfo &info, int id, float x, float y,
     info.smalltext = smallText == 1;
     info.text = text; info.shiftText = shiftText;
 }
+
+int KBParser::ParseVersion(std::wstring filename)
+{
+    // Generally, return 0 if something fails, that's enough to state
+    // it's not a valid kb file.
+    try {
+        wstring word;
+        wstring value;
+
+        std::wifstream is(filename);
+        if (!is.good()) return 0;
+    
+        while (is && word != L"KBVersion")
+        {
+            is >> word >> value;
+        }
+
+        // We found the version string, return it.
+        if (word == L"KBVersion")
+            return NBTools::strToInt(value);
+
+        return 0;
+    }
+    catch (int)
+    {
+        return 0;
+    }
+}

@@ -54,4 +54,5 @@ private:
     static std::wstring ParseStuff(std::wstring text);
 public:
     static KBInfo * ParseFile(std::wstring filename, bool full);
+    static int ParseVersion(std::wstring filename);
 };
