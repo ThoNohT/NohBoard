@@ -1,3 +1,11 @@
+v 0.6b
+- Fixed kb file version check when entering settings dialog to not crash.
+- Improved message loop reaction speed.
+- Reduced critical section time for render thread.
+- Fixed a mouse hook bug.
+- Made mouse hook optional.
+- Disabled mouse hook when no mouse keys defined in the .kb file.
+
 v 0.5b
 - Added a separate font color for pressed buttons.
 - Added support for a large and small font, font size switch per button => push KBVersion to 3.
