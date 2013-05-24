@@ -723,7 +723,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         if (bStopping) {
             // Stop handling the keyboard and mouse, before the last message handling,
-            // so we can dispatchy any still incoming messages
+            // so we can dispatch any still incoming messages
             UnhookWindowsHookEx(keyboardHook);
             if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
                 UnhookWindowsHookEx(mouseHook);
