@@ -717,7 +717,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Message loop
     MSG msg;
     int counter = 0;
-    while(!bStopping)
+    bool bStop = false;
+    while(!bStop)
     {
         if (bStopping) {
             // Stop handling the keyboard and mouse, before the last message handling,
@@ -725,6 +726,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             UnhookWindowsHookEx(keyboardHook);
             if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
                 UnhookWindowsHookEx(mouseHook);
+            bStop = true;
         }
 
         // Wait for a message
