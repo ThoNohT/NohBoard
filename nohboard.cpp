@@ -618,8 +618,9 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
     {
         if (bRender)
         {
-            render();
             bRender = false;
+            render();
+            
             // Ok, now start processing keys and clicks
             if (!bRtReady) bRtReady = true;
             count = 0;
