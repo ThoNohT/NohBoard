@@ -1,3 +1,7 @@
+v 0.8b
+- Added Swedish keyboard layouts.
+- Fixed a crash caused by removing items from an empty linked list.
+
 v 0.7b
 - Fixed showing only one keypress at a time.
 - Fixed actually performing unhooking code when closing.
