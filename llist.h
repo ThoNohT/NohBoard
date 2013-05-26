@@ -51,6 +51,7 @@ lnode * addEnd(lnode * node, int code)
 // Remove the first occurrence of a node with set code from this node
 lnode * remove(lnode * node, int code)
 {
+	if (node == NULL) return NULL;
     if (node->code == code)
     {
         lnode * temp = node->next;
