@@ -34,13 +34,11 @@ void render()
 
     // Copy to a local list for rendering
     EnterCriticalSection(&csKB);
-    lnode * fpRender = NULL, * temp = NULL;
+    lnode * fpRender = NULL;
     lnode * node = fPressed;
     while (node != NULL)
     {
-        temp = insert(temp, node->code);
-        // Get a pointer to the head of the list
-        if (fpRender == NULL) fpRender = temp;
+        fpRender = addFront(fpRender, node->code);
         node = node->next;
     }
     LeaveCriticalSection(&csKB);

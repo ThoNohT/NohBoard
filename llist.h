@@ -33,6 +33,9 @@ lnode * addFront(lnode * node, int code)
 
 lnode * addEnd(lnode * node, int code)
 {
+    if (node == NULL)
+        return addFront(NULL, code);
+
     lnode *temp = (lnode*)malloc(sizeof(lnode));
     temp->code = code;
 
