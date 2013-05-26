@@ -133,6 +133,12 @@ wstring KBParser::ParseStuff(wstring text)
     text = NBTools::doReplace(text, L"%sqr%", L"²");
     text = NBTools::doReplace(text, L"%gbp%", L"£");
     text = NBTools::doReplace(text, L"%ss%", L"ß");
+	text = NBTools::doReplace(text, L"%oa%", L"å");
+	text = NBTools::doReplace(text, L"%OA%", L"Å");
+	text = NBTools::doReplace(text, L"%half%", L"½");
+	text = NBTools::doReplace(text, L"%caret%", L"^");
+	text = NBTools::doReplace(text, L"%diaeresis%", L"¨");
+	text = NBTools::doReplace(text, L"%currency%", L"¤");
 
     // Signs
     text = NBTools::doReplace(text, L"%up%", L"↑");
