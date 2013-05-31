@@ -21,6 +21,19 @@
 #include <sstream>
 #include <fstream>
 
+void CheckKeys() {
+    EnterCriticalSection(&csKB);
+    lnode * node = fPressed;
+    lnode* temp;
+    while (node != NULL)
+    {
+        if (node->code < 256 && GetKeyState(node->code) >= 0)
+            remove(fPressed, node->code);
+        node = node->next;
+    }
+    LeaveCriticalSection(&csKB);
+}
+
 int CapsLetters(bool changeOnCaps)
 {
     return (changeOnCaps && (((GetKeyState(VK_CAPITAL) & 0x0001)!=0) ^ shiftDown()) || (!changeOnCaps && shiftDown()));
@@ -624,8 +637,10 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
             count = 0;
         } else {
             count++;
-            if (count > 9)
+            if (count > 9) {
+                CheckKeys();
                 bRender = true;
+            }
         }
 
         // Every 33 ms should be enough (30 fps)
