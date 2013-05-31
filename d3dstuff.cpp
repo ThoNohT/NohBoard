@@ -44,7 +44,7 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
     d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
     d3dpp.hDeviceWindow = hWnd;
 
-    d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, NULL,
+    d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
         D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED, &d3dpp, &d3ddev);
 
     D3DXCreateFont(d3ddev, config->GetInt(L"fontSize"), config->GetInt(L"fontWidth"), 1, 1, false, DEFAULT_CHARSET, 

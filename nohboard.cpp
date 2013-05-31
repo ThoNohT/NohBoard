@@ -640,7 +640,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
         } else {
             count++;
             if (count > 9) {
-                CheckKeys();
+                // CheckKeys(); // TODO: This seems to make things worse, find out what that's about
                 bRender = true;
             }
         }
