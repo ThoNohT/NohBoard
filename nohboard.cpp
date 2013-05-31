@@ -24,11 +24,14 @@
 void CheckKeys() {
     EnterCriticalSection(&csKB);
     lnode * node = fPressed;
+    lnode * temp = NULL;
     while (node != NULL)
     {
-        if (node->code < 256 && GetKeyState(node->code) >= 0)
-            remove(fPressed, node->code);
-        node = node->next;
+        temp = node;
+        if (node->code < 256)
+            if (GetKeyState(node->code) >= 0)
+                remove(fPressed, node->code);
+        node = temp->next;
     }
     LeaveCriticalSection(&csKB);
 }
