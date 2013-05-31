@@ -24,7 +24,6 @@
 void CheckKeys() {
     EnterCriticalSection(&csKB);
     lnode * node = fPressed;
-    lnode* temp;
     while (node != NULL)
     {
         if (node->code < 256 && GetKeyState(node->code) >= 0)
