@@ -87,7 +87,6 @@
     <ClInclude Include="configparser.h" />
     <ClInclude Include="kbparser.h" />
     <ClInclude Include="d3dstuff.h" />
-    <ClInclude Include="llist.h" />
     <ClInclude Include="nohboard.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="nbtools.h" />

@@ -22,7 +22,6 @@
 #include "d3dstuff.h"
 #include "kbparser.h"
 #include "configparser.h"
-#include "llist.h"
 #include <time.h>
 #include <string>
 #include <vector>
@@ -57,7 +56,7 @@ HWND hWnd;
 HINSTANCE hInstMain;
 
 // List of key pressed statuses
-lnode *fPressed = NULL;
+std::vector<int> fPressed;
 bool shiftDown1 = false;
 bool shiftDown2 = false;
 bool shiftDown() { return shiftDown1 || shiftDown2; }

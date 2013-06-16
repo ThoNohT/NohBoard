@@ -44,9 +44,6 @@
     <ClInclude Include="configparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="llist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

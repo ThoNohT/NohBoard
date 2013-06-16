@@ -20,18 +20,16 @@
 #include "nohboard.h"
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 void CheckKeys() {
     EnterCriticalSection(&csKB);
-    lnode * node = fPressed;
-    lnode * temp = NULL;
-    while (node != NULL)
-    {
-        temp = node;
-        if (node->code < 256)
-            if (GetKeyState(node->code) >= 0)
-                remove(fPressed, node->code);
-        node = temp->next;
+    auto it = fPressed.cbegin();
+    while (it != fPressed.cend()) {
+        if (GetKeyState(*it) >= 0)
+            it = fPressed.erase(it);
+        else
+            ++it;
     }
     LeaveCriticalSection(&csKB);
 }
@@ -49,13 +47,7 @@ void render()
 
     // Copy to a local list for rendering
     EnterCriticalSection(&csKB);
-    lnode * fpRender = NULL;
-    lnode * node = fPressed;
-    while (node != NULL)
-    {
-        fpRender = addFront(fpRender, node->code);
-        node = node->next;
-    }
+    std::vector<int> fpRender(fPressed);
     LeaveCriticalSection(&csKB);
 
     // Loop through all keys defined for this keyboard
@@ -64,7 +56,7 @@ void render()
     {
         KeyInfo * key = &iterator->second;
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
-        if (inlist(fpRender, key->id))
+        if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
         {
             ds->drawFillBox(key->x, key->y,
                             key->x + key->width, key->y + key->height, 
@@ -85,7 +77,7 @@ void render()
     ds->finalizeFrame();
 
     // Clear the local list
-    clear(fpRender);
+    fpRender.clear();
 }
 
 void SaveKBLayout(HWND hwnd)
@@ -492,7 +484,8 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
         {
             // Add to pressed list
             EnterCriticalSection(&csKB);
-            fPressed = insert(fPressed, code);
+            if (std::find(fPressed.cbegin(), fPressed.cend(), code) == fPressed.cend())
+                fPressed.push_back(code);
             LeaveCriticalSection(&csKB);
             if (info->vkCode == 160) shiftDown1 = true;
             if (info->vkCode == 161) shiftDown2 = true;
@@ -514,7 +507,8 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
     case WM_SYSKEYUP:
         // Remove from pressed list
         EnterCriticalSection(&csKB);
-        fPressed = remove(fPressed, code);
+        if (std::find(fPressed.cbegin(), fPressed.cend(), code) != fPressed.cend())
+            fPressed.erase(std::find(fPressed.cbegin(), fPressed.cend(), code));
         LeaveCriticalSection(&csKB);
 
         if (info->vkCode == 160) shiftDown1 = false;
@@ -542,7 +536,8 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         if (code == 0) code = CKEY_RMBUTTON;
         // Add to pressed list
         EnterCriticalSection(&csKB);
-        fPressed = insert(fPressed, code);
+        if (std::find(fPressed.cbegin(), fPressed.cend(), code) == fPressed.cend())
+            fPressed.push_back(code);
         LeaveCriticalSection(&csKB);
 
         if (config->GetBool(L"debug"))
@@ -562,7 +557,8 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         if (code == 0) code = CKEY_RMBUTTON;
         // Remove from pressed list
         EnterCriticalSection(&csKB);
-        fPressed = remove(fPressed, code);
+        if (std::find(fPressed.cbegin(), fPressed.cend(), code) != fPressed.cend())
+            fPressed.erase(std::find(fPressed.cbegin(), fPressed.cend(), code));
         LeaveCriticalSection(&csKB);
         bRender = true;
         break;
@@ -640,7 +636,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
         } else {
             count++;
             if (count > 9) {
-                // CheckKeys(); // TODO: This seems to make things worse, find out what that's about
+                CheckKeys();
                 bRender = true;
             }
         }
