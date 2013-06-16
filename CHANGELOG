@@ -1,3 +1,9 @@
+v 0.9b
+- Changed pressed key storage from llist to std::vector.
+- Added experimental pressed key cleanup code.
+- Changed se*.kb to scandi*.kb.
+- Added numpad/arrow keys layouts.
+
 v 0.8b
 - Added Swedish keyboard layouts.
 - Fixed a crash caused by removing items from an empty linked list.
