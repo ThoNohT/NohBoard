@@ -1,0 +1,9 @@
+KBVersion 3
+width 160
+height 139
+nKeysDefined 4
+category Games
+key 37 10 55 44 44 %left% %left% 0 1
+key 38 55 10 44 44 %up% %up% 0 1
+key 39 100 55 44 44 %right% %right% 0 1
+key 40 55 55 44 44 %down% %down% 0 1
