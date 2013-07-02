@@ -22,11 +22,26 @@
 #include <fstream>
 #include <algorithm>
 
+bool KeyIsDown(int code) {
+    if (code < 256)
+        return GetKeyState(code) < 0;
+
+    // Special cases (mouse buttons could be 0 and 1 ideally,
+    // but let's not screw up all .kb files and just perform this conversion).
+    if (code == CKEY_LMBUTTON)
+        return GetKeyState(VK_LBUTTON) < 0;
+    if (code == CKEY_RMBUTTON)
+        return GetKeyState(VK_RBUTTON) < 0;
+
+    // All others, ignore.
+    return true;
+}
+
 void CheckKeys() {
     EnterCriticalSection(&csKB);
     auto it = fPressed.cbegin();
     while (it != fPressed.cend()) {
-        if (GetKeyState(*it) >= 0)
+        if (!KeyIsDown(*it))
             it = fPressed.erase(it);
         else
             ++it;
