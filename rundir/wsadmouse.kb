@@ -1,0 +1,11 @@
+KBVersion 3
+width 278
+height 140
+nKeysDefined 6
+category Games
+key 65 9 53 43 43 A A 1 0
+key 68 97 53 43 43 D D 1 0
+key 83 53 53 43 43 S S 1 0
+key 87 41 9 43 43 W W 1 0
+key 1026 160 53 43 43 LMB LMB 0 1
+key 1027 215 53 43 43 RMB RMB 0 1
