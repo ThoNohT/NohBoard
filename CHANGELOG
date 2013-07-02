@@ -1,3 +1,6 @@
+v 0.10b
+- Fix cleanup always removing special keys and mouse buttons.
+
 v 0.9b
 - Changed pressed key storage from llist to std::vector.
 - Added experimental pressed key cleanup code.
