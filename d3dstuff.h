@@ -27,6 +27,9 @@
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
 
+#define pi 3.14159f
+#define steps 16
+
 struct VERTEX {
     float x, y, z, rhw;
     DWORD colour;
@@ -53,4 +56,7 @@ public:
     void drawFillBox(float x1, float y1, float x2, float y2, D3DCOLOR color);
     void drawBox(float x1, float y1, float x2, float y2, D3DCOLOR color);
     void drawText(RECT &rect, D3DCOLOR color, LPWSTR text, bool smallText);
+    void drawCircle(float cx, float cy, float radius, D3DCOLOR color);
+    void drawFilledCircle(float cx, float cy, float radius, D3DCOLOR color);
+    void drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color);
 };

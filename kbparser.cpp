@@ -60,7 +60,7 @@ KBInfo * KBParser::ParseFile(wstring filename, bool full)
             if (word == L"key")
             {
                 // Check if we need mouse support at all
-                if (id == CKEY_LMBUTTON || id == CKEY_RMBUTTON)
+                if (id == CKEY_LMBUTTON || id == CKEY_RMBUTTON || id == CKEY_MOUSESPEED)
                     kbinfo->hasMouse = true;
 
                 // Sanitize strings

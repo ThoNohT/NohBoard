@@ -54,6 +54,43 @@ int CapsLetters(bool changeOnCaps)
     return (changeOnCaps && (((GetKeyState(VK_CAPITAL) & 0x0001)!=0) ^ shiftDown()) || (!changeOnCaps && shiftDown()));
 }
 
+void RenderMouseSpeed(KeyInfo *key)
+{
+    float sizeX = key->width / 2;
+    float sizeY = key->width / 2;
+    float centerX = key->x + sizeX;
+    float centerY = key->y + sizeY;
+
+    float endX = centerX + sizeX * (float)mouseDiffX.average() / 2;
+    float endY = centerY + sizeY * (float)mouseDiffY.average() / 2;
+
+    float dx = endX - centerX;
+    float dy = endY - centerY;
+
+    // The length of the thingymabob
+    float r = min(sqrt(pow(dx, 2) + pow(dy, 2)), sizeX);
+
+    // The edge
+    ds->drawCircle(centerX, centerY, sizeX, D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+
+    // The center
+    ds->drawFilledCircle(centerX, centerY, sizeX / 5, D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+
+    if (r > 0.01) {
+        // The angle of the thingymabob
+        float angle = (dx < 0) * pi + atan(dy / dx);
+
+        float circleX = centerX + sizeX * cos(angle);
+        float circleY = centerY + sizeY * sin(angle);
+
+        // The actual value
+        ds->drawPartFilledCircle(angle, centerX, centerY, r, D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+
+        // The end
+        ds->drawFilledCircle(circleX, circleY, sizeX / 5,  D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+    }
+}
+
 void render()
 {
     if (IsIconic(hWnd)) return;
@@ -70,6 +107,13 @@ void render()
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
     {
         KeyInfo * key = &iterator->second;
+
+        if (key->id == CKEY_MOUSESPEED)
+        {
+            RenderMouseSpeed(key);
+            continue;
+        }
+
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
         if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
         {
@@ -577,6 +621,33 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         LeaveCriticalSection(&csKB);
         bRender = true;
         break;
+
+    case WM_MOUSEMOVE:
+        if (lastMouseCapture == NULL) {
+            // We can't calculate a difference the first time anyway, so just se the first capture time.
+            mousePos = ((tagMSLLHOOKSTRUCT*)lParam)->pt;
+            lastMouseCapture = ((tagMSLLHOOKSTRUCT*)lParam)->time;
+            break;
+        }
+
+        // We have prior information now, so let's cuddle some bears and hunt a duck.
+        DWORD currentTime = ((tagMSLLHOOKSTRUCT*)lParam)->time;
+
+        // Don't do it too quick, if the system don't think time has passed the duck'll divide by zero
+        // 30 ducks per bear should be sufficient
+        if (currentTime - lastMouseCapture < max_int)
+            break;
+        POINT newMousePos = ((tagMSLLHOOKSTRUCT*)lParam)->pt;
+
+        mouseDiffX.add(((double)(newMousePos.x - mousePos.x) / (double)(currentTime - lastMouseCapture)));
+        mouseDiffY.add(((double)(newMousePos.y - mousePos.y) / (double)(currentTime - lastMouseCapture)));
+
+        // Update the stored values
+        lastMouseCapture = currentTime;
+        mousePos = newMousePos;
+
+        bRender = true;
+        break;
     }
     
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
@@ -644,20 +715,29 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
         {
             bRender = false;
             render();
-            
+
             // Ok, now start processing keys and clicks
             if (!bRtReady) bRtReady = true;
             count = 0;
         } else {
+            // We want to reset stuff for mouse movement right away
+            if (count < mouseSmooth && config->GetBool(L"hookMouse") && kbinfo->hasMouse)
+            {
+                mouseDiffX.add(0.0f);
+                mouseDiffY.add(0.0f);
+                bRender = true;
+            }
+
             count++;
             if (count > 9) {
                 CheckKeys();
                 bRender = true;
             }
+            
         }
 
-        // Every 33 ms should be enough (30 fps)
-        Sleep(33);
+        // FPS is defined somewhere else now, but let's stick to it.
+        Sleep(max_int);
     }
 
     return 0;

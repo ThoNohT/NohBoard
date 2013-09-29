@@ -17,27 +17,46 @@
 ********************************************************************************/
 
 
-#include <string>
-#include <Windows.h>
+#pragma once
+#include <vector>
 
-class NBTools
+template <class T>
+class CBuffer
 {
+private:
+    std::vector<T> buffer;
+    unsigned int size;
+    unsigned int curPos;
+
 public:
-    static std::wstring GetApplicationPath();
-    static std::wstring GetApplicationDirectory();
-    static bool EndsWith(std::wstring check, std::wstring end);
-    static std::wstring doReplace(std::wstring text, std::wstring find, std::wstring replace);
-    static bool IsBright(unsigned long c);
-    static std::wstring GetWText(HWND hwnd);
-    static int strToInt(std::wstring str);
-    static bool IsInt(std::wstring & s);
+    CBuffer(unsigned int size)
+    {
+        this->buffer.reserve(size);
+        this->size = size;
+        this->curPos = 0;
+    }
+    ~CBuffer()
+    {
+        this->buffer.clear();
+    }
+    void add(T value)
+    {
+        if (this->curPos >= this->buffer.size())
+            buffer.push_back(value);
+        else
+            buffer[this->curPos] = value;
+        this->curPos = (this->curPos + 1) % this->size;
+    }
+
+    T average()
+    {
+        if (this->buffer.size() == 0) return 0.0f;
+        T total = this->buffer[0];
+        for (unsigned int i = 1; i < this->buffer.size(); i++)
+        {
+            total += this->buffer[i];
+        }
+        return total / (float)this->buffer.size();
+    }
 };
 
-
-// Custom key definitions, we use 1025 and up these
-enum{
-    CKEY_ENTER = 1025,  // Enter key on numpad
-    CKEY_LMBUTTON,      // Left mouse button
-    CKEY_RMBUTTON,      // Right mouse button
-    CKEY_MOUSESPEED     // Mouse speed meter
-};

@@ -52,7 +52,7 @@ void D3DStuff::initD3D(HWND hWnd, KBInfo * kbinfo, ConfigParser * config)
     D3DXCreateFont(d3ddev, config->GetInt(L"fontSizeSmall"), config->GetInt(L"fontWidthSmall"), 1, 1, false, DEFAULT_CHARSET, 
         OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, VARIABLE_PITCH, config->GetString(L"fontNameSmall").c_str(), &fontSmall);
 
-    d3ddev->CreateVertexBuffer(5*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &v_buffer, NULL);
+    d3ddev->CreateVertexBuffer(17*3*sizeof(VERTEX), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &v_buffer, NULL);
 }
 
 void D3DStuff::cleanD3D(void)
@@ -101,4 +101,110 @@ void D3DStuff::drawText(RECT &rect, D3DCOLOR color, LPWSTR text, bool smallText)
         fontSmall->DrawText(NULL, text, wcslen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
     else
         fontBig->DrawText(NULL, text, wcslen(text), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER, color);
+}
+
+void D3DStuff::drawCircle(float cx, float cy, float radius, D3DCOLOR color)
+{
+    VERTEX vertex[steps+1];
+    
+    for(int i = 0; i <= steps; i++)
+    {
+        float angle = (pi / steps) *  (i % steps) * 2;
+
+
+        float x = cx + (radius * (float)sin(angle));
+        float y = cy + (radius * (float)cos(angle));
+        vertex[i].x = x;
+        vertex[i].y = y;
+        vertex[i].z = 1.0f;
+        vertex[i].rhw = 1.0f;
+        vertex[i].colour = color;
+    }
+
+    VOID* pVoid;
+    v_buffer->Lock(0, 0, (void**)&pVoid, 0);
+    memcpy(pVoid, vertex, sizeof(vertex));
+    v_buffer->Unlock();
+
+    d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
+    d3ddev->DrawPrimitive(D3DPT_LINESTRIP, 0, steps);
+}
+
+void D3DStuff::drawFilledCircle(float cx, float cy, float radius, D3DCOLOR color)
+{
+    VERTEX vertex[steps*3];
+    
+    int k = 0;
+    for(int i = 0; i < steps; i++)
+    {
+        for (int j = 0; j < 3; j++) {   
+            if (j == 0) k = 0;
+            else k = i + j;
+            
+            float angle = (pi / steps) *  (k % steps) * 2;
+
+            float x = cx + (radius * (float)sin(angle));
+            float y = cy + (radius * (float)cos(angle));
+
+            vertex[i*3+j].x = x;
+            vertex[i*3+j].y = y;
+            vertex[i*3+j].z = 1.0f;
+            vertex[i*3+j].rhw = 1.0f;
+            vertex[i*3+j].colour = color;
+        }
+    }
+
+    VOID* pVoid;
+    v_buffer->Lock(0, 0, (void**)&pVoid, 0);
+    memcpy(pVoid, vertex, sizeof(vertex));
+    v_buffer->Unlock();
+
+    d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
+    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, steps*3);
+}
+
+void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color)
+{
+    VERTEX vertex[2*3];
+    
+    int k = 0;
+    for(int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 3; j++) {   
+            if (j == 0) {
+                // The first is in the center
+                vertex[i*3+j].x = cx;
+                vertex[i*3+j].y = cy;
+            }
+            else
+            {
+                if (angle > pi)
+                    k = i + j - 2;
+                else
+                    k = i - j + 1;
+            
+                float angle2 = angle + (pi / steps) * k * 2;
+
+                float x = cx + (radius * (float)cos(angle2));
+                float y = cy + (radius * (float)sin(angle2));
+
+                vertex[i*3+j].x = x;
+                vertex[i*3+j].y = y;
+            }
+            vertex[i*3+j].z = 1.0f;
+            vertex[i*3+j].rhw = 1.0f;
+            vertex[i*3+j].colour = color;
+        }
+    }
+
+    VOID* pVoid;
+    v_buffer->Lock(0, 0, (void**)&pVoid, 0);
+    memcpy(pVoid, vertex, sizeof(vertex));
+    v_buffer->Unlock();
+
+    d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
+    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2*3);
 }

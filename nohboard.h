@@ -21,13 +21,14 @@
 #include "nbtools.h"
 #include "d3dstuff.h"
 #include "kbparser.h"
+#include "cbuffer.h"
 #include "configparser.h"
 #include <time.h>
 #include <string>
 #include <vector>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x001000
-#define version_string L"NohBoard v0.10b"
+#define version 0x001100
+#define version_string L"NohBoard v0.11b"
 #define keyboardVersion 3
 #define configfile L"NohBoard.config"
 
@@ -36,6 +37,10 @@
 // anymore, and I don't want to bother forcing everyone to update their keyboard files.
 #define extraX 10
 #define extraY 10
+
+// Define the maximum interval between two renders / keyboard, mouse samples (30 fps currently).
+#define max_int 33
+#define mouseSmooth 5
 
 // Typedefs to make stuff easier
 typedef std::vector<std::wstring> StrVect;
@@ -57,6 +62,10 @@ HINSTANCE hInstMain;
 
 // List of key pressed statuses
 std::vector<int> fPressed;
+POINT mousePos;
+CBuffer<double> mouseDiffX(mouseSmooth);
+CBuffer<double> mouseDiffY(mouseSmooth);
+DWORD lastMouseCapture;
 bool shiftDown1 = false;
 bool shiftDown2 = false;
 bool shiftDown() { return shiftDown1 || shiftDown2; }

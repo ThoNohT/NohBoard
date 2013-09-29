@@ -84,6 +84,7 @@
     <ClCompile Include="nbtools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cbuffer.h" />
     <ClInclude Include="configparser.h" />
     <ClInclude Include="kbparser.h" />
     <ClInclude Include="d3dstuff.h" />
