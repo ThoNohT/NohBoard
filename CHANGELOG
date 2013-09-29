@@ -1,3 +1,8 @@
+v 0.11b
+- Added mouse speed tracker
+- Two extra game .kb file for The Binding of Isaac and DOTA.
+- Two .kb files to showcase mouse movement tracking.
+
 v 0.10b
 - Fix cleanup always removing special keys and mouse buttons.
 - One extra .kb file with wsad and mouse buttons.

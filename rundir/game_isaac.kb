@@ -1,0 +1,16 @@
+KBVersion 3
+width 280
+height 200
+nKeysDefined 11
+category Games
+key 37 121 97 43 43 %left% %left% 0 1
+key 38 165 53 43 43 %up% %up% 0 1
+key 39 209 97 43 43 %right% %right% 0 1
+key 40 165 97 43 43 %down% %down% 0 1
+key 65 9 53 43 43 A A 1 0
+key 68 97 53 43 43 D D 1 0
+key 83 53 53 43 43 S S 1 0
+key 81 18 9 43 43 Q Q 1 0
+key 87 62 9 43 43 W W 1 0
+key 32 18 97 100 43 Space Space 0 0
+key 160 121 9 75 43 Bomb Bomb 0 0KBVersion 3

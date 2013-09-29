@@ -1,0 +1,8 @@
+KBVersion 3
+width 155
+height 155
+nKeysDefined 3
+category Mouse
+key 1026 9 63 43 43 LMB LMB 0 1
+key 1027 53 63 43 43 RMB RMB 0 1
+key 1028 31 9 43
