@@ -842,7 +842,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardHook, NULL, NULL);
 
     // Low level mouse hook
-    if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
+    if ((config->GetBool(L"hookMouse") && kbinfo->hasMouse) || config->GetBool(L"trapMouse"))
         mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHook, NULL, NULL);
    
     ds = new D3DStuff;
@@ -865,7 +865,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             // Stop handling the keyboard and mouse, before the last message handling,
             // so we can dispatch any still incoming messages
             UnhookWindowsHookEx(keyboardHook);
-            if (config->GetBool(L"hookMouse") && kbinfo->hasMouse)
+            if ((config->GetBool(L"hookMouse") && kbinfo->hasMouse) || config->GetBool(L"trapMouse"))
                 UnhookWindowsHookEx(mouseHook);
             bStop = true;
         }
