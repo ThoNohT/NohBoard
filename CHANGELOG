@@ -1,6 +1,10 @@
+V 0.12b
+- Two extra .kb files with mouse movement tracking.
+- Added the option to trap the keyboard and/or mouse input.
+
 v 0.11b
 - Added mouse speed tracker
-- Two extra game .kb file for The Binding of Isaac and DOTA.
+- Two extra game .kb files for The Binding of Isaac and DOTA.
 - Two .kb files to showcase mouse movement tracking.
 
 v 0.10b

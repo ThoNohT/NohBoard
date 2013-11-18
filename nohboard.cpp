@@ -342,6 +342,22 @@ LRESULT HandleSettingsCommand(HWND hwnd, WPARAM wParam, LPARAM lParam)
             UpdateSettingsTitle(hwnd);
         }
         break;
+    case IDC_TRAPKB:
+        if (HIWORD(wParam) == BN_CLICKED)
+        {
+            HWND hwndTKCheck = GetDlgItem(hwnd, IDC_TRAPKB);
+            config->SetBool(L"trapKB", BST_CHECKED == SendMessage(hwndTKCheck, BM_GETCHECK, 0, 0));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+    case IDC_TRAPMOUSE:
+        if (HIWORD(wParam) == BN_CLICKED)
+        {
+            HWND hwndTMCheck = GetDlgItem(hwnd, IDC_TRAPMOUSE);
+            config->SetBool(L"trapMouse", BST_CHECKED == SendMessage(hwndTMCheck, BM_GETCHECK, 0, 0));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
     }
     return 0;
 }
@@ -367,6 +383,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     HWND hwndLF = GetDlgItem(hwnd, IDC_LFONTNAME);
                     HWND hwndSF = GetDlgItem(hwnd, IDC_SFONTNAME);
                     HWND hwndHookMouse = GetDlgItem(hwnd, IDC_HOOKMOUSE);
+                    HWND hwndTrapKB = GetDlgItem(hwnd, IDC_TRAPKB);
+                    HWND hwndTrapMouse = GetDlgItem(hwnd, IDC_TRAPMOUSE);
                     SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
                     SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
@@ -381,7 +399,11 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
                     // set hook mouse checkbox state
                     SendMessage(hwndHookMouse, BM_SETCHECK, config->GetBool(L"hookMouse") ? BST_CHECKED : BST_UNCHECKED, 0);
-                    
+                    // Set trap kb checkbox state
+                    SendMessage(hwndTrapKB, BM_SETCHECK, config->GetBool(L"trapKB") ? BST_CHECKED : BST_UNCHECKED, 0);
+                    // Set trap mouse checkbox state
+                    SendMessage(hwndTrapMouse, BM_SETCHECK, config->GetBool(L"trapMouse") ? BST_CHECKED : BST_UNCHECKED, 0);
+
                     // Find all files in the current directory
                     HWND hwndKBCatCombo = GetDlgItem(hwnd, IDC_KBCAT);
                     HWND hwndKBLayoutCombo = GetDlgItem(hwnd, IDC_KBLAYOUT);
@@ -564,6 +586,10 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
 
     case WM_KEYUP:
     case WM_SYSKEYUP:
+        // We might need to toggle the traps, so yea..
+        if(code == VK_SCROLL)
+            enableTraps = !enableTraps;
+
         // Remove from pressed list
         EnterCriticalSection(&csKB);
         if (std::find(fPressed.cbegin(), fPressed.cend(), code) != fPressed.cend())
@@ -576,7 +602,11 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
         break;
     }
 
-    return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
+    // Trap the keyboard input if requested.
+    if (config->GetBool(L"trapKB") && enableTraps)
+        return 1;
+    else
+        return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
 }
 
 LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
@@ -650,7 +680,10 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
         break;
     }
     
-    return CallNextHookEx(mouseHook, nCode, wParam, lParam);
+    if (config->GetBool(L"trapMouse") && enableTraps)
+        return 1;
+    else
+        return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
 bool fexists(const wchar_t *filename)
@@ -758,6 +791,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     initialLF = config->GetString(L"fontName");
     initialSF = config->GetString(L"fontNameSmall");
     initialHookMouse = config->GetString(L"hookMouse");
+    // Traps don't require restart. Yay!
 
     switch (lkbResult)
     {

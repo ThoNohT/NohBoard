@@ -53,6 +53,9 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"fontWidthSmall"] = L"0";
     config[L"debug"] = L"0";
     config[L"hookMouse"] = L"1";
+    config[L"trapKB"] = L"0";
+    config[L"trapMouse"] = L"0";
+
 
     // Read the general settings
     wstring word;
