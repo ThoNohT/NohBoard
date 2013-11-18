@@ -76,7 +76,7 @@ COLORREF custColors[16];
 StrVectMap foundLayouts;
 // The following settings require restart and need to be tracked for changes
 std::wstring initialLayout;
-std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialSF, initialHookMouse;
+std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialSF, initialHookMouse, initialTrapMouse;
 
 
 // Configuration stuff

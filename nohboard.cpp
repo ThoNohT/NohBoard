@@ -172,6 +172,7 @@ void UpdateSettingsTitle(HWND hwnd)
     settingsDiffer = settingsDiffer || (initialLF != config->GetString(L"fontName"));
     settingsDiffer = settingsDiffer || (initialSF != config->GetString(L"fontNameSmall"));
     settingsDiffer = settingsDiffer || (initialHookMouse != config->GetString(L"hookMouse"));
+    settingsDiffer = settingsDiffer || (initialTrapMouse != config->GetString(L"trapMouse"));
     if (!settingsDiffer)
     {
         SetWindowText(hwnd, L"NohBoard settings");
@@ -791,6 +792,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     initialLF = config->GetString(L"fontName");
     initialSF = config->GetString(L"fontNameSmall");
     initialHookMouse = config->GetString(L"hookMouse");
+    initialTrapMouse = config->GetString(L"trapMouse");
     // Traps don't require restart. Yay!
 
     switch (lkbResult)
