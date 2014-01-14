@@ -3,7 +3,7 @@ width 344
 height 155
 nKeysDefined 10
 category Mouse
-key 1035 9 9 43 43 X1 X2 0 1
+key 1035 9 9 43 43 X2 X2 0 1
 key 1034 9 63 43 43 X1 X1 0 1
 key 1028 106 9 43 0 0 0 0 0
 key 1026 61 63 43 43 LMB LMB 0 1
