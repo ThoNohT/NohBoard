@@ -18,6 +18,7 @@
 
 
 #include "nohboard.h"
+#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <algorithm>
@@ -696,14 +697,12 @@ bool fexists(const wchar_t *filename)
 LoadKBResult LoadKeyboard()
 {
     bool foundAnotherFile = false;
-    if (!fexists(config->GetString(L"keyboardFile").c_str()))
+	if (!fexists((appDir + config->GetString(L"keyboardFile")).c_str()))
     {
-        std::wstring appDir = NBTools::GetApplicationDirectory();
-        appDir += L"*";
-        PVOID oldFSRVal;
+		PVOID oldFSRVal;
         Wow64DisableWow64FsRedirection(&oldFSRVal);
         WIN32_FIND_DATA ffd;
-        HANDLE hFind = FindFirstFile(appDir.c_str(), &ffd);
+        HANDLE hFind = FindFirstFile((appDir + L"*").c_str(), &ffd);
         if (INVALID_HANDLE_VALUE != hFind)
         {
             do
@@ -729,7 +728,7 @@ LoadKBResult LoadKeyboard()
         }
     }
 
-    kbinfo = KBParser::ParseFile((LPWSTR)config->GetString(L"keyboardFile").c_str(), true);
+    kbinfo = KBParser::ParseFile((LPWSTR)(appDir + config->GetString(L"keyboardFile")).c_str(), true);
 
     if (kbinfo == NULL) return LKB_PARSE_ERROR;
 
@@ -780,7 +779,10 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     hInstMain = hInstance;
-    config = new ConfigParser(configfile);
+
+	appDir = NBTools::GetApplicationDirectory();
+
+	config = new ConfigParser((LPWSTR)(appDir + configfile).c_str());
 
     LoadKBResult lkbResult = LoadKeyboard();
 

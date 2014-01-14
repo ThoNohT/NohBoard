@@ -27,8 +27,8 @@
 #include <string>
 #include <vector>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x001200
-#define version_string L"NohBoard v0.12b"
+#define version 0x001201
+#define version_string L"NohBoard v0.13b1"
 #define keyboardVersion 3
 #define configfile L"NohBoard.config"
 
@@ -80,6 +80,7 @@ std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialS
 
 
 // Configuration stuff
+std::wstring appDir;
 ConfigParser * config;
 KBInfo *kbinfo;
 
