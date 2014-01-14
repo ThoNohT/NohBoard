@@ -41,8 +41,8 @@ enum{
     CKEY_LMBUTTON,      // Left mouse button
     CKEY_RMBUTTON,      // Right mouse button
     CKEY_MOUSESPEED,    // Mouse speed meter
-    CKEY_SCROLL_UP,   // Scroll up
-    CKEY_SCROLL_DOWN,     // Scroll down
+    CKEY_SCROLL_UP,     // Scroll up
+    CKEY_SCROLL_DOWN,   // Scroll down
     CKEY_SCROLL_RIGHT,  // Scroll right
     CKEY_SCROLL_LEFT,   // Scroll left
     CKEY_MMBUTTON,      // Middle mouse button

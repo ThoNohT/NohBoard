@@ -1,3 +1,8 @@
+v 0.13b
+- Added support for X mouse keys (side keys), middle mouse key, scroll wheel (both vertical and horizontal)
+- Altered mouseAll.kb to demonstrate all new buttons.
+- Added two extra .kb files with FPS layouts incorporating the vertical scroll and middle button.
+
 V 0.12b
 - Two extra .kb files with mouse movement tracking.
 - Added the option to trap the keyboard and/or mouse input.
