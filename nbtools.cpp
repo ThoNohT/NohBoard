@@ -19,6 +19,7 @@
 #include "nbtools.h"
 #include <vector>
 #include <windows.h>
+#include <time.h>
 
 using std::wstring;
 
@@ -88,7 +89,6 @@ int NBTools::strToInt(std::wstring str)
     return 0;
 }
 
-
  bool NBTools::IsInt(wstring & s)
 {
    if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+')))
@@ -98,4 +98,9 @@ int NBTools::strToInt(std::wstring str)
    wcstol(s.c_str(), &p, 10);
 
    return (*p == 0);
+}
+
+int NBTools::GetClockMs()
+{
+    return clock() / (CLOCKS_PER_SEC / 1000);
 }

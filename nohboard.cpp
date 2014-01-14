@@ -23,7 +23,8 @@
 #include <fstream>
 #include <algorithm>
 
-bool KeyIsDown(int code) {
+bool KeyIsDown(int code)
+{
     if (code < 256)
         return GetKeyState(code) < 0;
 
@@ -38,12 +39,32 @@ bool KeyIsDown(int code) {
     return true;
 }
 
-void CheckKeys() {
+void CheckKeys()
+{
     EnterCriticalSection(&csKB);
     auto it = fPressed.cbegin();
     while (it != fPressed.cend()) {
         if (!KeyIsDown(*it))
             it = fPressed.erase(it);
+        else
+            ++it;
+    }
+    LeaveCriticalSection(&csKB);
+}
+
+void CheckScrolls()
+{
+    time_t currentClock = NBTools::GetClockMs();
+    EnterCriticalSection(&csKB);
+    auto it = fPressed.cbegin();
+    while (it != fPressed.cend()) {
+        if ((*it == CKEY_SCROLL_UP && currentClock > scrollTimers[0])
+        || (*it == CKEY_SCROLL_DOWN && currentClock > scrollTimers[1])
+        || (*it == CKEY_SCROLL_RIGHT && currentClock > scrollTimers[2])
+        || (*it == CKEY_SCROLL_LEFT && currentClock > scrollTimers[3])) {
+            it = fPressed.erase(it);
+            bRender = true;
+        }
         else
             ++it;
     }
@@ -439,7 +460,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     // Set parameters for the different color controls
                     HDC hdc = (HDC)wParam;
                     switch (GetWindowLong((HWND)lParam, GWL_ID))
-		            {
+                    {
                     case IDC_BGCOLOR:
                         colorName = L"back";
                         break;
@@ -458,11 +479,11 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     default:
                         return false;
                         break;
-		            }
+                    }
                     COLORREF c = config->GetColor(colorName);
                     SetTextColor(hdc, c);
                     SetBkColor(hdc, NBTools::IsBright(c) ? RGB(100, 100, 100) : GetSysColor(COLOR_3DFACE));
-			        return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
+                    return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
                 }
                 break;
             case WM_COMMAND:
@@ -525,7 +546,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     case WM_RBUTTONUP:
         {
             HMENU hMenu = CreatePopupMenu();
-	        AppendMenu(hMenu, MF_STRING, ID_LOADSETTINGS, L"Settings");
+            AppendMenu(hMenu, MF_STRING, ID_LOADSETTINGS, L"Settings");
             AppendMenu(hMenu, MF_STRING, ID_RESETSIZE, L"Reset window size");
             AppendMenu(hMenu, MF_STRING, ID_EXITNOHBOARD, L"Exit");
             AppendMenu(hMenu, MF_STRING, ID_RESTART, L"Restart");
@@ -611,41 +632,94 @@ LRESULT CALLBACK KeyboardHook(int nCode, WPARAM wParam, LPARAM lParam)
         return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
 }
 
+
 LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
     // Race conditions occur when hook is processed too early, apparently
     if (!bRtReady) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
-
+    
     if (nCode < 0) return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 
+
     int code = 0;
+    int subCode = 0;
     switch (wParam)
     {
     case WM_LBUTTONDOWN:
-        code = CKEY_LMBUTTON;
+        if (code == 0) code = CKEY_LMBUTTON;
     case WM_RBUTTONDOWN:
-        if (code == 0) code = CKEY_RMBUTTON;
+        if (code == 0) code = CKEY_RMBUTTON; 
+    case WM_MBUTTONDOWN:
+        if (code == 0) code = CKEY_MMBUTTON;
+    case WM_XBUTTONDOWN:
+        if (code == 0 && wParam == WM_XBUTTONDOWN)
+        // Prevent this code being executed by fallthrough.
+        {
+            subCode = HIWORD(((tagMSLLHOOKSTRUCT*)lParam)->mouseData);
+            if (subCode == XBUTTON1)
+                code = CKEY_X1MBUTTON;
+            if (subCode == XBUTTON2)
+                code = CKEY_X2MBUTTON;
+
+        }
+    case WM_MOUSEWHEEL:
+        if (code == 0 && wParam == WM_MOUSEWHEEL)
+        {
+            subCode = HIWORD(((tagMSLLHOOKSTRUCT*)lParam)->mouseData);
+            if (subCode == 120)
+            {
+                code = CKEY_SCROLL_UP;
+                scrollTimers[0] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
+            }
+            if (subCode == 65416)
+            {
+                code = CKEY_SCROLL_DOWN;
+                scrollTimers[1] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
+            }
+        }
+
+    case WM_MOUSEHWHEEL:
+        if (code == 0 && wParam == WM_MOUSEHWHEEL)
+        {
+            subCode = HIWORD(((tagMSLLHOOKSTRUCT*)lParam)->mouseData);
+            if (subCode == 120)
+            {
+                code = CKEY_SCROLL_RIGHT;
+                scrollTimers[2] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
+            }
+            if (subCode == 65416)
+            {
+                code = CKEY_SCROLL_LEFT;
+                scrollTimers[3] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
+            }
+        }
+
         // Add to pressed list
         EnterCriticalSection(&csKB);
         if (std::find(fPressed.cbegin(), fPressed.cend(), code) == fPressed.cend())
             fPressed.push_back(code);
         LeaveCriticalSection(&csKB);
 
-        if (config->GetBool(L"debug"))
-        {
-            // Display the last pressed keycode in the window title
-            std::wostringstream convert;
-            convert << code;
-            std::wstring result = convert.str();
-            SetWindowText(hWnd, (LPWSTR)result.c_str());
-        }
         bRender = true;
         break;
 
     case WM_LBUTTONUP:
-        code = CKEY_LMBUTTON;
+        if (code == 0) code = CKEY_LMBUTTON;
     case WM_RBUTTONUP:
         if (code == 0) code = CKEY_RMBUTTON;
+    case WM_MBUTTONUP:
+        if (code == 0) code = CKEY_MMBUTTON;
+    case WM_XBUTTONUP:
+        if (code == 0 && wParam == WM_XBUTTONUP)
+        // Prevent this code being executed by fallthrough.
+        {
+            subCode = HIWORD(((tagMSLLHOOKSTRUCT*)lParam)->mouseData);
+            if (subCode == XBUTTON1)
+                code = CKEY_X1MBUTTON;
+            if (subCode == XBUTTON2)
+                code = CKEY_X2MBUTTON;
+        }
+
         // Remove from pressed list
         EnterCriticalSection(&csKB);
         if (std::find(fPressed.cbegin(), fPressed.cend(), code) != fPressed.cend())
@@ -667,7 +741,7 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
 
         // Don't do it too quick, if the system don't think time has passed the duck'll divide by zero
         // 30 ducks per bear should be sufficient
-        if (currentTime - lastMouseCapture < max_int)
+        if (currentTime - lastMouseCapture < max_interval)
             break;
         POINT newMousePos = ((tagMSLLHOOKSTRUCT*)lParam)->pt;
 
@@ -697,9 +771,9 @@ bool fexists(const wchar_t *filename)
 LoadKBResult LoadKeyboard()
 {
     bool foundAnotherFile = false;
-	if (!fexists((appDir + config->GetString(L"keyboardFile")).c_str()))
+    if (!fexists((appDir + config->GetString(L"keyboardFile")).c_str()))
     {
-		PVOID oldFSRVal;
+        PVOID oldFSRVal;
         Wow64DisableWow64FsRedirection(&oldFSRVal);
         WIN32_FIND_DATA ffd;
         HANDLE hFind = FindFirstFile((appDir + L"*").c_str(), &ffd);
@@ -744,6 +818,10 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
 
     while(!bStopping)
     {
+        // There's no other way to decide to stop showing a scroll button
+        // other than just checking every time we render.
+        CheckScrolls();
+
         if (bRender)
         {
             bRender = false;
@@ -770,7 +848,7 @@ DWORD WINAPI RenderThread(LPVOID lpParam)
         }
 
         // FPS is defined somewhere else now, but let's stick to it.
-        Sleep(max_int);
+        Sleep(max_interval);
     }
 
     return 0;
@@ -780,9 +858,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     hInstMain = hInstance;
 
-	appDir = NBTools::GetApplicationDirectory();
+    appDir = NBTools::GetApplicationDirectory();
 
-	config = new ConfigParser((LPWSTR)(appDir + configfile).c_str());
+    config = new ConfigParser((LPWSTR)(appDir + configfile).c_str());
 
     LoadKBResult lkbResult = LoadKeyboard();
 

@@ -31,6 +31,7 @@ public:
     static std::wstring GetWText(HWND hwnd);
     static int strToInt(std::wstring str);
     static bool IsInt(std::wstring & s);
+    static int NBTools::GetClockMs();
 };
 
 
@@ -39,5 +40,12 @@ enum{
     CKEY_ENTER = 1025,  // Enter key on numpad
     CKEY_LMBUTTON,      // Left mouse button
     CKEY_RMBUTTON,      // Right mouse button
-    CKEY_MOUSESPEED     // Mouse speed meter
+    CKEY_MOUSESPEED,    // Mouse speed meter
+    CKEY_SCROLL_UP,   // Scroll up
+    CKEY_SCROLL_DOWN,     // Scroll down
+    CKEY_SCROLL_RIGHT,  // Scroll right
+    CKEY_SCROLL_LEFT,   // Scroll left
+    CKEY_MMBUTTON,      // Middle mouse button
+    CKEY_X1MBUTTON,     // First X-button
+    CKEY_X2MBUTTON      // Second X-button
 };

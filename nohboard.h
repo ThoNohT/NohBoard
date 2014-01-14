@@ -16,7 +16,6 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ********************************************************************************/
 
-
 #include "resource.h"
 #include "nbtools.h"
 #include "d3dstuff.h"
@@ -39,7 +38,7 @@
 #define extraY 10
 
 // Define the maximum interval between two renders / keyboard, mouse samples (30 fps currently).
-#define max_int 33
+#define max_interval 33
 #define mouseSmooth 5
 
 // Typedefs to make stuff easier
@@ -51,7 +50,6 @@ bool bStopping = false;
 bool bRestart = false;
 bool bRender = false;
 bool bRtReady = false;
-clock_t begin_time = 0;
 CRITICAL_SECTION csKB;
 D3DStuff *ds;
 
@@ -65,6 +63,7 @@ std::vector<int> fPressed;
 POINT mousePos;
 CBuffer<double> mouseDiffX(mouseSmooth);
 CBuffer<double> mouseDiffY(mouseSmooth);
+clock_t scrollTimers[4] = { 0, 0, 0, 0 };
 DWORD lastMouseCapture;
 bool shiftDown1 = false;
 bool shiftDown2 = false;
@@ -77,7 +76,6 @@ StrVectMap foundLayouts;
 // The following settings require restart and need to be tracked for changes
 std::wstring initialLayout;
 std::wstring initialLFS, initialSFS, initialLFW, initialSFW, initialLF, initialSF, initialHookMouse, initialTrapMouse;
-
 
 // Configuration stuff
 std::wstring appDir;
