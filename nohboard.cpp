@@ -62,7 +62,7 @@ void CheckScrolls()
         || (*it == CKEY_SCROLL_DOWN && currentClock > scrollTimers[1])
         || (*it == CKEY_SCROLL_RIGHT && currentClock > scrollTimers[2])
         || (*it == CKEY_SCROLL_LEFT && currentClock > scrollTimers[3])) {
-			scrollCounters[*it - CKEY_SCROLL_UP] = 0; // YaLTeR
+            scrollCounters[*it - CKEY_SCROLL_UP] = 0; // YaLTeR
             it = fPressed.erase(it);
             bRender = true;
         }
@@ -135,43 +135,43 @@ void render()
         {
             RenderMouseSpeed(key);
             continue;
+		}
+
+        RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
+        if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
+        {
+            ds->drawFillBox(key->x, key->y,
+                            key->x + key->width, key->y + key->height, 
+                            D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+
+            // YaLTeR Start
+            if ((key->id == CKEY_SCROLL_UP
+                || key->id == CKEY_SCROLL_DOWN
+                || key->id == CKEY_SCROLL_LEFT
+                || key->id == CKEY_SCROLL_RIGHT)
+                && config->GetBool(L"scrollCounter"))
+            {
+                wchar_t scrollCount[16];
+                wsprintf(scrollCount, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
+
+                ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
+                            scrollCount, key->smalltext);
+            }
+            else
+            {
+                // YaLTeR End
+                ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
+                            CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
+            } // YaLTeR
         }
-
-		RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
-		if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
-		{
-			ds->drawFillBox(key->x, key->y,
-							key->x + key->width, key->y + key->height, 
-							D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
-
-			// YaLTeR Start
-			if ((key->id == CKEY_SCROLL_UP
-				|| key->id == CKEY_SCROLL_DOWN
-				|| key->id == CKEY_SCROLL_LEFT
-				|| key->id == CKEY_SCROLL_RIGHT)
-				&& config->GetBool(L"scrollCounter"))
-			{
-				wchar_t scrollCount[16];
-				wsprintf(scrollCount, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
-
-				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
-							scrollCount, key->smalltext);
-			}
-			else
-			{
-				// YaLTeR End
-				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
-							CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
-			} // YaLTeR
-		}
-		else
-		{
-			ds->drawFillBox(key->x, key->y,
-							key->x + key->width, key->y + key->height, 
-							D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
-			ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
-						CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
-		}
+        else
+        {
+            ds->drawFillBox(key->x, key->y,
+                            key->x + key->width, key->y + key->height, 
+                            D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+            ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
+                        CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
+        }
         
     }
     ds->finalizeFrame();
@@ -689,13 +689,13 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
             {
                 code = CKEY_SCROLL_UP;
                 scrollTimers[0] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-				scrollCounters[0]++; // YaLTeR
+                scrollCounters[0]++; // YaLTeR
             }
             if (subCode == 65416)
             {
                 code = CKEY_SCROLL_DOWN;
                 scrollTimers[1] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-				scrollCounters[1]++; // YaLTeR
+                scrollCounters[1]++; // YaLTeR
             }
         }
 
@@ -707,13 +707,13 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
             {
                 code = CKEY_SCROLL_RIGHT;
                 scrollTimers[2] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-				scrollCounters[2]++; // YaLTeR
+                scrollCounters[2]++; // YaLTeR
             }
             if (subCode == 65416)
             {
                 code = CKEY_SCROLL_LEFT;
                 scrollTimers[3] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-				scrollCounters[3]++; // YaLTeR
+                scrollCounters[3]++; // YaLTeR
             }
         }
 
