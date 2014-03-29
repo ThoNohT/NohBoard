@@ -56,6 +56,7 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"trapKB"] = L"0";
     config[L"trapMouse"] = L"0";
     config[L"scrollHold"] = L"50";
+    config[L"scrollCounter"] = L"0";
 
 
     // Read the general settings
