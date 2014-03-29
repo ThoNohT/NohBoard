@@ -139,54 +139,41 @@ void render()
 
 		RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
 
-		// YaLTeR Start
-		if (key->id != CKEY_SCROLL_UP
-			&& key->id != CKEY_SCROLL_DOWN
-			&& key->id != CKEY_SCROLL_LEFT
-			&& key->id != CKEY_SCROLL_RIGHT)
+		
+		if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
 		{
-			// YaLTeR End
-			if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
+			ds->drawFillBox(key->x, key->y,
+							key->x + key->width, key->y + key->height, 
+							D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+
+			// YaLTeR Start
+			if ((key->id == CKEY_SCROLL_UP
+				|| key->id == CKEY_SCROLL_DOWN
+				|| key->id == CKEY_SCROLL_LEFT
+				|| key->id == CKEY_SCROLL_RIGHT)
+				&& config->GetBool(L"scrollCounter"))
 			{
-				ds->drawFillBox(key->x, key->y,
-								key->x + key->width, key->y + key->height, 
-								D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+				wchar_t scrollCount[16];
+				wsprintf(scrollCount, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
+
 				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
-							CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
+							scrollCount, key->smalltext);
 			}
 			else
 			{
-				ds->drawFillBox(key->x, key->y,
-								key->x + key->width, key->y + key->height, 
-								D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
-				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
+				// YaLTeR End
+				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
 							CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
-			}
-			// YaLTeR Start
+			} // YaLTeR
 		}
 		else
 		{
-			wchar_t counterText[16];
-			wsprintf(counterText, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
-
-			if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
-			{
-				ds->drawFillBox(key->x, key->y,
-								key->x + key->width, key->y + key->height, 
-								D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
-				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
-							(LPWSTR)counterText, key->smalltext);
-			}
-			else
-			{
-				ds->drawFillBox(key->x, key->y,
-								key->x + key->width, key->y + key->height, 
-								D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
-				ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
-							CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
-			}
+			ds->drawFillBox(key->x, key->y,
+							key->x + key->width, key->y + key->height, 
+							D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+			ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
+						CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
 		}
-		// YaLTeR End
         
     }
     ds->finalizeFrame();

@@ -55,7 +55,8 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"hookMouse"] = L"1";
     config[L"trapKB"] = L"0";
     config[L"trapMouse"] = L"0";
-    config[L"scrollHold"] = L"1000";
+    config[L"scrollHold"] = L"50";
+	config[L"scrollCounter"] = L"0"; // YaLTeR
 
 
     // Read the general settings
