@@ -64,6 +64,7 @@ POINT mousePos;
 CBuffer<double> mouseDiffX(mouseSmooth);
 CBuffer<double> mouseDiffY(mouseSmooth);
 clock_t scrollTimers[4] = { 0, 0, 0, 0 };
+unsigned int scrollCounters[4] = { 0, 0, 0, 0 }; // YaLTeR
 DWORD lastMouseCapture;
 bool shiftDown1 = false;
 bool shiftDown2 = false;
