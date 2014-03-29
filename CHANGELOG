@@ -1,3 +1,6 @@
+v 0.14b
+- Added a scroll counter (YaLTeR).
+
 v 0.13b
 - Added support for X mouse keys (side keys), middle mouse key, scroll wheel (both vertical and horizontal)
 - Altered mouseAll.kb to demonstrate all new buttons.
