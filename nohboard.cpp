@@ -135,7 +135,7 @@ void render()
         {
             RenderMouseSpeed(key);
             continue;
-		}
+        }
 
         RECT rect = { (long)key->x, (long)key->y, (long)(key->x + key->width), (long)(key->y + key->height) };
         if (std::find(fpRender.cbegin(), fpRender.cend(), key->id) != fpRender.cend())
