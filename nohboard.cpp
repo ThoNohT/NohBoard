@@ -62,7 +62,7 @@ void CheckScrolls()
         || (*it == CKEY_SCROLL_DOWN && currentClock > scrollTimers[1])
         || (*it == CKEY_SCROLL_RIGHT && currentClock > scrollTimers[2])
         || (*it == CKEY_SCROLL_LEFT && currentClock > scrollTimers[3])) {
-            scrollCounters[*it - CKEY_SCROLL_UP] = 0; // YaLTeR
+            scrollCounters[*it - CKEY_SCROLL_UP] = 0; // Reset the scroll count
             it = fPressed.erase(it);
             bRender = true;
         }
@@ -125,6 +125,10 @@ void render()
     std::vector<int> fpRender(fPressed);
     LeaveCriticalSection(&csKB);
 
+	// Scroll count
+	bool scrollCounter = config->GetBool(L"scrollCounter");
+    wchar_t scrollCount[16];
+
     // Loop through all keys defined for this keyboard
     typedef std::map<int, KeyInfo>::iterator it_type;
     for(it_type iterator = kbinfo->definedKeys.begin(); iterator != kbinfo->definedKeys.end(); iterator++)
@@ -144,14 +148,14 @@ void render()
                             key->x + key->width, key->y + key->height, 
                             D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
 
-            // YaLTeR Start
+            // If we're rendering the scroll keys, we might want to
+			// render the scroll count instead of their names
             if ((key->id == CKEY_SCROLL_UP
                 || key->id == CKEY_SCROLL_DOWN
                 || key->id == CKEY_SCROLL_LEFT
                 || key->id == CKEY_SCROLL_RIGHT)
-                && config->GetBool(L"scrollCounter"))
-            {
-                wchar_t scrollCount[16];
+				&& scrollCounter)
+			{
                 wsprintf(scrollCount, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
 
                 ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
@@ -159,10 +163,10 @@ void render()
             }
             else
             {
-                // YaLTeR End
+				// Render every other key the normal way
                 ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
                             CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
-            } // YaLTeR
+            }
         }
         else
         {
@@ -689,13 +693,13 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
             {
                 code = CKEY_SCROLL_UP;
                 scrollTimers[0] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-                scrollCounters[0]++; // YaLTeR
+                scrollCounters[0]++;
             }
             if (subCode == 65416)
             {
                 code = CKEY_SCROLL_DOWN;
                 scrollTimers[1] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-                scrollCounters[1]++; // YaLTeR
+                scrollCounters[1]++;
             }
         }
 
@@ -707,13 +711,13 @@ LRESULT CALLBACK MouseHook(int nCode, WPARAM wParam, LPARAM lParam)
             {
                 code = CKEY_SCROLL_RIGHT;
                 scrollTimers[2] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-                scrollCounters[2]++; // YaLTeR
+                scrollCounters[2]++;
             }
             if (subCode == 65416)
             {
                 code = CKEY_SCROLL_LEFT;
                 scrollTimers[3] = NBTools::GetClockMs() + config->GetInt(L"scrollHold");
-                scrollCounters[3]++; // YaLTeR
+                scrollCounters[3]++;
             }
         }
 
