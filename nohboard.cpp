@@ -125,8 +125,8 @@ void render()
     std::vector<int> fpRender(fPressed);
     LeaveCriticalSection(&csKB);
 
-	// Scroll count
-	bool scrollCounter = config->GetBool(L"scrollCounter");
+    // Scroll count
+    bool scrollCounter = config->GetBool(L"scrollCounter");
     wchar_t scrollCount[16];
 
     // Loop through all keys defined for this keyboard
@@ -149,13 +149,13 @@ void render()
                             D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
 
             // If we're rendering the scroll keys, we might want to
-			// render the scroll count instead of their names
+            // render the scroll count instead of their names
             if ((key->id == CKEY_SCROLL_UP
                 || key->id == CKEY_SCROLL_DOWN
                 || key->id == CKEY_SCROLL_LEFT
                 || key->id == CKEY_SCROLL_RIGHT)
-				&& scrollCounter)
-			{
+                && scrollCounter)
+            {
                 wsprintf(scrollCount, L"%u", scrollCounters[key->id - CKEY_SCROLL_UP]);
 
                 ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
@@ -163,7 +163,7 @@ void render()
             }
             else
             {
-				// Render every other key the normal way
+                // Render every other key the normal way
                 ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
                             CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
             }
