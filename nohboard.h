@@ -26,8 +26,8 @@
 #include <string>
 #include <vector>
 // Version 0xMMmmbb (Major.minor.build)
-#define version 0x001400
-#define version_string L"NohBoard v0.14b"
+#define version 0x001500
+#define version_string L"NohBoard v0.15b"
 #define keyboardVersion 3
 #define configfile L"NohBoard.config"
 

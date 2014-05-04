@@ -87,17 +87,26 @@ void RenderMouseSpeed(KeyInfo *key)
     float endX = centerX + sizeX * (float)mouseDiffX.average() / 2;
     float endY = centerY + sizeY * (float)mouseDiffY.average() / 2;
 
+	// The second color should be averaged over the two specified colours, based upon how far out the thingymabob is.
+	float length = (float)min(1.0f, sqrt(pow(mouseDiffX.average(), 2) + pow( mouseDiffY.average(), 2)) / 4);
+	int r2 = config->GetInt(L"mouseSpeed1R") * ( 1 - length) + config->GetInt(L"mouseSpeed2R") * length;
+	int g2 = config->GetInt(L"mouseSpeed1G") * ( 1 - length) + config->GetInt(L"mouseSpeed2G") * length;
+	int b2 = config->GetInt(L"mouseSpeed1B") * ( 1 - length) + config->GetInt(L"mouseSpeed2B") * length;
+
     float dx = endX - centerX;
     float dy = endY - centerY;
-
-    // The length of the thingymabob
+	
+	D3DCOLOR color1 = D3DCOLOR_XRGB(config->GetInt(L"mouseSpeed1R"), config->GetInt(L"mouseSpeed1G"), config->GetInt(L"mouseSpeed1B"));
+	D3DCOLOR color2 = D3DCOLOR_XRGB(r2, g2, b2);
+	
+	// The length of the thingymabob
     float r = min(sqrt(pow(dx, 2) + pow(dy, 2)), sizeX);
 
-    // The edge
-    ds->drawCircle(centerX, centerY, sizeX, D3DCOLOR_XRGB(config->GetInt(L"pressedR"), config->GetInt(L"pressedG"), config->GetInt(L"pressedB")));
+	// The edge
+    ds->drawCircle(centerX, centerY, sizeX, color1);
 
-    // The center
-    ds->drawFilledCircle(centerX, centerY, sizeX / 5, D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+	// The center
+    ds->drawFilledCircle(centerX, centerY, sizeX / 5, color1);
 
     if (r > 0.01) {
         // The angle of the thingymabob
@@ -105,12 +114,12 @@ void RenderMouseSpeed(KeyInfo *key)
 
         float circleX = centerX + sizeX * cos(angle);
         float circleY = centerY + sizeY * sin(angle);
-
+		
         // The actual value
-        ds->drawPartFilledCircle(angle, centerX, centerY, r, D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+        ds->drawPartFilledCircle(angle, centerX, centerY, r, color1, color2);
 
         // The end
-        ds->drawFilledCircle(circleX, circleY, sizeX / 5,  D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
+        ds->drawFilledCircle(circleX, circleY, sizeX / 5,  color2);
     }
 }
 
@@ -317,6 +326,14 @@ LRESULT HandleSettingsCommand(HWND hwnd, WPARAM wParam, LPARAM lParam)
         ChangeColor(hwnd, L"pressedFont", IDC_PRESSEDFONTCOLOR, L"Pressed font color: ");
         RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
         break;
+	case IDC_CHANGEMOUSESPEEDCOLOR1:
+		ChangeColor(hwnd, L"mouseSpeed1", IDC_MOUSESPEEDCOLOR1, L"Mouse speed color 1: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
+	case IDC_CHANGEMOUSESPEEDCOLOR2:
+		ChangeColor(hwnd, L"mouseSpeed2", IDC_MOUSESPEEDCOLOR2, L"Mouse speed color 2: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
     case IDC_KBLAYOUT:
         if (HIWORD(wParam) == CBN_SELCHANGE)
             UpdateSettingsTitle(hwnd);
@@ -422,6 +439,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     HWND hwndPressedColor = GetDlgItem(hwnd, IDC_PRESSEDCOLOR);
                     HWND hwndFontColor = GetDlgItem(hwnd, IDC_FONTCOLOR);
                     HWND hwndPressedFontColor = GetDlgItem(hwnd, IDC_PRESSEDFONTCOLOR);
+					HWND hwndMouseSpeedColor1 = GetDlgItem(hwnd, IDC_MOUSESPEEDCOLOR1);
+					HWND hwndMouseSpeedColor2 = GetDlgItem(hwnd, IDC_MOUSESPEEDCOLOR2);
                     HWND hwndLFSize = GetDlgItem(hwnd, IDC_LFONTSIZE);
                     HWND hwndSFSize = GetDlgItem(hwnd, IDC_SFONTSIZE);
                     HWND hwndLFWidth = GetDlgItem(hwnd, IDC_LFONTWIDTH);
@@ -436,6 +455,8 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
                     SetWindowText(hwndFontColor, config->GetColorText(L"font", L"Font color: ").c_str());
                     SetWindowText(hwndPressedFontColor, config->GetColorText(L"pressedFont", L"Pressed font color: ").c_str());
+					SetWindowText(hwndMouseSpeedColor1, config->GetColorText(L"mouseSpeed1", L"Mouse speed color 1: ").c_str());
+					SetWindowText(hwndMouseSpeedColor2, config->GetColorText(L"mouseSpeed2", L"Mouse speed color 2: ").c_str());
                     SetWindowText(hwndLFSize, config->GetString(L"fontSize").c_str());
                     SetWindowText(hwndSFSize, config->GetString(L"fontSizeSmall").c_str());
                     SetWindowText(hwndLFWidth, config->GetString(L"fontWidth").c_str());
@@ -498,6 +519,12 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                         break;
                     case IDC_PRESSEDFONTCOLOR:
                         colorName = L"pressedFont";
+                        break;
+					case IDC_MOUSESPEEDCOLOR1:
+                        colorName = L"mouseSpeed1";
+                        break;
+					case IDC_MOUSESPEEDCOLOR2:
+                        colorName = L"mouseSpeed2";
                         break;
                     default:
                         return false;

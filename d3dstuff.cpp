@@ -165,10 +165,10 @@ void D3DStuff::drawFilledCircle(float cx, float cy, float radius, D3DCOLOR color
     d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, steps*3);
 }
 
-void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color)
+void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color1, D3DCOLOR color2)
 {
     VERTEX vertex[2*3];
-    
+
     int k = 0;
     for(int i = 0; i < 2; i++)
     {
@@ -177,6 +177,7 @@ void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radiu
                 // The first is in the center
                 vertex[i*3+j].x = cx;
                 vertex[i*3+j].y = cy;
+				vertex[i*3+j].colour = color1;
             }
             else
             {
@@ -192,10 +193,10 @@ void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radiu
 
                 vertex[i*3+j].x = x;
                 vertex[i*3+j].y = y;
+				vertex[i*3+j].colour = color2;
             }
             vertex[i*3+j].z = 1.0f;
             vertex[i*3+j].rhw = 1.0f;
-            vertex[i*3+j].colour = color;
         }
     }
 
@@ -206,5 +207,5 @@ void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radiu
 
     d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
     d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
-    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2*3);
+    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 4);
 }

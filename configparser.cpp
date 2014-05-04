@@ -45,6 +45,12 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"pressedFontR"] = L"0";
     config[L"pressedFontG"] = L"0";
     config[L"pressedFontB"] = L"0";
+    config[L"mouseSpeed1R"] = L"100";
+    config[L"mouseSpeed1G"] = L"100";
+    config[L"mouseSpeed1B"] = L"100";
+    config[L"mouseSpeed2R"] = L"255";
+    config[L"mouseSpeed2G"] = L"255";
+    config[L"mouseSpeed2B"] = L"255";
     config[L"fontName"] = L"Arial";
     config[L"fontNameSmall"] = L"Arial";
     config[L"fontSize"] = L"24";

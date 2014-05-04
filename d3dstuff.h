@@ -58,5 +58,5 @@ public:
     void drawText(RECT &rect, D3DCOLOR color, LPWSTR text, bool smallText);
     void drawCircle(float cx, float cy, float radius, D3DCOLOR color);
     void drawFilledCircle(float cx, float cy, float radius, D3DCOLOR color);
-    void drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color);
+    void drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color1, D3DCOLOR color2);
 };

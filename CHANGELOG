@@ -1,3 +1,8 @@
+v 0.15b
+- Added separate colors for the mouse speed indicator.
+- Added a gradient between the two colors for the mouse speed indicator.
+- Fixed a small graphical glitch with the mouse speed indicator.
+
 v 0.14b
 - Added a scroll counter (YaLTeR).
 
