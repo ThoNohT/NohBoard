@@ -167,37 +167,30 @@ void D3DStuff::drawFilledCircle(float cx, float cy, float radius, D3DCOLOR color
 
 void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radius, D3DCOLOR color1, D3DCOLOR color2)
 {
-    VERTEX vertex[2*3];
+    VERTEX vertex[3];
 
-    int k = 0;
-    for(int i = 0; i < 2; i++)
-    {
-        for (int j = 0; j < 3; j++) {   
-            if (j == 0) {
-                // The first is in the center
-                vertex[i*3+j].x = cx;
-                vertex[i*3+j].y = cy;
-				vertex[i*3+j].colour = color1;
-            }
-            else
-            {
-                if (angle > pi)
-                    k = i + j - 2;
-                else
-                    k = i - j + 1;
-            
-                float angle2 = angle + (pi / steps) * k * 2;
-
-                float x = cx + (radius * (float)cos(angle2));
-                float y = cy + (radius * (float)sin(angle2));
-
-                vertex[i*3+j].x = x;
-                vertex[i*3+j].y = y;
-				vertex[i*3+j].colour = color2;
-            }
-            vertex[i*3+j].z = 1.0f;
-            vertex[i*3+j].rhw = 1.0f;
+    for (int i = 0; i < 3; i++) {
+        if (i == 0)
+        {
+            // The first is in the center
+            vertex[0].x = cx;
+            vertex[0].y = cy;
+            vertex[0].colour = color1;
         }
+        else 
+        {
+            // The others are the outer ones.
+            float angle2 = angle + (pi * ((float)i - 1.5)) / 5;
+            
+            float x = cx + (radius * (float)cos(angle2));
+            float y = cy + (radius * (float)sin(angle2));
+
+            vertex[i].x = x;
+            vertex[i].y = y;
+            vertex[i].colour = color2;
+        }
+        vertex[i].z = 1.0f;
+        vertex[i].rhw = 1.0f;
     }
 
     VOID* pVoid;
@@ -205,7 +198,8 @@ void D3DStuff::drawPartFilledCircle(float angle, float cx, float cy, float radiu
     memcpy(pVoid, vertex, sizeof(vertex));
     v_buffer->Unlock();
 
+    // Draw a single triangle.
     d3ddev->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
     d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(VERTEX));
-    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 4);
+    d3ddev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 1);
 }
