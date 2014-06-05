@@ -1,0 +1,33 @@
+KBVersion 3
+width 431
+height 267
+nKeysDefined 28
+category Games
+key 9 9 53 67 43 Tab Tab 0 1
+key 32 187 185 131 43 %0% %0% 0 0
+key 49 53 9 43 43 1 ! 0 0
+key 50 97 9 43 43 2 @ 0 0
+key 51 141 9 43 43 3 # 0 0
+key 52 185 9 43 43 4 $ 0 0
+key 53 229 9 43 43 5 % 0 0
+key 65 89 97 43 43 a A 1 0
+key 67 198 141 43 43 c C 1 0
+key 68 177 97 43 43 d D 1 0
+key 69 165 53 43 43 e E 1 0
+key 70 221 97 43 43 f F 1 0
+key 81 77 53 43 43 q Q 1 0
+key 82 209 53 43 43 r R 1 0
+key 83 133 97 43 43 s S 1 0
+key 86 242 141 43 43 v V 1 0
+key 87 121 53 43 43 w W 1 0
+key 88 154 141 43 43 x X 1 0
+key 90 110 141 43 43 z Z 1 0
+key 1029 335 93 43 43 ScU ScU 0 1
+key 1030 335 181 43 43 ScD ScD 0 1
+key 1033 335 137 43 43 MMB MMB 0 1
+key 160 9 141 100 43 %shift% %shift% 0 0
+key 162 9 185 65 43 Ctrl Ctrl 0 1
+key 164 130 185 56 43 Alt Alt 0 1
+key 1026 291 137 43 43 LMB LMB 1 1
+key 1027 379 137 43 43 RMB RMB 1 1
+key 1028 325 20 63
