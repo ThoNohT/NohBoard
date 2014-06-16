@@ -81,7 +81,7 @@ wstring NBTools::GetWText(HWND hwnd)
     return str;
 }
 
-int NBTools::strToInt(std::wstring str)
+int NBTools::strToInt(wstring str)
 {
     if (IsInt(str))
         return stoi(str);

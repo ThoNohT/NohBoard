@@ -63,7 +63,7 @@ ConfigParser::ConfigParser(LPWSTR filename)
     config[L"trapMouse"] = L"0";
     config[L"scrollHold"] = L"50";
     config[L"scrollCounter"] = L"0";
-
+	config[L"mouseSensitivity"] = L"100";
 
     // Read the general settings
     wstring word;

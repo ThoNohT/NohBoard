@@ -1,3 +1,7 @@
+v 0.16b
+- Added a mouse sensitivity option.
+- Added a new keyboard file game_fps1_mm.kb.
+
 v 0.15b
 - Added separate colors for the mouse speed indicator.
 - Added a gradient between the two colors for the mouse speed indicator.

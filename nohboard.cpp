@@ -100,7 +100,11 @@ void RenderMouseSpeed(KeyInfo *key)
 	D3DCOLOR color2 = D3DCOLOR_XRGB(r2, g2, b2);
 	
 	// The length of the thingymabob
-    float r = min(sqrt(pow(dx, 2) + pow(dy, 2)), sizeX);
+    float r = sqrt(pow(dx, 2) + pow(dy, 2));
+
+	r *= ((float)config->GetInt(L"mouseSensitivity")) / 100;
+
+	r = min(sizeX, r);
 
 	// The edge
     ds->drawCircle(centerX, centerY, sizeX, color1);
