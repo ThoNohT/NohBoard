@@ -1,0 +1,13 @@
+KBVersion 3
+width 272
+height 200
+nKeysDefined 8
+category Games
+key 65 116 69 43 43 a A 1 0
+key 68 204 69 43 43 d D 1 0
+key 83 160 69 43 43 s S 1 0
+key 87 160 25 43 43 w W 1 0
+key 32 91 113 101 43 %0% %0% 0 0
+key 162 25 113 65 43 Ctrl Ctrl 0 1
+key 163 193 113 54 43 Ctrl Ctrl 0 1
+key 1028 25 25 75
