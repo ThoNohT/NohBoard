@@ -68,6 +68,10 @@ ConfigParser::ConfigParser(LPWSTR filename)
 	config[L"outlineR"] = L"0";
     config[L"outlineG"] = L"255";
     config[L"outlineB"] = L"0";
+	config[L"outlinePressed"] = L"0";
+	config[L"outlinePressedR"] = L"0";
+    config[L"outlinePressedG"] = L"255";
+    config[L"outlinePressedB"] = L"0";
 
     // Read the general settings
     wstring word;

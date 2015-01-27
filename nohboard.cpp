@@ -180,6 +180,13 @@ void render()
                 ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"pressedFontR"), config->GetInt(L"pressedFontG"), config->GetInt(L"pressedFontB")),
                             CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
             }
+
+			if (config->GetBool(L"outlinePressed"))
+			{
+				ds->drawBox(key->x, key->y,
+							key->x + key->width, key->y + key->height, 
+							D3DCOLOR_XRGB(config->GetInt(L"outlinePressedR"), config->GetInt(L"outlinePressedG"), config->GetInt(L"outlinePressedB")));
+			}
         }
         else
         {
@@ -188,13 +195,15 @@ void render()
                             D3DCOLOR_XRGB(config->GetInt(L"looseR"), config->GetInt(L"looseG"), config->GetInt(L"looseB")));
             ds->drawText(rect, D3DCOLOR_XRGB(config->GetInt(L"fontR"), config->GetInt(L"fontG"), config->GetInt(L"fontB")),
                         CapsLetters(key->changeOnCaps) ? (LPWSTR)key->shiftText.c_str() : (LPWSTR)key->text.c_str(), key->smalltext);
+
+			if (config->GetBool(L"outline"))
+			{
+				ds->drawBox(key->x, key->y,
+							key->x + key->width, key->y + key->height, 
+							D3DCOLOR_XRGB(config->GetInt(L"outlineR"), config->GetInt(L"outlineG"), config->GetInt(L"outlineB")));
+			}
         }
-		if (config->GetBool(L"outline"))
-		{
-			ds->drawBox(key->x, key->y,
-                            key->x + key->width, key->y + key->height, 
-                            D3DCOLOR_XRGB(config->GetInt(L"outlineR"), config->GetInt(L"outlineG"), config->GetInt(L"outlineB")));
-		}
+
         
     }
     ds->finalizeFrame();
@@ -340,6 +349,10 @@ LRESULT HandleSettingsCommand(HWND hwnd, WPARAM wParam, LPARAM lParam)
         ChangeColor(hwnd, L"outline", IDC_OUTLINECOLOR, L"Outline color: ");
         RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
         break;
+	case IDC_CHANGEOUTLINECOLORPRESSED:
+        ChangeColor(hwnd, L"outlinePressed", IDC_OUTLINECOLORPRESSED, L"Pressed outline color: ");
+        RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
+        break;
 	case IDC_CHANGEMOUSESPEEDCOLOR1:
 		ChangeColor(hwnd, L"mouseSpeed1", IDC_MOUSESPEEDCOLOR1, L"Mouse speed color 1: ");
         RedrawWindow(hwnd, NULL, NULL, RDW_ERASE);
@@ -438,8 +451,16 @@ LRESULT HandleSettingsCommand(HWND hwnd, WPARAM wParam, LPARAM lParam)
 	case IDC_OUTLINE:
         if (HIWORD(wParam) == BN_CLICKED)
         {
-            HWND hwndTMCheck = GetDlgItem(hwnd, IDC_OUTLINE);
-            config->SetBool(L"outline", BST_CHECKED == SendMessage(hwndTMCheck, BM_GETCHECK, 0, 0));
+            HWND hwndOLCheck = GetDlgItem(hwnd, IDC_OUTLINE);
+            config->SetBool(L"outline", BST_CHECKED == SendMessage(hwndOLCheck, BM_GETCHECK, 0, 0));
+            UpdateSettingsTitle(hwnd);
+        }
+        break;
+	case IDC_OUTLINEPRESSED:
+        if (HIWORD(wParam) == BN_CLICKED)
+        {
+            HWND hwndOLPCheck = GetDlgItem(hwnd, IDC_OUTLINEPRESSED);
+            config->SetBool(L"outlinePressed", BST_CHECKED == SendMessage(hwndOLPCheck, BM_GETCHECK, 0, 0));
             UpdateSettingsTitle(hwnd);
         }
         break;
@@ -472,7 +493,10 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     HWND hwndHookMouse = GetDlgItem(hwnd, IDC_HOOKMOUSE);
                     HWND hwndTrapKB = GetDlgItem(hwnd, IDC_TRAPKB);
                     HWND hwndTrapMouse = GetDlgItem(hwnd, IDC_TRAPMOUSE);
+					HWND hwndOutline = GetDlgItem(hwnd, IDC_OUTLINE);
 					HWND hwndOutlineColor = GetDlgItem(hwnd, IDC_OUTLINECOLOR);
+					HWND hwndOutlinePressed = GetDlgItem(hwnd, IDC_OUTLINEPRESSED);
+					HWND hwndOutlinePressedColor = GetDlgItem(hwnd, IDC_OUTLINECOLORPRESSED);
                     SetWindowText(hwndBGColor, config->GetColorText(L"back", L"Background color: ").c_str());
                     SetWindowText(hwndLooseColor, config->GetColorText(L"loose", L"Loose key color: ").c_str());
                     SetWindowText(hwndPressedColor, config->GetColorText(L"pressed", L"Pressed key color: ").c_str());
@@ -486,10 +510,12 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                     SetWindowText(hwndSFWidth, config->GetString(L"fontWidthSmall").c_str());
                     SetWindowText(hwndLF, config->GetString(L"fontName").c_str());
                     SetWindowText(hwndSF, config->GetString(L"fontNameSmall").c_str());
+					SendMessage(hwndOutline, BM_SETCHECK, config->GetBool(L"outline") ? BST_CHECKED : BST_UNCHECKED, 0);
 					SetWindowText(hwndOutlineColor, config->GetColorText(L"outline", L"Outline color: ").c_str());
+					SendMessage(hwndOutlinePressed, BM_SETCHECK, config->GetBool(L"outlinePressed") ? BST_CHECKED : BST_UNCHECKED, 0);
+					SetWindowText(hwndOutlinePressedColor, config->GetColorText(L"outlinePressed", L"Pressed outline color: ").c_str());
                     
-
-                    // set hook mouse checkbox state
+					// set hook mouse checkbox state
                     SendMessage(hwndHookMouse, BM_SETCHECK, config->GetBool(L"hookMouse") ? BST_CHECKED : BST_UNCHECKED, 0);
                     // Set trap kb checkbox state
                     SendMessage(hwndTrapKB, BM_SETCHECK, config->GetBool(L"trapKB") ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -553,6 +579,9 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
                         break;
                     case IDC_OUTLINECOLOR:
                         colorName = L"outline";
+                        break;
+					case IDC_OUTLINECOLORPRESSED:
+                        colorName = L"outlinePressed";
                         break;
                     default:
                         return false;
