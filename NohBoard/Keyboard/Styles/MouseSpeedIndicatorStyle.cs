@@ -19,14 +19,24 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
 {
     using System.Drawing;
     using System.Runtime.Serialization;
+    using Extra;
 
     [DataContract(Name = "MouseSpeedIndicatorStyle", Namespace = "")]
     public class MouseSpeedIndicatorStyle : ElementStyle
     {
         [DataMember]
-        public Color InnerColor { get; set; } = Color.FromArgb(100, 100, 100);
+        public SerializableColor InnerColor { get; set; } = Color.FromArgb(100, 100, 100);
 
         [DataMember]
-        public Color OuterColor { get; set; } = Color.FromArgb(255, 255, 255);
+        public SerializableColor OuterColor { get; set; } = Color.FromArgb(255, 255, 255);
+
+        public override ElementStyle Clone()
+        {
+            return new MouseSpeedIndicatorStyle
+            {
+                InnerColor = this.InnerColor.Clone(),
+                OuterColor = this.OuterColor.Clone()
+            };
+        }
     }
 }

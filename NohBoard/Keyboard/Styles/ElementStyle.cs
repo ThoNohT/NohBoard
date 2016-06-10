@@ -26,10 +26,6 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
     [DataContract(Name = "ElementStyle", Namespace = "")]
     public abstract class ElementStyle
     {
-        public ElementStyle Clone()
-        {
-            // As long as the styles are shallow, this will work. Otherwise, override it.
-            return (ElementStyle)this.MemberwiseClone();
-        }
+        public abstract ElementStyle Clone();
     }
 }

@@ -54,6 +54,8 @@
     <Compile Include="Extra\FileHelper.cs" />
     <Compile Include="Extra\Geom.cs" />
     <Compile Include="Extra\GlobalSettings.cs" />
+    <Compile Include="Extra\SerializableColor.cs" />
+    <Compile Include="Extra\SerializableFont.cs" />
     <Compile Include="Forms\FontChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,7 +162,6 @@
   <ItemGroup>
     <Content Include="NohBoard.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

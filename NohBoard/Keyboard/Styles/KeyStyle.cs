@@ -19,6 +19,7 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
 {
     using System.Drawing;
     using System.Runtime.Serialization;
+    using Extra;
 
     /// <summary>
     /// The style for a key definition.
@@ -27,22 +28,22 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
     public class KeyStyle : ElementStyle
     {
         [DataMember]
-        public Color BackgroundLoose { get; set; } = Color.FromArgb(100, 100, 100);
+        public SerializableColor BackgroundLoose { get; set; } = Color.FromArgb(100, 100, 100);
 
         [DataMember]
-        public Color BackgroundPressed { get; set; } = Color.FromArgb(255, 255, 255);
+        public SerializableColor BackgroundPressed { get; set; } = Color.FromArgb(255, 255, 255);
 
         [DataMember] 
-        public Color TextLoose { get; set; } = Color.FromArgb(0, 0, 0);
+        public SerializableColor TextLoose { get; set; } = Color.FromArgb(0, 0, 0);
 
         [DataMember]
-        public Color TextPressed { get; set; } = Color.FromArgb(0, 0, 0);
+        public SerializableColor TextPressed { get; set; } = Color.FromArgb(0, 0, 0);
 
         [DataMember]
-        public Color OutlineLoose { get; set; } = Color.FromArgb(0, 255, 0);
+        public SerializableColor OutlineLoose { get; set; } = Color.FromArgb(0, 255, 0);
 
         [DataMember]
-        public Color OutlinePressed { get; set; } = Color.FromArgb(0, 255, 0);
+        public SerializableColor OutlinePressed { get; set; } = Color.FromArgb(0, 255, 0);
 
         [DataMember]
         public bool ShowOutlineLoose { get; set; }
@@ -51,6 +52,26 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         public bool ShowOutlinePressed { get; set; }
 
         [DataMember]
-        public Font Font { get; set; } = new Font(FontFamily.GenericMonospace, 10);
+        public SerializableFont UnpressedFont { get; set; } = new Font(FontFamily.GenericMonospace, 10);
+
+        [DataMember]
+        public SerializableFont PressedFont { get; set; } = new Font(FontFamily.GenericMonospace, 10);
+
+        public override ElementStyle Clone()
+        {
+            return new KeyStyle
+            {
+                BackgroundLoose = this.BackgroundLoose.Clone(),
+                BackgroundPressed = this.BackgroundPressed.Clone(),
+                TextLoose = this.TextLoose.Clone(),
+                TextPressed = this.TextPressed.Clone(),
+                OutlineLoose = this.OutlineLoose.Clone(),
+                OutlinePressed = this.OutlinePressed.Clone(),
+                ShowOutlineLoose = this.ShowOutlineLoose,
+                ShowOutlinePressed = this.ShowOutlinePressed,
+                UnpressedFont = this.UnpressedFont.Clone(),
+                PressedFont = this.PressedFont.Clone()
+            };
+        }
     }
 }

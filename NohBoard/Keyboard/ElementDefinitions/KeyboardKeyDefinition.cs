@@ -102,7 +102,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="capsLock">A value indicating whether caps lock is pressed during the render.</param>
         public void Render(Graphics g, bool pressed, bool shift, bool capsLock)
         {
-            var font = GlobalSettings.CurrentStyle.DefaultKeyStyle.Font;
+            var font = pressed
+                ? GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont
+                : GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont;
             var txtSize = g.MeasureString(this.GetText(shift, capsLock), font);
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),

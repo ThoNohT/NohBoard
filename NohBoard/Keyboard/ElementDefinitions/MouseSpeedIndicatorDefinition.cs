@@ -77,8 +77,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             var colorMultiplier = Math.Max(0, Math.Min(1, (float)pointerLength / this.Radius));
 
-            var color1 = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
-            var outerColor = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor;
+            Color color1 = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
+            Color outerColor = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor;
             // The second color should be averaged over the two specified colours, based upon how far out the thingymabob is.
             var color2 = Color.FromArgb(
                 (int)(color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
