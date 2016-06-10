@@ -30,12 +30,16 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         [DataMember]
         public SerializableColor OuterColor { get; set; } = Color.FromArgb(255, 255, 255);
 
+        [DataMember]
+        public int OutlineWidth { get; set; } = 1;
+
         public override ElementStyle Clone()
         {
             return new MouseSpeedIndicatorStyle
             {
                 InnerColor = this.InnerColor.Clone(),
-                OuterColor = this.OuterColor.Clone()
+                OuterColor = this.OuterColor.Clone(),
+                OutlineWidth = this.OutlineWidth
             };
         }
     }

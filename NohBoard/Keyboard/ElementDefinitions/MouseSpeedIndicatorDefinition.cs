@@ -86,7 +86,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 (int)(color1.B * (1 - colorMultiplier) + outerColor.B * colorMultiplier));
 
             // Draw the edge.
-            g.DrawEllipse(new Pen(color1), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.DrawEllipse(
+                new Pen(color1, GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth),
+                Geom.CircleToRectangle(this.Location, this.Radius));
 
             // Only calculate the pointer data if it has some length.
             if (pointerLength > 0)
