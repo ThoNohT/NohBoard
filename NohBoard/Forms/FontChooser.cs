@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System;
     using System.Drawing;
     using System.Windows.Forms;
 
@@ -25,6 +26,11 @@ namespace ThoNohT.NohBoard.Forms
     /// </summary>
     public partial class FontChooser : UserControl
     {
+        /// <summary>
+        /// The selected font.
+        /// </summary>
+        private Font font;
+
         /// <summary>
         /// The delegate to invoke when the font has been changed.
         /// </summary>
@@ -40,9 +46,8 @@ namespace ThoNohT.NohBoard.Forms
         
         public FontChooser()
         {
-            this.Font = DefaultFont;
             this.InitializeComponent();
-            this.DisplayLabel.Font = this.Font;
+            this.Font = DefaultFont;
             this.DisplayLabel.Text = "Pick a font.";
 
             this.DisplayLabel.Left = this.Height + 2;
@@ -54,7 +59,17 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The selected font.
         /// </summary>
-        public new Font Font { get; set; }
+        public new Font Font
+        {
+            get { return this.font; }
+            set
+            {
+                Console.WriteLine($"Font changed to {value.Name}");
+                this.font = value;
+                this.DisplayLabel.Font = value;
+                this.Refresh();
+            }
+        }
 
         /// <summary>
         /// The text to display.
@@ -76,7 +91,6 @@ namespace ThoNohT.NohBoard.Forms
             if (picker.ShowDialog() == DialogResult.OK)
                 this.Font = picker.Font;
 
-            this.DisplayLabel.Font = this.Font;
             this.Refresh();
 
             this.FontChanged?.Invoke(this, picker.Font);

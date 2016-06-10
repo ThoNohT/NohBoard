@@ -48,12 +48,14 @@ namespace ThoNohT.NohBoard.Forms
             this.clrPressedText.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed;
             this.clrPressedOutline.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed;
             this.chkPressedOutline.Checked = GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlinePressed;
+            this.fntPressedKeys.Font = GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont;
 
             // Unpressed key
             this.clrUnpressedBackground.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose;
             this.clrUnpressedText.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose;
             this.clrUnpressedOutline.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose;
             this.chkUnpressedOutline.Checked = GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlineLoose;
+            this.fntUnpressedKeys.Font = GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont;
 
             // Mouse speed indicator
             this.clrMouseSpeedLow.Color = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
@@ -65,43 +67,58 @@ namespace ThoNohT.NohBoard.Forms
             switch (sender.Name)
             {
                 case "clrKeyboardBackground":
-                    GlobalSettings.CurrentStyle.BackgroundColor = this.clrKeyboardBackground.Color;
+                    GlobalSettings.CurrentStyle.BackgroundColor = color;
                     break;
 
                 case "clrUnpressedBackground":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose = this.clrUnpressedBackground.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose = color;
                     break;
 
                 case "clrUnpressedText":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose = this.clrUnpressedText.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose = color;
                     break;
 
                 case "clrUnpressedOutline":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose = this.clrUnpressedOutline.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose = color;
                     break;
 
                 case "clrPressedBackground":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundPressed = this.clrPressedBackground.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundPressed = color;
                     break;
 
                 case "clrPressedText":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed = this.clrPressedText.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed = color;
                     break;
 
                 case "clrPressedOutline":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed = this.clrPressedOutline.Color;
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed = color;
                     break;
 
                 case "clrMouseSpeedLow":
-                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor =
-                        this.clrMouseSpeedLow.Color;
+                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor = color;
                     break;
 
                 case "clrMouseSpeedHigh":
-                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor =
-                        this.clrMouseSpeedHigh.Color;
+                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor = color;
                     break;
 
+                default:
+                    return;
+            }
+
+            this.parent.ResetBackBrushes();
+        }
+
+        private void Control_FontChanged(FontChooser sender, System.Drawing.Font font)
+        {
+            switch (sender.Name)
+            {
+                case "fntPressedKeys":
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont = font;
+                    break;
+                case "fntUnpressedKeys":
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont = font;
+                    break;
                 default:
                     return;
             }
