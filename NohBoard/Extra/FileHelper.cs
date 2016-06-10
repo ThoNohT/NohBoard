@@ -43,7 +43,7 @@
             using (var fileStream = new FileStream(filename, FileMode.Create))
             {
                 var serializer = new DataContractJsonSerializer(typeof(T));
-                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(fileStream, Encoding.UTF8))
+                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(fileStream, Encoding.UTF8, true, true))
                 {
                     serializer.WriteObject(writer, obj);
                 }
