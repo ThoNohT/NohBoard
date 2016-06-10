@@ -51,9 +51,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="scrollCount">The number of times the direction has been scrolled within the timeout.</param>
         public void Render(Graphics g, int scrollCount)
         {
+            var font = GlobalSettings.CurrentStyle.DefaultKeyStyle.Font;
             var pressed = scrollCount > 0;
             var text = pressed ? scrollCount.ToString() : this.Text;
-            var txtSize = g.MeasureString(text, new Font(FontFamily.GenericMonospace, 10));
+            var txtSize = g.MeasureString(text, font);
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
@@ -75,11 +76,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillPolygon(new SolidBrush(backColor), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
             // Draw the text
-            g.DrawString(
-                text,
-                new Font(FontFamily.GenericMonospace, 10),
-                new SolidBrush(textColor),
-                (Point)txtPoint);
+            g.DrawString(text, font, new SolidBrush(textColor), (Point)txtPoint);
 
             // Draw the outline.
             if (drawOutline)

@@ -53,7 +53,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="capsLock">A value indicating whether caps lock is pressed during the render.</param>
         public void Render(Graphics g, bool pressed, bool shift, bool capsLock)
         {
-            var txtSize = g.MeasureString(this.Text, new Font(FontFamily.GenericMonospace, 10));
+            var font = GlobalSettings.CurrentStyle.DefaultKeyStyle.Font;
+            var txtSize = g.MeasureString(this.Text, font);
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
@@ -74,11 +75,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillPolygon(new SolidBrush(backColor), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
             // Draw the text
-            g.DrawString(
-                this.Text,
-                new Font(FontFamily.GenericMonospace, 10),
-                new SolidBrush(textColor),
-                (Point)txtPoint);
+            g.DrawString(this.Text, font, new SolidBrush(textColor), (Point)txtPoint);
 
             // Draw the outline.
             if (drawOutline)

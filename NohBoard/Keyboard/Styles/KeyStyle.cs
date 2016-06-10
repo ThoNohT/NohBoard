@@ -51,6 +51,6 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         public bool ShowOutlinePressed { get; set; }
 
         [DataMember]
-        public Font Font { get; set; }
+        public Font Font { get; set; } = new Font(FontFamily.GenericMonospace, 10);
     }
 }
