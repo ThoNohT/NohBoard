@@ -1,6 +1,6 @@
 ﻿namespace ThoNohT.NohBoard.Forms
 {
-    partial class ColorChooser
+    partial class FontChooser
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,20 +42,20 @@
             this.DisplayLabel.Name = "DisplayLabel";
             this.DisplayLabel.Size = new System.Drawing.Size(182, 26);
             this.DisplayLabel.TabIndex = 0;
-            this.DisplayLabel.Text = "Pick a color";
+            this.DisplayLabel.Text = "Pick a Font";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.DisplayLabel.DoubleClick += new System.EventHandler(this.ColorChooser_DoubleClick);
+            this.DisplayLabel.DoubleClick += new System.EventHandler(this.FontChooser_DoubleClick);
             this.DisplayLabel.Layout += new System.Windows.Forms.LayoutEventHandler(this.DisplayLabel_Layout);
             // 
-            // ColorChooser
+            // FontChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.DisplayLabel);
-            this.Name = "ColorChooser";
+            this.Name = "FontChooser";
             this.Size = new System.Drawing.Size(220, 26);
-            this.DoubleClick += new System.EventHandler(this.ColorChooser_DoubleClick);
+            this.DoubleClick += new System.EventHandler(this.FontChooser_DoubleClick);
             this.ResumeLayout(false);
 
         }

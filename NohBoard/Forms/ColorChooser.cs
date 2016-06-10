@@ -33,7 +33,7 @@ namespace ThoNohT.NohBoard.Forms
         public delegate void ColorChangedEventHandler(ColorChooser sender, Color color);
 
         /// <summary>
-        /// The event that is invoked when the color has been changed. Only invoked when the color is changed throuth
+        /// The event that is invoked when the color has been changed. Only invoked when the color is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
         public event ColorChangedEventHandler ColorChanged;
@@ -44,16 +44,12 @@ namespace ThoNohT.NohBoard.Forms
 
             Circle
         }
-
-        /// <summary>
-        /// The text to display.
-        /// </summary>
-        private string text = "Pick a color.";
         
         public ColorChooser()
         {
             this.Color = Color.Black;
             this.InitializeComponent();
+            this.DisplayLabel.Text = "Pick a color.";
 
             this.DisplayLabel.Left = this.Height + 2;
             this.DisplayLabel.Width = this.Width - this.Height - 2;
@@ -71,13 +67,10 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         public string LabelText
         {
-            get { return this.text; }
-            set
-            {
-                this.DisplayLabel.Text = value;
-                this.text = value;
-            }
+            get { return this.DisplayLabel.Text; }
+            set { this.DisplayLabel.Text = value; }
         }
+
 
         public Shape PreviewShape { get; set; } = Shape.Square;
 
@@ -104,8 +97,7 @@ namespace ThoNohT.NohBoard.Forms
                 Color = this.Color, FullOpen = true
             };
 
-            var result = picker.ShowDialog(this);
-            if (result == DialogResult.OK)
+            if (picker.ShowDialog(this) == DialogResult.OK)
                 this.Color = picker.Color;
 
             this.Refresh();
