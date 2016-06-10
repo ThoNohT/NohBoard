@@ -60,6 +60,8 @@ namespace ThoNohT.NohBoard.Forms
             // Mouse speed indicator
             this.clrMouseSpeedLow.Color = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
             this.clrMouseSpeedHigh.Color = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor;
+            this.udMouseSpeedOutlineWidth.Value =
+                GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth;
         }
 
         private void Control_ColorChanged(ColorChooser sender, System.Drawing.Color color)
@@ -126,6 +128,14 @@ namespace ThoNohT.NohBoard.Forms
             this.parent.ResetBackBrushes();
         }
 
+        private void UpDown_ValueChanged(object sender, System.EventArgs e)
+        {
+            GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth =
+                (int)this.udMouseSpeedOutlineWidth.Value;
+
+            this.parent.ResetBackBrushes();
+        }
+
         private void AcceptButton2_Click(object sender, System.EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -150,5 +160,6 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlinePressed = this.chkPressedOutline.Checked;
             this.parent.ResetBackBrushes();
         }
+
     }
 }
