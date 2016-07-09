@@ -31,12 +31,12 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The name of the currently selected category.
         /// </summary>
-        private string SelectedCategory => this.CategoryCombo.Text;
+        private string SelectedCategory => this.CategoryCombo.Text.SanitizeFilename();
 
         /// <summary>
         /// The name of the currently selected defintion.
         /// </summary>
-        private string SelectedDefinition => this.DefinitionCombo.Text;
+        private string SelectedDefinition => this.DefinitionCombo.Text.SanitizeFilename();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SaveKeyboardAsForm" /> class.

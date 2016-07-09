@@ -36,7 +36,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The name of the currently selected style.
         /// </summary>
-        private string SelectedStyle => this.StyleCombo.Text;
+        private string SelectedStyle => this.StyleCombo.Text.SanitizeFilename();
 
         /// <summary>
         /// Indicates whether the style should be saved as a global style.
