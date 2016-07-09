@@ -70,5 +70,15 @@ namespace ThoNohT.NohBoard.Extra
         {
             return (float)Sqrt(Pow(speed.Width, 2) + (float)Pow(speed.Height, 2));
         }
+
+        /// <summary>
+        /// Returns a new rectangle that is translated to the origin.
+        /// </summary>
+        /// <param name="rect">The rectangle to translate.</param>
+        /// <returns>The translated rectangle.</returns>
+        public static Rectangle ToOrigin(this Rectangle rect)
+        {
+            return new Rectangle(0, 0, rect.Width, rect.Height);
+        }
     }
 }

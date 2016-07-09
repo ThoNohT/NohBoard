@@ -23,6 +23,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Runtime.Serialization;
     using ClipperLib;
     using Extra;
+    using ThoNohT.NohBoard.Keyboard.Styles;
 
     /// <summary>
     /// Represents a key in a keyboard or on a mouse.
@@ -33,6 +34,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     [KnownType(typeof(MouseScrollDefinition))]
     public abstract class KeyDefinition : ElementDefinition
     {
+        #region Fields
+
+        /// <summary>
+        /// The background brushes used for the key's pressed and unpressed state.
+        /// </summary>
+        private Dictionary<bool, Brush> backgroundBrushes;
+
+        #endregion Fields
+
         #region Properties
 
         /// <summary>
@@ -126,6 +136,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Calculates whether the specified point is inside this element.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns>True if the point is inside the element, false otherwise.</returns>
+        public override bool Inside(Point point)
+        {
+            return Clipper.PointInPolygon((TPoint)point, this.GetPath()) != 0; // -1 and +1 are fine, 0 is not.
+        }
+
+        /// <summary>
         /// Updates the key definition to occupy a region of itself plus the specified other keys.
         /// </summary>
         /// <param name="keys">The keys to union with.</param>
@@ -141,6 +161,24 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         protected List<IntPoint> GetPath()
         {
             return this.Boundaries.ConvertAll<IntPoint>(x => x);
+        }
+
+        protected Brush GetBackgroundBrush(KeySubStyle subStyle, bool pressed)
+        {
+            if (this.backgroundBrushes == null) this.backgroundBrushes = new Dictionary<bool, Brush>();
+            if (this.StyleVersion != GlobalSettings.StyleDependencyCounter)
+            {
+                this.backgroundBrushes.Clear();
+                this.StyleVersion = GlobalSettings.StyleDependencyCounter;
+            }
+
+            if (this.backgroundBrushes.ContainsKey(pressed))
+                return this.backgroundBrushes[pressed];
+
+            var brush = subStyle.GetBackgroundBrush(this.GetBoundingBox());
+
+            this.backgroundBrushes.Add(pressed, brush);
+            return brush;
         }
 
         /// <summary>

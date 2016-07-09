@@ -89,7 +89,7 @@ namespace ThoNohT.NohBoard.Forms
             this.MainMenuSep3,
             this.mnuExit});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(176, 198);
+            this.MainMenu.Size = new System.Drawing.Size(176, 220);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -131,6 +131,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuEditElementStyle.Name = "mnuEditElementStyle";
             this.mnuEditElementStyle.Size = new System.Drawing.Size(175, 22);
             this.mnuEditElementStyle.Text = "Edit Element Style";
+            this.mnuEditElementStyle.Click += new System.EventHandler(this.mnuEditElementStyle_Click);
             // 
             // MainMenuSep2
             // 
@@ -149,14 +150,14 @@ namespace ThoNohT.NohBoard.Forms
             // mnuSaveDefinitionAsName
             // 
             this.mnuSaveDefinitionAsName.Name = "mnuSaveDefinitionAsName";
-            this.mnuSaveDefinitionAsName.Size = new System.Drawing.Size(218, 22);
+            this.mnuSaveDefinitionAsName.Size = new System.Drawing.Size(217, 22);
             this.mnuSaveDefinitionAsName.Text = "&Save &To <DefinitionName>";
             this.mnuSaveDefinitionAsName.Click += new System.EventHandler(this.mnuSaveDefinitionAsName_Click);
             // 
             // mnuSaveDefinitionAs
             // 
             this.mnuSaveDefinitionAs.Name = "mnuSaveDefinitionAs";
-            this.mnuSaveDefinitionAs.Size = new System.Drawing.Size(218, 22);
+            this.mnuSaveDefinitionAs.Size = new System.Drawing.Size(217, 22);
             this.mnuSaveDefinitionAs.Text = "Save &As";
             this.mnuSaveDefinitionAs.Click += new System.EventHandler(this.mnuSaveDefinitionAs_Click);
             // 
@@ -173,21 +174,21 @@ namespace ThoNohT.NohBoard.Forms
             // mnuSaveStyleToName
             // 
             this.mnuSaveStyleToName.Name = "mnuSaveStyleToName";
-            this.mnuSaveStyleToName.Size = new System.Drawing.Size(228, 22);
+            this.mnuSaveStyleToName.Size = new System.Drawing.Size(227, 22);
             this.mnuSaveStyleToName.Text = "&Save To <StyleName>";
             this.mnuSaveStyleToName.Click += new System.EventHandler(this.mnuSaveStyleToName_Click);
             // 
             // mnuSaveToGlobalStyleName
             // 
             this.mnuSaveToGlobalStyleName.Name = "mnuSaveToGlobalStyleName";
-            this.mnuSaveToGlobalStyleName.Size = new System.Drawing.Size(228, 22);
+            this.mnuSaveToGlobalStyleName.Size = new System.Drawing.Size(227, 22);
             this.mnuSaveToGlobalStyleName.Text = "Save To &Global <StyleName>";
             this.mnuSaveToGlobalStyleName.Click += new System.EventHandler(this.mnuSaveToGlobalStyleName_Click);
             // 
             // mnuSaveStyleAs
             // 
             this.mnuSaveStyleAs.Name = "mnuSaveStyleAs";
-            this.mnuSaveStyleAs.Size = new System.Drawing.Size(228, 22);
+            this.mnuSaveStyleAs.Size = new System.Drawing.Size(227, 22);
             this.mnuSaveStyleAs.Text = "Save &As";
             this.mnuSaveStyleAs.Click += new System.EventHandler(this.mnuSaveStyleAs_Click);
             // 

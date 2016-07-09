@@ -35,12 +35,12 @@ namespace ThoNohT.NohBoard.Keyboard
         /// <summary>
         /// The filename to save this style as.
         /// </summary>
-        private string fileName => this.Name + styleExtension;
+        private string FileName => this.Name + StyleExtension;
 
         /// <summary>
         /// The extension used for styles.
         /// </summary>
-        public const string styleExtension = ".style";
+        public const string StyleExtension = ".style";
 
         /// <summary>
         /// The name of this style.
@@ -87,6 +87,10 @@ namespace ThoNohT.NohBoard.Keyboard
         [DataMember]
         public Dictionary<int, ElementStyle> ElementStyles { get; set; } = new Dictionary<int, ElementStyle>();
 
+        /// <summary>
+        /// Returns a clone of this keyboard style.
+        /// </summary>
+        /// <returns>The cloned keyboard style.</returns>
         public KeyboardStyle Clone()
         {
             return new KeyboardStyle
@@ -97,47 +101,39 @@ namespace ThoNohT.NohBoard.Keyboard
             };
         }
 
+        /// <summary>
+        /// Saves this keyboard style.
+        /// </summary>
+        /// <param name="global">Indicates whether to save it as a global style or as a definition specific
+        /// style.</param>
         public void Save(bool global)
         {
             if (global && !this.IsGlobal)
                 throw new InvalidOperationException("Cannot save a non-global style globally.");
 
+            var cDef = GlobalSettings.CurrentDefinition;
             var filename = global
-                ? Path.Combine(
-                    Constants.ExePath,
-                    Constants.KeyboardsFolder,
-                    Constants.GlobalStylesFolder,
-                    this.fileName)
-                : Path.Combine(
-                    Constants.ExePath,
-                    Constants.KeyboardsFolder,
-                    GlobalSettings.CurrentDefinition.Category,
-                    GlobalSettings.CurrentDefinition.Name,
-                    this.fileName);
+                ? FileHelper.FromKbs(Constants.GlobalStylesFolder, this.FileName).FullName
+                : FileHelper.FromKbs(cDef.Category, cDef.Name, this.FileName).FullName;
 
             FileHelper.EnsurePathExists(filename);
             FileHelper.Serialize(filename, this);
         }
 
+        /// <summary>
+        /// Loads a keyboard style for the currently loaded definition.
+        /// </summary>
+        /// <param name="name">The name of the style to load.</param>
+        /// <param name="global">Indicates whether to load a global style or not.</param>
+        /// <returns>The loaded style.</returns>
         public static KeyboardStyle Load(string name, bool global)
         {
+            var cDef = GlobalSettings.CurrentDefinition;
             var filePath = global
-                ? Path.Combine(
-                    Constants.ExePath,
-                    Constants.KeyboardsFolder,
-                    Constants.GlobalStylesFolder,
-                    $"{name}{styleExtension}")
-                : Path.Combine(
-                    Constants.ExePath,
-                    Constants.KeyboardsFolder,
-                    GlobalSettings.CurrentDefinition.Category,
-                    GlobalSettings.CurrentDefinition.Name,
-                    $"{name}{styleExtension}");
+                ? FileHelper.FromKbs(Constants.GlobalStylesFolder, $"{name}{StyleExtension}").FullName
+                : FileHelper.FromKbs(cDef.Category, cDef.Name, $"{name}{StyleExtension}").FullName;
 
-            var currentPath = global
-                ? Constants.GlobalStylesFolder
-                : $"{GlobalSettings.CurrentDefinition.Category}/{GlobalSettings.CurrentDefinition.Name}";
-
+            var currentPath = global ? Constants.GlobalStylesFolder : $"{cDef.Category}/{cDef.Name}";
 
             if (!File.Exists(filePath))
                 throw new Exception($"Style file not found for {currentPath}/{name}.");
@@ -145,6 +141,23 @@ namespace ThoNohT.NohBoard.Keyboard
             var kbStyle = FileHelper.Deserialize<KeyboardStyle>(filePath);
             kbStyle.Name = name;
             return kbStyle;
+        }
+
+        /// <summary>
+        /// Tries to get the element style for the key with the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <returns>The retrieved identifier, or null if it is not defined.</returns>
+        public T TryGetElementStyle<T>(int id) where T: ElementStyle
+        {
+            ElementStyle style;
+            var success = this.ElementStyles.TryGetValue(id, out style);
+
+            // Not found, return null.
+            if (!success) return null;
+
+            // Return the style if it is the right style, null otherwise.
+            return style as T;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
     using Extra;
+    using Styles;
 
     /// <summary>
     /// Represents an indicator that can display the current mouse speed.
@@ -65,6 +66,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="speed">The speed of the mouse.</param>
         public void Render(Graphics g, SizeF speed)
         {
+            var subStyle = GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(this.Id)
+                ?? GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle;
 
             // Small circles have a fifth of the radius of the full control.
             var smallRadius = (float)this.Radius / 5;
@@ -77,8 +80,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             var colorMultiplier = Math.Max(0, Math.Min(1, (float)pointerLength / this.Radius));
 
-            Color color1 = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
-            Color outerColor = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor;
+            Color color1 = subStyle.InnerColor;
+            Color outerColor = subStyle.OuterColor;
             // The second color should be averaged over the two specified colours, based upon how far out the thingymabob is.
             var color2 = Color.FromArgb(
                 (int)(color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
@@ -87,7 +90,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             // Draw the edge.
             g.DrawEllipse(
-                new Pen(color1, GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth),
+                new Pen(color1, subStyle.OutlineWidth),
                 Geom.CircleToRectangle(this.Location, this.Radius));
 
             // Only calculate the pointer data if it has some length.
@@ -144,6 +147,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Id,
                 new Point(this.Location.X + dx, this.Location.Y + dy),
                 this.Radius);
+        }
+
+        /// <summary>
+        /// Calculates whether the specified point is inside this element.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns>True if the point is inside the element, false otherwise.</returns>
+        public override bool Inside(Point point)
+        {
+            var bb = this.GetBoundingBox();
+            return point.X >= bb.Left && point.X <= bb.Right && point.Y >= bb.Top && point.Y <= bb.Bottom;
         }
 
         #endregion Transformations

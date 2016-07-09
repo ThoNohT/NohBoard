@@ -23,20 +23,35 @@ namespace ThoNohT.NohBoard.Forms
     using System.Windows.Forms;
     using Extra;
 
+    /// <summary>
+    /// The form used to save a keyboard under a new name.
+    /// </summary>
     public partial class SaveKeyboardAsForm : Form
     {
+        /// <summary>
+        /// The name of the currently selected category.
+        /// </summary>
         private string SelectedCategory => this.CategoryCombo.Text;
 
+        /// <summary>
+        /// The name of the currently selected defintion.
+        /// </summary>
         private string SelectedDefinition => this.DefinitionCombo.Text;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SaveKeyboardAsForm" /> class.
+        /// </summary>
         public SaveKeyboardAsForm()
         {
             this.InitializeComponent();
         }
 
-        private void SaveKeyboardAsForm_Load(object sender, System.EventArgs e)
+        /// <summary>
+        /// Initializes the form, pre-filling the list of categories and definitions in the current category.
+        /// </summary>
+        private void SaveKeyboardAsForm_Load(object sender, EventArgs e)
         {
-            var root = new DirectoryInfo(Path.Combine(Constants.ExePath, Constants.KeyboardsFolder));
+            var root = FileHelper.FromKbs();
 
             // If there are no keyboard files, no initialization is required.
             if (!root.Exists) return;
@@ -47,21 +62,31 @@ namespace ThoNohT.NohBoard.Forms
             this.DefinitionCombo.Text = GlobalSettings.Settings.LoadedKeyboard;
         }
 
+        /// <summary>
+        /// Populates the list of keyboards for the specified category.
+        /// </summary>
+        /// <param name="category">The category to load the keyboards from.</param>
         private void PopulateKeyboards(string category)
         {
-            var root = new DirectoryInfo(Path.Combine(Constants.ExePath, Constants.KeyboardsFolder, category));
+            var root = FileHelper.FromKbs(category);
             if (!root.Exists) return;
 
             this.DefinitionCombo.Items.Clear();
             this.DefinitionCombo.Items.AddRange(root.EnumerateDirectories().Select(x => (object)x.Name).ToArray());
         }
 
-        private void CategoryCombo_TextChanged(object sender, System.EventArgs e)
+        /// <summary>
+        /// Handles the change of the category combo selection change, re-populates keyboards.
+        /// </summary>
+        private void CategoryCombo_TextChanged(object sender, EventArgs e)
         {
             this.PopulateKeyboards(this.SelectedCategory);
         }
 
-        private void SaveButton_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// Saves the keyboard definition in the specified location.
+        /// </summary>
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.SelectedCategory) || string.IsNullOrWhiteSpace(this.SelectedDefinition))
                 return;
@@ -85,12 +110,7 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             // Check if the name already exists.
-            if (Directory.Exists(
-                Path.Combine(
-                    Constants.ExePath,
-                    Constants.KeyboardsFolder,
-                    this.SelectedCategory,
-                    this.SelectedDefinition)))
+            if (FileHelper.FromKbs(this.SelectedCategory, this.SelectedDefinition).Exists)
             {
                 var result = MessageBox.Show(
                     $"Keyboard {this.SelectedCategory}/{this.SelectedDefinition} already exists, " +

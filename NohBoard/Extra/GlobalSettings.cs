@@ -20,7 +20,7 @@ namespace ThoNohT.NohBoard.Extra
     using System;
     using System.IO;
     using System.Runtime.Serialization;
-    using ThoNohT.NohBoard.Keyboard;
+    using Keyboard;
     using static Hooking.Interop.Defines;
 
     /// <summary>
@@ -48,6 +48,12 @@ namespace ThoNohT.NohBoard.Extra
         /// Any errors while loading settings.
         /// </summary>
         public static string Errors { get; set; }
+
+        /// <summary>
+        /// A dependency counter for the current style. This tells render functions to grab new brushes if it has
+        /// changed.
+        /// </summary>
+        public static int StyleDependencyCounter { get; set; } = 0;
 
         #region Input
 

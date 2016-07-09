@@ -18,11 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
-    using System;
     using System.Windows.Forms;
     using Extra;
     using ThoNohT.NohBoard.Hooking.Interop;
 
+    /// <summary>
+    /// The settings form.
+    /// </summary>
     public partial class SettingsForm : Form
     {
         /// <summary>
@@ -35,11 +37,17 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private int trapToggleKey;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsForm" /> class.
+        /// </summary>
         public SettingsForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the loading of the settings form, all control values are set.
+        /// </summary>
         private void SettingsForm_Load(object sender, System.EventArgs e)
         {
             this.udMouseSensitivity.Value = GlobalSettings.Settings.MouseSensitivity;
@@ -101,6 +109,9 @@ namespace ThoNohT.NohBoard.Forms
             tooltip.SetToolTip(this.rdbAlwaysLower, "Always show lower-case letters.");
         }
 
+        /// <summary>
+        /// Handles clicking of the OK button, the new settings are applied and saved and the form is closed.
+        /// </summary>
         private void OkButton_Click(object sender, System.EventArgs e)
         {
             // Apply the new settings.
@@ -114,10 +125,10 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.ShowKeyPresses = this.chkShowKeypresses.Checked;
 
             GlobalSettings.Settings.Capitalization = this.rdbFollowKeystate.Checked
-                                                         ? CapitalizationMethod.FollowKeys
-                                                         : this.rdbAlwaysLower.Checked
-                                                               ? CapitalizationMethod.Lowercase
-                                                               : CapitalizationMethod.Capitalize;
+                ? CapitalizationMethod.FollowKeys
+                : this.rdbAlwaysLower.Checked
+                    ? CapitalizationMethod.Lowercase
+                    : CapitalizationMethod.Capitalize;
 
             GlobalSettings.Save();
 
@@ -125,6 +136,10 @@ namespace ThoNohT.NohBoard.Forms
             this.Close();
         }
 
+        /// <summary>
+        /// Handles the setting of a new trap hotkey, if we are capturing, the pressed key is stored and the capturing
+        /// state is removed.
+        /// </summary>
         private void txtToggleKey_KeyUp(object sender, KeyEventArgs e)
         {
             if (!this.capturingKey) return;
@@ -138,6 +153,9 @@ namespace ThoNohT.NohBoard.Forms
             HookManager.EnableKeyboardHook();
         }
 
+        /// <summary>
+        /// Sets the capturing state for the trap hotkey. Any key pressed will be the hotkey.
+        /// </summary>
         private void txtToggleKey_DoubleClick(object sender, System.EventArgs e)
         {
             HookManager.DisableKeyboardHook();

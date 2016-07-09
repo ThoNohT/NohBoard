@@ -50,6 +50,7 @@
     <Compile Include="MouseScrollKeyCode.cs" />
     <Compile Include="MouseState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\AssemblyInfo.cs.template" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interop\Defines.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="Interop\HookManager.Public.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)gotri.exe -i "$(ProjectDir)Properties/AssemblyInfo.cs.template" -o "$(ProjectDir)Properties/AssemblyInfo.cs"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

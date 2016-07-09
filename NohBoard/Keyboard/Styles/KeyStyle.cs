@@ -19,7 +19,6 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
 {
     using System.Drawing;
     using System.Runtime.Serialization;
-    using Extra;
 
     /// <summary>
     /// The style for a key definition.
@@ -27,50 +26,38 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
     [DataContract(Name = "KeyStyle", Namespace = "")]
     public class KeyStyle : ElementStyle
     {
+        /// <summary>
+        /// The <see cref="KeySubStyle"/> for this key when it is loose.
+        /// </summary>
         [DataMember]
-        public SerializableColor BackgroundLoose { get; set; } = Color.FromArgb(100, 100, 100);
+        public KeySubStyle Loose { get; set; } = new KeySubStyle
+        {
+            Background = Color.FromArgb(100, 100, 100),
+            Text = Color.FromArgb(0, 0, 0),
+            Outline = Color.FromArgb(0, 255, 0)
+        };
 
+        /// <summary>
+        /// The <see cref="KeySubStyle"/> for this key when it is pressed.
+        /// </summary>
         [DataMember]
-        public SerializableColor BackgroundPressed { get; set; } = Color.FromArgb(255, 255, 255);
+        public KeySubStyle Pressed { get; set; } = new KeySubStyle
+        {
+            Background = Color.FromArgb(255, 255, 255),
+            Text = Color.FromArgb(0, 0, 0),
+            Outline = Color.FromArgb(0, 255, 0)
+        };
 
-        [DataMember] 
-        public SerializableColor TextLoose { get; set; } = Color.FromArgb(0, 0, 0);
-
-        [DataMember]
-        public SerializableColor TextPressed { get; set; } = Color.FromArgb(0, 0, 0);
-
-        [DataMember]
-        public SerializableColor OutlineLoose { get; set; } = Color.FromArgb(0, 255, 0);
-
-        [DataMember]
-        public SerializableColor OutlinePressed { get; set; } = Color.FromArgb(0, 255, 0);
-
-        [DataMember]
-        public bool ShowOutlineLoose { get; set; }
-
-        [DataMember]
-        public bool ShowOutlinePressed { get; set; }
-
-        [DataMember]
-        public SerializableFont UnpressedFont { get; set; } = new Font(FontFamily.GenericMonospace, 10);
-
-        [DataMember]
-        public SerializableFont PressedFont { get; set; } = new Font(FontFamily.GenericMonospace, 10);
-
+        /// <summary>
+        /// Returns a clone of this element style.
+        /// </summary>
+        /// <returns>The cloned element style.</returns>
         public override ElementStyle Clone()
         {
             return new KeyStyle
             {
-                BackgroundLoose = this.BackgroundLoose.Clone(),
-                BackgroundPressed = this.BackgroundPressed.Clone(),
-                TextLoose = this.TextLoose.Clone(),
-                TextPressed = this.TextPressed.Clone(),
-                OutlineLoose = this.OutlineLoose.Clone(),
-                OutlinePressed = this.OutlinePressed.Clone(),
-                ShowOutlineLoose = this.ShowOutlineLoose,
-                ShowOutlinePressed = this.ShowOutlinePressed,
-                UnpressedFont = this.UnpressedFont.Clone(),
-                PressedFont = this.PressedFont.Clone()
+                Loose = this.Loose?.Clone(),
+                Pressed = this.Pressed?.Clone()
             };
         }
     }

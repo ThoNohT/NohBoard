@@ -15,22 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Keyboard.Styles
+namespace ThoNohT.NohBoard
 {
-    using System.Runtime.Serialization;
-
     /// <summary>
-    /// Represents the style of any element that can be placed on a keyboard.
+    /// Class that contains the current version of NohBoard.
     /// </summary>
-    [KnownType(typeof(KeyStyle))]
-    [KnownType(typeof(MouseSpeedIndicatorStyle))]
-    [DataContract(Name = "ElementStyle", Namespace = "")]
-    public abstract class ElementStyle
+    public static class Version
     {
         /// <summary>
-        /// Returns a clone of this element style.
+        /// Gets the version.
         /// </summary>
-        /// <returns>The cloned element style.</returns>
-        public abstract ElementStyle Clone();
+        public const string Get = "[gotri:tag][gotri:dist:ot=:at=.*][gotri:hash:len=7:ot=:at=~*][gotri:dirty:yes=\*:no=]";
     }
 }

@@ -24,6 +24,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Runtime.Serialization;
     using ClipperLib;
     using Extra;
+    using ThoNohT.NohBoard.Keyboard.Styles;
 
     /// <summary>
     /// Represents a key on a mouse.
@@ -102,35 +103,31 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="capsLock">A value indicating whether caps lock is pressed during the render.</param>
         public void Render(Graphics g, bool pressed, bool shift, bool capsLock)
         {
-            var font = pressed
-                ? GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont
-                : GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont;
-            var txtSize = g.MeasureString(this.GetText(shift, capsLock), font);
+            var style = GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(this.Id)
+                            ?? GlobalSettings.CurrentStyle.DefaultKeyStyle;
+            var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
+            var subStyle = pressed ? style?.Pressed ?? defaultStyle.Pressed: style?.Loose ?? defaultStyle.Loose;
+
+            var txtSize = g.MeasureString(this.GetText(shift, capsLock), subStyle.Font);
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
 
-            var backColor = pressed
-                ? GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundPressed
-                : GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose;
-            var textColor = pressed
-                ? GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed
-                : GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose;
-            var outlineColor = pressed
-                ? GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed
-                : GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose;
-            var drawOutline = (pressed && GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlinePressed) ||
-                              (!pressed && GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlineLoose);
 
             // Draw the background
-            g.FillPolygon(new SolidBrush(backColor), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            var backgroundBrush = this.GetBackgroundBrush(subStyle, pressed);
+            g.FillPolygon(backgroundBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
             // Draw the text
-            g.DrawString(this.GetText(shift, capsLock), font, new SolidBrush(textColor), (Point)txtPoint);
+            g.SetClip(this.GetBoundingBox());
+            g.DrawString(this.GetText(shift, capsLock), subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.ResetClip();
 
             // Draw the outline.
-            if (drawOutline)
-                g.DrawPolygon(new Pen(outlineColor, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            if (subStyle.ShowOutline)
+                g.DrawPolygon(
+                    new Pen(subStyle.Outline, subStyle.OutlineWidth),
+                    this.Boundaries.ConvertAll<Point>(x => x).ToArray());
         }
 
         /// <summary>

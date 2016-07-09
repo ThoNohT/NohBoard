@@ -27,10 +27,14 @@ namespace ThoNohT.NohBoard.Forms
     using Hooking.Interop;
     using Keyboard;
     using Keyboard.ElementDefinitions;
+    using Keyboard.Styles;
 
+    /// <summary>
+    /// The main form.
+    /// </summary>
     public partial class MainForm : Form
     {
-        // TODO: Document all methods in form files.
+        #region Fields
 
         /// <summary>
         /// The back-brushes used for efficient drawing.
@@ -38,26 +42,49 @@ namespace ThoNohT.NohBoard.Forms
         private readonly Dictionary<bool, Dictionary<bool, Brush>> backBrushes =
             new Dictionary<bool, Dictionary<bool, Brush>>();
 
+        /// <summary>
+        /// The element currently under the cursor.
+        /// </summary>
+        private ElementDefinition elementUnderCursor = null;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainForm" /> class.
+        /// </summary>
         public MainForm()
         {
             this.InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
+        #endregion Constructors
+
         #region Keyboard loading and saving
 
+        /// <summary>
+        /// Loads the keyboard currently defined in the settings.
+        /// </summary>
         private void LoadKeyboard()
         {
-            if (GlobalSettings.CurrentDefinition == null)
-                return;
+            if (GlobalSettings.CurrentDefinition == null) return;
 
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 
             this.ResetBackBrushes();
         }
 
-        public void ResetBackBrushes()
+        /// <summary>
+        /// Redraws the back-brushes. These back-brushes are drawn for all possible states of the keys when none of them
+        /// are pressed. This prevents having to render each of these keys every time. However, every time anything
+        /// about the definition or style changes, the back-brushes have to be re-rendered.
+        /// </summary>
+        private void ResetBackBrushes()
         {
+            GlobalSettings.StyleDependencyCounter++;
+
             foreach (var brush in this.backBrushes)
             {
                 foreach (var b in brush.Value)
@@ -96,27 +123,35 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
-        internal void LoadNewKeyboard(KeyboardDefinition kbDef, KeyboardStyle kbStyle)
-        {
-            GlobalSettings.CurrentDefinition = kbDef;
-            GlobalSettings.CurrentStyle = kbStyle;
-            this.LoadKeyboard();
-        }
-
+        /// <summary>
+        /// Opens the load keyboard form.
+        /// </summary>
         private void mnuLoadKeyboard_Click(object sender, EventArgs e)
         {
-            var manageForm = new LoadKeyboardForm(this);
-            var result = manageForm.ShowDialog(this);
-
-            // If a legacy kb file was loaded, this has to be handled manually. Other types are handled by the load
-            // form.
-            if (result == DialogResult.Yes)
+            using (var manageForm = new LoadKeyboardForm())
             {
-                GlobalSettings.CurrentDefinition = manageForm.LoadedLegacyDefinition;
-                this.LoadKeyboard();
+                manageForm.DefinitionChanged += (kbDef, kbStyle, globalStyle) =>
+                {
+                    GlobalSettings.CurrentDefinition = kbDef;
+                    GlobalSettings.CurrentStyle = kbStyle ?? new KeyboardStyle();
+
+                    GlobalSettings.Settings.LoadedCategory = kbDef.Category;
+                    GlobalSettings.Settings.LoadedKeyboard = kbDef.Name;
+                    GlobalSettings.Settings.LoadedStyle = kbStyle?.Name;
+                    GlobalSettings.Settings.LoadedGlobalStyle = globalStyle;
+
+                    this.LoadKeyboard();
+                };
+
+                manageForm.ShowDialog(this);
             }
         }
 
+        /// <summary>
+        /// Saves the current definition under its default name.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnuSaveDefinitionAsName_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentDefinition.Save();
@@ -124,19 +159,27 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.LoadedKeyboard = GlobalSettings.CurrentDefinition.Name;
         }
 
+        /// <summary>
+        /// Opens a form the save the current definition under a custom name.
+        /// </summary>
         private void mnuSaveDefinitionAs_Click(object sender, EventArgs e)
         {
-            var saveForm = new SaveKeyboardAsForm();
-            saveForm.ShowDialog(this);
+            using (var saveForm = new SaveKeyboardAsForm())
+            {
+                saveForm.ShowDialog(this);
+            }
         }
 
         #endregion Keyboard loading and saving
 
         #region Settings
-        private void MainForm_Load(object sender, System.EventArgs e)
+
+        /// <summary>
+        /// Handles the loading of the form, all settings are read, hooks are created and the keyboard is initialized.
+        /// </summary>
+        private void MainForm_Load(object sender, EventArgs e)
         {
             // Load the settings
-            
             if (!GlobalSettings.Load())
             {
                 MessageBox.Show(
@@ -146,17 +189,28 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             this.Location = new Point(GlobalSettings.Settings.X, GlobalSettings.Settings.Y);
+            this.Text = $"NohBoard {NohBoard.Version.Get}";
 
             // Load a definition if possible.
             if (GlobalSettings.Settings.LoadedKeyboard != null && GlobalSettings.Settings.LoadedCategory != null)
             {
-                GlobalSettings.CurrentDefinition = KeyboardDefinition
-                    .Load(GlobalSettings.Settings.LoadedCategory, GlobalSettings.Settings.LoadedKeyboard);
-                this.LoadKeyboard();
+                try
+                {
+                    GlobalSettings.CurrentDefinition = KeyboardDefinition
+                        .Load(GlobalSettings.Settings.LoadedCategory, GlobalSettings.Settings.LoadedKeyboard);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "There was an error loading the saved keyboard definition file:" +
+                        $"{Environment.NewLine}{ex.Message}");
+                    GlobalSettings.Settings.LoadedCategory = null;
+                    GlobalSettings.Settings.LoadedKeyboard = null;
+                }
             }
 
             // Load a style if possible.
-            if (GlobalSettings.Settings.LoadedStyle != null)
+            if (GlobalSettings.CurrentDefinition != null && GlobalSettings.Settings.LoadedStyle != null)
             {
                 try
                 {
@@ -167,6 +221,7 @@ namespace ThoNohT.NohBoard.Forms
                 }
                 catch
                 {
+                    GlobalSettings.Settings.LoadedStyle = null;
                     MessageBox.Show(
                         $"Failed to load style {GlobalSettings.Settings.LoadedStyle}, loading default style.",
                         "Error loading style.");
@@ -183,6 +238,9 @@ namespace ThoNohT.NohBoard.Forms
             this.ApplySettings();
         }
 
+        /// <summary>
+        /// Handles the closing of the form. Hooks are disabled and the current position is stored before closing.
+        /// </summary>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HookManager.DisableMouseHook();
@@ -206,18 +264,27 @@ namespace ThoNohT.NohBoard.Forms
             this.LoadKeyboard();
         }
 
+        /// <summary>
+        /// Opens the settings form.
+        /// </summary>
         private void mnuSettings_Click(object sender, EventArgs e)
         {
-            var settingsForm = new SettingsForm();
-            var result = settingsForm.ShowDialog(this);
+            using (var settingsForm = new SettingsForm())
+            {
+                var result = settingsForm.ShowDialog(this);
 
-            if (result == DialogResult.Cancel)
-                return;
+                if (result == DialogResult.Cancel)
+                    return;
 
-            // Re-initialize with the new settings.
-            this.ApplySettings();
+                // Re-initialize with the new settings.
+                this.ApplySettings();
+            }
         }
 
+        /// <summary>
+        /// Populates the main menu. Elements are visible based on which definitions and styles are loaded, and whether
+        /// actions on a specifically pointed element are possible.
+        /// </summary>
         private void MainMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             this.mnuSaveDefinition.Enabled = GlobalSettings.CurrentDefinition != null;
@@ -225,11 +292,15 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.mnuSaveDefinitionAsName.Text =
                     $"Save &To '{GlobalSettings.CurrentDefinition.Category}/{GlobalSettings.CurrentDefinition.Name}'";
+
+                var mousePos = this.PointToClient(Cursor.Position);
+                this.elementUnderCursor =
+                    GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
+                this.mnuEditElementStyle.Enabled = this.elementUnderCursor != null;
             }
 
             this.mnuEditKeyboardStyle.Enabled = GlobalSettings.CurrentDefinition != null;
 
-            this.mnuEditElementStyle.Enabled = false; // TODO: Implement element styles.
             this.mnuSaveStyleToName.Text = $"Save &To '{GlobalSettings.CurrentStyle.Name}'";
             this.mnuSaveStyleToName.Visible = !GlobalSettings.Settings.LoadedGlobalStyle;
             this.mnuSaveToGlobalStyleName.Text = $"Save To &Global '{GlobalSettings.CurrentStyle.Name}'";
@@ -239,6 +310,9 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuToggleEditMode.Enabled = false; // TODO: Implement edit mode.
         }
 
+        /// <summary>
+        /// Exits the application.
+        /// </summary>
         private void mnuExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -248,6 +322,9 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Rendering
         
+        /// <summary>
+        /// Paints the keyboard on the screen.
+        /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
@@ -299,7 +376,10 @@ namespace ThoNohT.NohBoard.Forms
             base.OnPaint(e);
         }
 
-        private void UpdateTimer_Tick(object sender, System.EventArgs e)
+        /// <summary>
+        /// Forces an update if any of the key or mouse states have changed.
+        /// </summary>
+        private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             if (KeyboardState.Updated || MouseState.Updated)
                 this.Refresh();
@@ -308,8 +388,6 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Periodically checks that no keys got stuck.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void KeyCheckTimer_Tick(object sender, EventArgs e)
         {
             MouseState.CheckKeys();
@@ -320,12 +398,95 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Styles
 
-        private void mnuEditKeyboardStyle_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Opens the edit element style form for the element currently under the cursor.
+        /// </summary>
+        private void mnuEditElementStyle_Click(object sender, EventArgs e)
         {
-            var styleForm = new KeyboardStyleForm(this);
-            styleForm.ShowDialog(this);
+            if (GlobalSettings.Settings.LoadedStyle == null)
+            {
+                MessageBox.Show("Please load or save a style before editing element styles.");
+                return;
+            }
+            
+            // Sanity check, don't try anything if there's no selected element.
+            if (this.elementUnderCursor == null) return;
+            var id = this.elementUnderCursor.Id;
+
+            if (this.elementUnderCursor is KeyDefinition)
+            {
+                using (var styleForm = new KeyStyleForm(
+                    GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(id),
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle))
+                {
+                    styleForm.StyleChanged += style =>
+                    {
+                        if (style.Loose == null && style.Pressed == null
+                            && GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Remove(id);
+
+                        if (!GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Add(id, style);
+                        else
+                            GlobalSettings.CurrentStyle.ElementStyles[id] = style;
+
+                        this.ResetBackBrushes();
+                    };
+
+                    styleForm.ShowDialog(this);
+                }
+            }
+
+            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition)
+            {
+                using (var styleForm = new MouseSpeedStyleForm(
+                        GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(id),
+                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle))
+                {
+                    styleForm.StyleChanged += style =>
+                    {
+                        if (style == null && GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Remove(id);
+
+                        if (!GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Add(id, style);
+                        else
+                            GlobalSettings.CurrentStyle.ElementStyles[id] = style;
+
+                        this.ResetBackBrushes();
+                    };
+
+                    styleForm.ShowDialog(this);
+                }
+            }
+
         }
 
+        /// <summary>
+        /// Opens the edit keyboard style form.
+        /// </summary>
+        private void mnuEditKeyboardStyle_Click(object sender, EventArgs e)
+        {
+            if (GlobalSettings.Settings.LoadedStyle == null)
+            {
+                MessageBox.Show("Please load or save a style before editing the keyboard style.");
+                return;
+            }
+
+            using (var styleForm = new KeyboardStyleForm(GlobalSettings.CurrentStyle))
+            {
+                styleForm.StyleChanged += style =>
+                {
+                    GlobalSettings.CurrentStyle = style;
+                    this.ResetBackBrushes();
+                };
+                styleForm.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// Saves the current style to its default name.
+        /// </summary>
         private void mnuSaveStyleToName_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentStyle.Save(false);
@@ -333,6 +494,9 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.LoadedGlobalStyle = false;
         }
 
+        /// <summary>
+        /// Saves the current style as a global style to its default name.
+        /// </summary>
         private void mnuSaveToGlobalStyleName_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentStyle.Save(true);
@@ -340,10 +504,16 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.LoadedGlobalStyle = true;
         }
 
+        /// <summary>
+        /// Opens the save style as form to save the style under a custom name.
+        /// </summary>
         private void mnuSaveStyleAs_Click(object sender, EventArgs e)
         {
-            var saveForm = new SaveStyleAsForm();
-            saveForm.ShowDialog(this);
+            using (var saveForm = new SaveStyleAsForm())
+            {
+                saveForm.ShowDialog(this);
+                saveForm.Dispose();
+            }
         }
 
         #endregion Styles

@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using ThoNohT.NohBoard.Controls;
+
     partial class KeyboardStyleForm
     {
         /// <summary>
@@ -45,242 +47,44 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.LooseGroup = new System.Windows.Forms.GroupBox();
-            this.fntUnpressedKeys = new ThoNohT.NohBoard.Forms.FontChooser();
-            this.chkUnpressedOutline = new System.Windows.Forms.CheckBox();
-            this.clrUnpressedOutline = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.clrUnpressedText = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.clrUnpressedBackground = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.PressedGroup = new System.Windows.Forms.GroupBox();
-            this.fntPressedKeys = new ThoNohT.NohBoard.Forms.FontChooser();
-            this.chkPressedOutline = new System.Windows.Forms.CheckBox();
-            this.clrPressedBackground = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.clrPressedOutline = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.clrPressedText = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.MouseSpeedGroup = new System.Windows.Forms.GroupBox();
-            this.clrMouseSpeedLow = new ThoNohT.NohBoard.Forms.ColorChooser();
-            this.clrMouseSpeedHigh = new ThoNohT.NohBoard.Forms.ColorChooser();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor1 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont1 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor2 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor3 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor4 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont2 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor5 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle mouseSpeedIndicatorStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor7 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor8 = new ThoNohT.NohBoard.Extra.SerializableColor();
             this.KeyboardGroup = new System.Windows.Forms.GroupBox();
-            this.clrKeyboardBackground = new ThoNohT.NohBoard.Forms.ColorChooser();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.CancelButton2 = new System.Windows.Forms.Button();
-            this.udMouseSpeedOutlineWidth = new System.Windows.Forms.NumericUpDown();
-            this.lblMouseSpeedOutlineWidth = new System.Windows.Forms.Label();
-            this.LooseGroup.SuspendLayout();
-            this.PressedGroup.SuspendLayout();
-            this.MouseSpeedGroup.SuspendLayout();
+            this.pressedKeys = new KeySubStylePanel();
+            this.looseKeys = new KeySubStylePanel();
+            this.clrKeyboardBackground = new ColorChooser();
+            this.lblKeyboard = new System.Windows.Forms.Label();
+            this.defaultMouseSpeed = new MouseSpeedStylePanel();
             this.KeyboardGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udMouseSpeedOutlineWidth)).BeginInit();
             this.SuspendLayout();
-            // 
-            // LooseGroup
-            // 
-            this.LooseGroup.Controls.Add(this.fntUnpressedKeys);
-            this.LooseGroup.Controls.Add(this.chkUnpressedOutline);
-            this.LooseGroup.Controls.Add(this.clrUnpressedOutline);
-            this.LooseGroup.Controls.Add(this.clrUnpressedText);
-            this.LooseGroup.Controls.Add(this.clrUnpressedBackground);
-            this.LooseGroup.Location = new System.Drawing.Point(171, 12);
-            this.LooseGroup.Name = "LooseGroup";
-            this.LooseGroup.Size = new System.Drawing.Size(153, 176);
-            this.LooseGroup.TabIndex = 0;
-            this.LooseGroup.TabStop = false;
-            this.LooseGroup.Text = "Unpressed keys";
-            // 
-            // fntUnpressedKeys
-            // 
-            this.fntUnpressedKeys.BackColor = System.Drawing.SystemColors.Control;
-            this.fntUnpressedKeys.LabelText = "Text Font";
-            this.fntUnpressedKeys.Location = new System.Drawing.Point(7, 84);
-            this.fntUnpressedKeys.Name = "fntUnpressedKeys";
-            this.fntUnpressedKeys.Size = new System.Drawing.Size(140, 26);
-            this.fntUnpressedKeys.TabIndex = 9;
-            this.fntUnpressedKeys.FontChanged += new ThoNohT.NohBoard.Forms.FontChooser.FontChangedEventHandler(this.Control_FontChanged);
-            // 
-            // chkUnpressedOutline
-            // 
-            this.chkUnpressedOutline.AutoSize = true;
-            this.chkUnpressedOutline.Location = new System.Drawing.Point(7, 148);
-            this.chkUnpressedOutline.Name = "chkUnpressedOutline";
-            this.chkUnpressedOutline.Size = new System.Drawing.Size(89, 17);
-            this.chkUnpressedOutline.TabIndex = 3;
-            this.chkUnpressedOutline.Text = "Show Outline";
-            this.chkUnpressedOutline.UseVisualStyleBackColor = true;
-            this.chkUnpressedOutline.CheckedChanged += new System.EventHandler(this.chkUnpressedOutline_CheckedChanged);
-            // 
-            // clrUnpressedOutline
-            // 
-            this.clrUnpressedOutline.BackColor = System.Drawing.SystemColors.Control;
-            this.clrUnpressedOutline.Color = System.Drawing.Color.Lime;
-            this.clrUnpressedOutline.LabelText = "Outline Color";
-            this.clrUnpressedOutline.Location = new System.Drawing.Point(6, 116);
-            this.clrUnpressedOutline.Name = "clrUnpressedOutline";
-            this.clrUnpressedOutline.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrUnpressedOutline.Size = new System.Drawing.Size(141, 26);
-            this.clrUnpressedOutline.TabIndex = 2;
-            this.clrUnpressedOutline.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // clrUnpressedText
-            // 
-            this.clrUnpressedText.BackColor = System.Drawing.SystemColors.Control;
-            this.clrUnpressedText.Color = System.Drawing.Color.Black;
-            this.clrUnpressedText.ForeColor = System.Drawing.Color.Black;
-            this.clrUnpressedText.LabelText = "Text Color";
-            this.clrUnpressedText.Location = new System.Drawing.Point(6, 52);
-            this.clrUnpressedText.Name = "clrUnpressedText";
-            this.clrUnpressedText.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrUnpressedText.Size = new System.Drawing.Size(141, 26);
-            this.clrUnpressedText.TabIndex = 1;
-            this.clrUnpressedText.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // clrUnpressedBackground
-            // 
-            this.clrUnpressedBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrUnpressedBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.clrUnpressedBackground.LabelText = "Background Color";
-            this.clrUnpressedBackground.Location = new System.Drawing.Point(7, 20);
-            this.clrUnpressedBackground.Name = "clrUnpressedBackground";
-            this.clrUnpressedBackground.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrUnpressedBackground.Size = new System.Drawing.Size(140, 26);
-            this.clrUnpressedBackground.TabIndex = 0;
-            this.clrUnpressedBackground.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // PressedGroup
-            // 
-            this.PressedGroup.Controls.Add(this.fntPressedKeys);
-            this.PressedGroup.Controls.Add(this.chkPressedOutline);
-            this.PressedGroup.Controls.Add(this.clrPressedBackground);
-            this.PressedGroup.Controls.Add(this.clrPressedOutline);
-            this.PressedGroup.Controls.Add(this.clrPressedText);
-            this.PressedGroup.Location = new System.Drawing.Point(330, 12);
-            this.PressedGroup.Name = "PressedGroup";
-            this.PressedGroup.Size = new System.Drawing.Size(153, 176);
-            this.PressedGroup.TabIndex = 1;
-            this.PressedGroup.TabStop = false;
-            this.PressedGroup.Text = "Pressed keys";
-            // 
-            // fntPressedKeys
-            // 
-            this.fntPressedKeys.BackColor = System.Drawing.SystemColors.Control;
-            this.fntPressedKeys.LabelText = "Text Font";
-            this.fntPressedKeys.Location = new System.Drawing.Point(7, 84);
-            this.fntPressedKeys.Name = "fntPressedKeys";
-            this.fntPressedKeys.Size = new System.Drawing.Size(140, 26);
-            this.fntPressedKeys.TabIndex = 8;
-            this.fntPressedKeys.FontChanged += new ThoNohT.NohBoard.Forms.FontChooser.FontChangedEventHandler(this.Control_FontChanged);
-            // 
-            // chkPressedOutline
-            // 
-            this.chkPressedOutline.AutoSize = true;
-            this.chkPressedOutline.Location = new System.Drawing.Point(5, 148);
-            this.chkPressedOutline.Name = "chkPressedOutline";
-            this.chkPressedOutline.Size = new System.Drawing.Size(89, 17);
-            this.chkPressedOutline.TabIndex = 7;
-            this.chkPressedOutline.Text = "Show Outline";
-            this.chkPressedOutline.UseVisualStyleBackColor = true;
-            this.chkPressedOutline.CheckedChanged += new System.EventHandler(this.chkPressedOutline_CheckedChanged);
-            // 
-            // clrPressedBackground
-            // 
-            this.clrPressedBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrPressedBackground.Color = System.Drawing.Color.White;
-            this.clrPressedBackground.LabelText = "Background Color";
-            this.clrPressedBackground.Location = new System.Drawing.Point(6, 20);
-            this.clrPressedBackground.Name = "clrPressedBackground";
-            this.clrPressedBackground.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrPressedBackground.Size = new System.Drawing.Size(141, 26);
-            this.clrPressedBackground.TabIndex = 4;
-            this.clrPressedBackground.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // clrPressedOutline
-            // 
-            this.clrPressedOutline.BackColor = System.Drawing.SystemColors.Control;
-            this.clrPressedOutline.Color = System.Drawing.Color.Lime;
-            this.clrPressedOutline.LabelText = "Outline Color";
-            this.clrPressedOutline.Location = new System.Drawing.Point(5, 116);
-            this.clrPressedOutline.Name = "clrPressedOutline";
-            this.clrPressedOutline.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrPressedOutline.Size = new System.Drawing.Size(142, 26);
-            this.clrPressedOutline.TabIndex = 6;
-            this.clrPressedOutline.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // clrPressedText
-            // 
-            this.clrPressedText.BackColor = System.Drawing.SystemColors.Control;
-            this.clrPressedText.Color = System.Drawing.Color.Black;
-            this.clrPressedText.ForeColor = System.Drawing.Color.Black;
-            this.clrPressedText.LabelText = "Text Color";
-            this.clrPressedText.Location = new System.Drawing.Point(5, 52);
-            this.clrPressedText.Name = "clrPressedText";
-            this.clrPressedText.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrPressedText.Size = new System.Drawing.Size(142, 26);
-            this.clrPressedText.TabIndex = 5;
-            this.clrPressedText.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // MouseSpeedGroup
-            // 
-            this.MouseSpeedGroup.Controls.Add(this.lblMouseSpeedOutlineWidth);
-            this.MouseSpeedGroup.Controls.Add(this.udMouseSpeedOutlineWidth);
-            this.MouseSpeedGroup.Controls.Add(this.clrMouseSpeedLow);
-            this.MouseSpeedGroup.Controls.Add(this.clrMouseSpeedHigh);
-            this.MouseSpeedGroup.Location = new System.Drawing.Point(12, 74);
-            this.MouseSpeedGroup.Name = "MouseSpeedGroup";
-            this.MouseSpeedGroup.Size = new System.Drawing.Size(153, 114);
-            this.MouseSpeedGroup.TabIndex = 8;
-            this.MouseSpeedGroup.TabStop = false;
-            this.MouseSpeedGroup.Text = "Mouse Speed Indicator";
-            // 
-            // clrMouseSpeedLow
-            // 
-            this.clrMouseSpeedLow.BackColor = System.Drawing.SystemColors.Control;
-            this.clrMouseSpeedLow.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.clrMouseSpeedLow.LabelText = "Color 1 (slow speed)";
-            this.clrMouseSpeedLow.Location = new System.Drawing.Point(6, 20);
-            this.clrMouseSpeedLow.Name = "clrMouseSpeedLow";
-            this.clrMouseSpeedLow.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrMouseSpeedLow.Size = new System.Drawing.Size(141, 26);
-            this.clrMouseSpeedLow.TabIndex = 4;
-            this.clrMouseSpeedLow.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
-            // 
-            // clrMouseSpeedHigh
-            // 
-            this.clrMouseSpeedHigh.BackColor = System.Drawing.SystemColors.Control;
-            this.clrMouseSpeedHigh.Color = System.Drawing.Color.White;
-            this.clrMouseSpeedHigh.ForeColor = System.Drawing.Color.Black;
-            this.clrMouseSpeedHigh.LabelText = "Color 2 (high speed)";
-            this.clrMouseSpeedHigh.Location = new System.Drawing.Point(5, 52);
-            this.clrMouseSpeedHigh.Name = "clrMouseSpeedHigh";
-            this.clrMouseSpeedHigh.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrMouseSpeedHigh.Size = new System.Drawing.Size(142, 26);
-            this.clrMouseSpeedHigh.TabIndex = 5;
-            this.clrMouseSpeedHigh.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
             // 
             // KeyboardGroup
             // 
             this.KeyboardGroup.Controls.Add(this.clrKeyboardBackground);
-            this.KeyboardGroup.Location = new System.Drawing.Point(12, 12);
+            this.KeyboardGroup.Location = new System.Drawing.Point(12, 34);
             this.KeyboardGroup.Name = "KeyboardGroup";
-            this.KeyboardGroup.Size = new System.Drawing.Size(153, 56);
+            this.KeyboardGroup.Size = new System.Drawing.Size(171, 56);
             this.KeyboardGroup.TabIndex = 9;
             this.KeyboardGroup.TabStop = false;
-            this.KeyboardGroup.Text = "Keyboard";
-            // 
-            // clrKeyboardBackground
-            // 
-            this.clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
-            this.clrKeyboardBackground.LabelText = "Background Color";
-            this.clrKeyboardBackground.Location = new System.Drawing.Point(7, 19);
-            this.clrKeyboardBackground.Name = "clrKeyboardBackground";
-            this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Forms.ColorChooser.Shape.Square;
-            this.clrKeyboardBackground.Size = new System.Drawing.Size(140, 26);
-            this.clrKeyboardBackground.TabIndex = 2;
-            this.clrKeyboardBackground.ColorChanged += new ThoNohT.NohBoard.Forms.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
+            this.KeyboardGroup.Text = "Background";
             // 
             // AcceptButton2
             // 
             this.AcceptButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.AcceptButton2.Location = new System.Drawing.Point(408, 194);
+            this.AcceptButton2.Location = new System.Drawing.Point(462, 328);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 10;
@@ -291,7 +95,7 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(327, 194);
+            this.CancelButton2.Location = new System.Drawing.Point(381, 328);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 11;
@@ -299,27 +103,105 @@ namespace ThoNohT.NohBoard.Forms
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
             // 
-            // udMouseSpeedOutlineWidth
+            // pressedKeys
             // 
-            this.udMouseSpeedOutlineWidth.Location = new System.Drawing.Point(7, 85);
-            this.udMouseSpeedOutlineWidth.Name = "udMouseSpeedOutlineWidth";
-            this.udMouseSpeedOutlineWidth.Size = new System.Drawing.Size(40, 20);
-            this.udMouseSpeedOutlineWidth.TabIndex = 6;
-            this.udMouseSpeedOutlineWidth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udMouseSpeedOutlineWidth.ValueChanged += new System.EventHandler(this.UpDown_ValueChanged);
+            this.pressedKeys.Location = new System.Drawing.Point(366, 13);
+            this.pressedKeys.Name = "pressedKeys";
+            this.pressedKeys.Size = new System.Drawing.Size(171, 309);
+            serializableColor1.Blue = ((byte)(0));
+            serializableColor1.Green = ((byte)(0));
+            serializableColor1.Red = ((byte)(0));
+            keySubStyle1.Background = serializableColor1;
+            keySubStyle1.BackgroundImageFileName = "";
+            serializableFont1.FontFamily = "Microsoft Sans Serif";
+            serializableFont1.Size = 8.25F;
+            serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle1.Font = serializableFont1;
+            serializableColor2.Blue = ((byte)(0));
+            serializableColor2.Green = ((byte)(0));
+            serializableColor2.Red = ((byte)(0));
+            keySubStyle1.Outline = serializableColor2;
+            keySubStyle1.OutlineWidth = 1;
+            keySubStyle1.ShowOutline = false;
+            serializableColor3.Blue = ((byte)(0));
+            serializableColor3.Green = ((byte)(0));
+            serializableColor3.Red = ((byte)(0));
+            keySubStyle1.Text = serializableColor3;
+            this.pressedKeys.SubStyle = keySubStyle1;
+            this.pressedKeys.TabIndex = 13;
+            this.pressedKeys.Title = "Pressed Keys";
+            this.pressedKeys.StyleChanged += new KeySubStylePanel.StyleChangedEventHandler(this.pressedKeys_SubStyleChanged);
             // 
-            // lblMouseSpeedOutlineWidth
+            // looseKeys
             // 
-            this.lblMouseSpeedOutlineWidth.AutoSize = true;
-            this.lblMouseSpeedOutlineWidth.Location = new System.Drawing.Point(53, 90);
-            this.lblMouseSpeedOutlineWidth.Name = "lblMouseSpeedOutlineWidth";
-            this.lblMouseSpeedOutlineWidth.Size = new System.Drawing.Size(71, 13);
-            this.lblMouseSpeedOutlineWidth.TabIndex = 7;
-            this.lblMouseSpeedOutlineWidth.Text = "Outline Width";
+            this.looseKeys.Location = new System.Drawing.Point(189, 13);
+            this.looseKeys.Name = "looseKeys";
+            this.looseKeys.Size = new System.Drawing.Size(171, 309);
+            serializableColor4.Blue = ((byte)(0));
+            serializableColor4.Green = ((byte)(0));
+            serializableColor4.Red = ((byte)(0));
+            keySubStyle2.Background = serializableColor4;
+            keySubStyle2.BackgroundImageFileName = "";
+            serializableFont2.FontFamily = "Microsoft Sans Serif";
+            serializableFont2.Size = 8.25F;
+            serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle2.Font = serializableFont2;
+            serializableColor5.Blue = ((byte)(0));
+            serializableColor5.Green = ((byte)(0));
+            serializableColor5.Red = ((byte)(0));
+            keySubStyle2.Outline = serializableColor5;
+            keySubStyle2.OutlineWidth = 1;
+            keySubStyle2.ShowOutline = false;
+            serializableColor6.Blue = ((byte)(0));
+            serializableColor6.Green = ((byte)(0));
+            serializableColor6.Red = ((byte)(0));
+            keySubStyle2.Text = serializableColor6;
+            this.looseKeys.SubStyle = keySubStyle2;
+            this.looseKeys.TabIndex = 12;
+            this.looseKeys.Title = "Loose Keys";
+            this.looseKeys.StyleChanged += new KeySubStylePanel.StyleChangedEventHandler(this.looseKeys_SubStyleChanged);
+            // 
+            // clrKeyboardBackground
+            // 
+            this.clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
+            this.clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
+            this.clrKeyboardBackground.LabelText = "Background Color";
+            this.clrKeyboardBackground.Location = new System.Drawing.Point(7, 19);
+            this.clrKeyboardBackground.Name = "clrKeyboardBackground";
+            this.clrKeyboardBackground.PreviewShape = ColorChooser.Shape.Square;
+            this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
+            this.clrKeyboardBackground.TabIndex = 2;
+            this.clrKeyboardBackground.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
+            // 
+            // lblKeyboard
+            // 
+            this.lblKeyboard.AutoEllipsis = true;
+            this.lblKeyboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKeyboard.Location = new System.Drawing.Point(9, 14);
+            this.lblKeyboard.Name = "lblKeyboard";
+            this.lblKeyboard.Size = new System.Drawing.Size(174, 18);
+            this.lblKeyboard.TabIndex = 15;
+            this.lblKeyboard.Text = "Keyboard";
+            this.lblKeyboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // defaultMouseSpeed
+            // 
+            serializableColor7.Blue = ((byte)(0));
+            serializableColor7.Green = ((byte)(0));
+            serializableColor7.Red = ((byte)(0));
+            mouseSpeedIndicatorStyle1.InnerColor = serializableColor7;
+            serializableColor8.Blue = ((byte)(0));
+            serializableColor8.Green = ((byte)(0));
+            serializableColor8.Red = ((byte)(0));
+            mouseSpeedIndicatorStyle1.OuterColor = serializableColor8;
+            mouseSpeedIndicatorStyle1.OutlineWidth = 1;
+            this.defaultMouseSpeed.IndicatorStyle = mouseSpeedIndicatorStyle1;
+            this.defaultMouseSpeed.Location = new System.Drawing.Point(12, 96);
+            this.defaultMouseSpeed.Name = "defaultMouseSpeed";
+            this.defaultMouseSpeed.Size = new System.Drawing.Size(171, 144);
+            this.defaultMouseSpeed.TabIndex = 16;
+            this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
+            this.defaultMouseSpeed.IndicatorStyleChanged += new MouseSpeedStylePanel.StyleChangedEventHandler(this.defaultMouseSpeed_IndicatorStyleChanged);
             // 
             // KeyboardStyleForm
             // 
@@ -327,52 +209,32 @@ namespace ThoNohT.NohBoard.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(495, 225);
+            this.ClientSize = new System.Drawing.Size(539, 355);
+            this.Controls.Add(this.defaultMouseSpeed);
+            this.Controls.Add(this.lblKeyboard);
+            this.Controls.Add(this.pressedKeys);
+            this.Controls.Add(this.looseKeys);
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.AcceptButton2);
             this.Controls.Add(this.KeyboardGroup);
-            this.Controls.Add(this.MouseSpeedGroup);
-            this.Controls.Add(this.PressedGroup);
-            this.Controls.Add(this.LooseGroup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "KeyboardStyleForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Keyboard Style";
             this.Load += new System.EventHandler(this.KeyboardStyleForm_Load);
-            this.LooseGroup.ResumeLayout(false);
-            this.LooseGroup.PerformLayout();
-            this.PressedGroup.ResumeLayout(false);
-            this.PressedGroup.PerformLayout();
-            this.MouseSpeedGroup.ResumeLayout(false);
-            this.MouseSpeedGroup.PerformLayout();
             this.KeyboardGroup.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.udMouseSpeedOutlineWidth)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox LooseGroup;
-        private System.Windows.Forms.CheckBox chkUnpressedOutline;
-        private ColorChooser clrUnpressedOutline;
-        private ColorChooser clrUnpressedText;
-        private ColorChooser clrUnpressedBackground;
-        private System.Windows.Forms.GroupBox PressedGroup;
-        private System.Windows.Forms.CheckBox chkPressedOutline;
-        private ColorChooser clrPressedBackground;
-        private ColorChooser clrPressedOutline;
-        private ColorChooser clrPressedText;
         private ColorChooser clrKeyboardBackground;
-        private System.Windows.Forms.GroupBox MouseSpeedGroup;
-        private ColorChooser clrMouseSpeedLow;
-        private ColorChooser clrMouseSpeedHigh;
         private System.Windows.Forms.GroupBox KeyboardGroup;
         private System.Windows.Forms.Button AcceptButton2;
         private System.Windows.Forms.Button CancelButton2;
-        private FontChooser fntPressedKeys;
-        private FontChooser fntUnpressedKeys;
-        private System.Windows.Forms.Label lblMouseSpeedOutlineWidth;
-        private System.Windows.Forms.NumericUpDown udMouseSpeedOutlineWidth;
+        private KeySubStylePanel looseKeys;
+        private KeySubStylePanel pressedKeys;
+        private System.Windows.Forms.Label lblKeyboard;
+        private MouseSpeedStylePanel defaultMouseSpeed;
     }
 }

@@ -29,6 +29,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     public abstract class ElementDefinition
     {
         /// <summary>
+        /// Compare this against the dependency counter to know when to update brushes.
+        /// </summary>
+        protected int StyleVersion = 0;
+
+        /// <summary>
         /// Gets or sets the identifier of the element.
         /// </summary>
         [DataMember]
@@ -47,5 +52,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="dy">The distance along the y-axis.</param>
         /// <returns>A new <see cref="ElementDefinition"/> that is translated.</returns>
         public abstract ElementDefinition Translate(int dx, int dy);
+
+        /// <summary>
+        /// Calculates whether the specified point is inside this element.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns>True if the point is inside the element, false otherwise.</returns>
+        public abstract bool Inside(Point point);
     }
 }

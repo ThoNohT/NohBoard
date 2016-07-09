@@ -24,7 +24,7 @@ namespace ThoNohT.NohBoard.Keyboard
     using System.Linq;
     using System.Runtime.Serialization;
     using ElementDefinitions;
-    using ThoNohT.NohBoard.Extra;
+    using Extra;
 
     /// <summary>
     /// Represents a keyboard, can be serialized to a keyboard file.
@@ -86,6 +86,9 @@ namespace ThoNohT.NohBoard.Keyboard
                     this.Elements.Select(x => x.GetBoundingBox().Bottom).Max() - minY));
         }
 
+        /// <summary>
+        /// Saves this keyboard definition. The path is defined from the category and name of this keyboard.
+        /// </summary>
         public void Save()
         {
             var filename = Path.Combine(
@@ -99,13 +102,19 @@ namespace ThoNohT.NohBoard.Keyboard
             FileHelper.Serialize(filename, this);
         }
 
+        /// <summary>
+        /// Loads a new keyboard definition.
+        /// </summary>
+        /// <param name="category">The category to load the keyboard from.</param>
+        /// <param name="name">The name of the keyboard to load.</param>
+        /// <returns>The loaded <see cref="KeyboardDefinition"/>.</returns>
         public static KeyboardDefinition Load(string category, string name)
         {
-            var categoryPath = Path.Combine(Constants.ExePath, Constants.KeyboardsFolder, category);
-            if (!Directory.Exists(categoryPath))
+            var categoryPath = FileHelper.FromKbs(category);
+            if (!categoryPath.Exists)
                 throw new ArgumentException($"Category {category} does not exist.");
 
-            var keyboardPath = Path.Combine(categoryPath, name);
+            var keyboardPath = Path.Combine(categoryPath.FullName, name);
             if (!Directory.Exists(keyboardPath))
                 throw new ArgumentException($"Keyboard {name} does not exist.");
 

@@ -18,148 +18,136 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Forms
 {
     using System.Windows.Forms;
-    using ThoNohT.NohBoard.Extra;
+    using ThoNohT.NohBoard.Controls;
     using ThoNohT.NohBoard.Keyboard;
 
+    /// <summary>
+    /// The form used to change a keyboard's global style.
+    /// </summary>
     public partial class KeyboardStyleForm : Form
     {
+        #region Fields
+
         /// <summary>
         /// A backup style to return to if the user presses cancel.
         /// </summary>
-        private KeyboardStyle backupStyle;
+        private readonly KeyboardStyle initialStyle;
 
-        private readonly MainForm parent;
+        /// <summary>
+        /// The currently loaded style.
+        /// </summary>
+        private readonly KeyboardStyle currentStyle;
 
-        public KeyboardStyleForm(MainForm parent)
+        #endregion Fields
+
+        #region Events
+
+        /// <summary>
+        /// The delegate to invoke when the style has been changed.
+        /// </summary>
+        /// <param name="style">The keyboard style.</param>
+        public delegate void StyleChangedEventHandler(KeyboardStyle style);
+
+        /// <summary>
+        /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
+        /// the user interface, not when it is changed programmatically.
+        /// </summary>
+        public new event StyleChangedEventHandler StyleChanged;
+
+        #endregion Events
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyboardStyleForm" /> class.
+        /// </summary>
+        /// <param name="initialStyle">The initial style.</param>
+        public KeyboardStyleForm(KeyboardStyle initialStyle)
         {
-            this.parent = parent;
-            InitializeComponent();
+            this.initialStyle = initialStyle;
+            this.currentStyle = initialStyle;
+            this.InitializeComponent();
         }
 
+        #endregion Constructors
+
+        #region Methods
+
+        /// <summary>
+        /// Loads the form, filling the controls with the initial style.
+        /// </summary>
         private void KeyboardStyleForm_Load(object sender, System.EventArgs e)
         {
-            this.backupStyle = GlobalSettings.CurrentStyle.Clone();
-
             // Keyboard
-            this.clrKeyboardBackground.Color = GlobalSettings.CurrentStyle.BackgroundColor;
+            this.clrKeyboardBackground.Color = this.initialStyle.BackgroundColor;
 
-            // Pressed key
-            this.clrPressedBackground.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundPressed;
-            this.clrPressedText.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed;
-            this.clrPressedOutline.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed;
-            this.chkPressedOutline.Checked = GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlinePressed;
-            this.fntPressedKeys.Font = GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont;
-
-            // Unpressed key
-            this.clrUnpressedBackground.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose;
-            this.clrUnpressedText.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose;
-            this.clrUnpressedOutline.Color = GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose;
-            this.chkUnpressedOutline.Checked = GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlineLoose;
-            this.fntUnpressedKeys.Font = GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont;
+            // Default key styles.
+            this.looseKeys.SubStyle = this.initialStyle.DefaultKeyStyle.Loose;
+            this.pressedKeys.SubStyle = this.initialStyle.DefaultKeyStyle.Pressed;
 
             // Mouse speed indicator
-            this.clrMouseSpeedLow.Color = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor;
-            this.clrMouseSpeedHigh.Color = GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor;
-            this.udMouseSpeedOutlineWidth.Value =
-                GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth;
+            this.defaultMouseSpeed.IndicatorStyle = this.initialStyle.DefaultMouseSpeedIndicatorStyle;
         }
 
+        /// <summary>
+        /// Handles the change of a color changed control, which is the background color control, updating the style.
+        /// </summary>
         private void Control_ColorChanged(ColorChooser sender, System.Drawing.Color color)
         {
-            switch (sender.Name)
-            {
-                case "clrKeyboardBackground":
-                    GlobalSettings.CurrentStyle.BackgroundColor = color;
-                    break;
-
-                case "clrUnpressedBackground":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundLoose = color;
-                    break;
-
-                case "clrUnpressedText":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextLoose = color;
-                    break;
-
-                case "clrUnpressedOutline":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlineLoose = color;
-                    break;
-
-                case "clrPressedBackground":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.BackgroundPressed = color;
-                    break;
-
-                case "clrPressedText":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.TextPressed = color;
-                    break;
-
-                case "clrPressedOutline":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.OutlinePressed = color;
-                    break;
-
-                case "clrMouseSpeedLow":
-                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.InnerColor = color;
-                    break;
-
-                case "clrMouseSpeedHigh":
-                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OuterColor = color;
-                    break;
-
-                default:
-                    return;
-            }
-
-            this.parent.ResetBackBrushes();
+            if (sender.Name != "clrKeyboardBackground") return;
+            this.currentStyle.BackgroundColor = color;
+            this.StyleChanged?.Invoke(this.currentStyle);
         }
 
-        private void Control_FontChanged(FontChooser sender, System.Drawing.Font font)
-        {
-            switch (sender.Name)
-            {
-                case "fntPressedKeys":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.PressedFont = font;
-                    break;
-                case "fntUnpressedKeys":
-                    GlobalSettings.CurrentStyle.DefaultKeyStyle.UnpressedFont = font;
-                    break;
-                default:
-                    return;
-            }
-
-            this.parent.ResetBackBrushes();
-        }
-
-        private void UpDown_ValueChanged(object sender, System.EventArgs e)
-        {
-            GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle.OutlineWidth =
-                (int)this.udMouseSpeedOutlineWidth.Value;
-
-            this.parent.ResetBackBrushes();
-        }
-
+        /// <summary>
+        /// Accepts the current style.
+        /// </summary>
         private void AcceptButton2_Click(object sender, System.EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
+        /// <summary>
+        /// Cancels the current style, reverting to the initial style.
+        /// </summary>
         private void CancelButton2_Click(object sender, System.EventArgs e)
         {
-            GlobalSettings.CurrentStyle = this.backupStyle;
-            this.parent.ResetBackBrushes();
+            this.StyleChanged?.Invoke(this.initialStyle);
             this.Close();
         }
 
-        private void chkUnpressedOutline_CheckedChanged(object sender, System.EventArgs e)
+        /// <summary>
+        /// Handles the change of the default style for pressed keys. Sets the new styles and invokes the changed event.
+        /// </summary>
+        /// <param name="style">The new style.</param>
+        private void pressedKeys_SubStyleChanged(Keyboard.Styles.KeySubStyle style)
         {
-            GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlineLoose = this.chkUnpressedOutline.Checked;
-            this.parent.ResetBackBrushes();
+            this.currentStyle.DefaultKeyStyle.Pressed = style;
+            this.StyleChanged?.Invoke(this.currentStyle);
         }
 
-        private void chkPressedOutline_CheckedChanged(object sender, System.EventArgs e)
+        /// <summary>
+        /// Handles the change of the default style for loose keys. Sets the new styles and invokes the changed event.
+        /// </summary>
+        /// <param name="style">The new style.</param>
+        private void looseKeys_SubStyleChanged(Keyboard.Styles.KeySubStyle style)
         {
-            GlobalSettings.CurrentStyle.DefaultKeyStyle.ShowOutlinePressed = this.chkPressedOutline.Checked;
-            this.parent.ResetBackBrushes();
+            this.currentStyle.DefaultKeyStyle.Loose = style;
+            this.StyleChanged?.Invoke(this.currentStyle);
         }
 
+        /// <summary>
+        /// Handles the change of the default style for mouse speed indicators. Sets the new styles and invokes the
+        /// changed event.
+        /// </summary>
+        /// <param name="style">The new style.</param>
+        private void defaultMouseSpeed_IndicatorStyleChanged(Keyboard.Styles.MouseSpeedIndicatorStyle style)
+        {
+            this.currentStyle.DefaultMouseSpeedIndicatorStyle = style;
+            this.StyleChanged?.Invoke(this.currentStyle);
+        }
+
+        #endregion Methods
     }
 }

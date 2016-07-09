@@ -54,25 +54,44 @@
     <Compile Include="Extra\FileHelper.cs" />
     <Compile Include="Extra\Geom.cs" />
     <Compile Include="Extra\GlobalSettings.cs" />
+    <Compile Include="Extra\ImageCache.cs" />
     <Compile Include="Extra\SerializableColor.cs" />
     <Compile Include="Extra\SerializableFont.cs" />
-    <Compile Include="Forms\FontChooser.cs">
+    <Compile Include="Controls\FontChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\FontChooser.Designer.cs">
+    <Compile Include="Controls\FontChooser.Designer.cs">
       <DependentUpon>FontChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ColorChooser.cs">
+    <Compile Include="Controls\ColorChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\ColorChooser.Designer.cs">
+    <Compile Include="Controls\ColorChooser.Designer.cs">
       <DependentUpon>ColorChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MouseSpeedStyleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MouseSpeedStyleForm.Designer.cs">
+      <DependentUpon>MouseSpeedStyleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\KeyStyleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\KeyStyleForm.Designer.cs">
+      <DependentUpon>KeyStyleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\KeyboardStyleForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\KeyboardStyleForm.Designer.cs">
       <DependentUpon>KeyboardStyleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MouseSpeedStylePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MouseSpeedStylePanel.Designer.cs">
+      <DependentUpon>MouseSpeedStylePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoadKeyboardForm.cs">
       <SubType>Form</SubType>
@@ -92,6 +111,12 @@
     <Compile Include="Forms\SaveStyleAsForm.Designer.cs">
       <DependentUpon>SaveStyleAsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KeySubStylePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\KeySubStylePanel.Designer.cs">
+      <DependentUpon>KeySubStylePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Keyboard\ElementDefinitions\ElementDefinition.cs" />
     <Compile Include="Keyboard\ElementDefinitions\KeyboardKeyDefinition.cs" />
     <Compile Include="Keyboard\ElementDefinitions\KeyDefinition.cs" />
@@ -101,6 +126,7 @@
     <Compile Include="Keyboard\KeyboardStyle.cs" />
     <Compile Include="Keyboard\Styles\ElementStyle.cs" />
     <Compile Include="Keyboard\Styles\KeyStyle.cs" />
+    <Compile Include="Keyboard\Styles\KeySubStyle.cs" />
     <Compile Include="Keyboard\Styles\MouseSpeedIndicatorStyle.cs" />
     <Compile Include="Legacy\KeyType.cs" />
     <Compile Include="Legacy\LegacyKeyCodeMapping.cs" />
@@ -123,15 +149,30 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Extra\TPoint.cs" />
-    <EmbeddedResource Include="Forms\FontChooser.resx">
+    <Compile Include="Version.cs" />
+    <EmbeddedResource Include="Controls\FontChooser.resx">
       <DependentUpon>FontChooser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ColorChooser.resx">
+    <EmbeddedResource Include="Controls\ColorChooser.resx">
       <DependentUpon>ColorChooser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MouseSpeedStyleForm.resx">
+      <DependentUpon>MouseSpeedStyleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KeyStyleForm.resx">
+      <DependentUpon>KeyStyleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KeyboardStyleForm.resx">
       <DependentUpon>KeyboardStyleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MouseSpeedStylePanel.resx">
+      <DependentUpon>MouseSpeedStylePanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KeySubStylePanel.resx">
+      <DependentUpon>KeySubStylePanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoadKeyboardForm.resx">
       <DependentUpon>LoadKeyboardForm.cs</DependentUpon>
@@ -162,7 +203,15 @@
   <ItemGroup>
     <Content Include="NohBoard.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AssemblyInfo.cs.template" />
+    <None Include="Version.cs.template" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)gotri.exe -i "$(ProjectDir)Version.cs.template" -o "$(ProjectDir)Version.cs"
+$(SolutionDir)gotri.exe -i "$(ProjectDir)Properties/AssemblyInfo.cs.template" -o "$(ProjectDir)Properties/AssemblyInfo.cs"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

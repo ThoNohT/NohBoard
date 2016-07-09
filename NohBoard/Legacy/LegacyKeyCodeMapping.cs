@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Legacy
 {
     using System;
-    using Keyboard;
     using ThoNohT.NohBoard.Hooking;
 
     /// <summary>
