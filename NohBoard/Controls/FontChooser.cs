@@ -79,7 +79,6 @@ namespace ThoNohT.NohBoard.Controls
             get { return this.font; }
             set
             {
-                Console.WriteLine($"Font changed to {value.Name}");
                 this.font = value;
                 this.DisplayLabel.Font = value;
                 this.Refresh();

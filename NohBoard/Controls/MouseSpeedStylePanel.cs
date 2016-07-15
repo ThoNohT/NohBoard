@@ -27,6 +27,11 @@ namespace ThoNohT.NohBoard.Controls
     /// </summary>
     public partial class MouseSpeedStylePanel : UserControl
     {
+        /// <summary>
+        /// Indicates whether the style is currently being programmatically set, this should not raise events.
+        /// </summary>
+        private bool setting;
+
         #region Events
 
         /// <summary>
@@ -73,9 +78,13 @@ namespace ThoNohT.NohBoard.Controls
             }
             set
             {
+                this.setting = true;
+
                 this.clrInner.Color = value.InnerColor;
                 this.clrOuter.Color = value.OuterColor;
                 this.udOutlineWidth.Value = value.OutlineWidth;
+
+                this.setting = false;
             }
         }
 
@@ -97,7 +106,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void clr_ColorChanged(ColorChooser sender, System.Drawing.Color color)
         {
-            this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
+            if (!this.setting) this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
         }
 
         /// <summary>
@@ -105,7 +114,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void udOutlineWidth_ValueChanged(object sender, System.EventArgs e)
         {
-            this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
+            if (!this.setting) this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
         }
 
         #endregion Methods

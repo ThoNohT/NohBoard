@@ -27,6 +27,11 @@ namespace ThoNohT.NohBoard.Controls
     /// </summary>
     public partial class KeySubStylePanel : UserControl
     {
+        /// <summary>
+        /// Indicates whether the style is being programatically set, this should not raise events.
+        /// </summary>
+        private bool setting;
+
         #region Events
 
         /// <summary>
@@ -79,6 +84,8 @@ namespace ThoNohT.NohBoard.Controls
             }
             set
             {
+                this.setting = true;
+
                 this.clrBackground.Color = value.Background;
                 this.txtBackgoundImage.Text = value.BackgroundImageFileName.SanitizeFilename();
 
@@ -88,6 +95,8 @@ namespace ThoNohT.NohBoard.Controls
                 this.clrOutline.Color = value.Outline;
                 this.chkShowOutline.Checked = value.ShowOutline;
                 this.udOutlineWidth.Value = value.OutlineWidth;
+
+                this.setting = false;
             }
         }
 
@@ -109,7 +118,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void clr_ColorChanged(ColorChooser sender, System.Drawing.Color color)
         {
-            this.StyleChanged?.Invoke(this.SubStyle);
+            if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         /// <summary>
@@ -117,7 +126,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void fntText_FontChanged(FontChooser sender, System.Drawing.Font font)
         {
-            this.StyleChanged?.Invoke(this.SubStyle);
+            if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         /// <summary>
@@ -125,7 +134,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void chkShowOutline_CheckedChanged(object sender, System.EventArgs e)
         {
-            this.StyleChanged?.Invoke(this.SubStyle);
+            if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         /// <summary>
@@ -133,7 +142,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void udOutlineWidth_ValueChanged(object sender, System.EventArgs e)
         {
-            this.StyleChanged?.Invoke(this.SubStyle);
+            if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         /// <summary>
@@ -141,7 +150,7 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         private void txtBackgoundImage_TextChanged(object sender, System.EventArgs e)
         {
-            this.StyleChanged?.Invoke(this.SubStyle);
+            if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         #endregion Control event handlers
