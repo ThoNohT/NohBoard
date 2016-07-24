@@ -193,6 +193,14 @@ namespace ThoNohT.NohBoard.Forms
             {
                 manageForm.DefinitionChanged += (kbDef, kbStyle, globalStyle) =>
                 {
+                    var backupDef = GlobalSettings.CurrentDefinition;
+                    var backupStyle = GlobalSettings.CurrentStyle;
+
+                    var backupCat = GlobalSettings.Settings.LoadedCategory;
+                    var backupKb = GlobalSettings.Settings.LoadedKeyboard;
+                    var backupKbStyle = GlobalSettings.Settings.LoadedStyle;
+                    var backupkbGlobalStyle = GlobalSettings.Settings.LoadedGlobalStyle;
+                    
                     GlobalSettings.CurrentDefinition = kbDef;
                     GlobalSettings.CurrentStyle = kbStyle ?? new KeyboardStyle();
 
@@ -201,7 +209,24 @@ namespace ThoNohT.NohBoard.Forms
                     GlobalSettings.Settings.LoadedStyle = kbStyle?.Name;
                     GlobalSettings.Settings.LoadedGlobalStyle = globalStyle;
 
-                    this.LoadKeyboard();
+                    try
+                    {
+                        this.LoadKeyboard();
+                    }
+                    catch (Exception ex)
+                    {
+                        GlobalSettings.CurrentDefinition = backupDef;
+                        GlobalSettings.CurrentStyle = backupStyle;
+
+                        GlobalSettings.Settings.LoadedCategory = backupCat;
+                        GlobalSettings.Settings.LoadedKeyboard = backupKb;
+                        GlobalSettings.Settings.LoadedStyle = backupKbStyle;
+                        GlobalSettings.Settings.LoadedGlobalStyle = backupkbGlobalStyle;
+
+                        this.LoadKeyboard();
+
+                        MessageBox.Show(ex.Message + Environment.NewLine + "Reverted keyboard change.");
+                    }
                 };
 
                 manageForm.ShowDialog(this);

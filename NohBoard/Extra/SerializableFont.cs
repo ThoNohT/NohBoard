@@ -17,8 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Extra
 {
+    using System;
     using System.Drawing;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Represents a font, stored in a way that it can be serialized.
