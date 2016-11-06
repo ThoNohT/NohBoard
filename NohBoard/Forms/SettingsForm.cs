@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Forms
 {
     using System.Windows.Forms;
     using Extra;
+    using Hooking;
     using ThoNohT.NohBoard.Hooking.Interop;
 
     /// <summary>
@@ -74,6 +75,8 @@ namespace ThoNohT.NohBoard.Forms
                     break;
             }
 
+            this.chkMouseFromCenter.Checked = GlobalSettings.Settings.MouseFromCenter;
+
             this.SetToolTips();
         }
 
@@ -107,6 +110,12 @@ namespace ThoNohT.NohBoard.Forms
                 "but normal letters when both or neither are pressed.");
             tooltip.SetToolTip(this.rdbAlwaysCaps, "Always show capitalized letters.");
             tooltip.SetToolTip(this.rdbAlwaysLower, "Always show lower-case letters.");
+
+            tooltip.SetToolTip(
+                this.chkMouseFromCenter,
+                "Some games keep resetting the cursor position to the center of the screen. This setting uses this " +
+                "fact and compares the current mouse position to the center of the screen, rather than its " +
+                "last position.");
         }
 
         /// <summary>
@@ -129,6 +138,9 @@ namespace ThoNohT.NohBoard.Forms
                 : this.rdbAlwaysLower.Checked
                     ? CapitalizationMethod.Lowercase
                     : CapitalizationMethod.Capitalize;
+
+            GlobalSettings.Settings.MouseFromCenter = this.chkMouseFromCenter.Checked;
+            MouseState.SetMouseFromCenter(GlobalSettings.Settings.MouseFromCenter);
 
             GlobalSettings.Save();
 

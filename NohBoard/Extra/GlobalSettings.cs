@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Extra
     using System;
     using System.IO;
     using System.Runtime.Serialization;
+    using Hooking;
     using Keyboard;
     using static Hooking.Interop.Defines;
 
@@ -68,6 +69,13 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public int ScrollHold { get; set; } = 50;
+
+        /// <summary>
+        /// Whether the mouse speed is determined from the center of the screen, or from its previous position.
+        /// This can be used for games that keep resetting the cursor position to the center.
+        /// </summary>
+        [DataMember]
+        public bool MouseFromCenter { get; set; }
 
         #endregion Input
 
@@ -179,6 +187,7 @@ namespace ThoNohT.NohBoard.Extra
             try
             {
                 Settings = FileHelper.Deserialize<GlobalSettings>(Constants.SettingsFilename);
+                MouseState.SetMouseFromCenter(Settings.MouseFromCenter);
                 return true;
             }
             catch (Exception ex)

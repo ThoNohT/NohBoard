@@ -17,10 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Hooking
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Windows.Forms;
     using Interop;
     using static Interop.Defines;
     using static Interop.FunctionImports;
@@ -43,9 +45,19 @@ namespace ThoNohT.NohBoard.Hooking
         /// </summary>
         private static int mouseSmooth = 5;
 
+        /// <summary>
+        /// Whether to check the mouse speed from the center.
+        /// </summary>
+        private static bool mouseFromCenter = false;
+
         #endregion Configuration
 
         #region State
+
+        /// <summary>
+        /// The center of the screen to compare against.
+        /// </summary>
+        private static List<Tuple<Rectangle, Point>> ScreenCenters = new List<Tuple<Rectangle, Point>>();
 
         /// <summary>
         /// A bag containing all currently pressed keys.
@@ -88,6 +100,27 @@ namespace ThoNohT.NohBoard.Hooking
         private static Stopwatch scrollStopwatch;
 
         #endregion State
+
+        private static Point? GetScreenCenterForPoint(Point point)
+        {
+            Func<Rectangle, Point, bool> contains =
+                (r, p) => p.X >= r.Left && p.X <= r.Right && p.Y >= r.Top && p.Y <= r.Bottom;
+
+            var result = ScreenCenters.Where(t => contains(t.Item1, point))
+                .Select(t => (Point?)t.Item2).SingleOrDefault();
+            return result;
+        }
+
+        public static void SetMouseFromCenter(bool activate)
+        {
+            mouseFromCenter = activate;
+
+            Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
+
+            // Determine the screens and their centers.
+            if (activate)
+                ScreenCenters = Screen.AllScreens.Select(x => Tuple.Create(x.Bounds, getCenter(x.Bounds))).ToList();
+        }
 
         /// <summary>
         /// A value indicating whether something has changed since the last check.
@@ -245,7 +278,7 @@ namespace ThoNohT.NohBoard.Hooking
             if (lastLocationUpdate == null)
             {
                 // After the first capture, we can't determine any speed yet. Initialize all variables here.
-                lastLocation = location;
+                lastLocation = mouseFromCenter ? GetScreenCenterForPoint(location) ?? location : location;
                 lastLocationUpdate = time;
                 return;
             }
@@ -260,7 +293,7 @@ namespace ThoNohT.NohBoard.Hooking
 
             // Update the stored values
             lastLocationUpdate = time;
-            lastLocation = location;
+            lastLocation = mouseFromCenter ? GetScreenCenterForPoint(location) ?? location : location;
 
             updated = true;
         }

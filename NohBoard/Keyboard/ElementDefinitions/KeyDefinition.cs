@@ -163,6 +163,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return this.Boundaries.ConvertAll<IntPoint>(x => x);
         }
 
+        /// <summary>
+        /// Rmeturns the background brush for the key.
+        /// </summary>
+        /// <param name="subStyle">The substyle to use for rendering the key.</param>
+        /// <param name="pressed">Whether the is pressed.</param>
+        /// <returns>A brush to use when rendering the background for the key.</returns>
         protected Brush GetBackgroundBrush(KeySubStyle subStyle, bool pressed)
         {
             if (this.backgroundBrushes == null) this.backgroundBrushes = new Dictionary<bool, Brush>();

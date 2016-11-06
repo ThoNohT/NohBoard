@@ -66,6 +66,7 @@ namespace ThoNohT.NohBoard.Forms
             this.rdbAlwaysLower = new System.Windows.Forms.RadioButton();
             this.rdbAlwaysCaps = new System.Windows.Forms.RadioButton();
             this.rdbFollowKeystate = new System.Windows.Forms.RadioButton();
+            this.chkMouseFromCenter = new System.Windows.Forms.CheckBox();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).BeginInit();
@@ -153,13 +154,14 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // InputGroup
             // 
+            this.InputGroup.Controls.Add(this.chkMouseFromCenter);
             this.InputGroup.Controls.Add(this.udScrollHold);
             this.InputGroup.Controls.Add(this.udMouseSensitivity);
             this.InputGroup.Controls.Add(this.lblScrollHold);
             this.InputGroup.Controls.Add(this.lblMouseSensititivy);
             this.InputGroup.Location = new System.Drawing.Point(13, 13);
             this.InputGroup.Name = "InputGroup";
-            this.InputGroup.Size = new System.Drawing.Size(187, 74);
+            this.InputGroup.Size = new System.Drawing.Size(187, 108);
             this.InputGroup.TabIndex = 2;
             this.InputGroup.TabStop = false;
             this.InputGroup.Text = "Input";
@@ -228,7 +230,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(334, 217);
+            this.OkButton.Location = new System.Drawing.Point(334, 241);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 7;
@@ -239,7 +241,7 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(253, 217);
+            this.CancelButton2.Location = new System.Drawing.Point(253, 241);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 6;
@@ -249,7 +251,7 @@ namespace ThoNohT.NohBoard.Forms
             // DebugGroup
             // 
             this.DebugGroup.Controls.Add(this.chkShowKeypresses);
-            this.DebugGroup.Location = new System.Drawing.Point(13, 93);
+            this.DebugGroup.Location = new System.Drawing.Point(13, 121);
             this.DebugGroup.Name = "DebugGroup";
             this.DebugGroup.Size = new System.Drawing.Size(187, 49);
             this.DebugGroup.TabIndex = 5;
@@ -261,7 +263,7 @@ namespace ThoNohT.NohBoard.Forms
             this.CapitalizationGroup.Controls.Add(this.rdbAlwaysLower);
             this.CapitalizationGroup.Controls.Add(this.rdbAlwaysCaps);
             this.CapitalizationGroup.Controls.Add(this.rdbFollowKeystate);
-            this.CapitalizationGroup.Location = new System.Drawing.Point(13, 149);
+            this.CapitalizationGroup.Location = new System.Drawing.Point(13, 176);
             this.CapitalizationGroup.Name = "CapitalizationGroup";
             this.CapitalizationGroup.Size = new System.Drawing.Size(187, 91);
             this.CapitalizationGroup.TabIndex = 8;
@@ -301,13 +303,22 @@ namespace ThoNohT.NohBoard.Forms
             this.rdbFollowKeystate.Text = "Follow Caps-Lock and Shift";
             this.rdbFollowKeystate.UseVisualStyleBackColor = true;
             // 
+            // chkMouseFromCenter
+            // 
+            this.chkMouseFromCenter.Location = new System.Drawing.Point(10, 66);
+            this.chkMouseFromCenter.Name = "chkMouseFromCenter";
+            this.chkMouseFromCenter.Size = new System.Drawing.Size(166, 35);
+            this.chkMouseFromCenter.TabIndex = 9;
+            this.chkMouseFromCenter.Text = "Calculate mouse speed from center of screen";
+            this.chkMouseFromCenter.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(421, 251);
+            this.ClientSize = new System.Drawing.Size(421, 274);
             this.Controls.Add(this.CapitalizationGroup);
             this.Controls.Add(this.DebugGroup);
             this.Controls.Add(this.CancelButton2);
@@ -354,5 +365,6 @@ namespace ThoNohT.NohBoard.Forms
         private RadioButton rdbAlwaysLower;
         private RadioButton rdbAlwaysCaps;
         private RadioButton rdbFollowKeystate;
+        private CheckBox chkMouseFromCenter;
     }
 }
