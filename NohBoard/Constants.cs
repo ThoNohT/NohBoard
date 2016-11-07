@@ -47,6 +47,11 @@ namespace ThoNohT.NohBoard
         public const string DefinitionFilename = "keyboard.json";
 
         /// <summary>
+        /// The name of the folder containing images for styles.
+        /// </summary>
+        public const string ImagesFolder = "images";
+
+        /// <summary>
         /// A GDI+ graphics context.
         /// </summary>
         public static Graphics G => Graphics.FromHwndInternal(new Form().Handle);

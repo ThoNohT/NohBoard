@@ -124,14 +124,18 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         /// <param name="filename">The filename of the image to get the path to.</param>
         /// <returns>The path to the provided image in the current style.</returns>
+        /// <remarks>Images are not relative to styles, only relative to category. A recommended image filename is
+        /// keyboard_style_imageName.png, for global styles these are directly in the global/images folder,
+        /// for non global styles, these are located in the category/images folder.</remarks>
         public static string GetStyleImagePath(string filename)
         {
             var s = GlobalSettings.Settings;
             return Path.Combine(
                 s.LoadedGlobalStyle
-                    ? FromKbs(Constants.GlobalStylesFolder, s.LoadedStyle).FullName
-                    : FromKbs(s.LoadedCategory, s.LoadedKeyboard, s.LoadedStyle).FullName,
+                    ? FromKbs(Constants.GlobalStylesFolder, Constants.ImagesFolder).FullName
+                    : FromKbs(s.LoadedCategory, Constants.ImagesFolder).FullName,
                 filename);
         }
     }
 }
+ 
