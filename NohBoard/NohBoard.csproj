@@ -55,6 +55,7 @@
     <Compile Include="Extra\Geom.cs" />
     <Compile Include="Extra\GlobalSettings.cs" />
     <Compile Include="Extra\ImageCache.cs" />
+    <Compile Include="Extra\ListHelpers.cs" />
     <Compile Include="Extra\SerializableColor.cs" />
     <Compile Include="Extra\SerializableFont.cs" />
     <Compile Include="Controls\FontChooser.cs">

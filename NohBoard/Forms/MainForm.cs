@@ -330,6 +330,7 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Rendering
         
+
         /// <summary>
         /// Paints the keyboard on the screen.
         /// </summary>
@@ -346,24 +347,34 @@ namespace ThoNohT.NohBoard.Forms
                 new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
 
             // Render keyboard keys.
+            var kbDefs = GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>();
             var kbKeys = KeyboardState.PressedKeys;
-            foreach (var def in kbKeys.SelectMany(
-                keyCode => GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>()
-                    .Where(x => x.KeyCode == keyCode)))
+            var onlySingles = true;
+            foreach (var def in kbDefs
+                .Where(d => kbKeys.ContainsAll(d.KeyCodes))
+                .OrderByDescending(d => d.KeyCodes.Count)
+                .TakeWhile(
+                    d =>
+                    {
+                        if (d.KeyCodes.Count > 1) onlySingles = false;
+                        return onlySingles || d.KeyCodes.Count > 1;
+                    }))
             {
                 def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
             }
 
             // Render mouse keys.
+            onlySingles = true;
             var mouseKeys = MouseState.PressedKeys;
             foreach (var def in mouseKeys.SelectMany(
                 keyCode => GlobalSettings.CurrentDefinition.Elements.OfType<MouseKeyDefinition>()
-                    .Where(x => x.KeyCode == (int)keyCode)))
+                    .Where(x => x.KeyCodes.Contains((int)keyCode))))
             {
                 def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
             }
 
             // Render mouse scrolls.
+            onlySingles = true;
             MouseState.CheckScrollAndMovement();
             var scrollCounts = MouseState.ScrollCounts;
             for (var i = 0; i < scrollCounts.Count; i++)
@@ -372,7 +383,7 @@ namespace ThoNohT.NohBoard.Forms
                     continue;
 
                 foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseScrollDefinition>()
-                    .Where(x => x.KeyCode == i)
+                    .Where(x => x.KeyCodes.Contains(i))
                     .ToList())
                     def.Render(e.Graphics, scrollCounts[i]);
             }

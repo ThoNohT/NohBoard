@@ -41,7 +41,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="text">The text of the key.</param>
         /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
         public MouseScrollDefinition(int id, List<TPoint> boundaries, int keyCode, string text)
-            : base(id, boundaries, keyCode, text)
+            : base(id, boundaries, keyCode.Singleton(), text)
         {
         }
 
@@ -91,7 +91,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new MouseScrollDefinition(
                 this.Id,
                 this.Boundaries.Select(b => b.Translate(dx, dy)).ToList(),
-                this.KeyCode,
+                this.KeyCodes.Single(),
                 this.Text);
         }
 
@@ -132,7 +132,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 newBoundaries = union.Single().ConvertAll<TPoint>(x => x);
             }
 
-            return new MouseScrollDefinition(this.Id, newBoundaries, this.KeyCode, this.Text);
+            return new MouseScrollDefinition(this.Id, newBoundaries, this.KeyCodes.Single(), this.Text);
         }
 
         #endregion Private methods

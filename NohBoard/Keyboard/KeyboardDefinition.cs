@@ -23,6 +23,7 @@ namespace ThoNohT.NohBoard.Keyboard
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
     using ElementDefinitions;
     using Extra;
 
@@ -121,6 +122,28 @@ namespace ThoNohT.NohBoard.Keyboard
             var filePath = Path.Combine(keyboardPath, Constants.DefinitionFilename);
             if (!File.Exists(filePath))
                 throw new Exception($"Keyboard definition file not found for {category}/{name}.");
+
+            // Version check
+            var readLines = File.ReadLines(filePath);
+            var versionLine = readLines.SingleOrDefault(l => l.Contains("\"Version\": "));
+            if (versionLine == null) throw new Exception("Keyboard does not contain version information.");
+            int version;
+            try
+            {
+                version = int.Parse(
+                    versionLine.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).Last().TrimEnd(','));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to determine version info.", ex);
+            }
+
+            if (version < Constants.KeyboardVersion)
+            {
+                throw new Exception(
+                    $"This version of NohBoard requires keyboards of version {Constants.KeyboardVersion}, " +
+                    $"but this keyboard is of version {version}.");
+            }
 
             var kbDef = FileHelper.Deserialize<KeyboardDefinition>(filePath);
             kbDef.Category = category;

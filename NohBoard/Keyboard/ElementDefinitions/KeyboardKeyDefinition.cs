@@ -54,7 +54,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="id">The identifier of the key.</param>
         /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
+        /// <param name="keyCodes">The keycodes.</param>
         /// <param name="normalText">The normal text.</param>
         /// <param name="shiftText">The shift text.</param>
         /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
@@ -62,10 +62,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public KeyboardKeyDefinition(
             int id,
             List<TPoint> boundaries,
-            int keyCode,
+            List<int> keyCodes,
             string normalText,
             string shiftText,
-            bool changeOnCaps) : base(id, boundaries, keyCode, normalText)
+            bool changeOnCaps) : base(id, boundaries, keyCodes, normalText)
         {
             this.ShiftText = shiftText;
             this.ChangeOnCaps = changeOnCaps;
@@ -76,7 +76,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="id">The identifier of the key.</param>
         /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
+        /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The normal text.</param>
         /// <param name="textPosition">The position of the text.</param>
         /// <param name="shiftText">The shift text.</param>
@@ -84,11 +84,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public KeyboardKeyDefinition(
             int id,
             List<TPoint> boundaries,
-            int keyCode,
+            List<int> keyCodes,
             string text,
             string shiftText,
             bool changeOnCaps,
-            TPoint textPosition) : base(id, boundaries, keyCode, text, textPosition)
+            TPoint textPosition) : base(id, boundaries, keyCodes, text, textPosition)
         {
             this.ShiftText = shiftText;
             this.ChangeOnCaps = changeOnCaps;
@@ -161,7 +161,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new KeyboardKeyDefinition(
                 this.Id,
                 this.Boundaries.Select(b => b.Translate(dx, dy)).ToList(),
-                this.KeyCode,
+                this.KeyCodes,
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps);
@@ -232,7 +232,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new KeyboardKeyDefinition(
                 this.Id,
                 newBoundaries,
-                this.KeyCode,
+                this.KeyCodes,
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps);

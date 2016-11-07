@@ -59,10 +59,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public TPoint TextPosition { get; private set; }
         
         /// <summary>
-        /// The keycode of the key.
+        /// The keycodes of the key.
         /// </summary>
         [DataMember]
-        public int KeyCode { get; private set; }
+        public List<int> KeyCodes { get; private set; }
 
         /// <summary>
         /// The text that should be shown.
@@ -77,14 +77,14 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="id">The identifier of the key.</param>
         /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
+        /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The text of the key.</param>
         /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        protected KeyDefinition(int id, List<TPoint> boundaries, int keyCode, string text)
+        protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text)
         {
             this.Id = id;
             this.Boundaries = boundaries;
-            this.KeyCode = keyCode;
+            this.KeyCodes = keyCodes;
             this.Text = text;
 
             var bb = this.GetBoundingBoxImpl();
@@ -96,14 +96,14 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="id">The identifier of the key.</param>
         /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
+        /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The text of the key.</param>
         /// <param name="textPosition">The position of the text.</param>
-        protected KeyDefinition(int id, List<TPoint> boundaries, int keyCode, string text, TPoint textPosition)
+        protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text, TPoint textPosition)
         {
             this.Id = id;
             this.Boundaries = boundaries;
-            this.KeyCode = keyCode;
+            this.KeyCodes = keyCodes;
             this.Text = text;
             this.TextPosition = textPosition;
         }

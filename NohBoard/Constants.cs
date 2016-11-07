@@ -29,7 +29,7 @@ namespace ThoNohT.NohBoard
         /// <summary>
         /// The current keyboard file version.
         /// </summary>
-        public const int KeyboardVersion = 1;
+        public const int KeyboardVersion = 2;
 
         /// <summary>
         /// The subfolder in the NohBoard executable folder that contains keyboard definitions.

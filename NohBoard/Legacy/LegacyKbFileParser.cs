@@ -51,7 +51,6 @@ namespace ThoNohT.NohBoard.Legacy
                 Name = file.Name.Substring(0, file.Name.Length - file.Extension.Length),
                 Version = Constants.KeyboardVersion,
                 Elements = new List<ElementDefinition>()
-
             };
 
             var reader = new StreamReader(fileName);
@@ -163,7 +162,7 @@ namespace ThoNohT.NohBoard.Legacy
                     new TPoint(posX + width, posY + height),
                     new TPoint(posX, posY + height)
                 },
-                keyCode: keyCode,
+                keyCodes: keyCode.Singleton(),
                 normalText: normalText,
                 shiftText: shiftText,
                 changeOnCaps: changeOnCaps);
@@ -276,7 +275,8 @@ namespace ThoNohT.NohBoard.Legacy
             where TKey : KeyDefinition
         {
             var overlappingEqualKeys = keyboard.Elements.OfType<TKey>()
-                .Where(x => x.KeyCode == keyCode)
+                // Legacy files don't support multiple keycodes per key.
+                .Where(x => x.KeyCodes.Count == 1 && x.KeyCodes.Single() == keyCode)
                 .Where(x => x.BordersWith(newKey))
                 .ToList();
             foreach (var key in overlappingEqualKeys)
