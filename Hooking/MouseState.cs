@@ -101,26 +101,7 @@ namespace ThoNohT.NohBoard.Hooking
 
         #endregion State
 
-        private static Point? GetScreenCenterForPoint(Point point)
-        {
-            Func<Rectangle, Point, bool> contains =
-                (r, p) => p.X >= r.Left && p.X <= r.Right && p.Y >= r.Top && p.Y <= r.Bottom;
-
-            var result = ScreenCenters.Where(t => contains(t.Item1, point))
-                .Select(t => (Point?)t.Item2).SingleOrDefault();
-            return result;
-        }
-
-        public static void SetMouseFromCenter(bool activate)
-        {
-            mouseFromCenter = activate;
-
-            Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
-
-            // Determine the screens and their centers.
-            if (activate)
-                ScreenCenters = Screen.AllScreens.Select(x => Tuple.Create(x.Bounds, getCenter(x.Bounds))).ToList();
-        }
+        #region Properties
 
         /// <summary>
         /// A value indicating whether something has changed since the last check.
@@ -163,6 +144,26 @@ namespace ThoNohT.NohBoard.Hooking
                 var sum = speedHistory.Aggregate((acc, elem) => acc + elem);
                 return new SizeF(sum.Width / speedHistory.Size, sum.Height / speedHistory.Size);
             }
+        } 
+
+        #endregion Properties
+
+        /// <summary>
+        /// Sets a value indicating whether to calculate the mouse speed from the center or not.
+        /// </summary>
+        /// <param name="activate">True if distance should be caculated relative to the screen center,
+        /// false if distance should be calculated relative to the previous mouse position.</param>
+        /// <remarks>This method also recalculates the screen centers. So if a screen is added or removed while NohBoard
+        /// is running, calling this method with <c>true</c> will re-calculate the new screen locations.</remarks>
+        public static void SetMouseFromCenter(bool activate)
+        {
+            mouseFromCenter = activate;
+
+            Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
+
+            // Determine the screens and their centers.
+            if (activate)
+                ScreenCenters = Screen.AllScreens.Select(x => Tuple.Create(x.Bounds, getCenter(x.Bounds))).ToList();
         }
 
         /// <summary>
@@ -296,6 +297,23 @@ namespace ThoNohT.NohBoard.Hooking
             lastLocation = mouseFromCenter ? GetScreenCenterForPoint(location) ?? location : location;
 
             updated = true;
+        }
+
+        /// <summary>
+        /// Gets the coordinates of the center of the screen that contains <paramref name="point"/>.
+        /// </summary>
+        /// <param name="point">The point to get the screen center for.</param>
+        /// <returns>The retrieved screen center.</returns>
+        /// <remarks>The screen centers are pre-calculated whenever <see cref="SetMouseFromCenter"/> is
+        /// set to <c>true</c>.</remarks>
+        private static Point? GetScreenCenterForPoint(Point point)
+        {
+            Func<Rectangle, Point, bool> contains =
+                (r, p) => p.X >= r.Left && p.X <= r.Right && p.Y >= r.Top && p.Y <= r.Bottom;
+
+            var result = ScreenCenters.Where(t => contains(t.Item1, point))
+                .Select(t => (Point?)t.Item2).SingleOrDefault();
+            return result;
         }
 
         /// <summary>
