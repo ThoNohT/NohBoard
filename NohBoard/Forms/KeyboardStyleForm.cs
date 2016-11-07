@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Forms
 {
     using System.Windows.Forms;
+    using Extra;
     using ThoNohT.NohBoard.Controls;
     using ThoNohT.NohBoard.Keyboard;
 
@@ -80,6 +81,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             // Keyboard
             this.clrKeyboardBackground.Color = this.initialStyle.BackgroundColor;
+            this.txtBackgoundImage.Text = this.initialStyle.BackgroundImageFileName;
 
             // Default key styles.
             this.looseKeys.SubStyle = this.initialStyle.DefaultKeyStyle.Loose;
@@ -145,6 +147,15 @@ namespace ThoNohT.NohBoard.Forms
         private void defaultMouseSpeed_IndicatorStyleChanged(Keyboard.Styles.MouseSpeedIndicatorStyle style)
         {
             this.currentStyle.DefaultMouseSpeedIndicatorStyle = style;
+            this.StyleChanged?.Invoke(this.currentStyle);
+        }
+
+        /// <summary>
+        /// Handles the text changed event of the background image textbox.
+        /// </summary>
+        private void txtBackgoundImage_TextChanged(object sender, System.EventArgs e)
+        {
+            this.currentStyle.BackgroundImageFileName = this.txtBackgoundImage.Text.SanitizeFilename();
             this.StyleChanged?.Invoke(this.currentStyle);
         }
 

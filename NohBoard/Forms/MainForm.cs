@@ -106,6 +106,14 @@ namespace ThoNohT.NohBoard.Forms
                         GlobalSettings.CurrentDefinition.Height);
                     var g = Graphics.FromImage(bmp);
 
+                    // Render the background image if set.
+                    var cs = GlobalSettings.CurrentStyle;
+                    if (cs.BackgroundImageFileName != null && FileHelper.StyleImageExists(cs.BackgroundImageFileName))
+                    {
+                        g.DrawImage(ImageCache.Get(cs.BackgroundImageFileName), this.ClientRectangle);
+                    }
+
+                    // Render the individual keys.
                     foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>())
                         def.Render(g, false, shift, caps);
 

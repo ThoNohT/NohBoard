@@ -47,39 +47,55 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor1 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont1 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor2 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor3 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor4 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont2 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor5 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle mouseSpeedIndicatorStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor7 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor8 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle3 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor9 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont3 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor10 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor11 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle4 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor12 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont4 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor13 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor14 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle mouseSpeedIndicatorStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor15 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor16 = new ThoNohT.NohBoard.Extra.SerializableColor();
             this.KeyboardGroup = new System.Windows.Forms.GroupBox();
+            this.clrKeyboardBackground = new ThoNohT.NohBoard.Controls.ColorChooser();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.CancelButton2 = new System.Windows.Forms.Button();
-            this.pressedKeys = new KeySubStylePanel();
-            this.looseKeys = new KeySubStylePanel();
-            this.clrKeyboardBackground = new ColorChooser();
+            this.pressedKeys = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
+            this.looseKeys = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
             this.lblKeyboard = new System.Windows.Forms.Label();
-            this.defaultMouseSpeed = new MouseSpeedStylePanel();
+            this.defaultMouseSpeed = new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel();
+            this.txtBackgoundImage = new System.Windows.Forms.TextBox();
+            this.lblBackgroundImage = new System.Windows.Forms.Label();
             this.KeyboardGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // KeyboardGroup
             // 
+            this.KeyboardGroup.Controls.Add(this.txtBackgoundImage);
+            this.KeyboardGroup.Controls.Add(this.lblBackgroundImage);
             this.KeyboardGroup.Controls.Add(this.clrKeyboardBackground);
             this.KeyboardGroup.Location = new System.Drawing.Point(12, 34);
             this.KeyboardGroup.Name = "KeyboardGroup";
-            this.KeyboardGroup.Size = new System.Drawing.Size(171, 56);
+            this.KeyboardGroup.Size = new System.Drawing.Size(171, 80);
             this.KeyboardGroup.TabIndex = 9;
             this.KeyboardGroup.TabStop = false;
             this.KeyboardGroup.Text = "Background";
+            // 
+            // clrKeyboardBackground
+            // 
+            this.clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
+            this.clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
+            this.clrKeyboardBackground.LabelText = "Background Color";
+            this.clrKeyboardBackground.Location = new System.Drawing.Point(7, 19);
+            this.clrKeyboardBackground.Name = "clrKeyboardBackground";
+            this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
+            this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
+            this.clrKeyboardBackground.TabIndex = 2;
+            this.clrKeyboardBackground.ColorChanged += new ThoNohT.NohBoard.Controls.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
             // 
             // AcceptButton2
             // 
@@ -108,70 +124,58 @@ namespace ThoNohT.NohBoard.Forms
             this.pressedKeys.Location = new System.Drawing.Point(366, 13);
             this.pressedKeys.Name = "pressedKeys";
             this.pressedKeys.Size = new System.Drawing.Size(171, 309);
-            serializableColor1.Blue = ((byte)(0));
-            serializableColor1.Green = ((byte)(0));
-            serializableColor1.Red = ((byte)(0));
-            keySubStyle1.Background = serializableColor1;
-            keySubStyle1.BackgroundImageFileName = "";
-            serializableFont1.FontFamily = "Microsoft Sans Serif";
-            serializableFont1.Size = 8.25F;
-            serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle1.Font = serializableFont1;
-            serializableColor2.Blue = ((byte)(0));
-            serializableColor2.Green = ((byte)(0));
-            serializableColor2.Red = ((byte)(0));
-            keySubStyle1.Outline = serializableColor2;
-            keySubStyle1.OutlineWidth = 1;
-            keySubStyle1.ShowOutline = false;
-            serializableColor3.Blue = ((byte)(0));
-            serializableColor3.Green = ((byte)(0));
-            serializableColor3.Red = ((byte)(0));
-            keySubStyle1.Text = serializableColor3;
-            this.pressedKeys.SubStyle = keySubStyle1;
+            serializableColor9.Blue = ((byte)(0));
+            serializableColor9.Green = ((byte)(0));
+            serializableColor9.Red = ((byte)(0));
+            keySubStyle3.Background = serializableColor9;
+            keySubStyle3.BackgroundImageFileName = "";
+            serializableFont3.FontFamily = "Microsoft Sans Serif";
+            serializableFont3.Size = 8.25F;
+            serializableFont3.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle3.Font = serializableFont3;
+            serializableColor10.Blue = ((byte)(0));
+            serializableColor10.Green = ((byte)(0));
+            serializableColor10.Red = ((byte)(0));
+            keySubStyle3.Outline = serializableColor10;
+            keySubStyle3.OutlineWidth = 1;
+            keySubStyle3.ShowOutline = false;
+            serializableColor11.Blue = ((byte)(0));
+            serializableColor11.Green = ((byte)(0));
+            serializableColor11.Red = ((byte)(0));
+            keySubStyle3.Text = serializableColor11;
+            this.pressedKeys.SubStyle = keySubStyle3;
             this.pressedKeys.TabIndex = 13;
             this.pressedKeys.Title = "Pressed Keys";
-            this.pressedKeys.StyleChanged += new KeySubStylePanel.StyleChangedEventHandler(this.pressedKeys_SubStyleChanged);
+            this.pressedKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.pressedKeys_SubStyleChanged);
             // 
             // looseKeys
             // 
             this.looseKeys.Location = new System.Drawing.Point(189, 13);
             this.looseKeys.Name = "looseKeys";
             this.looseKeys.Size = new System.Drawing.Size(171, 309);
-            serializableColor4.Blue = ((byte)(0));
-            serializableColor4.Green = ((byte)(0));
-            serializableColor4.Red = ((byte)(0));
-            keySubStyle2.Background = serializableColor4;
-            keySubStyle2.BackgroundImageFileName = "";
-            serializableFont2.FontFamily = "Microsoft Sans Serif";
-            serializableFont2.Size = 8.25F;
-            serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle2.Font = serializableFont2;
-            serializableColor5.Blue = ((byte)(0));
-            serializableColor5.Green = ((byte)(0));
-            serializableColor5.Red = ((byte)(0));
-            keySubStyle2.Outline = serializableColor5;
-            keySubStyle2.OutlineWidth = 1;
-            keySubStyle2.ShowOutline = false;
-            serializableColor6.Blue = ((byte)(0));
-            serializableColor6.Green = ((byte)(0));
-            serializableColor6.Red = ((byte)(0));
-            keySubStyle2.Text = serializableColor6;
-            this.looseKeys.SubStyle = keySubStyle2;
+            serializableColor12.Blue = ((byte)(0));
+            serializableColor12.Green = ((byte)(0));
+            serializableColor12.Red = ((byte)(0));
+            keySubStyle4.Background = serializableColor12;
+            keySubStyle4.BackgroundImageFileName = "";
+            serializableFont4.FontFamily = "Microsoft Sans Serif";
+            serializableFont4.Size = 8.25F;
+            serializableFont4.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle4.Font = serializableFont4;
+            serializableColor13.Blue = ((byte)(0));
+            serializableColor13.Green = ((byte)(0));
+            serializableColor13.Red = ((byte)(0));
+            keySubStyle4.Outline = serializableColor13;
+            keySubStyle4.OutlineWidth = 1;
+            keySubStyle4.ShowOutline = false;
+            serializableColor14.Blue = ((byte)(0));
+            serializableColor14.Green = ((byte)(0));
+            serializableColor14.Red = ((byte)(0));
+            keySubStyle4.Text = serializableColor14;
+            this.looseKeys.SubStyle = keySubStyle4;
             this.looseKeys.TabIndex = 12;
             this.looseKeys.Title = "Loose Keys";
-            this.looseKeys.StyleChanged += new KeySubStylePanel.StyleChangedEventHandler(this.looseKeys_SubStyleChanged);
-            // 
-            // clrKeyboardBackground
-            // 
-            this.clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
-            this.clrKeyboardBackground.LabelText = "Background Color";
-            this.clrKeyboardBackground.Location = new System.Drawing.Point(7, 19);
-            this.clrKeyboardBackground.Name = "clrKeyboardBackground";
-            this.clrKeyboardBackground.PreviewShape = ColorChooser.Shape.Square;
-            this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
-            this.clrKeyboardBackground.TabIndex = 2;
-            this.clrKeyboardBackground.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
+            this.looseKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.looseKeys_SubStyleChanged);
             // 
             // lblKeyboard
             // 
@@ -186,22 +190,39 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // defaultMouseSpeed
             // 
-            serializableColor7.Blue = ((byte)(0));
-            serializableColor7.Green = ((byte)(0));
-            serializableColor7.Red = ((byte)(0));
-            mouseSpeedIndicatorStyle1.InnerColor = serializableColor7;
-            serializableColor8.Blue = ((byte)(0));
-            serializableColor8.Green = ((byte)(0));
-            serializableColor8.Red = ((byte)(0));
-            mouseSpeedIndicatorStyle1.OuterColor = serializableColor8;
-            mouseSpeedIndicatorStyle1.OutlineWidth = 1;
-            this.defaultMouseSpeed.IndicatorStyle = mouseSpeedIndicatorStyle1;
-            this.defaultMouseSpeed.Location = new System.Drawing.Point(12, 96);
+            serializableColor15.Blue = ((byte)(0));
+            serializableColor15.Green = ((byte)(0));
+            serializableColor15.Red = ((byte)(0));
+            mouseSpeedIndicatorStyle2.InnerColor = serializableColor15;
+            serializableColor16.Blue = ((byte)(0));
+            serializableColor16.Green = ((byte)(0));
+            serializableColor16.Red = ((byte)(0));
+            mouseSpeedIndicatorStyle2.OuterColor = serializableColor16;
+            mouseSpeedIndicatorStyle2.OutlineWidth = 1;
+            this.defaultMouseSpeed.IndicatorStyle = mouseSpeedIndicatorStyle2;
+            this.defaultMouseSpeed.Location = new System.Drawing.Point(12, 120);
             this.defaultMouseSpeed.Name = "defaultMouseSpeed";
             this.defaultMouseSpeed.Size = new System.Drawing.Size(171, 144);
             this.defaultMouseSpeed.TabIndex = 16;
             this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
-            this.defaultMouseSpeed.IndicatorStyleChanged += new MouseSpeedStylePanel.StyleChangedEventHandler(this.defaultMouseSpeed_IndicatorStyleChanged);
+            this.defaultMouseSpeed.IndicatorStyleChanged += new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel.StyleChangedEventHandler(this.defaultMouseSpeed_IndicatorStyleChanged);
+            // 
+            // txtBackgoundImage
+            // 
+            this.txtBackgoundImage.Location = new System.Drawing.Point(54, 52);
+            this.txtBackgoundImage.Name = "txtBackgoundImage";
+            this.txtBackgoundImage.Size = new System.Drawing.Size(100, 20);
+            this.txtBackgoundImage.TabIndex = 4;
+            this.txtBackgoundImage.TextChanged += new System.EventHandler(this.txtBackgoundImage_TextChanged);
+            // 
+            // lblBackgroundImage
+            // 
+            this.lblBackgroundImage.Location = new System.Drawing.Point(6, 48);
+            this.lblBackgroundImage.Name = "lblBackgroundImage";
+            this.lblBackgroundImage.Size = new System.Drawing.Size(41, 23);
+            this.lblBackgroundImage.TabIndex = 3;
+            this.lblBackgroundImage.Text = "Image:";
+            this.lblBackgroundImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // KeyboardStyleForm
             // 
@@ -223,6 +244,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Text = "Keyboard Style";
             this.Load += new System.EventHandler(this.KeyboardStyleForm_Load);
             this.KeyboardGroup.ResumeLayout(false);
+            this.KeyboardGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -236,5 +258,7 @@ namespace ThoNohT.NohBoard.Forms
         private KeySubStylePanel pressedKeys;
         private System.Windows.Forms.Label lblKeyboard;
         private MouseSpeedStylePanel defaultMouseSpeed;
+        private System.Windows.Forms.TextBox txtBackgoundImage;
+        private System.Windows.Forms.Label lblBackgroundImage;
     }
 }

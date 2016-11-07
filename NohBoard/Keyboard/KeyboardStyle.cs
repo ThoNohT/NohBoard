@@ -61,6 +61,12 @@ namespace ThoNohT.NohBoard.Keyboard
         [DataMember]
         public SerializableColor BackgroundColor { get; set; } = Color.FromArgb(0, 0, 100);
 
+        /// <summary>
+        /// The filename of the background image, relative to the style's images folder.
+        /// </summary>
+        [DataMember]
+        public string BackgroundImageFileName { get; set; }
+
         #endregion The keyboard itself
 
         #region Defaults for elements
@@ -96,6 +102,7 @@ namespace ThoNohT.NohBoard.Keyboard
             return new KeyboardStyle
             {
                 BackgroundColor = this.BackgroundColor,
+                BackgroundImageFileName = this.BackgroundImageFileName,
                 DefaultKeyStyle = (KeyStyle)this.DefaultKeyStyle.Clone(),
                 DefaultMouseSpeedIndicatorStyle = (MouseSpeedIndicatorStyle)this.DefaultMouseSpeedIndicatorStyle.Clone()
             };
