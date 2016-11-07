@@ -68,7 +68,7 @@ namespace ThoNohT.NohBoard.Hooking
         /// The history of recorded mouse speeds.
         /// </summary>
         private static readonly CircleBuffer<SizeF> speedHistory = new CircleBuffer<SizeF>(mouseSmooth, default(SizeF));
-       
+
         /// <summary>
         /// The last captured location.
         /// </summary>
