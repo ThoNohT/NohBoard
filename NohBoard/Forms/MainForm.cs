@@ -395,7 +395,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveToGlobalStyleName.Enabled = GlobalSettings.CurrentStyle.IsGlobal;
             this.mnuSaveToGlobalStyleName.Visible = GlobalSettings.Settings.LoadedGlobalStyle;
 
-            this.mnuToggleEditMode.Enabled = false; // TODO: Implement edit mode.
+            this.mnuToggleEditMode.Enabled = GlobalSettings.CurrentDefinition != null;
 
             if (this.latestVersion != null)
             {

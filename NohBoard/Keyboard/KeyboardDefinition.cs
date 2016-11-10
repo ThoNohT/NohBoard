@@ -23,7 +23,6 @@ namespace ThoNohT.NohBoard.Keyboard
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
-    using System.Windows.Forms;
     using ElementDefinitions;
     using Extra;
 
@@ -70,6 +69,44 @@ namespace ThoNohT.NohBoard.Keyboard
         public List<ElementDefinition> Elements { get; set; }
 
         #endregion Properties
+
+        #region Modification
+
+        public KeyboardDefinition RemoveElement(ElementDefinition element)
+        {
+            var newElements = this.Elements.Where(e => e.Id != element.Id).ToList();
+            if (newElements.Count != this.Elements.Count - 1)
+                throw new Exception($"Keyboard contains no, or too many elements with id {element.Id}.");
+
+            return new KeyboardDefinition
+            {
+                Category = this.Category,
+                Elements = newElements,
+                Width = this.Width,
+                Height = this.Height,
+                Name = this.Name,
+                Version = this.Version
+            };
+        }
+
+        public KeyboardDefinition AddElement(ElementDefinition element)
+        {
+            if (this.Elements.Any(e => e.Id == element.Id))
+                throw new Exception($"Keyboard already contains an element with id {element.Id}.");
+            var newElements = this.Elements.Union(element.Singleton()).ToList();
+
+            return new KeyboardDefinition
+            {
+                Category = this.Category,
+                Elements = newElements,
+                Width = this.Width,
+                Height = this.Height,
+                Name = this.Name,
+                Version = this.Version
+            };
+        }
+
+        #endregion Modification
 
         /// <summary>
         /// Calculates the bounding box of all elements in the keyboard definition.

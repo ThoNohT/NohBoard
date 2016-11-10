@@ -113,10 +113,10 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // mnuToggleEditMode
             // 
-            this.mnuToggleEditMode.Enabled = false;
             this.mnuToggleEditMode.Name = "mnuToggleEditMode";
             this.mnuToggleEditMode.Size = new System.Drawing.Size(175, 22);
             this.mnuToggleEditMode.Text = "Start &Editing";
+            this.mnuToggleEditMode.Click += new System.EventHandler(this.mnuToggleEditMode_Click);
             // 
             // mnuEditKeyboardStyle
             // 
@@ -224,6 +224,9 @@ namespace ThoNohT.NohBoard.Forms
             this.Text = "NohBoard";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
             this.MainMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

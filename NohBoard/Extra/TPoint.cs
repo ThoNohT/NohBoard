@@ -126,6 +126,18 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Calculates the distance between <paramref name="point"/> and <paramref name="point2"/>. This is returned
+        /// as a <see cref="Size"/>.
+        /// </summary>
+        /// <param name="point">The point to calculate from.</param>
+        /// <param name="point2">The point to subtract.</param>
+        /// <returns>The distance betwene the two points.</returns>
+        public static Size operator -(TPoint point, TPoint point2)
+        {
+            return new Size(point.X - point2.X, point.Y - point2.Y);
+        }
+
+        /// <summary>
         /// Translates this point.
         /// </summary>
         /// <param name="size">The distance to move the point.</param>
