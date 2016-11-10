@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="Extra\TPoint.cs" />
     <Compile Include="Version.cs" />
+    <Compile Include="VersionInfo.cs" />
     <EmbeddedResource Include="Controls\FontChooser.resx">
       <DependentUpon>FontChooser.cs</DependentUpon>
       <SubType>Designer</SubType>

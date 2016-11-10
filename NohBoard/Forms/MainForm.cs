@@ -19,15 +19,22 @@ namespace ThoNohT.NohBoard.Forms
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Net.Http;
+    using System.Runtime.Serialization.Json;
+    using System.Text;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
+    using System.Xml;
     using Extra;
     using Hooking;
     using Hooking.Interop;
     using Keyboard;
     using Keyboard.ElementDefinitions;
     using Keyboard.Styles;
+    using Version = NohBoard.Version;
 
     /// <summary>
     /// The main form.
@@ -47,6 +54,11 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private ElementDefinition elementUnderCursor = null;
 
+        /// <summary>
+        /// The latest version, if it was retrieved from the update site.
+        /// </summary>
+        private VersionInfo latestVersion = null;
+
         #endregion Fields
 
         #region Constructors
@@ -61,6 +73,47 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Constructors
+
+        #region Version check
+
+        /// <summary>
+        /// Attempts to retrieve the latest version from the update site.
+        /// </summary>
+        public Task GetLatestVersion()
+        {
+            return new Task(
+                () =>
+                {
+                    var updateUrl =
+                        "https://gist.githubusercontent.com/ThoNohT/3181561f8148fb6b865f88714e975154/raw/nohboard_version.json";
+
+                    Func<string, VersionInfo> downloadVersionInfo = url =>
+                    {
+                        var serializer = new DataContractJsonSerializer(typeof(VersionInfo));
+                        using (var client = new HttpClient())
+                        using (var reader = JsonReaderWriterFactory.CreateJsonReader(
+                            client.GetStreamAsync(updateUrl).Result,
+                            Encoding.UTF8,
+                            XmlDictionaryReaderQuotas.Max,
+                            dictionaryReader => { }))
+                        {
+                            return (VersionInfo)serializer.ReadObject(reader);
+                        }
+                    };
+
+                    var versionInfo = downloadVersionInfo(updateUrl);
+
+                    if ((versionInfo.Major > Version.Major) ||
+                        (versionInfo.Major == Version.Major && versionInfo.Minor > Version.Minor) ||
+                        (versionInfo.Major == Version.Major && versionInfo.Minor == Version.Minor
+                         && versionInfo.Patch > Version.Patch))
+                    {
+                        this.latestVersion = versionInfo;
+                    }
+                });
+        }
+
+        #endregion Version check
 
         #region Keyboard loading and saving
 
@@ -197,7 +250,9 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             this.Location = new Point(GlobalSettings.Settings.X, GlobalSettings.Settings.Y);
-            this.Text = $"NohBoard {NohBoard.Version.Get}";
+            this.Text = $"NohBoard {Version.Get}";
+
+            this.GetLatestVersion().Start();
 
             // Load a definition if possible.
             if (GlobalSettings.Settings.LoadedKeyboard != null && GlobalSettings.Settings.LoadedCategory != null)
@@ -316,6 +371,17 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveToGlobalStyleName.Visible = GlobalSettings.Settings.LoadedGlobalStyle;
 
             this.mnuToggleEditMode.Enabled = false; // TODO: Implement edit mode.
+
+            if (this.latestVersion != null)
+            {
+                this.MainMenu.Items.Add(
+                    $"New version available: {this.latestVersion.Format()}.",
+                    null,
+                    (s, ea) =>
+                    {
+                        Process.Start("https://github.com/ThoNohT/NohBoard/releases");
+                    });
+            }
         }
 
         /// <summary>

@@ -17,29 +17,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard
 {
-    /// <summary>
-    /// Class that contains the current version of NohBoard.
-    /// </summary>
-    public static class Version
-    {
-        /// <summary>
-        /// Gets the version.
-        /// </summary>
-        public const string Get = "[gotri:tag][gotri:dist:ot=:at=.*][gotri:hash:len=7:ot=:at=~*][gotri:dirty:yes=\*:no=]";
+    using System.Runtime.Serialization;
 
+    /// <summary>
+    /// Contains version information.
+    /// </summary>
+    [DataContract(Name = "VersionInfo", Namespace = "")]
+    public class VersionInfo
+    {
         /// <summary>
         /// Gets the major version.
         /// </summary>
-        public static int Major = int.Parse(Get.Substring(1).Split('.')[0]);
+        [DataMember]
+        public int Major { get; set; }
 
         /// <summary>
         /// Gets the minor version.
         /// </summary>
-        public static int Minor = int.Parse(Get.Substring(1).Split('.')[1]);
+        [DataMember]
+        public int Minor { get; set; }
 
         /// <summary>
         /// Gets the patch version.
         /// </summary>
-        public static int Patch = int.Parse(Get.Substring(1).TrimEnd('*').Split('.')[2]);
+        [DataMember]
+        public int Patch { get; set; }
+
+        /// <summary>
+        /// Returns a formatted string for this verion.
+        /// </summary>
+        public string Format()
+        {
+            return $"v{this.Major}.{this.Minor}.{this.Patch}";
+        }
     }
 }
