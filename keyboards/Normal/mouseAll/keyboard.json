@@ -1,0 +1,268 @@
+{
+  "Elements": [
+    {
+      "__type": "MouseKey",
+      "Id": 0,
+      "Boundaries": [
+        {
+          "X": 9,
+          "Y": 9
+        },
+        {
+          "X": 52,
+          "Y": 9
+        },
+        {
+          "X": 52,
+          "Y": 52
+        },
+        {
+          "X": 9,
+          "Y": 52
+        }
+      ],
+      "KeyCodes": [ 4 ],
+      "Text": "X2",
+      "TextPosition": {
+        "X": 30,
+        "Y": 30
+      }
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 1,
+      "Boundaries": [
+        {
+          "X": 9,
+          "Y": 63
+        },
+        {
+          "X": 52,
+          "Y": 63
+        },
+        {
+          "X": 52,
+          "Y": 106
+        },
+        {
+          "X": 9,
+          "Y": 106
+        }
+      ],
+      "KeyCodes": [ 3 ],
+      "Text": "X1",
+      "TextPosition": {
+        "X": 30,
+        "Y": 84
+      }
+    },
+    {
+      "__type": "MouseSpeedIndicator",
+      "Id": 2,
+      "Location": {
+        "X": 127,
+        "Y": 30
+      },
+      "Radius": 21
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 3,
+      "Boundaries": [
+        {
+          "X": 61,
+          "Y": 63
+        },
+        {
+          "X": 104,
+          "Y": 63
+        },
+        {
+          "X": 104,
+          "Y": 106
+        },
+        {
+          "X": 61,
+          "Y": 106
+        }
+      ],
+      "KeyCodes": [ 0 ],
+      "Text": "LMB",
+      "TextPosition": {
+        "X": 82,
+        "Y": 84
+      }
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 4,
+      "Boundaries": [
+        {
+          "X": 106,
+          "Y": 63
+        },
+        {
+          "X": 149,
+          "Y": 63
+        },
+        {
+          "X": 149,
+          "Y": 106
+        },
+        {
+          "X": 106,
+          "Y": 106
+        }
+      ],
+      "KeyCodes": [ 2 ],
+      "Text": "MMB",
+      "TextPosition": {
+        "X": 127,
+        "Y": 84
+      }
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 5,
+      "Boundaries": [
+        {
+          "X": 150,
+          "Y": 63
+        },
+        {
+          "X": 193,
+          "Y": 63
+        },
+        {
+          "X": 193,
+          "Y": 106
+        },
+        {
+          "X": 150,
+          "Y": 106
+        }
+      ],
+      "KeyCodes": [ 1 ],
+      "Text": "RMB",
+      "TextPosition": {
+        "X": 171,
+        "Y": 84
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 6,
+      "Boundaries": [
+        {
+          "X": 203,
+          "Y": 36
+        },
+        {
+          "X": 246,
+          "Y": 36
+        },
+        {
+          "X": 246,
+          "Y": 79
+        },
+        {
+          "X": 203,
+          "Y": 79
+        }
+      ],
+      "KeyCodes": [ 3 ],
+      "Text": "SCRL",
+      "TextPosition": {
+        "X": 224,
+        "Y": 57
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 7,
+      "Boundaries": [
+        {
+          "X": 291,
+          "Y": 36
+        },
+        {
+          "X": 334,
+          "Y": 36
+        },
+        {
+          "X": 334,
+          "Y": 79
+        },
+        {
+          "X": 291,
+          "Y": 79
+        }
+      ],
+      "KeyCodes": [ 2 ],
+      "Text": "SCRR",
+      "TextPosition": {
+        "X": 312,
+        "Y": 57
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 8,
+      "Boundaries": [
+        {
+          "X": 247,
+          "Y": 9
+        },
+        {
+          "X": 290,
+          "Y": 9
+        },
+        {
+          "X": 290,
+          "Y": 52
+        },
+        {
+          "X": 247,
+          "Y": 52
+        }
+      ],
+      "KeyCodes": [ 0 ],
+      "Text": "SCRU",
+      "TextPosition": {
+        "X": 268,
+        "Y": 30
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 9,
+      "Boundaries": [
+        {
+          "X": 247,
+          "Y": 63
+        },
+        {
+          "X": 290,
+          "Y": 63
+        },
+        {
+          "X": 290,
+          "Y": 106
+        },
+        {
+          "X": 247,
+          "Y": 106
+        }
+      ],
+      "KeyCodes": [ 1 ],
+      "Text": "SCRD",
+      "TextPosition": {
+        "X": 268,
+        "Y": 84
+      }
+    }
+  ],
+  "Height": 115,
+  "Version": 2,
+  "Width": 343
+}

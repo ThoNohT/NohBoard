@@ -1,0 +1,16 @@
+{
+  "Elements": [
+    {
+      "__type": "MouseSpeedIndicator",
+      "Id": 0,
+      "Location": {
+        "X": 83,
+        "Y": 83
+      },
+      "Radius": 70
+    }
+  ],
+  "Height": 166,
+  "Version": 2,
+  "Width": 166
+}
