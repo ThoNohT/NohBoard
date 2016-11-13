@@ -85,6 +85,7 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
+            // TODO: Insert the elemernt back at its previous location. Add move forward/backward/to front/to back functionality.
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);
 
             this.currentlyManipulating = null;

@@ -78,6 +78,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 g.DrawPolygon(new Pen(subStyle.Outline, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
         }
 
+        /// <summary>
+        /// TODO: Document.
+        /// </summary>
+        /// <param name="g"></param>
+        public override void RenderEditing(Graphics g)
+        {
+            g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+        }
+
         #region Transformations
 
         /// <summary>

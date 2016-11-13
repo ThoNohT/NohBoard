@@ -59,5 +59,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="point">The point.</param>
         /// <returns>True if the point is inside the element, false otherwise.</returns>
         public abstract bool Inside(Point point);
+
+        /// <summary>
+        /// TODO: Documentation.
+        /// </summary>
+        /// <param name="g"></param>
+        public abstract void RenderEditing(Graphics g);
+
+        // TODO: RenderHighlight
+
+        // TODO: RenderSelected
     }
 }

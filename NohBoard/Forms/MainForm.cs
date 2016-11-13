@@ -474,6 +474,10 @@ namespace ThoNohT.NohBoard.Forms
                     ((MouseSpeedIndicatorDefinition)def).Render(e.Graphics, MouseState.AverageSpeed);
                 }
             }
+
+            // Draw the element being manipulated
+            if (this.currentlyManipulating != null)
+                this.currentlyManipulating.RenderEditing(e.Graphics);
             
             base.OnPaint(e);
         }

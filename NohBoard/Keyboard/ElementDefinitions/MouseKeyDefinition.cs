@@ -81,6 +81,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// TODO: Document.
+        /// </summary>
+        /// <param name="g"></param>
+        public override void RenderEditing(Graphics g)
+        {
+            g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+        }
+
+        /// <summary>
         /// Checks whether this key overlaps with another specified key definition.
         /// </summary>
         /// <param name="otherKey">The other key to check for overlapping on.</param>

@@ -123,6 +123,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// TODO: Document.
+        /// </summary>
+        /// <param name="g"></param>
+        public override void RenderEditing(Graphics g)
+        {
+            g.FillEllipse(new SolidBrush(Color.Silver), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.DrawEllipse(new Pen(Color.White, 1), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.FillEllipse(new SolidBrush(Color.White), Geom.CircleToRectangle(this.Location, this.Radius / 5));
+        }
+
+        /// <summary>
         /// Returns the bounding box of this element.
         /// </summary>
         /// <returns>A rectangle representing the bounding box of the element.</returns>
