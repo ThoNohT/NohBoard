@@ -60,6 +60,21 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MouseSpeedIndicatorDefinition" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <param name="location">The location.</param>
+        /// <param name="radius">The radius.</param>
+        /// <param name="manipulation">The current element manipulation.</param>
+        private MouseSpeedIndicatorDefinition(int id, TPoint location, int radius, ElementManipulation manipulation)
+        {
+            this.Id = id;
+            this.Location = location;
+            this.Radius = radius;
+            this.CurrentManipulation = manipulation;
+        }
+
+        /// <summary>
         /// Renders the key in the specified surface.
         /// </summary>
         /// <param name="g">The GDI+ surface to render on.</param>
@@ -122,6 +137,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int)smallRadius));
         }
 
+        
+
         /// <summary>
         /// TODO: Document.
         /// </summary>
@@ -157,7 +174,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new MouseSpeedIndicatorDefinition(
                 this.Id,
                 new Point(this.Location.X + dx, this.Location.Y + dy),
-                this.Radius);
+                this.Radius,
+                this.CurrentManipulation);
         }
 
         /// <summary>
@@ -169,6 +187,33 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             var bb = this.GetBoundingBox();
             return point.X >= bb.Left && point.X <= bb.Right && point.Y >= bb.Top && point.Y <= bb.Bottom;
+        }
+
+        public override bool StartManipulating(Point point)
+        {
+            if (!this.Inside(point)) return false;
+
+            this.CurrentManipulation = new ElementManipulation
+            {
+                Type = ElementManipulationType.Translate,
+                Index = 0
+            };
+
+            return true;
+        }
+
+        public override ElementDefinition Manipulate(Size diff)
+        {
+            if (this.CurrentManipulation == null) return this;
+
+            switch (this.CurrentManipulation.Type)
+            {
+                case ElementManipulationType.Translate:
+                    return this.Translate(diff.Width, diff.Height);
+
+                default:
+                    return this;
+            }
         }
 
         #endregion Transformations

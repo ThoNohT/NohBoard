@@ -58,7 +58,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
 
             this.currentlyManipulating = GlobalSettings.CurrentDefinition.Elements
-                .LastOrDefault(x => x.Inside(e.Location));
+                .LastOrDefault(x => x.StartManipulating(e.Location));
             if (this.currentlyManipulating == null) return;
 
             this.currentManipulationPoint = e.Location;
@@ -76,7 +76,8 @@ namespace ThoNohT.NohBoard.Forms
 
             var diff = (TPoint)e.Location - this.currentManipulationPoint;
 
-            this.currentlyManipulating = this.currentlyManipulating.Translate(diff.Width, diff.Height);
+            this.currentlyManipulating = this.currentlyManipulating.Manipulate(diff);
+
             this.currentManipulationPoint = e.Location;
         }
 
@@ -85,7 +86,7 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
-            // TODO: Insert the elemernt back at its previous location. Add move forward/backward/to front/to back functionality.
+            // TODO: Insert the element back at its previous location. Add move forward/backward/to front/to back functionality.
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);
 
             this.currentlyManipulating = null;

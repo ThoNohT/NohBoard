@@ -98,6 +98,32 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="boundaries">The boundaries.</param>
         /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The text of the key.</param>
+        /// <param name="manipulation">The current manipulation.</param>
+        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
+        protected KeyDefinition(
+            int id,
+            List<TPoint> boundaries,
+            List<int> keyCodes,
+            string text,
+            ElementManipulation manipulation)
+        {
+            this.Id = id;
+            this.Boundaries = boundaries;
+            this.KeyCodes = keyCodes;
+            this.Text = text;
+            this.CurrentManipulation = manipulation;
+
+            var bb = this.GetBoundingBoxImpl();
+            this.TextPosition = (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyDefinition" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <param name="boundaries">The boundaries.</param>
+        /// <param name="keyCodes">The keycodes.</param>
+        /// <param name="text">The text of the key.</param>
         /// <param name="textPosition">The position of the text.</param>
         protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text, TPoint textPosition)
         {
@@ -143,6 +169,34 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public override bool Inside(Point point)
         {
             return Clipper.PointInPolygon((TPoint)point, this.GetPath()) != 0; // -1 and +1 are fine, 0 is not.
+        }
+
+        // TODO: Add StopManipulating?
+        public override bool StartManipulating(Point point)
+        {
+            if (!this.Inside(point)) return false;
+
+            this.CurrentManipulation = new ElementManipulation
+            {
+                Type = ElementManipulationType.Translate,
+                Index = 0
+            };
+
+            return true;
+        }
+
+        public override ElementDefinition Manipulate(Size diff)
+        {
+            if (this.CurrentManipulation == null) return this;
+
+            switch (this.CurrentManipulation.Type)
+            {
+                case ElementManipulationType.Translate:
+                    return this.Translate(diff.Width, diff.Height);
+
+                default:
+                    return this;
+            }
         }
 
         /// <summary>

@@ -34,6 +34,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         protected int StyleVersion = 0;
 
         /// <summary>
+        /// The current manipulation being performed on this element.
+        /// </summary>
+        public ElementManipulation CurrentManipulation;
+
+        /// <summary>
         /// Gets or sets the identifier of the element.
         /// </summary>
         [DataMember]
@@ -61,6 +66,14 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public abstract bool Inside(Point point);
 
         /// <summary>
+        /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
+        /// </summary>
+        /// <param name="point">The point to start manipulating.</param>
+        /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
+        /// at this point.</returns>
+        public abstract bool StartManipulating(Point point);
+
+        /// <summary>
         /// TODO: Documentation.
         /// </summary>
         /// <param name="g"></param>
@@ -69,5 +82,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         // TODO: RenderHighlight
 
         // TODO: RenderSelected
+
+        /// <summary>
+        /// TODO: Documentation.
+        /// </summary>
+        /// <param name="diff"></param>
+        /// <returns></returns>
+        public abstract ElementDefinition Manipulate(Size diff);
     }
 }

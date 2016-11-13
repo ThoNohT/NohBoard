@@ -119,6 +119,7 @@
       <DependentUpon>KeySubStylePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Keyboard\ElementDefinitions\ElementDefinition.cs" />
+    <Compile Include="Keyboard\ElementDefinitions\ElementManipulation.cs" />
     <Compile Include="Keyboard\ElementDefinitions\KeyboardKeyDefinition.cs" />
     <Compile Include="Keyboard\ElementDefinitions\KeyDefinition.cs" />
     <Compile Include="Keyboard\ElementDefinitions\MouseKeyDefinition.cs" />

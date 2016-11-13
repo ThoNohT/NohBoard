@@ -46,6 +46,25 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MouseKeyDefinition" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <param name="boundaries">The boundaries.</param>
+        /// <param name="keyCode">The keycode.</param>
+        /// <param name="text">The text of the key.</param>
+        /// <param name="manipulation">The current manipulation.</param>
+        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
+        private MouseKeyDefinition(
+            int id,
+            List<TPoint> boundaries,
+            int keyCode,
+            string text,
+            ElementManipulation manipulation)
+            : base(id, boundaries, keyCode.Singleton(), text, manipulation)
+        {
+        }
+
+        /// <summary>
         /// Renders the key in the specified surface.
         /// </summary>
         /// <param name="g">The GDI+ surface to render on.</param>
@@ -122,7 +141,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Id,
                 this.Boundaries.Select(b => b.Translate(dx, dy)).ToList(),
                 this.KeyCodes.Single(),
-                this.Text);
+                this.Text,
+                this.CurrentManipulation);
         }
 
         /// <summary>
