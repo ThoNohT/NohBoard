@@ -167,17 +167,16 @@ namespace ThoNohT.NohBoard.Forms
                     }
 
                     // Render the individual keys.
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>())
-                        def.Render(g, false, shift, caps);
+                    foreach (var def in GlobalSettings.CurrentDefinition.Elements)
+                    {
+                        if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseKeyDefinition>())
-                        def.Render(g, false, shift, caps);
+                        if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseScrollDefinition>())
-                        def.Render(g, 0);
+                        if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseSpeedIndicatorDefinition>())
-                        def.Render(g, new SizeF());
+                        // No need to render mouse speed indicators in backbrush.
+                    }
 
                     this.backBrushes[shift].Add(caps, new TextureBrush(bmp));
                 }
@@ -437,52 +436,45 @@ namespace ThoNohT.NohBoard.Forms
                 this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
                 new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
 
-            // Render keyboard keys.
-            var kbDefs = GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>();
+            // Render all keys.
             var kbKeys = KeyboardState.PressedKeys;
-            var onlySingles = true;
-            foreach (var def in kbDefs
-                .Where(d => kbKeys.ContainsAll(d.KeyCodes))
-                .OrderByDescending(d => d.KeyCodes.Count)
-                .TakeWhile(
-                    d =>
-                    {
-                        if (d.KeyCodes.Count > 1) onlySingles = false;
-                        return onlySingles || d.KeyCodes.Count > 1;
-                    }))
-            {
-                def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-            }
-
-            // Render mouse keys.
-            onlySingles = true;
-            var mouseKeys = MouseState.PressedKeys;
-            foreach (var def in mouseKeys.SelectMany(
-                keyCode => GlobalSettings.CurrentDefinition.Elements.OfType<MouseKeyDefinition>()
-                    .Where(x => x.KeyCodes.Contains((int)keyCode))))
-            {
-                def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-            }
-
-            // Render mouse scrolls.
-            onlySingles = true;
+            var mouseKeys = MouseState.PressedKeys.Select(k => (int)k).ToList();
             MouseState.CheckScrollAndMovement();
             var scrollCounts = MouseState.ScrollCounts;
-            for (var i = 0; i < scrollCounts.Count; i++)
+            var allDefs = GlobalSettings.CurrentDefinition.Elements;
+            foreach (var def in allDefs)
             {
-                if (scrollCounts[i] == 0)
-                    continue;
+                if (def is KeyboardKeyDefinition)
+                {
+                    var kkDef = (KeyboardKeyDefinition)def;
+                    if (!kkDef.KeyCodes.All(kbKeys.Contains)) continue;
 
-                foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseScrollDefinition>()
-                    .Where(x => x.KeyCodes.Contains(i))
-                    .ToList())
-                    def.Render(e.Graphics, scrollCounts[i]);
+                    if (kkDef.KeyCodes.Count == 1
+                        && allDefs.OfType<KeyboardKeyDefinition>().Any(
+                            d => d.KeyCodes.Count > 1
+                                 && d.KeyCodes.All(kbKeys.Contains)
+                                 && d.KeyCodes.ContainsAll(kkDef.KeyCodes))) continue;
+
+                    kkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+                }
+                if (def is MouseKeyDefinition)
+                {
+                    var mkDef = (MouseKeyDefinition)def;
+                    if (mouseKeys.Contains(mkDef.KeyCodes.Single()))
+                        mkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+                }
+                if (def is MouseScrollDefinition)
+                {
+                    var msDef = (MouseScrollDefinition)def;
+                    var scrollCount = scrollCounts[msDef.KeyCodes.Single()];
+                    if (scrollCount > 0) msDef.Render(e.Graphics, scrollCount);
+                }
+                if (def is MouseSpeedIndicatorDefinition)
+                {
+                    ((MouseSpeedIndicatorDefinition)def).Render(e.Graphics, MouseState.AverageSpeed);
+                }
             }
-
-            // Render mouse speeds.
-            foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseSpeedIndicatorDefinition>())
-                def.Render(e.Graphics, MouseState.AverageSpeed);
-
+            
             base.OnPaint(e);
         }
 

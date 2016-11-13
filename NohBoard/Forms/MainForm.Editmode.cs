@@ -42,7 +42,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
-        private Stack<KeyboardDefinition> EditHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardDefinition> EditHistory = new Stack<KeyboardDefinition>();
 
         /// <summary>
         /// Turns edit-mode on or off.
@@ -54,33 +54,35 @@ namespace ThoNohT.NohBoard.Forms
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked) return;
 
             this.currentlyManipulating = GlobalSettings.CurrentDefinition.Elements
-                .FirstOrDefault(x => x.Inside(e.Location));
+                .LastOrDefault(x => x.Inside(e.Location));
             if (this.currentlyManipulating == null) return;
 
             this.currentManipulationPoint = e.Location;
             this.EditHistory.Push(GlobalSettings.CurrentDefinition);
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.RemoveElement(
-                this.currentlyManipulating);
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .RemoveElement(this.currentlyManipulating);
 
+            this.ResetBackBrushes();
         }
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             var diff = (TPoint)e.Location - this.currentManipulationPoint;
 
             this.currentlyManipulating = this.currentlyManipulating.Translate(diff.Width, diff.Height);
-            this.ResetBackBrushes();
             this.currentManipulationPoint = e.Location;
-
         }
 
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);

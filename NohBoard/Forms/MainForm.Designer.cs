@@ -113,6 +113,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // mnuToggleEditMode
             // 
+            this.mnuToggleEditMode.CheckOnClick = true;
             this.mnuToggleEditMode.Name = "mnuToggleEditMode";
             this.mnuToggleEditMode.Size = new System.Drawing.Size(175, 22);
             this.mnuToggleEditMode.Text = "Start &Editing";
