@@ -29,11 +29,6 @@ namespace ThoNohT.NohBoard.Forms
     public partial class MainForm
     {
         /// <summary>
-        /// Whether NohBoard is in edit mode.
-        /// </summary>
-        private bool inEditMode = false;
-
-        /// <summary>
         /// The keyboard element that is currently being manipulated.
         /// </summary>
         private ElementDefinition currentlyManipulating = null;
@@ -54,14 +49,12 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuToggleEditMode_Click(object sender, EventArgs e)
         {
-            this.inEditMode = !this.inEditMode;
-
-            this.mnuToggleEditMode.Text = this.inEditMode ? "Stop Editing" : "Start Editing";
+            this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
         }
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!this.inEditMode) return;
+            if (!this.mnuToggleEditMode.Checked) return;
 
             this.currentlyManipulating = GlobalSettings.CurrentDefinition.Elements
                 .FirstOrDefault(x => x.Inside(e.Location));
@@ -76,7 +69,7 @@ namespace ThoNohT.NohBoard.Forms
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!this.inEditMode || this.currentlyManipulating == null) return;
+            if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             var diff = (TPoint)e.Location - this.currentManipulationPoint;
 
@@ -88,7 +81,7 @@ namespace ThoNohT.NohBoard.Forms
 
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!this.inEditMode || this.currentlyManipulating == null) return;
+            if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);
 
