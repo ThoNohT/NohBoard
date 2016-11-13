@@ -125,6 +125,19 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.CurrentManipulation);
         }
 
+        protected override KeyDefinition MoveBoundary(int index, Size diff)
+        {
+            if (index < 0 || index >= this.Boundaries.Count)
+                throw new Exception("Attempting to move a non-existent boundary.");
+
+            return new MouseScrollDefinition(
+                this.Id,
+                this.Boundaries.Select((b, i) => i != index ? b : b + diff).ToList(),
+                this.KeyCodes.Single(),
+                this.Text,
+                this.CurrentManipulation);
+        }
+
         /// <summary>
         /// Updates the key definition to occupy a region of itself plus the specified other keys.
         /// </summary>

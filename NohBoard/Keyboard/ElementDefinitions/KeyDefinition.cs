@@ -114,6 +114,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             this.CurrentManipulation = manipulation;
 
             var bb = this.GetBoundingBoxImpl();
+            // TODO: re-calculate text position based on its previous value.
             this.TextPosition = (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
         }
 
@@ -176,6 +177,24 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             if (!this.Inside(point)) return false;
 
+            // At a boundary point if x and y are within -4 to +4 of the point.
+            var activeBoundary = this.Boundaries.FirstOrDefault(
+                b => point.X <= b.X + 4 &&
+                     point.X >= b.X - 4 &&
+                     point.Y <= b.Y + 4 &&
+                     point.Y >= b.Y - 4);
+
+            if (activeBoundary != null)
+            {
+                this.CurrentManipulation = new ElementManipulation
+                {
+                    Type = ElementManipulationType.MoveBoundary,
+                    Index = this.Boundaries.IndexOf(activeBoundary)
+                };
+
+                return true;
+            }
+
             this.CurrentManipulation = new ElementManipulation
             {
                 Type = ElementManipulationType.Translate,
@@ -194,10 +213,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 case ElementManipulationType.Translate:
                     return this.Translate(diff.Width, diff.Height);
 
+                case ElementManipulationType.MoveBoundary:
+                    return this.MoveBoundary(this.CurrentManipulation.Index, diff);
+
                 default:
                     return this;
             }
         }
+
+        protected abstract KeyDefinition MoveBoundary(int index, Size diff);
 
         /// <summary>
         /// Updates the key definition to occupy a region of itself plus the specified other keys.

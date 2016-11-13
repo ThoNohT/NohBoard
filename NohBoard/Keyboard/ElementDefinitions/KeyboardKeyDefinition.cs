@@ -137,7 +137,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
 
-
             // Draw the background
             var backgroundBrush = this.GetBackgroundBrush(subStyle, pressed);
             g.FillPolygon(backgroundBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
@@ -195,6 +194,22 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new KeyboardKeyDefinition(
                 this.Id,
                 this.Boundaries.Select(b => b.Translate(dx, dy)).ToList(),
+                this.KeyCodes,
+                this.Text,
+                this.ShiftText,
+                this.ChangeOnCaps,
+                this.CurrentManipulation);
+        }
+
+        protected override KeyDefinition MoveBoundary(int index, Size diff)
+        {
+            if (index < 0 || index >= this.Boundaries.Count)
+                throw new Exception("Attempting to move a non-existent boundary.");
+
+            var editedBoundary = this.Boundaries[index] + diff;
+            return new KeyboardKeyDefinition(
+                this.Id,
+                this.Boundaries.Select((b, i) => i != index ? b : b + diff).ToList(),
                 this.KeyCodes,
                 this.Text,
                 this.ShiftText,
