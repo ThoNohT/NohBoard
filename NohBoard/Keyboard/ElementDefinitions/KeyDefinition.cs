@@ -17,10 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
     using ClipperLib;
     using Extra;
     using ThoNohT.NohBoard.Keyboard.Styles;
@@ -200,6 +202,39 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 return true;
             }
 
+            // On an edge if distances from point to both boundaries in an edge is the same as the distance between the
+            // two boundaries.
+            var boundaries2 = this.Boundaries.Skip(1).ToList();
+            boundaries2.Add(this.Boundaries.First());
+
+            var activeEdge = this.Boundaries.Zip(boundaries2, Tuple.Create)
+                .FirstOrDefault(
+                    e =>
+                    {
+                        if (Math.Min(e.Item1.X, e.Item2.X) - 4 > point.X) return false;
+                        if (Math.Max(e.Item1.X, e.Item2.X) + 4 < point.X) return false;
+                        if (Math.Min(e.Item1.Y, e.Item2.Y) - 4 > point.Y) return false;
+                        if (Math.Max(e.Item1.Y, e.Item2.Y) + 4 < point.Y) return false;
+
+                        var ac = (e.Item1 - point).GetLength();
+                        var cb = (e.Item2 - point).GetLength();
+                        var ab = (e.Item2 - e.Item1).GetLength();
+
+                        return Math.Abs(ac + cb - ab) < 4;
+                    });
+
+            if (activeEdge != null)
+            {
+                this.CurrentManipulation = new ElementManipulation
+                {
+                    Type = ElementManipulationType.MoveEdge,
+                    Index = this.Boundaries.IndexOf(activeEdge.Item1)
+                };
+
+                return true;
+            }
+
+            // Otherwise, we are simply moving the element.
             this.CurrentManipulation = new ElementManipulation
             {
                 Type = ElementManipulationType.Translate,
@@ -228,17 +263,29 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 case ElementManipulationType.MoveBoundary:
                     return this.MoveBoundary(this.CurrentManipulation.Index, diff);
 
+                case ElementManipulationType.MoveEdge:
+                    return this.MoveEdge(this.CurrentManipulation.Index, diff);
+
                 default:
                     return this;
             }
         }
 
         /// <summary>
+        /// Moves an edge by the specified distance.
+        /// </summary>
+        /// <param name="index">The index of the edge as specified by the first of the two boundaries defining it in
+        /// <see cref="Boundaries"/>.</param>
+        /// <param name="diff">The distance to move the edge.</param>
+        /// <returns>A new key definition with the moved edge.</returns>
+        protected abstract ElementDefinition MoveEdge(int index, Size diff);
+
+        /// <summary>
         /// Moves a boundary point by the specified distance.
         /// </summary>
         /// <param name="index">The index of the boundary point in <see cref="Boundaries"/>.</param>
         /// <param name="diff">The distance to move the boundary point.</param>
-        /// <returns></returns>
+        /// <returns>A new key definition with the moved boundary.</returns>
         protected abstract KeyDefinition MoveBoundary(int index, Size diff);
 
         /// <summary>

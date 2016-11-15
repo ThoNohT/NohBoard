@@ -72,6 +72,16 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Returns the length of a speed with two directional components.
+        /// </summary>
+        /// <param name="speed">The speed.</param>
+        /// <returns>The length of the speed.</returns>
+        public static float GetLength(this Size speed)
+        {
+            return (float)Sqrt(Pow(speed.Width, 2) + (float)Pow(speed.Height, 2));
+        }
+
+        /// <summary>
         /// Returns a new rectangle that is translated to the origin.
         /// </summary>
         /// <param name="rect">The rectangle to translate.</param>

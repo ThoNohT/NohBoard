@@ -208,16 +208,39 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="index">The index of the boundary point in <see cref="KeyDefinition.Boundaries"/>.</param>
         /// <param name="diff">The distance to move the boundary point.</param>
-        /// <returns></returns>
+        /// <returns>A new key definition with the moved boundary.</returns>
         protected override KeyDefinition MoveBoundary(int index, Size diff)
         {
             if (index < 0 || index >= this.Boundaries.Count)
                 throw new Exception("Attempting to move a non-existent boundary.");
 
-            var editedBoundary = this.Boundaries[index] + diff;
             return new KeyboardKeyDefinition(
                 this.Id,
                 this.Boundaries.Select((b, i) => i != index ? b : b + diff).ToList(),
+                this.KeyCodes,
+                this.Text,
+                this.ShiftText,
+                this.ChangeOnCaps,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
+        /// Moves an edge by the specified distance.
+        /// </summary>
+        /// <param name="index">The index of the edge as specified by the first of the two boundaries defining it in
+        /// <see cref="KeyDefinition.Boundaries"/>.</param>
+        /// <param name="diff">The distance to move the edge.</param>
+        /// <returns>A new key definition with the moved edge.</returns>
+        protected override ElementDefinition MoveEdge(int index, Size diff)
+        {
+            if (index < 0 || index >= this.Boundaries.Count)
+                throw new Exception("Attempting to move a non-existent edge.");
+
+            Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
+
+            return new KeyboardKeyDefinition(
+                this.Id,
+                this.Boundaries.Select((b, i) => !doUpdate(i) ? b : b + diff).ToList(),
                 this.KeyCodes,
                 this.Text,
                 this.ShiftText,
