@@ -114,7 +114,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             this.CurrentManipulation = manipulation;
 
             var bb = this.GetBoundingBoxImpl();
-            // TODO: re-calculate text position based on its previous value.
+            // TODO: Re-calculate text position based on its previous value.
             this.TextPosition = (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
         }
 
@@ -172,7 +172,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return Clipper.PointInPolygon((TPoint)point, this.GetPath()) != 0; // -1 and +1 are fine, 0 is not.
         }
 
-        // TODO: Add StopManipulating?
+        /// <summary>
+        /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
+        /// </summary>
+        /// <param name="point">The point to start manipulating.</param>
+        /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
+        /// at this point.</returns>
         public override bool StartManipulating(Point point)
         {
             if (!this.Inside(point)) return false;
@@ -204,6 +209,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return true;
         }
 
+        /// <summary>
+        /// Manipulates the element according to its current manipulation state. If no manipulation state is set,
+        /// the element is returned without any changes. Otherwise, the element itself will determine what to modify
+        /// about its position or shape and return the updated version of itself.
+        /// </summary>
+        /// <param name="diff">The distance to manipulate the element by.</param>
+        /// <returns>The updated element.</returns>
         public override ElementDefinition Manipulate(Size diff)
         {
             if (this.CurrentManipulation == null) return this;
@@ -221,6 +233,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             }
         }
 
+        /// <summary>
+        /// Moves a boundary point by the specified distance.
+        /// </summary>
+        /// <param name="index">The index of the boundary point in <see cref="Boundaries"/>.</param>
+        /// <param name="diff">The distance to move the boundary point.</param>
+        /// <returns></returns>
         protected abstract KeyDefinition MoveBoundary(int index, Size diff);
 
         /// <summary>

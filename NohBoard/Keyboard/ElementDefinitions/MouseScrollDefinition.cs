@@ -98,9 +98,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
-        /// TODO: Document.
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
         /// </summary>
-        /// <param name="g"></param>
+        /// <param name="g">The graphics context to render to.</param>
         public override void RenderEditing(Graphics g)
         {
             g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
@@ -125,6 +127,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.CurrentManipulation);
         }
 
+        /// <summary>
+        /// Moves a boundary point by the specified distance.
+        /// </summary>
+        /// <param name="index">The index of the boundary point in <see cref="KeyDefinition.Boundaries"/>.</param>
+        /// <param name="diff">The distance to move the boundary point.</param>
+        /// <returns></returns>
         protected override KeyDefinition MoveBoundary(int index, Size diff)
         {
             if (index < 0 || index >= this.Boundaries.Count)

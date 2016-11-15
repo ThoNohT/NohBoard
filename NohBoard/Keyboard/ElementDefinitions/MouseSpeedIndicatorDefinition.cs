@@ -137,12 +137,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int)smallRadius));
         }
 
-        
-
         /// <summary>
-        /// TODO: Document.
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
         /// </summary>
-        /// <param name="g"></param>
+        /// <param name="g">The graphics context to render to.</param>
         public override void RenderEditing(Graphics g)
         {
             g.FillEllipse(new SolidBrush(Color.Silver), Geom.CircleToRectangle(this.Location, this.Radius));
@@ -189,6 +189,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return point.X >= bb.Left && point.X <= bb.Right && point.Y >= bb.Top && point.Y <= bb.Bottom;
         }
 
+        /// <summary>
+        /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
+        /// </summary>
+        /// <param name="point">The point to start manipulating.</param>
+        /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
+        /// at this point.</returns>
         public override bool StartManipulating(Point point)
         {
             if (!this.Inside(point)) return false;
@@ -202,6 +208,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return true;
         }
 
+        /// <summary>
+        /// Manipulates the element according to its current manipulation state. If no manipulation state is set,
+        /// the element is returned without any changes. Otherwise, the element itself will determine what to modify
+        /// about its position or shape and return the updated version of itself.
+        /// </summary>
+        /// <param name="diff">The distance to manipulate the element by.</param>
+        /// <returns>The updated element.</returns>
         public override ElementDefinition Manipulate(Size diff)
         {
             if (this.CurrentManipulation == null) return this;

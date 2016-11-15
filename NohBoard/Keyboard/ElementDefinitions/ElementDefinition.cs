@@ -72,11 +72,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
         public abstract bool StartManipulating(Point point);
+        
+        // TODO: Add StopManipulating?
 
         /// <summary>
-        /// TODO: Documentation.
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
         /// </summary>
-        /// <param name="g"></param>
+        /// <param name="g">The graphics context to render to.</param>
         public abstract void RenderEditing(Graphics g);
 
         // TODO: RenderHighlight
@@ -84,10 +88,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         // TODO: RenderSelected
 
         /// <summary>
-        /// TODO: Documentation.
+        /// Manipulates the element according to its current manipulation state. If no manipulation state is set,
+        /// the element is returned without any changes. Otherwise, the element itself will determine what to modify
+        /// about its position or shape and return the updated version of itself.
         /// </summary>
-        /// <param name="diff"></param>
-        /// <returns></returns>
+        /// <param name="diff">The distance to manipulate the element by.</param>
+        /// <returns>The updated element.</returns>
         public abstract ElementDefinition Manipulate(Size diff);
     }
 }

@@ -52,6 +52,10 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
         }
 
+        /// <summary>
+        /// Handles the MouseDown event for the main form, which can start editing an element, the mouse is pointing
+        /// at one.
+        /// </summary>
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -69,6 +73,10 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
+        /// <summary>
+        /// Handles the MouseMove event for the main form, which performs all transformations that need to be done
+        /// when editing an element.
+        /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -81,6 +89,9 @@ namespace ThoNohT.NohBoard.Forms
             this.currentManipulationPoint = e.Location;
         }
 
+        /// <summary>
+        /// Handles the MouseUp event for the main form, which will stop editing an element.
+        /// </summary>
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;

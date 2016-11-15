@@ -419,7 +419,6 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Settings
 
         #region Rendering
-        
 
         /// <summary>
         /// Paints the keyboard on the screen.
@@ -476,9 +475,8 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             // Draw the element being manipulated
-            if (this.currentlyManipulating != null)
-                this.currentlyManipulating.RenderEditing(e.Graphics);
-            
+            this.currentlyManipulating?.RenderEditing(e.Graphics);
+
             base.OnPaint(e);
         }
 
@@ -565,7 +563,6 @@ namespace ThoNohT.NohBoard.Forms
                     styleForm.ShowDialog(this);
                 }
             }
-
         }
 
         /// <summary>
