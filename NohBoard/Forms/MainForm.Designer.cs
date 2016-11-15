@@ -66,6 +66,7 @@ namespace ThoNohT.NohBoard.Forms
             this.MainMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this.mnuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,9 +88,10 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveDefinition,
             this.mnuSaveStyle,
             this.MainMenuSep3,
-            this.mnuExit});
+            this.mnuExit,
+            this.mnuUpdate});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(176, 220);
+            this.MainMenu.Size = new System.Drawing.Size(176, 242);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -210,6 +212,13 @@ namespace ThoNohT.NohBoard.Forms
             this.KeyCheckTimer.Interval = 1000;
             this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
             // 
+            // mnuUpdate
+            // 
+            this.mnuUpdate.Name = "mnuUpdate";
+            this.mnuUpdate.Size = new System.Drawing.Size(175, 22);
+            this.mnuUpdate.Text = "Update available";
+            this.mnuUpdate.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,6 +263,7 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ToolStripSeparator MainMenuSep3;
         private System.Windows.Forms.ToolStripMenuItem mnuSaveToGlobalStyleName;
         private System.Windows.Forms.Timer KeyCheckTimer;
+        private System.Windows.Forms.ToolStripMenuItem mnuUpdate;
     }
 }
 

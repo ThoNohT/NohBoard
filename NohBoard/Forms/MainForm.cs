@@ -396,15 +396,12 @@ namespace ThoNohT.NohBoard.Forms
 
             this.mnuToggleEditMode.Enabled = GlobalSettings.CurrentDefinition != null;
 
-            if (this.latestVersion != null)
+            if (this.latestVersion != null && !this.mnuUpdate.Visible)
             {
-                this.MainMenu.Items.Add(
-                    $"New version available: {this.latestVersion.Format()}.",
-                    null,
-                    (s, ea) =>
-                    {
-                        Process.Start("https://github.com/ThoNohT/NohBoard/releases");
-                    });
+                // TODO: Change to visibility based on new version, current strategy will add an item every time the menu is opened.
+                this.mnuUpdate.Text = $"New version available: {this.latestVersion.Format()}.";
+                this.mnuUpdate.Visible = true;
+                this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
             }
         }
 
