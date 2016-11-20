@@ -126,6 +126,17 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Adds <paramref name="size"/> to <paramref name="point"/>.
+        /// </summary>
+        /// <param name="point">The point to translate.</param>
+        /// <param name="size">The size to translate with.</param>
+        /// <returns>The translated point.</returns>
+        public static TPoint operator +(TPoint point, SizeF size)
+        {
+            return point.Translate(size);
+        }
+
+        /// <summary>
         /// Calculates the distance between <paramref name="point"/> and <paramref name="point2"/>. This is returned
         /// as a <see cref="Size"/>.
         /// </summary>
@@ -150,10 +161,31 @@ namespace ThoNohT.NohBoard.Extra
         /// <summary>
         /// Translates this point.
         /// </summary>
+        /// <param name="size">The distance to move the point.</param>
+        /// <returns>the translated point.</returns>
+        public TPoint Translate(SizeF size)
+        {
+            return this.Translate(size.Width, size.Height);
+        }
+
+        /// <summary>
+        /// Translates this point.
+        /// </summary>
         /// <param name="dx">The distance to move along the x axis.</param>
         /// <param name="dy">The distance to move along the y axis.</param>
         /// <returns>the translated point.</returns>
         public TPoint Translate(int dx, int dy)
+        {
+            return new TPoint(this.X + dx, this.Y + dy);
+        }
+
+        /// <summary>
+        /// Translates this point.
+        /// </summary>
+        /// <param name="dx">The distance to move along the x axis.</param>
+        /// <param name="dy">The distance to move along the y axis.</param>
+        /// <returns>the translated point.</returns>
+        public TPoint Translate(float dx, float dy)
         {
             return new TPoint(this.X + dx, this.Y + dy);
         }

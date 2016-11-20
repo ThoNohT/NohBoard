@@ -216,9 +216,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                         if (Math.Min(e.Item1.Y, e.Item2.Y) - 4 > point.Y) return false;
                         if (Math.Max(e.Item1.Y, e.Item2.Y) + 4 < point.Y) return false;
 
-                        var ac = (e.Item1 - point).GetLength();
-                        var cb = (e.Item2 - point).GetLength();
-                        var ab = (e.Item2 - e.Item1).GetLength();
+                        var ac = (e.Item1 - point).Length();
+                        var cb = (e.Item2 - point).Length();
+                        var ab = (e.Item2 - e.Item1).Length();
 
                         return Math.Abs(ac + cb - ab) < 4;
                     });

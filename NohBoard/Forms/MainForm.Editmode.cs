@@ -34,6 +34,16 @@ namespace ThoNohT.NohBoard.Forms
         private ElementDefinition currentlyManipulating = null;
 
         /// <summary>
+        /// The currently manipulated element, at the point where the manipulation started.
+        /// </summary>
+        private ElementDefinition manipulationStart = null;
+
+        /// <summary>
+        /// The cumulative distance the current element has been manipulated.
+        /// </summary>
+        private Size cumulManipulation;
+
+        /// <summary>
         /// The point inside <see cref="currentlyManipulating"/> that is being manipulated. This determines whether the
         /// manipulation is a move, an edge drag, or a point drag.
         /// </summary>
@@ -65,6 +75,10 @@ namespace ThoNohT.NohBoard.Forms
                 .LastOrDefault(x => x.StartManipulating(e.Location));
             if (this.currentlyManipulating == null) return;
 
+            // For edge movement.
+            this.manipulationStart = this.currentlyManipulating;
+            this.cumulManipulation = new Size();
+
             this.currentManipulationPoint = e.Location;
             this.EditHistory.Push(GlobalSettings.CurrentDefinition);
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -83,9 +97,9 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             var diff = (TPoint)e.Location - this.currentManipulationPoint;
+            this.cumulManipulation += diff;
 
-            this.currentlyManipulating = this.currentlyManipulating.Manipulate(diff);
-
+            this.currentlyManipulating = this.manipulationStart.Manipulate(this.cumulManipulation);
             this.currentManipulationPoint = e.Location;
         }
 
@@ -101,6 +115,7 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);
 
             this.currentlyManipulating = null;
+            this.manipulationStart = null;
             this.currentManipulationPoint = null;
             this.ResetBackBrushes();
         }

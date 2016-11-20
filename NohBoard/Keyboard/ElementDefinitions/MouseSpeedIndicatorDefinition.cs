@@ -91,7 +91,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var sensitivity = GlobalSettings.Settings.MouseSensitivity / (float)100;
 
             // The total length is determined by the sensitivity, speed and radius. But never more than the radius.
-            var pointerLength = (int)Math.Min(this.Radius, sensitivity * speed.GetLength() * this.Radius);
+            var pointerLength = (int)Math.Min(this.Radius, sensitivity * speed.Length() * this.Radius);
 
             var colorMultiplier = Math.Max(0, Math.Min(1, (float)pointerLength / this.Radius));
 

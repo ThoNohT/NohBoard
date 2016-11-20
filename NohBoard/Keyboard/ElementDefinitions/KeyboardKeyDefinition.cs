@@ -238,9 +238,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
 
+            // Project the mouse movement onto the orthogonal vector.
+            var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();
+            var edgeVector = (SizeF)(edgeBoundaries[1] - edgeBoundaries[0]);
+            var othogonalVector = edgeVector.RotateDegrees(90);
+            var projectedDiff = ((SizeF)diff).ProjectOn(othogonalVector);
+
             return new KeyboardKeyDefinition(
                 this.Id,
-                this.Boundaries.Select((b, i) => !doUpdate(i) ? b : b + diff).ToList(),
+                this.Boundaries.Select((b, i) => !doUpdate(i) ? b : b + projectedDiff).ToList(),
                 this.KeyCodes,
                 this.Text,
                 this.ShiftText,
