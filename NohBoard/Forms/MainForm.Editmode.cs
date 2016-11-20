@@ -26,6 +26,9 @@ namespace ThoNohT.NohBoard.Forms
     using Keyboard;
     using Keyboard.ElementDefinitions;
 
+    /// <summary>
+    /// Edit mode part of the main form.
+    /// </summary>
     public partial class MainForm
     {
         #region Manipulations
@@ -33,7 +36,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The keyboard element that is currently being manipulated.
         /// </summary>
-        private ElementDefinition currentlyManipulating = null;
+        private Tuple<int, ElementDefinition> currentlyManipulating = null;
 
         /// <summary>
         /// The currently manipulated element, at the point where the manipulation started.
@@ -69,6 +72,12 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuToggleEditMode_Click(object sender, EventArgs e)
         {
             this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
+
+            if (!this.mnuToggleEditMode.Checked)
+            {
+                this.currentlyManipulating = null;
+                this.HighlightedDefinition = null;
+            }
         }
 
         /// <summary>
@@ -80,19 +89,27 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked) return;
 
-            this.currentlyManipulating = GlobalSettings.CurrentDefinition.Elements
+            var toManipulate = GlobalSettings.CurrentDefinition.Elements
                 .LastOrDefault(x => x.StartManipulating(e.Location));
-            if (this.currentlyManipulating == null) return;
+
+            if (toManipulate == null)
+            {
+                this.currentlyManipulating = null;
+                return;
+            }
+
+            var indexToManipulate = GlobalSettings.CurrentDefinition.Elements.IndexOf(toManipulate);
+            this.currentlyManipulating = Tuple.Create(indexToManipulate, toManipulate);
             this.HighlightedDefinition = null;
 
             // For edge movement.
-            this.manipulationStart = this.currentlyManipulating;
+            this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
             this.currentManipulationPoint = e.Location;
             this.EditHistory.Push(GlobalSettings.CurrentDefinition);
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(this.currentlyManipulating);
+                .RemoveElement(toManipulate);
 
             this.ResetBackBrushes();
         }
@@ -110,7 +127,9 @@ namespace ThoNohT.NohBoard.Forms
                 var diff = (TPoint)e.Location - this.currentManipulationPoint;
                 this.cumulManipulation += diff;
 
-                this.currentlyManipulating = this.manipulationStart.Manipulate(this.cumulManipulation);
+                this.currentlyManipulating = Tuple.Create(
+                    this.currentlyManipulating.Item1,
+                    this.manipulationStart.Manipulate(this.cumulManipulation));
                 this.currentManipulationPoint = e.Location;
             }
             else
@@ -129,13 +148,62 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
-            // TODO: Insert the element back at its previous location. Add move forward/backward/to front/to back functionality.
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(this.currentlyManipulating);
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(
+                this.currentlyManipulating.Item2,
+                this.currentlyManipulating.Item1);
 
             this.currentlyManipulating = null;
             this.manipulationStart = null;
             this.currentManipulationPoint = new Point();
             this.ResetBackBrushes();
         }
+
+        #region Element z-order moving
+
+        /// <summary>
+        /// Moves the currently highlighted element to the top of the z-order. Placing it above every other element.
+        /// </summary>
+        private void mnuMoveToTop_Click(object sender, EventArgs e)
+        {
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
+                this.HighlightedDefinition,
+                int.MaxValue);
+            this.ResetBackBrushes();
+        }
+
+        /// <summary>
+        /// Moves the currently highlighted element up in the z-order.
+        /// </summary>
+        private void mnuMoveUp_Click(object sender, EventArgs e)
+        {
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
+                this.HighlightedDefinition,
+                1);
+            this.ResetBackBrushes();
+        }
+
+        /// <summary>
+        /// Moves the currently highlighted element down in the z-order.
+        /// </summary>
+        private void mnuMoveDown_Click(object sender, EventArgs e)
+        {
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
+                this.HighlightedDefinition,
+                -1);
+            this.ResetBackBrushes();
+        }
+
+        /// <summary>
+        /// Moves the currently highlighted element to the bottom of the z-order. Placing it below every other element.
+        /// </summary>
+        private void mnuMoveToBottom_Click(object sender, EventArgs e)
+        {
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
+                this.HighlightedDefinition,
+                -int.MaxValue);
+            this.ResetBackBrushes();
+        }
+
+        #endregion Element z-order moving
     }
 }

@@ -53,6 +53,11 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuKeyboards = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuToggleEditMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveElement = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveToTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveToBottom = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditKeyboardStyle = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditElementStyle = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
@@ -65,8 +70,8 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveStyleAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.mnuUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,6 +87,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuKeyboards,
             this.MainMenuSep1,
             this.mnuToggleEditMode,
+            this.mnuMoveElement,
             this.mnuEditKeyboardStyle,
             this.mnuEditElementStyle,
             this.MainMenuSep2,
@@ -91,7 +97,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit,
             this.mnuUpdate});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(176, 242);
+            this.MainMenu.Size = new System.Drawing.Size(176, 264);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -120,6 +126,45 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuToggleEditMode.Size = new System.Drawing.Size(175, 22);
             this.mnuToggleEditMode.Text = "Start &Editing";
             this.mnuToggleEditMode.Click += new System.EventHandler(this.mnuToggleEditMode_Click);
+            // 
+            // mnuMoveElement
+            // 
+            this.mnuMoveElement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMoveToTop,
+            this.mnuMoveUp,
+            this.mnuMoveDown,
+            this.mnuMoveToBottom});
+            this.mnuMoveElement.Name = "mnuMoveElement";
+            this.mnuMoveElement.Size = new System.Drawing.Size(175, 22);
+            this.mnuMoveElement.Text = "&Move";
+            // 
+            // mnuMoveToTop
+            // 
+            this.mnuMoveToTop.Name = "mnuMoveToTop";
+            this.mnuMoveToTop.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveToTop.Text = "Move to &top";
+            this.mnuMoveToTop.Click += new System.EventHandler(this.mnuMoveToTop_Click);
+            // 
+            // mnuMoveUp
+            // 
+            this.mnuMoveUp.Name = "mnuMoveUp";
+            this.mnuMoveUp.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveUp.Text = "Move &up";
+            this.mnuMoveUp.Click += new System.EventHandler(this.mnuMoveUp_Click);
+            // 
+            // mnuMoveDown
+            // 
+            this.mnuMoveDown.Name = "mnuMoveDown";
+            this.mnuMoveDown.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveDown.Text = "Move &down";
+            this.mnuMoveDown.Click += new System.EventHandler(this.mnuMoveDown_Click);
+            // 
+            // mnuMoveToBottom
+            // 
+            this.mnuMoveToBottom.Name = "mnuMoveToBottom";
+            this.mnuMoveToBottom.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveToBottom.Text = "Move to &bottom";
+            this.mnuMoveToBottom.Click += new System.EventHandler(this.mnuMoveToBottom_Click);
             // 
             // mnuEditKeyboardStyle
             // 
@@ -207,17 +252,17 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit.Text = "E&xit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
-            // KeyCheckTimer
-            // 
-            this.KeyCheckTimer.Interval = 1000;
-            this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
-            // 
             // mnuUpdate
             // 
             this.mnuUpdate.Name = "mnuUpdate";
             this.mnuUpdate.Size = new System.Drawing.Size(175, 22);
             this.mnuUpdate.Text = "Update available";
             this.mnuUpdate.Visible = false;
+            // 
+            // KeyCheckTimer
+            // 
+            this.KeyCheckTimer.Interval = 1000;
+            this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
             // 
             // MainForm
             // 
@@ -264,6 +309,11 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ToolStripMenuItem mnuSaveToGlobalStyleName;
         private System.Windows.Forms.Timer KeyCheckTimer;
         private System.Windows.Forms.ToolStripMenuItem mnuUpdate;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveElement;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveToTop;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveUp;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveDown;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveToBottom;
     }
 }
 

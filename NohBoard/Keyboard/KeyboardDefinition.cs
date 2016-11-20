@@ -72,6 +72,12 @@ namespace ThoNohT.NohBoard.Keyboard
 
         #region Modification
 
+        /// <summary>
+        /// Removes an element from this keyboard definition.
+        /// </summary>
+        /// <param name="element">The element to remove.</param>
+        /// <returns>A new version of this <see cref="KeyboardDefinition"/> without the element that was
+        /// removed.</returns>
         public KeyboardDefinition RemoveElement(ElementDefinition element)
         {
             var newElements = this.Elements.Where(e => e.Id != element.Id).ToList();
@@ -89,11 +95,63 @@ namespace ThoNohT.NohBoard.Keyboard
             };
         }
 
-        public KeyboardDefinition AddElement(ElementDefinition element)
+        /// <summary>
+        /// Moves <paramref name="element"/> down by a distance of <paramref name="diff"/>.
+        /// <paramref name="diff"/> is clamped by the list boundaries.
+        /// </summary>
+        /// <param name="element">The element to move.</param>
+        /// <param name="diff">The distance to move the element down.</param>
+        /// <returns>A new version of this <see cref="KeyboardDefinition"/> with the element moved.</returns>
+        public KeyboardDefinition MoveElementDown(ElementDefinition element, int diff)
+        {
+            if (!this.Elements.Contains(element)) throw new Exception("Attempting to move a non-existent element.");
+            var index = this.Elements.IndexOf(element);
+
+            // Clamp diff values.
+            if (diff == int.MaxValue) diff = int.MaxValue - index;
+            if (index + diff < 0) diff = -index;
+            if (index + diff >= this.Elements.Count) diff = this.Elements.Count - index - 1;
+
+            var newPosition = index + diff;
+            var oldElements = this.Elements.Except(element.Singleton()).ToList();
+
+            var newElements = Enumerable.Range(0, this.Elements.Count)
+                .Select(i => i < newPosition ? oldElements[i] : (i == newPosition ? element : oldElements[i - 1]))
+                .ToList();
+
+            return new KeyboardDefinition
+            {
+                Category = this.Category,
+                Elements = newElements,
+                Width = this.Width,
+                Height = this.Height,
+                Name = this.Name,
+                Version = this.Version
+            };
+        }
+
+        /// <summary>
+        /// Adds an element to this keyboard definition.
+        /// </summary>
+        /// <param name="element">The element to add.</param>
+        /// <param name="index">An optional index to add it at. If <c>null</c>, the element is added at the end.</param>
+        /// <returns>A new version of this <see cref="KeyboardDefinition"/> with the element added.</returns>
+        public KeyboardDefinition AddElement(ElementDefinition element, int? index = null)
         {
             if (this.Elements.Any(e => e.Id == element.Id))
                 throw new Exception($"Keyboard already contains an element with id {element.Id}.");
-            var newElements = this.Elements.Union(element.Singleton()).ToList();
+
+            List<ElementDefinition> newElements;
+            if (index == null)
+            {
+                newElements = this.Elements.Union(element.Singleton()).ToList();
+            }
+            else
+            {
+                newElements = Enumerable.Range(0, this.Elements.Count + 1)
+                    .Select(i => i < index ? this.Elements[i] : (i == index ? element : this.Elements[i - 1]))
+                    .ToList();
+            }
 
             return new KeyboardDefinition
             {

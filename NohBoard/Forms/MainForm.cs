@@ -403,6 +403,8 @@ namespace ThoNohT.NohBoard.Forms
                 this.mnuUpdate.Visible = true;
                 this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
             }
+
+            this.mnuMoveElement.Visible = this.HighlightedDefinition != null;
         }
 
         /// <summary>
@@ -472,7 +474,7 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             // Draw the element being manipulated
-            this.currentlyManipulating?.RenderEditing(e.Graphics);
+            this.currentlyManipulating?.Item2.RenderEditing(e.Graphics);
             this.HighlightedDefinition?.RenderHighlight(e.Graphics, this.currentManipulationPoint);
 
             base.OnPaint(e);
