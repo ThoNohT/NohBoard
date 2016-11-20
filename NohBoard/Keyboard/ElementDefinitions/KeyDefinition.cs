@@ -22,7 +22,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Drawing;
     using System.Linq;
     using System.Runtime.Serialization;
-    using System.Windows.Forms;
     using ClipperLib;
     using Extra;
     using ThoNohT.NohBoard.Keyboard.Styles;
@@ -172,6 +171,44 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public override bool Inside(Point point)
         {
             return Clipper.PointInPolygon((TPoint)point, this.GetPath()) != 0; // -1 and +1 are fine, 0 is not.
+        }
+
+        /// <summary>
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderEditing(Graphics g)
+        {
+            g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+        }
+
+        /// <summary>
+        /// Renders a simple representation of the element while it is being highlighted in edit mode.
+        /// <paramref name="focus"/> is the point that determines what type of manipulation will be done to the element, and how this should be displayed.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        /// <param name="focus">The focus point of the possible manipulation.</param>
+        public override void RenderHighlight(Graphics g, Point focus)
+        {
+            g.FillPolygon(Constants.HighlightBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+
+            switch (this.CurrentManipulation.Type)
+            {
+                case ElementManipulationType.MoveBoundary:
+                    var boundary = this.Boundaries[this.CurrentManipulation.Index];
+                    g.FillRectangle(Brushes.White, boundary.X - 3, boundary.Y - 3, 6, 6);
+                    break;
+
+                case ElementManipulationType.MoveEdge:
+                    var index = this.CurrentManipulation.Index;
+                    Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
+                    var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();
+                    g.DrawLine(new Pen(Color.White, 3), edgeBoundaries[0], edgeBoundaries[1]);
+                    break;
+            }
         }
 
         /// <summary>

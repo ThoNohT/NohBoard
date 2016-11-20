@@ -65,5 +65,10 @@ namespace ThoNohT.NohBoard
         /// Returns the path this executable is running in.
         /// </summary>
         public static string ExePath => AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// The brush to use for the background of highlighted elements.
+        /// </summary>
+        public static Brush HighlightBrush = new SolidBrush(Color.FromArgb(80, 0, 180, 255));
     }
 }

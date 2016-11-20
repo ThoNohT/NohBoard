@@ -28,6 +28,8 @@ namespace ThoNohT.NohBoard.Forms
 
     public partial class MainForm
     {
+        #region Manipulations
+
         /// <summary>
         /// The keyboard element that is currently being manipulated.
         /// </summary>
@@ -44,10 +46,17 @@ namespace ThoNohT.NohBoard.Forms
         private Size cumulManipulation;
 
         /// <summary>
-        /// The point inside <see cref="currentlyManipulating"/> that is being manipulated. This determines whether the
-        /// manipulation is a move, an edge drag, or a point drag.
+        /// The point inside <see cref="currentlyManipulating"/> that is being manipulated. This determines the type of
+        /// manipulation that will be performed on the currently manipulating element.
         /// </summary>
-        private Point? currentManipulationPoint = null;
+        private Point currentManipulationPoint; 
+
+        #endregion Manipulations
+
+        /// <summary>
+        /// The element that is currently highlighted by the mouse, but not being manipulated yet.
+        /// </summary>
+        private ElementDefinition HighlightedDefinition = null;
 
         /// <summary>
         /// A stack containing the previous edits made by the user.
@@ -74,6 +83,7 @@ namespace ThoNohT.NohBoard.Forms
             this.currentlyManipulating = GlobalSettings.CurrentDefinition.Elements
                 .LastOrDefault(x => x.StartManipulating(e.Location));
             if (this.currentlyManipulating == null) return;
+            this.HighlightedDefinition = null;
 
             // For edge movement.
             this.manipulationStart = this.currentlyManipulating;
@@ -93,14 +103,22 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left) return;
-            if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
+            if (!this.mnuToggleEditMode.Checked) return;
 
-            var diff = (TPoint)e.Location - this.currentManipulationPoint;
-            this.cumulManipulation += diff;
+            if (this.currentlyManipulating != null)
+            {
+                var diff = (TPoint)e.Location - this.currentManipulationPoint;
+                this.cumulManipulation += diff;
 
-            this.currentlyManipulating = this.manipulationStart.Manipulate(this.cumulManipulation);
-            this.currentManipulationPoint = e.Location;
+                this.currentlyManipulating = this.manipulationStart.Manipulate(this.cumulManipulation);
+                this.currentManipulationPoint = e.Location;
+            }
+            else
+            {
+                this.currentManipulationPoint = e.Location;
+                this.HighlightedDefinition = GlobalSettings.CurrentDefinition.Elements
+                    .LastOrDefault(x => x.StartManipulating(e.Location));
+            }
         }
 
         /// <summary>
@@ -116,7 +134,7 @@ namespace ThoNohT.NohBoard.Forms
 
             this.currentlyManipulating = null;
             this.manipulationStart = null;
-            this.currentManipulationPoint = null;
+            this.currentManipulationPoint = new Point();
             this.ResetBackBrushes();
         }
     }

@@ -100,18 +100,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
-        /// Renders a simple representation of the element while it is being edited. This representation does not depend
-        /// on the state of the program and is merely intended to provide a clear overview of the current position and
-        /// shape of the element.
-        /// </summary>
-        /// <param name="g">The graphics context to render to.</param>
-        public override void RenderEditing(Graphics g)
-        {
-            g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
-            g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
-        }
-
-        /// <summary>
         /// Checks whether this key overlaps with another specified key definition.
         /// </summary>
         /// <param name="otherKey">The other key to check for overlapping on.</param>
