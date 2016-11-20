@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 {
+    using System.Drawing;
+
     /// <summary>
     /// Indicates in what way an element is being manipulated.
     /// </summary>
@@ -28,9 +30,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public ElementManipulationType Type { get; set; }
 
         /// <summary>
-        /// Gets or set sthe index of the thing inside the element that is being manipulated.
+        /// The index of the thing inside the element that is being manipulated.
+        /// Relevant for MoveBoundary, MoveEdge.
         /// </summary>
         public int Index { get; set; }
+
+        /// <summary>
+        /// The direction of the manipulation.
+        /// Relevant for nothing yet
+        /// </summary>
+        public SizeF Direction { get; set; }
     }
 
     /// <summary>
@@ -52,5 +61,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// Move an edge in the element.
         /// </summary>
         MoveEdge,
+
+        /// <summary>
+        /// Scale an element.
+        /// </summary>
+        Scale
     }
 }

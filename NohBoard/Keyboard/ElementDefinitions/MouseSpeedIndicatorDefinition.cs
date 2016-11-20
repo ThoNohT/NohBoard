@@ -21,6 +21,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
     using Extra;
     using Styles;
 
@@ -197,7 +198,21 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// at this point.</returns>
         public override bool StartManipulating(Point point)
         {
-            if (!this.Inside(point)) return false;
+            SizeF d = point - this.Location;
+            if (d.Length() > this.Radius + 2) return false;
+
+            // Scale if mouse over the outter edge.
+            if (Math.Sqrt(Math.Abs(Math.Pow(d.Width, 2) + Math.Pow(d.Height, 2) - Math.Pow(this.Radius, 2))) < 16)
+            {
+                this.CurrentManipulation = new ElementManipulation
+                {
+                    Type = ElementManipulationType.Scale,
+                    Index = 0,
+                    Direction = d.GetUnitVector()
+
+                };
+                return true;
+            }
 
             this.CurrentManipulation = new ElementManipulation
             {
@@ -224,9 +239,33 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 case ElementManipulationType.Translate:
                     return this.Translate(diff.Width, diff.Height);
 
+                case ElementManipulationType.Scale:
+                    return this.Scale(diff, this.CurrentManipulation.Direction);
+
                 default:
                     return this;
             }
+        }
+
+        /// <summary>
+        /// Scales the element by the specified distance into the specified direction. Scaling is done from the center,
+        /// direction is used to project the diff on.
+        /// </summary>
+        /// <param name="diff">The distance to perform the scale on.</param>
+        /// <param name="direction">The direction to project the diff on to determine the new radius from.</param>
+        /// <returns></returns>
+        private ElementDefinition Scale(Size diff, SizeF direction)
+        {
+            var distanceToGrabPoint = direction.Multiply(this.Radius);
+            var grabPoint = this.Location + distanceToGrabPoint;
+
+            var movedGrabPoint = grabPoint + ((SizeF)diff).ProjectOn(direction);
+            var movedDistance = (movedGrabPoint - this.Location).Length();
+
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location,
+                (int)movedDistance);
         }
 
         #endregion Transformations
