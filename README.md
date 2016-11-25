@@ -62,10 +62,10 @@ When editing keyboards and styles, it is important to know the folder structure 
 - NohBoard/
   - keyboards/
      - *category name*/
-      - images/
-      - *keyboard name*/
-        - keyboard.json
-        - *style name*.style
+        - images/
+        - *keyboard name*/
+           - keyboard.json
+           - *style name*.style
   - global/
     - *style name*.style
 
