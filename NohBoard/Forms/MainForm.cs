@@ -124,6 +124,9 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (GlobalSettings.CurrentDefinition == null) return;
 
+            this.UndoHistory.Clear();
+            this.RedoHistory.Clear();
+
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 
             this.ResetBackBrushes();
@@ -620,5 +623,7 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Styles
+
+  
     }
 }

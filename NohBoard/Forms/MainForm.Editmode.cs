@@ -64,7 +64,12 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
-        private readonly Stack<KeyboardDefinition> EditHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardDefinition> UndoHistory = new Stack<KeyboardDefinition>();
+
+        /// <summary>
+        /// A stack containing the recently undone edits.
+        /// </summary>
+        private readonly Stack<KeyboardDefinition> RedoHistory = new Stack<KeyboardDefinition>();
 
         /// <summary>
         /// Turns edit-mode on or off.
@@ -107,7 +112,8 @@ namespace ThoNohT.NohBoard.Forms
             this.cumulManipulation = new Size();
 
             this.currentManipulationPoint = e.Location;
-            this.EditHistory.Push(GlobalSettings.CurrentDefinition);
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .RemoveElement(toManipulate);
 
@@ -205,5 +211,35 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Element z-order moving
+
+        #region Undo
+
+        /// <summary>
+        /// Handles the keyup event for the main form.
+        /// </summary>
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+            if (!e.Control || e.KeyCode != Keys.Z) return;
+
+            if (!e.Shift)
+            {
+                if (!this.UndoHistory.Any()) return;
+
+                this.RedoHistory.Push(GlobalSettings.CurrentDefinition);
+                GlobalSettings.CurrentDefinition = this.UndoHistory.Pop();
+            }
+            else
+            {
+                if (!this.RedoHistory.Any()) return;
+
+                this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+                GlobalSettings.CurrentDefinition = this.RedoHistory.Pop();
+            }
+
+            this.ResetBackBrushes();
+        }
+
+        #endregion Undo
     }
 }
