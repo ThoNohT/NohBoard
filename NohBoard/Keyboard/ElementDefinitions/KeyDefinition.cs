@@ -127,6 +127,32 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The text of the key.</param>
         /// <param name="textPosition">The position of the text.</param>
+        /// <param name="manipulation">The current manipulation.</param>
+        protected KeyDefinition(
+            int id,
+            List<TPoint> boundaries,
+            List<int> keyCodes,
+            string text,
+            TPoint textPosition,
+            ElementManipulation manipulation)
+        {
+            this.Id = id;
+            this.Boundaries = boundaries;
+            this.KeyCodes = keyCodes;
+            this.Text = text;
+            this.TextPosition = textPosition;
+            this.CurrentManipulation = manipulation;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyDefinition" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <param name="boundaries">The boundaries.</param>
+        /// <param name="keyCodes">The keycodes.</param>
+        /// <param name="text">The text of the key.</param>
+        /// <param name="textPosition">The position of the text.</param>
+        /// <param name="manipulation">The current manipulation.</param>
         protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text, TPoint textPosition)
         {
             this.Id = id;
@@ -184,7 +210,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
             g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
         }
-
+        
         /// <summary>
         /// Renders a simple representation of the element while it is being highlighted in edit mode.
         /// <paramref name="focus"/> is the point that determines what type of manipulation will be done to the element, and how this should be displayed.
@@ -215,9 +241,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
+        /// <param name="altDown">Whether any alt key is pressed.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public override bool StartManipulating(Point point)
+        public override bool StartManipulating(Point point, bool altDown)
         {
             if (!this.Inside(point)) return false;
 
@@ -271,6 +298,18 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 return true;
             }
 
+            // When inside an element, and alt is pressed, we want to move text.
+            if (altDown)
+            {
+                this.CurrentManipulation = new ElementManipulation
+                {
+                    Type = ElementManipulationType.MoveText,
+                    Index = 0
+                };
+
+                return true;
+            }
+
             // Otherwise, we are simply moving the element.
             this.CurrentManipulation = new ElementManipulation
             {
@@ -303,10 +342,20 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 case ElementManipulationType.MoveEdge:
                     return this.MoveEdge(this.CurrentManipulation.Index, diff);
 
+                case ElementManipulationType.MoveText:
+                    return this.MoveText(diff);
+
                 default:
                     return this;
             }
         }
+
+        /// <summary>
+        /// Moves the text inside the key by the specified ditsance.
+        /// </summary>
+        /// <param name="diff">The distance to move the text.</param>
+        /// <returns>A new key definition with the moved text.</returns>
+        protected abstract KeyDefinition MoveText(Size diff);
 
         /// <summary>
         /// Moves an edge by the specified distance.
@@ -315,7 +364,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <see cref="Boundaries"/>.</param>
         /// <param name="diff">The distance to move the edge.</param>
         /// <returns>A new key definition with the moved edge.</returns>
-        protected abstract ElementDefinition MoveEdge(int index, Size diff);
+        protected abstract KeyDefinition MoveEdge(int index, Size diff);
 
         /// <summary>
         /// Moves a boundary point by the specified distance.

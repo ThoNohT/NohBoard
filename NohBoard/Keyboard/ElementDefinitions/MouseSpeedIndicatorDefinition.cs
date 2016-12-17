@@ -208,9 +208,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
+        /// <param name="altDown">Whether any alt key is pressed.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public override bool StartManipulating(Point point)
+        public override bool StartManipulating(Point point, bool altDown)
         {
             SizeF d = point - this.Location;
             if (d.Length() > this.Radius + 2) return false;

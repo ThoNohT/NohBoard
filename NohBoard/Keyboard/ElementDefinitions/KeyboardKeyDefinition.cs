@@ -102,9 +102,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="boundaries">The boundaries.</param>
         /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The normal text.</param>
-        /// <param name="textPosition">The position of the text.</param>
         /// <param name="shiftText">The shift text.</param>
         /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
+        /// <param name="textPosition">The position of the text.</param>
+        /// <param name="manipulation">The current manipulation.</param>
         public KeyboardKeyDefinition(
             int id,
             List<TPoint> boundaries,
@@ -112,7 +113,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             string text,
             string shiftText,
             bool changeOnCaps,
-            TPoint textPosition) : base(id, boundaries, keyCodes, text, textPosition)
+            TPoint textPosition,
+            ElementManipulation manipulation) : base(id, boundaries, keyCodes, text, textPosition, manipulation)
         {
             this.ShiftText = shiftText;
             this.ChangeOnCaps = changeOnCaps;
@@ -192,6 +194,33 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderEditing(Graphics g)
+        {
+            base.RenderEditing(g);
+
+            var style = GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(this.Id)
+                           ?? GlobalSettings.CurrentStyle.DefaultKeyStyle;
+            var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
+            var subStyle = style?.Loose ?? defaultStyle.Loose;
+
+            var txtSize = g.MeasureString(this.GetText(false, false), subStyle.Font);
+            var txtPoint = new TPoint(
+                this.TextPosition.X - (int)(txtSize.Width / 2),
+                this.TextPosition.Y - (int)(txtSize.Height / 2));
+
+            // Draw the text
+            g.SetClip(this.GetBoundingBox());
+            g.DrawString(this.GetText(false, false), subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.ResetClip();
+
+        }
+
+        /// <summary>
         /// Moves a boundary point by the specified distance.
         /// </summary>
         /// <param name="index">The index of the boundary point in <see cref="KeyDefinition.Boundaries"/>.</param>
@@ -213,13 +242,31 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Moves the text inside the key by the specified ditsance.
+        /// </summary>
+        /// <param name="diff">The distance to move the text.</param>
+        /// <returns>A new key definition with the moved text.</returns>
+        protected override KeyDefinition MoveText(Size diff)
+        {
+            return new KeyboardKeyDefinition(
+                this.Id,
+                this.Boundaries.ToList(),
+                this.KeyCodes,
+                this.Text,
+                this.ShiftText,
+                this.ChangeOnCaps,
+                this.TextPosition + diff,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
         /// Moves an edge by the specified distance.
         /// </summary>
         /// <param name="index">The index of the edge as specified by the first of the two boundaries defining it in
         /// <see cref="KeyDefinition.Boundaries"/>.</param>
         /// <param name="diff">The distance to move the edge.</param>
         /// <returns>A new key definition with the moved edge.</returns>
-        protected override ElementDefinition MoveEdge(int index, Size diff)
+        protected override KeyDefinition MoveEdge(int index, Size diff)
         {
             if (index < 0 || index >= this.Boundaries.Count)
                 throw new Exception("Attempting to move a non-existent edge.");

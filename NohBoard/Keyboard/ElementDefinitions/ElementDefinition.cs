@@ -69,9 +69,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
+        /// <param name="altDown">Whether any alt key is pressed.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public abstract bool StartManipulating(Point point);
+        public abstract bool StartManipulating(Point point, bool altDown);
         
         // TODO: Add StopManipulating?
 

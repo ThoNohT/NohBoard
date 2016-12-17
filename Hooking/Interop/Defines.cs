@@ -205,6 +205,25 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         /// </summary>
         public const byte VK_RSHIFT = 0XA1;
 
+        /// <summary>
+        /// The left control key.
+        /// </summary>
+        public const byte VK_LCTRL = 0XA2;
+
+        /// <summary>
+        /// The right control key.
+        /// </summary>
+        public const byte VK_RCTRL = 0XA3;
+
+        /// <summary>
+        /// The left alt key.
+        /// </summary>
+        public const byte VK_LALT = 0XA4;
+
+        /// <summary>
+        /// The right alt key.
+        /// </summary>
+        public const byte VK_RALT = 0XA5;
 
         #endregion Keyboard
 

@@ -23,6 +23,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Linq;
     using System.Windows.Forms;
     using Extra;
+    using Hooking;
     using Keyboard;
     using Keyboard.ElementDefinitions;
 
@@ -95,7 +96,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
 
             var toManipulate = GlobalSettings.CurrentDefinition.Elements
-                .LastOrDefault(x => x.StartManipulating(e.Location));
+                .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
 
             if (toManipulate == null)
             {
@@ -141,7 +142,7 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.currentManipulationPoint = e.Location;
                 this.HighlightedDefinition = GlobalSettings.CurrentDefinition.Elements
-                    .LastOrDefault(x => x.StartManipulating(e.Location));
+                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
             }
         }
 

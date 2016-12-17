@@ -65,6 +65,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <summary>
         /// Scale an element.
         /// </summary>
-        Scale
+        Scale,
+
+        /// <summary>
+        /// Move text within an element.
+        /// </summary>
+        MoveText,
     }
 }
