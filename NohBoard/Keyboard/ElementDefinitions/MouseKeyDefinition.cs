@@ -183,6 +183,49 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Removes the highlighted boundary.
+        /// </summary>
+        /// <returns>The new version of this key definition with the boundary removed.</returns>
+        public override KeyDefinition RemoveBoundary()
+        {
+            if (this.CurrentManipulation == null) return this;
+            if (this.CurrentManipulation.Type != ElementManipulationType.MoveBoundary)
+                throw new Exception("Attempting to remove something other than a boundary.");
+
+            if (this.Boundaries.Count < 4)
+                throw new Exception("Cannot have less than 3 boundary in an element.");
+
+            return new MouseKeyDefinition(
+                this.Id,
+                this.Boundaries.Where((b, i) => i != this.CurrentManipulation.Index).ToList(),
+                this.KeyCodes.Single(),
+                this.Text,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
+        /// Adds a boundary on the edge that is highlighted.
+        /// </summary>
+        /// <param name="location">To location to add the point at.</param>
+        /// <returns>The new version of this key definition with the boundary added.</returns>
+        public override KeyDefinition AddBoundary(TPoint location)
+        {
+            if (this.CurrentManipulation == null) return this;
+            if (this.CurrentManipulation.Type != ElementManipulationType.MoveEdge)
+                throw new Exception("Attempting to add a boundary to something other than an edge.");
+
+            var newBoundaries = this.Boundaries.ToList();
+            newBoundaries.Insert(this.CurrentManipulation.Index + 1, location);
+
+            return new MouseKeyDefinition(
+                this.Id,
+                newBoundaries,
+                this.KeyCodes.Single(),
+                this.Text,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
         /// Updates the key definition to occupy a region of itself plus the specified other keys.
         /// </summary>
         /// <param name="keys">The keys to union with.</param>

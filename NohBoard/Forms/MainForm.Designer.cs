@@ -58,6 +58,8 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMoveToBottom = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAddBoundaryPoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRemoveBoundaryPoint = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditKeyboardStyle = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditElementStyle = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
@@ -88,6 +90,8 @@ namespace ThoNohT.NohBoard.Forms
             this.MainMenuSep1,
             this.mnuToggleEditMode,
             this.mnuMoveElement,
+            this.mnuAddBoundaryPoint,
+            this.mnuRemoveBoundaryPoint,
             this.mnuEditKeyboardStyle,
             this.mnuEditElementStyle,
             this.MainMenuSep2,
@@ -97,33 +101,33 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit,
             this.mnuUpdate});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(176, 242);
+            this.MainMenu.Size = new System.Drawing.Size(203, 286);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
             // 
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(175, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(202, 22);
             this.mnuSettings.Text = "&Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
             // mnuKeyboards
             // 
             this.mnuKeyboards.Name = "mnuKeyboards";
-            this.mnuKeyboards.Size = new System.Drawing.Size(175, 22);
+            this.mnuKeyboards.Size = new System.Drawing.Size(202, 22);
             this.mnuKeyboards.Text = "&Load Keyboard";
             this.mnuKeyboards.Click += new System.EventHandler(this.mnuLoadKeyboard_Click);
             // 
             // MainMenuSep1
             // 
             this.MainMenuSep1.Name = "MainMenuSep1";
-            this.MainMenuSep1.Size = new System.Drawing.Size(172, 6);
+            this.MainMenuSep1.Size = new System.Drawing.Size(199, 6);
             // 
             // mnuToggleEditMode
             // 
             this.mnuToggleEditMode.CheckOnClick = true;
             this.mnuToggleEditMode.Name = "mnuToggleEditMode";
-            this.mnuToggleEditMode.Size = new System.Drawing.Size(175, 22);
+            this.mnuToggleEditMode.Size = new System.Drawing.Size(202, 22);
             this.mnuToggleEditMode.Text = "Start &Editing";
             this.mnuToggleEditMode.Click += new System.EventHandler(this.mnuToggleEditMode_Click);
             // 
@@ -135,7 +139,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuMoveDown,
             this.mnuMoveToBottom});
             this.mnuMoveElement.Name = "mnuMoveElement";
-            this.mnuMoveElement.Size = new System.Drawing.Size(175, 22);
+            this.mnuMoveElement.Size = new System.Drawing.Size(202, 22);
             this.mnuMoveElement.Text = "&Move";
             // 
             // mnuMoveToTop
@@ -166,10 +170,26 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuMoveToBottom.Text = "Move to &bottom";
             this.mnuMoveToBottom.Click += new System.EventHandler(this.mnuMoveToBottom_Click);
             // 
+            // mnuAddBoundaryPoint
+            // 
+            this.mnuAddBoundaryPoint.Name = "mnuAddBoundaryPoint";
+            this.mnuAddBoundaryPoint.Size = new System.Drawing.Size(202, 22);
+            this.mnuAddBoundaryPoint.Text = "Add Boundary Point";
+            this.mnuAddBoundaryPoint.Visible = false;
+            this.mnuAddBoundaryPoint.Click += new System.EventHandler(this.mnuAddBoundaryPoint_Click);
+            // 
+            // mnuRemoveBoundaryPoint
+            // 
+            this.mnuRemoveBoundaryPoint.Name = "mnuRemoveBoundaryPoint";
+            this.mnuRemoveBoundaryPoint.Size = new System.Drawing.Size(202, 22);
+            this.mnuRemoveBoundaryPoint.Text = "Remove Boundary Point";
+            this.mnuRemoveBoundaryPoint.Visible = false;
+            this.mnuRemoveBoundaryPoint.Click += new System.EventHandler(this.mnuRemoveBoundaryPoint_Click);
+            // 
             // mnuEditKeyboardStyle
             // 
             this.mnuEditKeyboardStyle.Name = "mnuEditKeyboardStyle";
-            this.mnuEditKeyboardStyle.Size = new System.Drawing.Size(175, 22);
+            this.mnuEditKeyboardStyle.Size = new System.Drawing.Size(202, 22);
             this.mnuEditKeyboardStyle.Text = "Edit Keyboard Style";
             this.mnuEditKeyboardStyle.Click += new System.EventHandler(this.mnuEditKeyboardStyle_Click);
             // 
@@ -177,14 +197,14 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.mnuEditElementStyle.Enabled = false;
             this.mnuEditElementStyle.Name = "mnuEditElementStyle";
-            this.mnuEditElementStyle.Size = new System.Drawing.Size(175, 22);
+            this.mnuEditElementStyle.Size = new System.Drawing.Size(202, 22);
             this.mnuEditElementStyle.Text = "Edit Element Style";
             this.mnuEditElementStyle.Click += new System.EventHandler(this.mnuEditElementStyle_Click);
             // 
             // MainMenuSep2
             // 
             this.MainMenuSep2.Name = "MainMenuSep2";
-            this.MainMenuSep2.Size = new System.Drawing.Size(172, 6);
+            this.MainMenuSep2.Size = new System.Drawing.Size(199, 6);
             // 
             // mnuSaveDefinition
             // 
@@ -192,7 +212,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveDefinitionAsName,
             this.mnuSaveDefinitionAs});
             this.mnuSaveDefinition.Name = "mnuSaveDefinition";
-            this.mnuSaveDefinition.Size = new System.Drawing.Size(175, 22);
+            this.mnuSaveDefinition.Size = new System.Drawing.Size(202, 22);
             this.mnuSaveDefinition.Text = "Save &Definition";
             // 
             // mnuSaveDefinitionAsName
@@ -216,7 +236,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveToGlobalStyleName,
             this.mnuSaveStyleAs});
             this.mnuSaveStyle.Name = "mnuSaveStyle";
-            this.mnuSaveStyle.Size = new System.Drawing.Size(175, 22);
+            this.mnuSaveStyle.Size = new System.Drawing.Size(202, 22);
             this.mnuSaveStyle.Text = "Save St&yle";
             // 
             // mnuSaveStyleToName
@@ -243,19 +263,19 @@ namespace ThoNohT.NohBoard.Forms
             // MainMenuSep3
             // 
             this.MainMenuSep3.Name = "MainMenuSep3";
-            this.MainMenuSep3.Size = new System.Drawing.Size(172, 6);
+            this.MainMenuSep3.Size = new System.Drawing.Size(199, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(175, 22);
+            this.mnuExit.Size = new System.Drawing.Size(202, 22);
             this.mnuExit.Text = "E&xit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // mnuUpdate
             // 
             this.mnuUpdate.Name = "mnuUpdate";
-            this.mnuUpdate.Size = new System.Drawing.Size(175, 22);
+            this.mnuUpdate.Size = new System.Drawing.Size(202, 22);
             this.mnuUpdate.Text = "Update available";
             this.mnuUpdate.Visible = false;
             // 
@@ -315,6 +335,8 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ToolStripMenuItem mnuMoveUp;
         private System.Windows.Forms.ToolStripMenuItem mnuMoveDown;
         private System.Windows.Forms.ToolStripMenuItem mnuMoveToBottom;
+        private System.Windows.Forms.ToolStripMenuItem mnuAddBoundaryPoint;
+        private System.Windows.Forms.ToolStripMenuItem mnuRemoveBoundaryPoint;
     }
 }
 

@@ -326,12 +326,25 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         protected abstract KeyDefinition MoveBoundary(int index, Size diff);
 
         /// <summary>
+        /// Adds a boundary on the edge that is highlighted.
+        /// </summary>
+        /// <param name="location">To location to add the point at.</param>
+        /// <returns>The new version of this key definition with the boundary added.</returns>
+        public abstract KeyDefinition AddBoundary(TPoint location);
+
+        /// <summary>
+        /// Removes the highlighted boundary.
+        /// </summary>
+        /// <returns>The new version of this key definition with the boundary removed.</returns>
+        public abstract KeyDefinition RemoveBoundary();
+
+        /// <summary>
         /// Updates the key definition to occupy a region of itself plus the specified other keys.
         /// </summary>
         /// <param name="keys">The keys to union with.</param>
         /// <returns>A new key definition with the updated region.</returns>
         public abstract KeyDefinition UnionWith(List<KeyDefinition> keys);
-        
+
         #region Private methods
 
         /// <summary>

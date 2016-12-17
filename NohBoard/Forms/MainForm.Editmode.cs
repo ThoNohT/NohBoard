@@ -111,7 +111,6 @@ namespace ThoNohT.NohBoard.Forms
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
-            this.currentManipulationPoint = e.Location;
             this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
             this.RedoHistory.Clear();
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -242,5 +241,60 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Undo
+
+        #region Boundary management
+
+        /// <summary>
+        /// Adds a boundary point to the highlighted element.
+        /// </summary>
+        private void mnuAddBoundaryPoint_Click(object sender, EventArgs e)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+            if (!(this.HighlightedDefinition is KeyDefinition)) return;
+
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
+
+            var def = (KeyDefinition)this.HighlightedDefinition;
+            var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
+
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .RemoveElement(def)
+                .AddElement(def.AddBoundary(this.currentManipulationPoint), index);
+
+            this.ResetBackBrushes();
+        }
+
+        /// <summary>
+        /// Removes a boundary point from the highighted element.
+        /// </summary>
+        private void mnuRemoveBoundaryPoint_Click(object sender, EventArgs e)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+            if (!(this.HighlightedDefinition is KeyDefinition)) return;
+
+            var def = (KeyDefinition)this.HighlightedDefinition;
+            if (def.Boundaries.Count < 4)
+            {
+                MessageBox.Show(
+                    "You cannot remove another boundary, there must be at least 3.",
+                    "Error removing boundary",
+                    MessageBoxButtons.OK);
+                return;
+            }
+
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
+
+            var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
+
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .RemoveElement(def)
+                .AddElement(def.RemoveBoundary(), index);
+
+            this.ResetBackBrushes();
+        }
+
+        #endregion Boundary management
     }
 }
