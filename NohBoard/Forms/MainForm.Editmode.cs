@@ -237,6 +237,7 @@ namespace ThoNohT.NohBoard.Forms
                 GlobalSettings.CurrentDefinition = this.RedoHistory.Pop();
             }
 
+            this.HighlightedDefinition = null;
             this.ResetBackBrushes();
         }
 
