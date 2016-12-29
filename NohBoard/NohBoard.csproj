@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Controls\VectorTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Extra\CapitalizationMethod.cs" />
     <Compile Include="Extra\FileHelper.cs" />
     <Compile Include="Extra\Geom.cs" />
