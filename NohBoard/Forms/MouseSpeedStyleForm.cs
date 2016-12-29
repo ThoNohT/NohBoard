@@ -48,16 +48,10 @@ namespace ThoNohT.NohBoard.Forms
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the style has been changed.
-        /// </summary>
-        /// <param name="style">The new mouse speed indicator style.</param>
-        public delegate void StyleChangedEventHandler(MouseSpeedIndicatorStyle style);
-
-        /// <summary>
         /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event StyleChangedEventHandler StyleChanged;
+        public new event Action<MouseSpeedIndicatorStyle> StyleChanged;
 
         #endregion Events
         

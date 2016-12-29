@@ -95,7 +95,7 @@ namespace ThoNohT.NohBoard.Forms
             this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
             this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
             this.clrKeyboardBackground.TabIndex = 2;
-            this.clrKeyboardBackground.ColorChanged += new ThoNohT.NohBoard.Controls.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
+            this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
             // 
             // AcceptButton2
             // 
@@ -146,7 +146,7 @@ namespace ThoNohT.NohBoard.Forms
             this.pressedKeys.SubStyle = keySubStyle3;
             this.pressedKeys.TabIndex = 13;
             this.pressedKeys.Title = "Pressed Keys";
-            this.pressedKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.pressedKeys_SubStyleChanged);
+            this.pressedKeys.StyleChanged += this.pressedKeys_SubStyleChanged;
             // 
             // looseKeys
             // 
@@ -175,7 +175,7 @@ namespace ThoNohT.NohBoard.Forms
             this.looseKeys.SubStyle = keySubStyle4;
             this.looseKeys.TabIndex = 12;
             this.looseKeys.Title = "Loose Keys";
-            this.looseKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.looseKeys_SubStyleChanged);
+            this.looseKeys.StyleChanged += this.looseKeys_SubStyleChanged;
             // 
             // lblKeyboard
             // 
@@ -205,7 +205,7 @@ namespace ThoNohT.NohBoard.Forms
             this.defaultMouseSpeed.Size = new System.Drawing.Size(171, 144);
             this.defaultMouseSpeed.TabIndex = 16;
             this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
-            this.defaultMouseSpeed.IndicatorStyleChanged += new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel.StyleChangedEventHandler(this.defaultMouseSpeed_IndicatorStyleChanged);
+            this.defaultMouseSpeed.IndicatorStyleChanged += this.defaultMouseSpeed_IndicatorStyleChanged;
             // 
             // txtBackgoundImage
             // 

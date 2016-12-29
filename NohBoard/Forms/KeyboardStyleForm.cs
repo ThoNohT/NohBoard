@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System;
     using System.Windows.Forms;
     using Extra;
     using ThoNohT.NohBoard.Controls;
@@ -44,16 +45,10 @@ namespace ThoNohT.NohBoard.Forms
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the style has been changed.
-        /// </summary>
-        /// <param name="style">The keyboard style.</param>
-        public delegate void StyleChangedEventHandler(KeyboardStyle style);
-
-        /// <summary>
         /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event StyleChangedEventHandler StyleChanged;
+        public new event Action<KeyboardStyle> StyleChanged;
 
         #endregion Events
 

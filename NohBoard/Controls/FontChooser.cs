@@ -38,15 +38,10 @@ namespace ThoNohT.NohBoard.Controls
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the font has been changed.
-        /// </summary>
-        public delegate void FontChangedEventHandler(FontChooser sender, Font font);
-
-        /// <summary>
         /// The event that is invoked when the font has been changed. Only invoked when the font is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event FontChangedEventHandler FontChanged;
+        public new event Action<FontChooser, Font> FontChanged;
 
         #endregion Events
         

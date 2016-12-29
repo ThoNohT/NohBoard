@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -87,23 +88,10 @@ namespace ThoNohT.NohBoard.Forms
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the selected keyboard definition has been changed.
-        /// </summary>
-        /// <param name="definition">The new definition.</param>
-        /// <param name="style">The new style.</param>
-        /// <param name="globalStyle">A value indicating whether the loaded style was loaded as a global style. Note
-        /// that this is different from the <see cref="KeyboardStyle.IsGlobal"/> property, which indicates whether
-        /// it can be saved as a global style.</param>
-        public delegate void DefinitionChangedEventHandler(
-            KeyboardDefinition definition,
-            KeyboardStyle style,
-            bool globalStyle);
-
-        /// <summary>
         /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public event DefinitionChangedEventHandler DefinitionChanged;
+        public event Action<KeyboardDefinition, KeyboardStyle, bool> DefinitionChanged;
 
         #endregion Events
 
