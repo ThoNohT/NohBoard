@@ -457,7 +457,7 @@ namespace ThoNohT.NohBoard.Forms
                 if (def is KeyboardKeyDefinition)
                 {
                     var kkDef = (KeyboardKeyDefinition)def;
-                    if (!kkDef.KeyCodes.All(kbKeys.Contains)) continue;
+                    if (!kkDef.KeyCodes.Any() || !kkDef.KeyCodes.All(kbKeys.Contains)) continue;
 
                     if (kkDef.KeyCodes.Count == 1
                         && allDefs.OfType<KeyboardKeyDefinition>()
