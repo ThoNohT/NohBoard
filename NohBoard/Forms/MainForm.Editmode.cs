@@ -113,8 +113,7 @@ namespace ThoNohT.NohBoard.Forms
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.PushUndoHistory();
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .RemoveElement(toManipulate);
 
@@ -242,6 +241,15 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
+        /// <summary>
+        /// Pushes the current keyboard state into the undo history and clears the redo history.
+        /// </summary>
+        private void PushUndoHistory()
+        {
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
+        }
+
         #endregion Undo
 
         #region Element management
@@ -255,8 +263,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (this.HighlightedDefinition != null) return;
 
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .AddElement(definition);
@@ -355,8 +362,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (this.HighlightedDefinition == null) return;
 
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .RemoveElement(this.HighlightedDefinition);
@@ -381,8 +387,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (!(this.HighlightedDefinition is KeyDefinition)) return;
 
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.PushUndoHistory();
 
             var def = (KeyDefinition)this.HighlightedDefinition;
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
@@ -412,8 +417,7 @@ namespace ThoNohT.NohBoard.Forms
                 return;
             }
 
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.PushUndoHistory();
 
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
 
