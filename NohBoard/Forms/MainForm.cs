@@ -418,6 +418,7 @@ namespace ThoNohT.NohBoard.Forms
                 this.HighlightedDefinition.CurrentManipulation.Type == ElementManipulationType.MoveBoundary;
 
             this.mnuRemoveElement.Visible = highlightedSomething;
+            this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && this.HighlightedDefinition == null;
         }
 
         /// <summary>

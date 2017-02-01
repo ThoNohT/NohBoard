@@ -164,6 +164,14 @@ namespace ThoNohT.NohBoard.Keyboard
             };
         }
 
+        /// <summary>
+        /// Returns the next identifier for an alement definition to be used in this keyboard.
+        /// </summary>
+        public int GetNextId()
+        {
+            return this.Elements.Select(e => e.Id).DefaultIfEmpty(0).Max() + 1;
+        }
+
         #endregion Modification
 
         /// <summary>

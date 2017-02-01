@@ -247,7 +247,108 @@ namespace ThoNohT.NohBoard.Forms
         #region Element management
 
         /// <summary>
-        /// Removes an element.
+        /// Adds a new element definition to the current keyboard.
+        /// </summary>
+        /// <param name="definition">The definition to add.</param>
+        private void AddElement(ElementDefinition definition)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+            if (this.HighlightedDefinition != null) return;
+
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
+
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .AddElement(definition);
+
+            this.ResetBackBrushes();
+        }
+
+        /// <summary>
+        /// Creates a new keyboard key definition and adds it to the keyboard definition.
+        /// </summary>
+        private void mnuAddKeyboardKeyDefinition_Click(object sender, EventArgs e)
+        {
+            var c = this.currentManipulationPoint;
+            var w = Constants.DefaultElementSize / 2;
+            var boundaries = new List<TPoint>
+            {
+                new TPoint(c.X - w, c.Y - w), // Top left
+                new TPoint(c.X + w, c.Y - w), // Top right
+                new TPoint(c.X + w, c.Y + w), // Bottom right
+                new TPoint(c.X - w, c.Y + w), // Bottom left
+            };
+
+            this.AddElement(
+                new KeyboardKeyDefinition(
+                    GlobalSettings.CurrentDefinition.GetNextId(),
+                    boundaries,
+                    new List<int>(),
+                    "",
+                    "",
+                    true));
+        }
+
+        /// <summary>
+        /// Creates a new mouse key definition and adds it to the keyboard definition.
+        /// </summary>
+        private void mnuAddMouseKeyDefinition_Click(object sender, EventArgs e)
+        {
+            var c = this.currentManipulationPoint;
+            var w = Constants.DefaultElementSize / 2;
+            var boundaries = new List<TPoint>
+            {
+                new TPoint(c.X - w, c.Y - w), // Top left
+                new TPoint(c.X + w, c.Y - w), // Top right
+                new TPoint(c.X + w, c.Y + w), // Bottom right
+                new TPoint(c.X - w, c.Y + w), // Bottom left
+            };
+
+            this.AddElement(
+                new MouseKeyDefinition(
+                    GlobalSettings.CurrentDefinition.GetNextId(),
+                    boundaries,
+                    (int) MouseKeyCode.LeftButton,
+                    ""));
+        }
+
+        /// <summary>
+        /// Creates a new mouse scroll definition and adds it to the keyboard definition.
+        /// </summary>
+        private void mnuAddMouseScrollDefinition_Click(object sender, EventArgs e)
+        {
+            var c = this.currentManipulationPoint;
+            var w = Constants.DefaultElementSize / 2;
+            var boundaries = new List<TPoint>
+            {
+                new TPoint(c.X - w, c.Y - w), // Top left
+                new TPoint(c.X + w, c.Y - w), // Top right
+                new TPoint(c.X + w, c.Y + w), // Bottom right
+                new TPoint(c.X - w, c.Y + w), // Bottom left
+            };
+
+            this.AddElement(
+                new MouseScrollDefinition(
+                    GlobalSettings.CurrentDefinition.GetNextId(),
+                    boundaries,
+                    (int) MouseScrollKeyCode.ScrollDown,
+                    ""));
+        }
+
+        /// <summary>
+        /// Creates a new mouse speed indicator definition and adds it to the keyboard definition.
+        /// </summary>
+        private void mnuAddMouseSpeedIndicatorDefinition_Click(object sender, EventArgs e)
+        {
+            this.AddElement(
+                new MouseSpeedIndicatorDefinition(
+                    GlobalSettings.CurrentDefinition.GetNextId(),
+                    this.currentManipulationPoint,
+                    Constants.DefaultElementSize / 2));
+        }
+
+        /// <summary>
+        /// Removes an element from the current keyboard.
         /// </summary>
         private void mnuRemoveElement_Click(object sender, EventArgs e)
         {

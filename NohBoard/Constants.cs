@@ -52,6 +52,11 @@ namespace ThoNohT.NohBoard
         public const string ImagesFolder = "images";
 
         /// <summary>
+        /// The default size in pixels for a new element.
+        /// </summary>
+        public const int DefaultElementSize = 40;
+
+        /// <summary>
         /// A GDI+ graphics context.
         /// </summary>
         public static Graphics G => Graphics.FromHwndInternal(new Form().Handle);
