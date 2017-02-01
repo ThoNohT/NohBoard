@@ -243,6 +243,32 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Undo
 
+        #region Element management
+
+        /// <summary>
+        /// Removes an element.
+        /// </summary>
+        private void mnuRemoveElement_Click(object sender, EventArgs e)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+            if (this.HighlightedDefinition == null) return;
+
+            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.RedoHistory.Clear();
+
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .RemoveElement(this.HighlightedDefinition);
+
+            // Unset the definition everywhere because it no longer exists.
+            this.HighlightedDefinition = null;
+            this.currentlyManipulating = null;
+            this.manipulationStart = null;
+
+            this.ResetBackBrushes();
+        }
+
+        #endregion Element management
+
         #region Boundary management
 
         /// <summary>
