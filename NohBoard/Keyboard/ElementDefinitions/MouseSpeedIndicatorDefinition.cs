@@ -153,11 +153,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
         /// <summary>
         /// Renders a simple representation of the element while it is being highlighted in edit mode.
-        /// <paramref name="focus"/> is the point that determines what type of manipulation will be done to the element, and how this should be displayed.
         /// </summary>
         /// <param name="g">The graphics context to render to.</param>
-        /// <param name="focus">The focus point of the possible manipulation.</param>
-        public override void RenderHighlight(Graphics g, Point focus)
+        public override void RenderHighlight(Graphics g)
         {
             g.FillEllipse(Constants.HighlightBrush, Geom.CircleToRectangle(this.Location, this.Radius));
 
