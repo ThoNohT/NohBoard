@@ -278,7 +278,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new MouseSpeedIndicatorDefinition(
                 this.Id,
                 this.Location,
-                (int)movedDistance);
+                (int)movedDistance,
+                this.CurrentManipulation);
         }
 
         #endregion Transformations
