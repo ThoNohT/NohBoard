@@ -61,17 +61,17 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The element that is currently highlighted by the mouse, but not being manipulated yet.
         /// </summary>
-        private ElementDefinition HighlightedDefinition = null;
+        private ElementDefinition highlightedDefinition = null;
 
         /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
-        private readonly Stack<KeyboardDefinition> UndoHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
 
         /// <summary>
         /// A stack containing the recently undone edits.
         /// </summary>
-        private readonly Stack<KeyboardDefinition> RedoHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardDefinition> redoHistory = new Stack<KeyboardDefinition>();
 
         /// <summary>
         /// Turns edit-mode on or off.
@@ -83,7 +83,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked)
             {
                 this.currentlyManipulating = null;
-                this.HighlightedDefinition = null;
+                this.highlightedDefinition = null;
             }
         }
 
@@ -107,7 +107,7 @@ namespace ThoNohT.NohBoard.Forms
 
             var indexToManipulate = GlobalSettings.CurrentDefinition.Elements.IndexOf(toManipulate);
             this.currentlyManipulating = Tuple.Create(indexToManipulate, toManipulate);
-            this.HighlightedDefinition = null;
+            this.highlightedDefinition = null;
 
             // For edge movement.
             this.manipulationStart = toManipulate;
@@ -141,7 +141,7 @@ namespace ThoNohT.NohBoard.Forms
             else
             {
                 this.currentManipulationPoint = e.Location;
-                this.HighlightedDefinition = GlobalSettings.CurrentDefinition.Elements
+                this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
                     .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
             }
         }
@@ -172,7 +172,7 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveToTop_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.HighlightedDefinition,
+                this.highlightedDefinition,
                 int.MaxValue);
             this.ResetBackBrushes();
         }
@@ -183,7 +183,7 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.HighlightedDefinition,
+                this.highlightedDefinition,
                 1);
             this.ResetBackBrushes();
         }
@@ -194,7 +194,7 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveDown_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.HighlightedDefinition,
+                this.highlightedDefinition,
                 -1);
             this.ResetBackBrushes();
         }
@@ -205,7 +205,7 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.HighlightedDefinition,
+                this.highlightedDefinition,
                 -int.MaxValue);
             this.ResetBackBrushes();
         }
@@ -224,20 +224,20 @@ namespace ThoNohT.NohBoard.Forms
 
             if (!e.Shift)
             {
-                if (!this.UndoHistory.Any()) return;
+                if (!this.undoHistory.Any()) return;
 
-                this.RedoHistory.Push(GlobalSettings.CurrentDefinition);
-                GlobalSettings.CurrentDefinition = this.UndoHistory.Pop();
+                this.redoHistory.Push(GlobalSettings.CurrentDefinition);
+                GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
             }
             else
             {
-                if (!this.RedoHistory.Any()) return;
+                if (!this.redoHistory.Any()) return;
 
-                this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-                GlobalSettings.CurrentDefinition = this.RedoHistory.Pop();
+                this.undoHistory.Push(GlobalSettings.CurrentDefinition);
+                GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
             }
 
-            this.HighlightedDefinition = null;
+            this.highlightedDefinition = null;
             this.ResetBackBrushes();
         }
 
@@ -246,8 +246,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void PushUndoHistory()
         {
-            this.UndoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.RedoHistory.Clear();
+            this.undoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.redoHistory.Clear();
         }
 
         #endregion Undo
@@ -261,7 +261,7 @@ namespace ThoNohT.NohBoard.Forms
         private void AddElement(ElementDefinition definition)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (this.HighlightedDefinition != null) return;
+            if (this.highlightedDefinition != null) return;
 
             this.PushUndoHistory();
 
@@ -360,15 +360,15 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuRemoveElement_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (this.HighlightedDefinition == null) return;
+            if (this.highlightedDefinition == null) return;
 
             this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(this.HighlightedDefinition);
+                .RemoveElement(this.highlightedDefinition);
 
             // Unset the definition everywhere because it no longer exists.
-            this.HighlightedDefinition = null;
+            this.highlightedDefinition = null;
             this.currentlyManipulating = null;
             this.manipulationStart = null;
 
@@ -385,11 +385,11 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuAddBoundaryPoint_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (!(this.HighlightedDefinition is KeyDefinition)) return;
+            if (!(this.highlightedDefinition is KeyDefinition)) return;
 
             this.PushUndoHistory();
 
-            var def = (KeyDefinition)this.HighlightedDefinition;
+            var def = (KeyDefinition)this.highlightedDefinition;
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -405,9 +405,9 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuRemoveBoundaryPoint_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (!(this.HighlightedDefinition is KeyDefinition)) return;
+            if (!(this.highlightedDefinition is KeyDefinition)) return;
 
-            var def = (KeyDefinition)this.HighlightedDefinition;
+            var def = (KeyDefinition)this.highlightedDefinition;
             if (def.Boundaries.Count < 4)
             {
                 MessageBox.Show(
