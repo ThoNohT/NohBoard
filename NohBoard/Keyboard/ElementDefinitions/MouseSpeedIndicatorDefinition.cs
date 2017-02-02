@@ -21,7 +21,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
-    using System.Windows.Forms;
     using Extra;
     using Styles;
 
@@ -164,6 +163,22 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Renders a simple representation of the element while it is selected in edit mode.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderSelected(Graphics g)
+        {
+            g.DrawEllipse(new Pen(Constants.SelectedColor, 2), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.FillEllipse(new SolidBrush(Constants.SelectedColor), Geom.CircleToRectangle(this.Location, this.Radius / 5));
+
+            var manipulation = this.PreviewManipulation ?? this.CurrentManipulation;
+            if (manipulation.Type == ElementManipulationType.Scale)
+                g.DrawEllipse(
+                    new Pen(Constants.SelectedColorSpecial, 3),
+                    Geom.CircleToRectangle(this.Location, this.Radius));
+        }
+
+        /// <summary>
         /// Returns the bounding box of this element.
         /// </summary>
         /// <returns>A rectangle representing the bounding box of the element.</returns>
@@ -207,31 +222,42 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
         /// <param name="altDown">Whether any alt key is pressed.</param>
+        /// <param name="preview">whether to set the preview manipulation, or the real one.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public override bool StartManipulating(Point point, bool altDown)
+        /// <remarks>Manipulation preview is used to show what would be modified on a selected element. We cannot
+        /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
+        public override bool StartManipulating(Point point, bool altDown, bool preview = false)
         {
             SizeF d = point - this.Location;
-            if (d.Length() > this.Radius + 2) return false;
+            if (d.Length() > this.Radius + 2)
+            {
+                this.PreviewManipulation = null;
+                return false;
+            }
 
             // Scale if mouse over the outter edge.
             if (Math.Sqrt(Math.Abs(Math.Pow(d.Width, 2) + Math.Pow(d.Height, 2) - Math.Pow(this.Radius, 2))) < 16)
             {
-                this.CurrentManipulation = new ElementManipulation
-                {
-                    Type = ElementManipulationType.Scale,
-                    Index = 0,
-                    Direction = d.GetUnitVector()
+                this.SetManipulation(
+                    new ElementManipulation
+                    {
+                        Type = ElementManipulationType.Scale,
+                        Index = 0,
+                        Direction = d.GetUnitVector()
 
-                };
+                    },
+                    preview);
                 return true;
             }
 
-            this.CurrentManipulation = new ElementManipulation
-            {
-                Type = ElementManipulationType.Translate,
-                Index = 0
-            };
+            this.SetManipulation(
+                new ElementManipulation
+                {
+                    Type = ElementManipulationType.Translate,
+                    Index = 0
+                },
+                preview);
 
             return true;
         }

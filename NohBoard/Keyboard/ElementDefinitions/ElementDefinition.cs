@@ -39,6 +39,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public ElementManipulation CurrentManipulation;
 
         /// <summary>
+        /// The current manipulation to be previewed on this element.
+        /// </summary>
+        public ElementManipulation PreviewManipulation;
+
+        /// <summary>
         /// Gets or sets the identifier of the element.
         /// </summary>
         [DataMember]
@@ -70,9 +75,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
         /// <param name="altDown">Whether any alt key is pressed.</param>
+        /// <param name="preview">whether to set the preview manipulation, or the real one.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public abstract bool StartManipulating(Point point, bool altDown);
+        /// <remarks>Manipulation preview is used to show what would be modified on a selected element. We cannot
+        /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
+        public abstract bool StartManipulating(Point point, bool altDown, bool preview = false);
         
         // TODO: Add StopManipulating?
 
@@ -90,9 +98,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="g">The graphics context to render to.</param>
         public abstract void RenderHighlight(Graphics g);
 
-        // TODO: RenderHighlight
-
-        // TODO: RenderSelected
+        /// <summary>
+        /// Renders a simple representation of the element while it is selected in edit mode.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public abstract void RenderSelected(Graphics g);
 
         /// <summary>
         /// Manipulates the element according to its current manipulation state. If no manipulation state is set,
@@ -102,5 +112,20 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="diff">The distance to manipulate the element by.</param>
         /// <returns>The updated element.</returns>
         public abstract ElementDefinition Manipulate(Size diff);
+
+        /// <summary>
+        /// Sets the new manipulation for this element.
+        /// </summary>
+        /// <param name="manipulation">The new manipulation.</param>
+        /// <param name="preview">Whether or not it is a previe manipulation.</param>
+        protected void SetManipulation(ElementManipulation manipulation, bool preview)
+        {
+            if (preview) this.PreviewManipulation = manipulation;
+            else
+            {
+                this.CurrentManipulation = manipulation;
+                this.PreviewManipulation = null;
+            }
+        }
     }
 }

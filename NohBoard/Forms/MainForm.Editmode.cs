@@ -15,18 +15,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 namespace ThoNohT.NohBoard.Forms
 {
-    using Extra;
-    using Hooking;
-    using Keyboard;
-    using Keyboard.ElementDefinitions;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Extra;
+    using Hooking;
+    using Keyboard;
+    using Keyboard.ElementDefinitions;
 
     /// <summary>
     /// Edit mode part of the main form.
@@ -64,6 +63,11 @@ namespace ThoNohT.NohBoard.Forms
         private ElementDefinition highlightedDefinition = null;
 
         /// <summary>
+        /// The element that is currently selected and can be modified using the keyboard.
+        /// </summary>
+        private ElementDefinition selectedDefinition = null;
+
+        /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
         private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
@@ -84,8 +88,11 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.currentlyManipulating = null;
                 this.highlightedDefinition = null;
+                this.selectedDefinition = null;
             }
         }
+
+        #region Mouse manipulations
 
         /// <summary>
         /// Handles the MouseDown event for the main form, which can start editing an element, the mouse is pointing
@@ -96,26 +103,36 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked) return;
 
-            var toManipulate = GlobalSettings.CurrentDefinition.Elements
-                .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+            ElementDefinition toManipulate;
+            if (this.selectedDefinition != null)
+            {
+                // Try to manipulate the selected definition, if one is selected.
+                toManipulate = this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown)
+                    ? this.selectedDefinition
+                    : null;
+            }
+            else
+            {
+                // If none is selected, allow any key to become the element to manipulate.
+                toManipulate = GlobalSettings.CurrentDefinition.Elements
+                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+            }
 
             if (toManipulate == null)
             {
                 this.currentlyManipulating = null;
+                this.selectedDefinition = null;
                 return;
             }
 
             var indexToManipulate = GlobalSettings.CurrentDefinition.Elements.IndexOf(toManipulate);
             this.currentlyManipulating = Tuple.Create(indexToManipulate, toManipulate);
             this.highlightedDefinition = null;
-
-            // For edge movement.
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
             this.PushUndoHistory();
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(toManipulate);
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.RemoveElement(toManipulate);
 
             this.ResetBackBrushes();
         }
@@ -141,8 +158,18 @@ namespace ThoNohT.NohBoard.Forms
             else
             {
                 this.currentManipulationPoint = e.Location;
-                this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
-                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+
+                // If a definition is selected, don't highlight others.
+                if (this.selectedDefinition != null)
+                {
+                    // Preview the manipulation.
+                    this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, true);
+                }
+                else
+                {
+                    this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
+                        .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+                }
             }
         }
 
@@ -158,11 +185,16 @@ namespace ThoNohT.NohBoard.Forms
                 this.currentlyManipulating.Item2,
                 this.currentlyManipulating.Item1);
 
+            // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
+            this.selectedDefinition = currentlyManipulating?.Item2;
+
             this.currentlyManipulating = null;
             this.manipulationStart = null;
             this.currentManipulationPoint = new Point();
             this.ResetBackBrushes();
         }
+
+        #endregion Mouse manipulations
 
         #region Element z-order moving
 
@@ -171,9 +203,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToTop_Click(object sender, EventArgs e)
         {
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.highlightedDefinition,
-                int.MaxValue);
+            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .MoveElementDown(useDefinition, int.MaxValue);
             this.ResetBackBrushes();
         }
 
@@ -182,9 +214,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.highlightedDefinition,
-                1);
+            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .MoveElementDown(useDefinition, 1);
             this.ResetBackBrushes();
         }
 
@@ -193,9 +225,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveDown_Click(object sender, EventArgs e)
         {
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.highlightedDefinition,
-                -1);
+            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .MoveElementDown(useDefinition, -1);
             this.ResetBackBrushes();
         }
 
@@ -204,9 +236,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.MoveElementDown(
-                this.highlightedDefinition,
-                -int.MaxValue);
+            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                .MoveElementDown(useDefinition, -int.MaxValue);
             this.ResetBackBrushes();
         }
 
@@ -220,25 +252,36 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (!e.Control || e.KeyCode != Keys.Z) return;
 
-            if (!e.Shift)
+            // Cancelling selection.
+            if (e.KeyCode == Keys.Escape)
             {
-                if (!this.undoHistory.Any()) return;
-
-                this.redoHistory.Push(GlobalSettings.CurrentDefinition);
-                GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
-            }
-            else
-            {
-                if (!this.redoHistory.Any()) return;
-
-                this.undoHistory.Push(GlobalSettings.CurrentDefinition);
-                GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
+                this.selectedDefinition = null;
+                return;
             }
 
-            this.highlightedDefinition = null;
-            this.ResetBackBrushes();
+            // Undo-redo
+            if (e.Control && e.KeyCode == Keys.Z)
+            {
+                if (!e.Shift)
+                {
+                    if (!this.undoHistory.Any()) return;
+
+                    this.redoHistory.Push(GlobalSettings.CurrentDefinition);
+                    GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
+                }
+                else
+                {
+                    if (!this.redoHistory.Any()) return;
+
+                    this.undoHistory.Push(GlobalSettings.CurrentDefinition);
+                    GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
+                }
+
+                this.selectedDefinition = null;
+                this.highlightedDefinition = null;
+                this.ResetBackBrushes();
+            }
         }
 
         /// <summary>

@@ -406,19 +406,21 @@ namespace ThoNohT.NohBoard.Forms
                 this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
             }
 
-            this.mnuMoveElement.Visible = this.highlightedDefinition != null;
+            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
 
-            var highlightedSomething = this.mnuToggleEditMode.Checked && this.highlightedDefinition != null;
+            this.mnuMoveElement.Visible = useDefinition != null;
+
+            var highlightedSomething = this.mnuToggleEditMode.Checked && useDefinition != null;
 
             // Edit mode related menu items.
             this.mnuAddBoundaryPoint.Visible = highlightedSomething &&
-                this.highlightedDefinition.CurrentManipulation.Type == ElementManipulationType.MoveEdge;
+                useDefinition.CurrentManipulation.Type == ElementManipulationType.MoveEdge;
 
             this.mnuRemoveBoundaryPoint.Visible = highlightedSomething &&
-                this.highlightedDefinition.CurrentManipulation.Type == ElementManipulationType.MoveBoundary;
+                useDefinition.CurrentManipulation.Type == ElementManipulationType.MoveBoundary;
 
             this.mnuRemoveElement.Visible = highlightedSomething;
-            this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && this.highlightedDefinition == null;
+            this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && useDefinition == null;
         }
 
         /// <summary>
@@ -487,8 +489,17 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             // Draw the element being manipulated
-            this.currentlyManipulating?.Item2.RenderEditing(e.Graphics);
-            this.highlightedDefinition?.RenderHighlight(e.Graphics, this.currentManipulationPoint);
+            if (this.currentlyManipulating == null)
+            {
+                if (this.highlightedDefinition != this.selectedDefinition)
+                    // Draw highlighted only if it is not also selected.
+                    this.highlightedDefinition?.RenderHighlight(e.Graphics);
+                this.selectedDefinition?.RenderSelected(e.Graphics);
+            }
+            else
+            {
+                this.currentlyManipulating.Item2.RenderEditing(e.Graphics);
+            }
 
             base.OnPaint(e);
         }

@@ -236,15 +236,48 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Renders a simple representation of the element while it is selected in edit mode.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderSelected(Graphics g)
+        {
+            g.DrawPolygon(new Pen(Constants.SelectedColor, 3), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+
+            var manipulation = this.PreviewManipulation ?? this.CurrentManipulation;
+            switch (manipulation.Type)
+            {
+                case ElementManipulationType.MoveBoundary:
+                    var boundary = this.Boundaries[manipulation.Index];
+                    var specialBrush = new SolidBrush(Constants.SelectedColorSpecial);
+                    g.FillRectangle(specialBrush, boundary.X - 3, boundary.Y - 3, 6, 6);
+                    break;
+
+                case ElementManipulationType.MoveEdge:
+                    var index = manipulation.Index;
+                    Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
+                    var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();
+                    g.DrawLine(new Pen(Constants.SelectedColorSpecial, 4), edgeBoundaries[0], edgeBoundaries[1]);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
         /// </summary>
         /// <param name="point">The point to start manipulating.</param>
         /// <param name="altDown">Whether any alt key is pressed.</param>
+        /// <param name="preview">whether to set the preview manipulation, or the real one.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
-        public override bool StartManipulating(Point point, bool altDown)
+        /// <remarks>Manipulation preview is used to show what would be modified on a selected element. We cannot
+        /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
+        public override bool StartManipulating(Point point, bool altDown, bool preview = false)
         {
-            if (!this.Inside(point)) return false;
+            if (!this.Inside(point))
+            {
+                this.PreviewManipulation = null;
+                return false;
+            }
 
             // At a boundary point if x and y are within -4 to +4 of the point.
             var activeBoundary = this.Boundaries.FirstOrDefault(
@@ -255,12 +288,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             if (activeBoundary != null)
             {
-                this.CurrentManipulation = new ElementManipulation
-                {
-                    Type = ElementManipulationType.MoveBoundary,
-                    Index = this.Boundaries.IndexOf(activeBoundary)
-                };
-
+                this.SetManipulation(
+                    new ElementManipulation
+                    {
+                        Type = ElementManipulationType.MoveBoundary,
+                        Index = this.Boundaries.IndexOf(activeBoundary)
+                    },
+                    preview);
                 return true;
             }
 
@@ -287,33 +321,37 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             if (activeEdge != null)
             {
-                this.CurrentManipulation = new ElementManipulation
-                {
-                    Type = ElementManipulationType.MoveEdge,
-                    Index = this.Boundaries.IndexOf(activeEdge.Item1)
-                };
-
+                this.SetManipulation(
+                    new ElementManipulation
+                    {
+                        Type = ElementManipulationType.MoveEdge,
+                        Index = this.Boundaries.IndexOf(activeEdge.Item1)
+                    },
+                    preview);
                 return true;
             }
 
             // When inside an element, and alt is pressed, we want to move text.
             if (altDown)
             {
-                this.CurrentManipulation = new ElementManipulation
-                {
-                    Type = ElementManipulationType.MoveText,
-                    Index = 0
-                };
-
+                this.SetManipulation(
+                    new ElementManipulation
+                    {
+                        Type = ElementManipulationType.MoveText,
+                        Index = 0
+                    },
+                    preview);
                 return true;
             }
 
             // Otherwise, we are simply moving the element.
-            this.CurrentManipulation = new ElementManipulation
-            {
-                Type = ElementManipulationType.Translate,
-                Index = 0
-            };
+            this.SetManipulation(
+                new ElementManipulation
+                {
+                    Type = ElementManipulationType.Translate,
+                    Index = 0
+                },
+                preview);
 
             return true;
         }
