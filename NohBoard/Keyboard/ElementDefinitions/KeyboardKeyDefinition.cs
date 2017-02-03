@@ -190,6 +190,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                this.TextPosition.Translate(dx, dy),
                 this.CurrentManipulation);
         }
 

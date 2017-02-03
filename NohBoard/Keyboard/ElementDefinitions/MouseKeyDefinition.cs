@@ -153,6 +153,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Boundaries.Select(b => b.Translate(dx, dy)).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
+                this.TextPosition.Translate(dx, dy),
                 this.CurrentManipulation);
         }
 
