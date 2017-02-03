@@ -109,7 +109,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit,
             this.mnuUpdate});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(203, 352);
+            this.MainMenu.Size = new System.Drawing.Size(203, 330);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -355,7 +355,6 @@ namespace ThoNohT.NohBoard.Forms
             this.Text = "NohBoard";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);

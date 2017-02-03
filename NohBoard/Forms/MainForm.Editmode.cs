@@ -247,22 +247,27 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Element z-order moving
 
-        #region Undo
+        #region Keyboard input handling
 
         /// <summary>
-        /// Handles the keyup event for the main form.
+        /// Handles the key press event. Allows undo/redo, selection cancellation and manipulations using the arrow keys.
         /// </summary>
-        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        /// <param name="msg">A <see cref="Message"/>, passed by reference, that represents the window message to process.</param>
+        /// <param name="keyData">One of the <see cref="Keys"/> values that represents the key to process.</param>
+        /// <returns><c>true</c> if the character was processed by the control; otherwise, <c>false</c>.</returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (!this.mnuToggleEditMode.Checked) return;
+            if (!this.mnuToggleEditMode.Checked) return base.ProcessCmdKey(ref msg, keyData);
+
+            var keyCode = keyData & Keys.KeyCode;
 
             // Manipulations by keyboard keys.
-            if (this.selectedDefinition != null && new[] { Keys.Up, Keys.Right, Keys.Down, Keys.Left }.Contains(e.KeyCode))
+            if (this.selectedDefinition != null && new[] { Keys.Up, Keys.Right, Keys.Down, Keys.Left }.Contains(keyCode))
             {
                 this.PushUndoHistory();
                 ElementDefinition newDefinition;
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(this.selectedDefinition);
-                switch (e.KeyCode)
+                switch (keyCode)
                 {
                     case Keys.Right:
                         newDefinition = this.selectedDefinition.Manipulate(new Size(1, 0));
@@ -285,30 +290,31 @@ namespace ThoNohT.NohBoard.Forms
 
                 this.selectedDefinition = newDefinition;
                 this.ResetBackBrushes();
-                return;
+                this.Refresh();
+                return base.ProcessCmdKey(ref msg, keyData);
             }
 
 
             // Cancelling selection.
-            if (e.KeyCode == Keys.Escape)
+            if (keyCode == Keys.Escape)
             {
                 this.selectedDefinition = null;
-                return;
+                return base.ProcessCmdKey(ref msg, keyData);
             }
 
             // Undo-redo
-            if (e.Control && e.KeyCode == Keys.Z)
+            if ((keyData & Keys.Control) != 0 && keyCode == Keys.Z)
             {
-                if (!e.Shift)
+                if ((keyData & Keys.Shift) == 0)
                 {
-                    if (!this.undoHistory.Any()) return;
+                    if (!this.undoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
                     this.redoHistory.Push(GlobalSettings.CurrentDefinition);
                     GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
                 }
                 else
                 {
-                    if (!this.redoHistory.Any()) return;
+                    if (!this.redoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
                     this.undoHistory.Push(GlobalSettings.CurrentDefinition);
                     GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
@@ -317,7 +323,10 @@ namespace ThoNohT.NohBoard.Forms
                 this.selectedDefinition = null;
                 this.highlightedDefinition = null;
                 this.ResetBackBrushes();
+                this.Refresh();
             }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         /// <summary>
@@ -329,7 +338,7 @@ namespace ThoNohT.NohBoard.Forms
             this.redoHistory.Clear();
         }
 
-        #endregion Undo
+        #endregion Keyboard input handling
 
         #region Element management
 
