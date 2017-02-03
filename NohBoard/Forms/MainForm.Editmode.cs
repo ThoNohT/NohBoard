@@ -256,6 +256,39 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (!this.mnuToggleEditMode.Checked) return;
 
+            // Manipulations by keyboard keys.
+            if (this.selectedDefinition != null && new[] { Keys.Up, Keys.Right, Keys.Down, Keys.Left }.Contains(e.KeyCode))
+            {
+                this.PushUndoHistory();
+                ElementDefinition newDefinition;
+                var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(this.selectedDefinition);
+                switch (e.KeyCode)
+                {
+                    case Keys.Right:
+                        newDefinition = this.selectedDefinition.Manipulate(new Size(1, 0));
+                        break;
+                    case Keys.Down:
+                        newDefinition = this.selectedDefinition.Manipulate(new Size(0, 1));
+                        break;
+                    case Keys.Left:
+                        newDefinition = this.selectedDefinition.Manipulate(new Size(-1, 0));
+                        break;
+                    case Keys.Up:
+                        newDefinition = this.selectedDefinition.Manipulate(new Size(0, -1));
+                        break;
+                    default:
+                        throw new Exception("If this happens, the if statement around this switch is incorrect.");
+                }
+
+                GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                    .RemoveElement(this.selectedDefinition).AddElement(newDefinition, index);
+
+                this.selectedDefinition = newDefinition;
+                this.ResetBackBrushes();
+                return;
+            }
+
+
             // Cancelling selection.
             if (e.KeyCode == Keys.Escape)
             {
