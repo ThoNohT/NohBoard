@@ -230,8 +230,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The new version of this key definition with the boundary removed.</returns>
         public override KeyDefinition RemoveBoundary()
         {
-            if (this.CurrentManipulation == null) return this;
-            if (this.CurrentManipulation.Type != ElementManipulationType.MoveBoundary)
+            if (this.RelevantManipulation == null) return this;
+            if (this.RelevantManipulation.Type != ElementManipulationType.MoveBoundary)
                 throw new Exception("Attempting to remove something other than a boundary.");
 
             if (this.Boundaries.Count < 4)
@@ -239,7 +239,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             return new MouseScrollDefinition(
                 this.Id,
-                this.Boundaries.Where((b, i) => i != this.CurrentManipulation.Index).ToList(),
+                this.Boundaries.Where((b, i) => i != this.RelevantManipulation.Index).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
                 this.CurrentManipulation);

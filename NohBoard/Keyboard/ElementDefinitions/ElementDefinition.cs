@@ -36,12 +36,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <summary>
         /// The current manipulation being performed on this element.
         /// </summary>
-        public ElementManipulation CurrentManipulation;
+        protected ElementManipulation CurrentManipulation;
 
         /// <summary>
         /// The current manipulation to be previewed on this element.
         /// </summary>
-        public ElementManipulation PreviewManipulation;
+        protected ElementManipulation PreviewManipulation;
+
+        /// <summary>
+        /// The most relevant manipulation at the moment.
+        /// </summary>
+        public ElementManipulation RelevantManipulation => this.PreviewManipulation ?? this.CurrentManipulation;
 
         /// <summary>
         /// Gets or sets the identifier of the element.

@@ -68,6 +68,12 @@ namespace ThoNohT.NohBoard.Forms
         private ElementDefinition selectedDefinition = null;
 
         /// <summary>
+        /// The element that is currently most relevant for manipulation. If a definition is selected, that is always
+        /// the most relevant, otherwise, a highlighted definition can be manipulated.
+        /// </summary>
+        private ElementDefinition relevantDefinition => this.selectedDefinition ?? this.highlightedDefinition;
+
+        /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
         private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
@@ -110,6 +116,7 @@ namespace ThoNohT.NohBoard.Forms
                 toManipulate = this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown)
                     ? this.selectedDefinition
                     : null;
+                toManipulate = this.selectedDefinition;
             }
             else
             {
@@ -186,7 +193,7 @@ namespace ThoNohT.NohBoard.Forms
                 this.currentlyManipulating.Item1);
 
             // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
-            this.selectedDefinition = currentlyManipulating?.Item2;
+            this.selectedDefinition = this.currentlyManipulating?.Item2;
 
             this.currentlyManipulating = null;
             this.manipulationStart = null;
@@ -203,9 +210,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToTop_Click(object sender, EventArgs e)
         {
-            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .MoveElementDown(useDefinition, int.MaxValue);
+                .MoveElementDown(this.relevantDefinition, int.MaxValue);
             this.ResetBackBrushes();
         }
 
@@ -214,9 +220,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
-            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .MoveElementDown(useDefinition, 1);
+                .MoveElementDown(this.relevantDefinition, 1);
             this.ResetBackBrushes();
         }
 
@@ -225,9 +230,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveDown_Click(object sender, EventArgs e)
         {
-            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .MoveElementDown(useDefinition, -1);
+                .MoveElementDown(this.relevantDefinition, -1);
             this.ResetBackBrushes();
         }
 
@@ -236,9 +240,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
-            var useDefinition = this.selectedDefinition ?? this.highlightedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .MoveElementDown(useDefinition, -int.MaxValue);
+                .MoveElementDown(this.relevantDefinition, -int.MaxValue);
             this.ResetBackBrushes();
         }
 
@@ -428,16 +431,18 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuAddBoundaryPoint_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (!(this.highlightedDefinition is KeyDefinition)) return;
+            if (!(this.relevantDefinition is KeyDefinition)) return;
 
             this.PushUndoHistory();
 
-            var def = (KeyDefinition)this.highlightedDefinition;
+            var def = (KeyDefinition)this.relevantDefinition;
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
-
+            var newDef = def.AddBoundary(this.currentManipulationPoint);
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(def)
-                .AddElement(def.AddBoundary(this.currentManipulationPoint), index);
+                .RemoveElement(def).AddElement(newDef, index);
+
+            // If we had a definition selected, the new one should now be selected.
+            if (this.selectedDefinition != null) this.selectedDefinition = newDef;
 
             this.ResetBackBrushes();
         }
@@ -448,9 +453,9 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuRemoveBoundaryPoint_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (!(this.highlightedDefinition is KeyDefinition)) return;
+            if (!(this.relevantDefinition is KeyDefinition)) return;
 
-            var def = (KeyDefinition)this.highlightedDefinition;
+            var def = (KeyDefinition)this.relevantDefinition;
             if (def.Boundaries.Count < 4)
             {
                 MessageBox.Show(
@@ -463,10 +468,12 @@ namespace ThoNohT.NohBoard.Forms
             this.PushUndoHistory();
 
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
-
+            var newDef = def.RemoveBoundary();
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(def)
-                .AddElement(def.RemoveBoundary(), index);
+                .RemoveElement(def).AddElement(newDef, index);
+
+            // If we had a definition selected, the new one should now be selected.
+            if (this.selectedDefinition != null) this.selectedDefinition = newDef;
 
             this.ResetBackBrushes();
         }

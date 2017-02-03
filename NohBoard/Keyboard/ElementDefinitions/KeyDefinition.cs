@@ -219,15 +219,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.FillPolygon(Constants.HighlightBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
-            switch (this.CurrentManipulation.Type)
+            switch (this.RelevantManipulation.Type)
             {
                 case ElementManipulationType.MoveBoundary:
-                    var boundary = this.Boundaries[this.CurrentManipulation.Index];
+                    var boundary = this.Boundaries[this.RelevantManipulation.Index];
                     g.FillRectangle(Brushes.White, boundary.X - 3, boundary.Y - 3, 6, 6);
                     break;
 
                 case ElementManipulationType.MoveEdge:
-                    var index = this.CurrentManipulation.Index;
+                    var index = this.RelevantManipulation.Index;
                     Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
                     var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();
                     g.DrawLine(new Pen(Color.White, 3), edgeBoundaries[0], edgeBoundaries[1]);
@@ -243,17 +243,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.DrawPolygon(new Pen(Constants.SelectedColor, 3), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
-            var manipulation = this.PreviewManipulation ?? this.CurrentManipulation;
-            switch (manipulation.Type)
+            switch (this.RelevantManipulation.Type)
             {
                 case ElementManipulationType.MoveBoundary:
-                    var boundary = this.Boundaries[manipulation.Index];
+                    var boundary = this.Boundaries[this.RelevantManipulation.Index];
                     var specialBrush = new SolidBrush(Constants.SelectedColorSpecial);
                     g.FillRectangle(specialBrush, boundary.X - 3, boundary.Y - 3, 6, 6);
                     break;
 
                 case ElementManipulationType.MoveEdge:
-                    var index = manipulation.Index;
+                    var index = this.RelevantManipulation.Index;
                     Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
                     var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();
                     g.DrawLine(new Pen(Constants.SelectedColorSpecial, 4), edgeBoundaries[0], edgeBoundaries[1]);
@@ -373,10 +372,10 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                     return this.Translate(diff.Width, diff.Height);
 
                 case ElementManipulationType.MoveBoundary:
-                    return this.MoveBoundary(this.CurrentManipulation.Index, diff);
+                    return this.MoveBoundary(this.RelevantManipulation.Index, diff);
 
                 case ElementManipulationType.MoveEdge:
-                    return this.MoveEdge(this.CurrentManipulation.Index, diff);
+                    return this.MoveEdge(this.RelevantManipulation.Index, diff);
 
                 case ElementManipulationType.MoveText:
                     return this.MoveText(diff);

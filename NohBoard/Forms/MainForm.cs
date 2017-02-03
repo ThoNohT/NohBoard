@@ -414,10 +414,10 @@ namespace ThoNohT.NohBoard.Forms
 
             // Edit mode related menu items.
             this.mnuAddBoundaryPoint.Visible = highlightedSomething &&
-                useDefinition.CurrentManipulation.Type == ElementManipulationType.MoveEdge;
+                useDefinition.RelevantManipulation.Type == ElementManipulationType.MoveEdge;
 
             this.mnuRemoveBoundaryPoint.Visible = highlightedSomething &&
-                useDefinition.CurrentManipulation.Type == ElementManipulationType.MoveBoundary;
+                useDefinition.RelevantManipulation.Type == ElementManipulationType.MoveBoundary;
 
             this.mnuRemoveElement.Visible = highlightedSomething;
             this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && useDefinition == null;

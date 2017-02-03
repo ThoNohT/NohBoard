@@ -295,8 +295,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The new version of this key definition with the boundary removed.</returns>
         public override KeyDefinition RemoveBoundary()
         {
-            if (this.CurrentManipulation == null) return this;
-            if (this.CurrentManipulation.Type != ElementManipulationType.MoveBoundary)
+            if (this.RelevantManipulation == null) return this;
+            if (this.RelevantManipulation.Type != ElementManipulationType.MoveBoundary)
                 throw new Exception("Attempting to remove something other than a boundary.");
 
             if (this.Boundaries.Count < 4)
@@ -304,12 +304,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             return new KeyboardKeyDefinition(
                 this.Id,
-                this.Boundaries.Where((b, i) => i != this.CurrentManipulation.Index).ToList(),
+                this.Boundaries.Where((b, i) => i != this.RelevantManipulation.Index).ToList(),
                 this.KeyCodes,
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
-                this.CurrentManipulation);
+                this.RelevantManipulation);
         }
 
         /// <summary>
@@ -319,12 +319,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The new version of this key definition with the boundary added.</returns>
         public override KeyDefinition AddBoundary(TPoint location)
         {
-            if (this.CurrentManipulation == null) return this;
-            if (this.CurrentManipulation.Type != ElementManipulationType.MoveEdge)
+            if (this.RelevantManipulation == null) return this;
+            if (this.RelevantManipulation.Type != ElementManipulationType.MoveEdge)
                 throw new Exception("Attempting to add a boundary to something other than an edge.");
 
             var newBoundaries = this.Boundaries.ToList();
-            newBoundaries.Insert(this.CurrentManipulation.Index + 1, location);
+            newBoundaries.Insert(this.RelevantManipulation.Index + 1, location);
 
             return new KeyboardKeyDefinition(
                 this.Id,

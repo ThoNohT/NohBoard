@@ -158,7 +158,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.FillEllipse(Constants.HighlightBrush, Geom.CircleToRectangle(this.Location, this.Radius));
 
-            if (this.CurrentManipulation.Type == ElementManipulationType.Scale)
+            if (this.RelevantManipulation.Type == ElementManipulationType.Scale)
                 g.DrawEllipse(new Pen(Color.White, 3), Geom.CircleToRectangle(this.Location, this.Radius));
         }
 
@@ -171,8 +171,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.DrawEllipse(new Pen(Constants.SelectedColor, 2), Geom.CircleToRectangle(this.Location, this.Radius));
             g.FillEllipse(new SolidBrush(Constants.SelectedColor), Geom.CircleToRectangle(this.Location, this.Radius / 5));
 
-            var manipulation = this.PreviewManipulation ?? this.CurrentManipulation;
-            if (manipulation.Type == ElementManipulationType.Scale)
+            if (this.RelevantManipulation.Type == ElementManipulationType.Scale)
                 g.DrawEllipse(
                     new Pen(Constants.SelectedColorSpecial, 3),
                     Geom.CircleToRectangle(this.Location, this.Radius));
@@ -271,15 +270,15 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The updated element.</returns>
         public override ElementDefinition Manipulate(Size diff)
         {
-            if (this.CurrentManipulation == null) return this;
+            if (this.RelevantManipulation == null) return this;
 
-            switch (this.CurrentManipulation.Type)
+            switch (this.RelevantManipulation.Type)
             {
                 case ElementManipulationType.Translate:
                     return this.Translate(diff.Width, diff.Height);
 
                 case ElementManipulationType.Scale:
-                    return this.Scale(diff, this.CurrentManipulation.Direction);
+                    return this.Scale(diff, this.RelevantManipulation.Direction);
 
                 default:
                     return this;
