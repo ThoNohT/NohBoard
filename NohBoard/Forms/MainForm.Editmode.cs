@@ -26,6 +26,7 @@ namespace ThoNohT.NohBoard.Forms
     using Hooking;
     using Keyboard;
     using Keyboard.ElementDefinitions;
+    using Properties;
 
     /// <summary>
     /// Edit mode part of the main form.
@@ -521,5 +522,24 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Boundary management
+
+        #region Element properties
+
+        private void mnuElementProperties_Click(object sender, EventArgs e)
+        {
+            // Sanity check, don't try anything if there's no selected element.
+            if (this.elementUnderCursor == null) return;
+            var id = this.elementUnderCursor.Id;
+
+            if (this.elementUnderCursor is MouseKeyDefinition || this.elementUnderCursor is MouseScrollDefinition)
+            {
+                using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) this.elementUnderCursor))
+                {
+                    propertiesForm.ShowDialog(this);
+                }
+            }
+        }
+
+        #endregion Element properties
     }
 }

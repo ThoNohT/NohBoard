@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
     using System;
     using System.Windows.Forms;

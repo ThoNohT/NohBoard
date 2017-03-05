@@ -73,22 +73,40 @@
     <Compile Include="Controls\ColorChooser.Designer.cs">
       <DependentUpon>ColorChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MouseSpeedStyleForm.cs">
+    <Compile Include="Forms\Properties\KeyboardKeyPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MouseSpeedStyleForm.Designer.cs">
+    <Compile Include="Forms\Properties\KeyboardKeyPropertiesForm.Designer.cs">
+      <DependentUpon>KeyboardKeyPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Properties\MouseElementPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Properties\MouseElementPropertiesForm.Designer.cs">
+      <DependentUpon>MouseElementPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Properties\MouseSpeedPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Properties\MouseSpeedPropertiesForm.Designer.cs">
+      <DependentUpon>MouseSpeedPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Style\MouseSpeedStyleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Style\MouseSpeedStyleForm.Designer.cs">
       <DependentUpon>MouseSpeedStyleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\KeyStyleForm.cs">
+    <Compile Include="Forms\Style\KeyStyleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\KeyStyleForm.Designer.cs">
+    <Compile Include="Forms\Style\KeyStyleForm.Designer.cs">
       <DependentUpon>KeyStyleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\KeyboardStyleForm.cs">
+    <Compile Include="Forms\Style\KeyboardStyleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\KeyboardStyleForm.Designer.cs">
+    <Compile Include="Forms\Style\KeyboardStyleForm.Designer.cs">
       <DependentUpon>KeyboardStyleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\MouseSpeedStylePanel.cs">
@@ -168,13 +186,22 @@
       <DependentUpon>ColorChooser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MouseSpeedStyleForm.resx">
+    <EmbeddedResource Include="Forms\Properties\KeyboardKeyPropertiesForm.resx">
+      <DependentUpon>KeyboardKeyPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Properties\MouseElementPropertiesForm.resx">
+      <DependentUpon>MouseElementPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Properties\MouseSpeedPropertiesForm.resx">
+      <DependentUpon>MouseSpeedPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Style\MouseSpeedStyleForm.resx">
       <DependentUpon>MouseSpeedStyleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\KeyStyleForm.resx">
+    <EmbeddedResource Include="Forms\Style\KeyStyleForm.resx">
       <DependentUpon>KeyStyleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\KeyboardStyleForm.resx">
+    <EmbeddedResource Include="Forms\Style\KeyboardStyleForm.resx">
       <DependentUpon>KeyboardStyleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MouseSpeedStylePanel.resx">

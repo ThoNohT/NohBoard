@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
-    using ThoNohT.NohBoard.Controls;
+    using Controls;
 
     partial class KeyboardStyleForm
     {
@@ -32,9 +32,9 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }

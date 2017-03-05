@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
-    using ThoNohT.NohBoard.Controls;
+    using Controls;
 
     partial class KeyStyleForm
     {
@@ -32,9 +32,9 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -47,16 +47,16 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle7 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor19 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont7 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor20 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor21 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle8 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor22 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont8 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor23 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor24 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor1 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont1 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor2 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor3 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor4 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableFont serializableFont2 = new ThoNohT.NohBoard.Extra.SerializableFont();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor5 = new ThoNohT.NohBoard.Extra.SerializableColor();
+            ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.CancelButton2 = new System.Windows.Forms.Button();
             this.pressed = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
@@ -92,26 +92,26 @@ namespace ThoNohT.NohBoard.Forms
             this.pressed.Location = new System.Drawing.Point(189, 12);
             this.pressed.Name = "pressed";
             this.pressed.Size = new System.Drawing.Size(171, 309);
-            serializableColor19.Blue = ((byte)(0));
-            serializableColor19.Green = ((byte)(0));
-            serializableColor19.Red = ((byte)(0));
-            keySubStyle7.Background = serializableColor19;
-            keySubStyle7.BackgroundImageFileName = "";
-            serializableFont7.FontFamily = "Microsoft Sans Serif";
-            serializableFont7.Size = 8.25F;
-            serializableFont7.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle7.Font = serializableFont7;
-            serializableColor20.Blue = ((byte)(0));
-            serializableColor20.Green = ((byte)(0));
-            serializableColor20.Red = ((byte)(0));
-            keySubStyle7.Outline = serializableColor20;
-            keySubStyle7.OutlineWidth = 1;
-            keySubStyle7.ShowOutline = false;
-            serializableColor21.Blue = ((byte)(0));
-            serializableColor21.Green = ((byte)(0));
-            serializableColor21.Red = ((byte)(0));
-            keySubStyle7.Text = serializableColor21;
-            this.pressed.SubStyle = keySubStyle7;
+            serializableColor1.Blue = ((byte)(0));
+            serializableColor1.Green = ((byte)(0));
+            serializableColor1.Red = ((byte)(0));
+            keySubStyle1.Background = serializableColor1;
+            keySubStyle1.BackgroundImageFileName = "";
+            serializableFont1.FontFamily = "Microsoft Sans Serif";
+            serializableFont1.Size = 8.25F;
+            serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle1.Font = serializableFont1;
+            serializableColor2.Blue = ((byte)(0));
+            serializableColor2.Green = ((byte)(0));
+            serializableColor2.Red = ((byte)(0));
+            keySubStyle1.Outline = serializableColor2;
+            keySubStyle1.OutlineWidth = 1;
+            keySubStyle1.ShowOutline = false;
+            serializableColor3.Blue = ((byte)(0));
+            serializableColor3.Green = ((byte)(0));
+            serializableColor3.Red = ((byte)(0));
+            keySubStyle1.Text = serializableColor3;
+            this.pressed.SubStyle = keySubStyle1;
             this.pressed.TabIndex = 13;
             this.pressed.Title = "Pressed";
             // 
@@ -120,26 +120,26 @@ namespace ThoNohT.NohBoard.Forms
             this.loose.Location = new System.Drawing.Point(12, 12);
             this.loose.Name = "loose";
             this.loose.Size = new System.Drawing.Size(171, 309);
-            serializableColor22.Blue = ((byte)(0));
-            serializableColor22.Green = ((byte)(0));
-            serializableColor22.Red = ((byte)(0));
-            keySubStyle8.Background = serializableColor22;
-            keySubStyle8.BackgroundImageFileName = "";
-            serializableFont8.FontFamily = "Microsoft Sans Serif";
-            serializableFont8.Size = 8.25F;
-            serializableFont8.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle8.Font = serializableFont8;
-            serializableColor23.Blue = ((byte)(0));
-            serializableColor23.Green = ((byte)(0));
-            serializableColor23.Red = ((byte)(0));
-            keySubStyle8.Outline = serializableColor23;
-            keySubStyle8.OutlineWidth = 1;
-            keySubStyle8.ShowOutline = false;
-            serializableColor24.Blue = ((byte)(0));
-            serializableColor24.Green = ((byte)(0));
-            serializableColor24.Red = ((byte)(0));
-            keySubStyle8.Text = serializableColor24;
-            this.loose.SubStyle = keySubStyle8;
+            serializableColor4.Blue = ((byte)(0));
+            serializableColor4.Green = ((byte)(0));
+            serializableColor4.Red = ((byte)(0));
+            keySubStyle2.Background = serializableColor4;
+            keySubStyle2.BackgroundImageFileName = "";
+            serializableFont2.FontFamily = "Microsoft Sans Serif";
+            serializableFont2.Size = 8.25F;
+            serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            keySubStyle2.Font = serializableFont2;
+            serializableColor5.Blue = ((byte)(0));
+            serializableColor5.Green = ((byte)(0));
+            serializableColor5.Red = ((byte)(0));
+            keySubStyle2.Outline = serializableColor5;
+            keySubStyle2.OutlineWidth = 1;
+            keySubStyle2.ShowOutline = false;
+            serializableColor6.Blue = ((byte)(0));
+            serializableColor6.Green = ((byte)(0));
+            serializableColor6.Red = ((byte)(0));
+            keySubStyle2.Text = serializableColor6;
+            this.loose.SubStyle = keySubStyle2;
             this.loose.TabIndex = 12;
             this.loose.Title = "Loose";
             // 
@@ -181,7 +181,7 @@ namespace ThoNohT.NohBoard.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "KeyStyleForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Keyboard Style";
+            this.Text = "Key Style";
             this.Load += new System.EventHandler(this.KeyStyleForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

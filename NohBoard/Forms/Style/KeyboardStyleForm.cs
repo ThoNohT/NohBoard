@@ -15,13 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
     using System;
     using System.Windows.Forms;
+    using Controls;
     using Extra;
-    using ThoNohT.NohBoard.Controls;
-    using ThoNohT.NohBoard.Keyboard;
+    using Keyboard;
 
     /// <summary>
     /// The form used to change a keyboard's global style.
