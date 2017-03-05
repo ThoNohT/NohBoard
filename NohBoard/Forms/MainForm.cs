@@ -389,6 +389,7 @@ namespace ThoNohT.NohBoard.Forms
                     GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
                 this.mnuEditElementStyle.Enabled = this.elementUnderCursor != null;
                 this.mnuElementProperties.Enabled = this.elementUnderCursor != null;
+                this.mnuElementProperties.Visible = this.mnuToggleEditMode.Checked; // Only allow editing of an element in edit mode.
             }
 
             this.mnuEditKeyboardStyle.Enabled = GlobalSettings.CurrentDefinition != null;

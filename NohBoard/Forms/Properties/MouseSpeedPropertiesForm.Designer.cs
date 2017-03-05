@@ -31,10 +31,10 @@
             this.CancelButton2 = new System.Windows.Forms.Button();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.lblLocation = new System.Windows.Forms.Label();
-            this.vtxtLocation = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            this.txtLocation = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.lblRadius = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.udRadius = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.udRadius)).BeginInit();
             this.SuspendLayout();
             // 
             // CancelButton2
@@ -66,17 +66,18 @@
             this.lblLocation.TabIndex = 14;
             this.lblLocation.Text = "Location:";
             // 
-            // vtxtLocation
+            // txtLocation
             // 
-            this.vtxtLocation.Location = new System.Drawing.Point(69, 6);
-            this.vtxtLocation.MaxVal = 2147483647;
-            this.vtxtLocation.Name = "vtxtLocation";
-            this.vtxtLocation.Separator = ';';
-            this.vtxtLocation.Size = new System.Drawing.Size(172, 20);
-            this.vtxtLocation.SpacesAroundSeparator = true;
-            this.vtxtLocation.TabIndex = 15;
-            this.vtxtLocation.X = 0;
-            this.vtxtLocation.Y = 0;
+            this.txtLocation.Location = new System.Drawing.Point(69, 6);
+            this.txtLocation.MaxVal = 2147483647;
+            this.txtLocation.Name = "txtLocation";
+            this.txtLocation.Separator = ';';
+            this.txtLocation.Size = new System.Drawing.Size(172, 20);
+            this.txtLocation.SpacesAroundSeparator = true;
+            this.txtLocation.TabIndex = 15;
+            this.txtLocation.Text = "0 ; 0";
+            this.txtLocation.X = 0;
+            this.txtLocation.Y = 0;
             // 
             // lblRadius
             // 
@@ -87,21 +88,21 @@
             this.lblRadius.TabIndex = 16;
             this.lblRadius.Text = "Radius:";
             // 
-            // numericUpDown1
+            // udRadius
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(69, 32);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(172, 20);
-            this.numericUpDown1.TabIndex = 17;
+            this.udRadius.Location = new System.Drawing.Point(69, 32);
+            this.udRadius.Name = "udRadius";
+            this.udRadius.Size = new System.Drawing.Size(172, 20);
+            this.udRadius.TabIndex = 17;
             // 
             // MouseSpeedPropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 98);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.udRadius);
             this.Controls.Add(this.lblRadius);
-            this.Controls.Add(this.vtxtLocation);
+            this.Controls.Add(this.txtLocation);
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.AcceptButton2);
@@ -109,7 +110,7 @@
             this.Name = "MouseSpeedPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mouse Speed Indicator Properties";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udRadius)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,8 +121,8 @@
         private System.Windows.Forms.Button CancelButton2;
         private System.Windows.Forms.Button AcceptButton2;
         private System.Windows.Forms.Label lblLocation;
-        private Controls.VectorTextBox vtxtLocation;
+        private Controls.VectorTextBox txtLocation;
         private System.Windows.Forms.Label lblRadius;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown udRadius;
     }
 }

@@ -28,35 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vtxtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            this.txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.lblTextPosition = new System.Windows.Forms.Label();
             this.txtText = new System.Windows.Forms.TextBox();
             this.lblText = new System.Windows.Forms.Label();
             this.cmbKeyCode = new System.Windows.Forms.ComboBox();
             this.lblKeyCode = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lstBoundaries = new System.Windows.Forms.ListBox();
             this.lblBoundaries = new System.Windows.Forms.Label();
             this.CancelButton2 = new System.Windows.Forms.Button();
             this.AcceptButton2 = new System.Windows.Forms.Button();
-            this.vectorTextBox1 = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            this.txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.btnAddBoundary = new System.Windows.Forms.Button();
             this.btnRemoveBoundary = new System.Windows.Forms.Button();
             this.btnBoundaryUp = new System.Windows.Forms.Button();
             this.btnBoundaryDown = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // vtxtTextPosition
+            // txtTextPosition
             // 
-            this.vtxtTextPosition.Location = new System.Drawing.Point(85, 65);
-            this.vtxtTextPosition.MaxVal = 2147483647;
-            this.vtxtTextPosition.Name = "vtxtTextPosition";
-            this.vtxtTextPosition.Separator = ';';
-            this.vtxtTextPosition.Size = new System.Drawing.Size(156, 20);
-            this.vtxtTextPosition.SpacesAroundSeparator = true;
-            this.vtxtTextPosition.TabIndex = 17;
-            this.vtxtTextPosition.Text = "0 ; 0";
-            this.vtxtTextPosition.X = 0;
-            this.vtxtTextPosition.Y = 0;
+            this.txtTextPosition.Location = new System.Drawing.Point(85, 65);
+            this.txtTextPosition.MaxVal = 2147483647;
+            this.txtTextPosition.Name = "txtTextPosition";
+            this.txtTextPosition.Separator = ';';
+            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
+            this.txtTextPosition.SpacesAroundSeparator = true;
+            this.txtTextPosition.TabIndex = 17;
+            this.txtTextPosition.Text = "0 ; 0";
+            this.txtTextPosition.X = 0;
+            this.txtTextPosition.Y = 0;
             // 
             // lblTextPosition
             // 
@@ -100,13 +100,13 @@
             this.lblKeyCode.TabIndex = 21;
             this.lblKeyCode.Text = "KeyCode:";
             // 
-            // listBox1
+            // lstBoundaries
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(85, 117);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(156, 108);
-            this.listBox1.TabIndex = 22;
+            this.lstBoundaries.FormattingEnabled = true;
+            this.lstBoundaries.Location = new System.Drawing.Point(85, 117);
+            this.lstBoundaries.Name = "lstBoundaries";
+            this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
+            this.lstBoundaries.TabIndex = 22;
             // 
             // lblBoundaries
             // 
@@ -137,18 +137,18 @@
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
             // 
-            // vectorTextBox1
+            // txtBoundaries
             // 
-            this.vectorTextBox1.Location = new System.Drawing.Point(85, 91);
-            this.vectorTextBox1.MaxVal = 2147483647;
-            this.vectorTextBox1.Name = "vectorTextBox1";
-            this.vectorTextBox1.Separator = ';';
-            this.vectorTextBox1.Size = new System.Drawing.Size(156, 20);
-            this.vectorTextBox1.SpacesAroundSeparator = true;
-            this.vectorTextBox1.TabIndex = 26;
-            this.vectorTextBox1.Text = "0 ; 0";
-            this.vectorTextBox1.X = 0;
-            this.vectorTextBox1.Y = 0;
+            this.txtBoundaries.Location = new System.Drawing.Point(85, 91);
+            this.txtBoundaries.MaxVal = 2147483647;
+            this.txtBoundaries.Name = "txtBoundaries";
+            this.txtBoundaries.Separator = ';';
+            this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
+            this.txtBoundaries.SpacesAroundSeparator = true;
+            this.txtBoundaries.TabIndex = 26;
+            this.txtBoundaries.Text = "0 ; 0";
+            this.txtBoundaries.X = 0;
+            this.txtBoundaries.Y = 0;
             // 
             // btnAddBoundary
             // 
@@ -199,16 +199,16 @@
             this.Controls.Add(this.btnBoundaryUp);
             this.Controls.Add(this.btnRemoveBoundary);
             this.Controls.Add(this.btnAddBoundary);
-            this.Controls.Add(this.vectorTextBox1);
+            this.Controls.Add(this.txtBoundaries);
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.AcceptButton2);
             this.Controls.Add(this.lblBoundaries);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.lstBoundaries);
             this.Controls.Add(this.lblKeyCode);
             this.Controls.Add(this.cmbKeyCode);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.txtText);
-            this.Controls.Add(this.vtxtTextPosition);
+            this.Controls.Add(this.txtTextPosition);
             this.Controls.Add(this.lblTextPosition);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MouseElementPropertiesForm";
@@ -221,17 +221,17 @@
 
         #endregion
 
-        private Controls.VectorTextBox vtxtTextPosition;
+        private Controls.VectorTextBox txtTextPosition;
         private System.Windows.Forms.Label lblTextPosition;
         private System.Windows.Forms.TextBox txtText;
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.ComboBox cmbKeyCode;
         private System.Windows.Forms.Label lblKeyCode;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lstBoundaries;
         private System.Windows.Forms.Label lblBoundaries;
         private System.Windows.Forms.Button CancelButton2;
         private System.Windows.Forms.Button AcceptButton2;
-        private Controls.VectorTextBox vectorTextBox1;
+        private Controls.VectorTextBox txtBoundaries;
         private System.Windows.Forms.Button btnAddBoundary;
         private System.Windows.Forms.Button btnRemoveBoundary;
         private System.Windows.Forms.Button btnBoundaryUp;

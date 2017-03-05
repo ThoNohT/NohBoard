@@ -525,19 +525,42 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Element properties
 
+        /// <summary>
+        /// Opens the element properties window for the element under the cursor.
+        /// </summary>
         private void mnuElementProperties_Click(object sender, EventArgs e)
         {
             // Sanity check, don't try anything if there's no selected element.
             if (this.elementUnderCursor == null) return;
-            var id = this.elementUnderCursor.Id;
 
             if (this.elementUnderCursor is MouseKeyDefinition || this.elementUnderCursor is MouseScrollDefinition)
             {
                 using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) this.elementUnderCursor))
                 {
                     propertiesForm.ShowDialog(this);
+                    return;
                 }
             }
+
+            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition)
+            {
+                using (var propertiesForm = new MouseSpeedPropertiesForm())
+                {
+                    propertiesForm.ShowDialog(this);
+                    return;
+                }
+            }
+
+            if (this.elementUnderCursor is KeyboardKeyDefinition)
+            {
+                using (var propertiesForm = new KeyboardKeyPropertiesForm())
+                {
+                    propertiesForm.ShowDialog(this);
+                    return;
+                }
+            }
+
+            throw new Exception("Unknown element, cannot open properties form.");
         }
 
         #endregion Element properties

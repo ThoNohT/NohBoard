@@ -111,7 +111,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit,
             this.mnuUpdate});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(203, 352);
+            this.MainMenu.Size = new System.Drawing.Size(203, 374);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
