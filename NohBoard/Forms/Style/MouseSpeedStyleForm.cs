@@ -64,11 +64,10 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// <param name="defaultStyle">The default style to revert to when the override checkbox is unchecked.</param>
         public MouseSpeedStyleForm(MouseSpeedIndicatorStyle initialStyle, MouseSpeedIndicatorStyle defaultStyle)
         {
-            if (defaultStyle == null) throw new ArgumentNullException(nameof(defaultStyle));
+            this.initialStyle = initialStyle ?? new MouseSpeedIndicatorStyle();
+            this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
 
-            this.initialStyle = initialStyle;
-            this.defaultStyle = defaultStyle;
-            this.currentStyle = initialStyle;
+            this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle.Clone();
             this.InitializeComponent();
         }
 

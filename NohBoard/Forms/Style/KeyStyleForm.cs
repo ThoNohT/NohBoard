@@ -74,7 +74,7 @@ namespace ThoNohT.NohBoard.Forms.Style
                 Pressed = null
             };
             this.defaultStyle = defaultStyle;
-            this.currentStyle = (KeyStyle)this.initialStyle.Clone();
+            this.currentStyle = (KeyStyle) this.initialStyle.Clone();
             this.InitializeComponent();
         }
 

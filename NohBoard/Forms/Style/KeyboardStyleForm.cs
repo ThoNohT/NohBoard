@@ -60,8 +60,8 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// <param name="initialStyle">The initial style.</param>
         public KeyboardStyleForm(KeyboardStyle initialStyle)
         {
-            this.initialStyle = initialStyle;
-            this.currentStyle = initialStyle;
+            this.initialStyle = initialStyle ?? new KeyboardStyle();
+            this.currentStyle = initialStyle.Clone();
             this.InitializeComponent();
         }
 
