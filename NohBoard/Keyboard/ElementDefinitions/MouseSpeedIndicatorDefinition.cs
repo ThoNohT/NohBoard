@@ -208,6 +208,20 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Sets the radius of the element.
+        /// </summary>
+        /// <param name="newRadius">The new radius.</param>
+        /// <returns>A new <see cref="MouseSpeedIndicatorDefinition"/> with the specified radius.</returns>
+        public MouseSpeedIndicatorDefinition SetRadius(int newRadius)
+        {
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location,
+                newRadius,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
         /// Calculates whether the specified point is inside this element.
         /// </summary>
         /// <param name="point">The point.</param>
