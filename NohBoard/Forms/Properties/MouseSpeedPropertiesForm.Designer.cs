@@ -46,6 +46,7 @@
             this.CancelButton2.TabIndex = 13;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
+            this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
             // 
             // AcceptButton2
             // 
@@ -56,6 +57,7 @@
             this.AcceptButton2.TabIndex = 12;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
+            this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
             // 
             // lblLocation
             // 
@@ -110,6 +112,7 @@
             this.Name = "MouseSpeedPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mouse Speed Indicator Properties";
+            this.Load += new System.EventHandler(this.MouseSpeedPropertiesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.udRadius)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

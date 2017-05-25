@@ -158,9 +158,7 @@ namespace ThoNohT.NohBoard.Forms
                 var diff = (TPoint)e.Location - this.currentManipulationPoint;
                 this.cumulManipulation += diff;
 
-                this.currentlyManipulating = Tuple.Create(
-                    this.currentlyManipulating.Item1,
-                    this.manipulationStart.Manipulate(this.cumulManipulation));
+                this.currentlyManipulating = Tuple.Create(this.currentlyManipulating.Item1, this.manipulationStart.Manipulate(this.cumulManipulation));
                 this.currentManipulationPoint = e.Location;
             }
             else
@@ -542,10 +540,19 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition)
+            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition mouseSpeedElement)
             {
-                using (var propertiesForm = new MouseSpeedPropertiesForm())
+                using (var propertiesForm = new MouseSpeedPropertiesForm(mouseSpeedElement))
                 {
+                    propertiesForm.DefinitionChanged += (def) =>
+                    {
+                        this.elementUnderCursor = null;
+                        this.currentlyManipulating = null;
+                        this.selectedDefinition = def;
+                        GlobalSettings.CurrentDefinition.Elements[def.Id] = def;
+                        this.ResetBackBrushes();
+                    };
+
                     propertiesForm.ShowDialog(this);
                     return;
                 }
