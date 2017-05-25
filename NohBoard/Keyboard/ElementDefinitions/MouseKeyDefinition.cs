@@ -328,7 +328,21 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             return new MouseKeyDefinition(this.Id, newBoundaries, this.KeyCodes.Single(), this.Text);
         }
-        
+
+        /// <summary>
+        /// Returns a clone of this element definition.
+        /// </summary>
+        /// <returns>The cloned element definition.</returns>
+        public override ElementDefinition Clone()
+        {
+            return new MouseKeyDefinition(
+                this.Id,
+                this.Boundaries.Select(x => x.Clone()).ToList(),
+                this.KeyCodes.Single(),
+                this.Text,
+                this.CurrentManipulation);
+        }
+
         #endregion Private methods
     }
 }

@@ -408,6 +408,22 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.ChangeOnCaps);
         }
 
+        /// <summary>
+        /// Returns a clone of this element definition.
+        /// </summary>
+        /// <returns>The cloned element definition.</returns>
+        public override ElementDefinition Clone()
+        {
+            return new KeyboardKeyDefinition(
+                this.Id,
+                this.Boundaries.Select(x => x.Clone()).ToList(),
+                this.KeyCodes.ToList(),
+                this.Text,
+                this.ShiftText,
+                this.ChangeOnCaps,
+                this.CurrentManipulation);
+        }
+
         #endregion Private methods
     }
 }

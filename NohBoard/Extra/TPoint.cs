@@ -200,5 +200,14 @@ namespace ThoNohT.NohBoard.Extra
         {
             return $"({this.X}, {this.Y})";
         }
+
+        /// <summary>
+        /// Creates a new version of this <see cref="TPoint"/>.
+        /// </summary>
+        /// <returns>The cloned <see cref="TPoint"/>.</returns>
+        public TPoint Clone()
+        {
+            return new TPoint(this.X, this.Y);
+        }
     }
 }

@@ -119,6 +119,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public abstract ElementDefinition Manipulate(Size diff);
 
         /// <summary>
+        /// Returns a clone of this element definition.
+        /// </summary>
+        /// <returns>The cloned element definition.</returns>
+        public abstract ElementDefinition Clone();
+
+        /// <summary>
         /// Sets the new manipulation for this element.
         /// </summary>
         /// <param name="manipulation">The new manipulation.</param>

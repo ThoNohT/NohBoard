@@ -82,26 +82,26 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public void Render(Graphics g, SizeF speed)
         {
             var subStyle = GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(this.Id)
-                ?? GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle;
+                           ?? GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle;
 
             // Small circles have a fifth of the radius of the full control.
-            var smallRadius = (float)this.Radius / 5;
+            var smallRadius = (float) this.Radius / 5;
 
             // The sensitivity is a factor over the mouse speed.
-            var sensitivity = GlobalSettings.Settings.MouseSensitivity / (float)100;
+            var sensitivity = GlobalSettings.Settings.MouseSensitivity / (float) 100;
 
             // The total length is determined by the sensitivity, speed and radius. But never more than the radius.
-            var pointerLength = (int)Math.Min(this.Radius, sensitivity * speed.Length() * this.Radius);
+            var pointerLength = (int) Math.Min(this.Radius, sensitivity * speed.Length() * this.Radius);
 
-            var colorMultiplier = Math.Max(0, Math.Min(1, (float)pointerLength / this.Radius));
+            var colorMultiplier = Math.Max(0, Math.Min(1, (float) pointerLength / this.Radius));
 
             Color color1 = subStyle.InnerColor;
             Color outerColor = subStyle.OuterColor;
             // The second color should be averaged over the two specified colours, based upon how far out the thingymabob is.
             var color2 = Color.FromArgb(
-                (int)(color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
-                (int)(color1.G * (1 - colorMultiplier) + outerColor.G * colorMultiplier),
-                (int)(color1.B * (1 - colorMultiplier) + outerColor.B * colorMultiplier));
+                (int) (color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
+                (int) (color1.G * (1 - colorMultiplier) + outerColor.G * colorMultiplier),
+                (int) (color1.B * (1 - colorMultiplier) + outerColor.B * colorMultiplier));
 
             // Draw the edge.
             g.DrawEllipse(
@@ -129,12 +129,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
                     // Draw a circle on the outter edge in the direction of the pointer.
                     var pointerEdge = this.Location.CircularTranslate(this.Radius, angle);
-                    g.FillEllipse(new SolidBrush(color2), Geom.CircleToRectangle(pointerEdge, (int)smallRadius));
+                    g.FillEllipse(new SolidBrush(color2), Geom.CircleToRectangle(pointerEdge, (int) smallRadius));
                 }
             }
 
             // Draw the circle in the center.
-            g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int)smallRadius));
+            g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int) smallRadius));
         }
 
         /// <summary>
@@ -169,7 +169,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public override void RenderSelected(Graphics g)
         {
             g.DrawEllipse(new Pen(Constants.SelectedColor, 2), Geom.CircleToRectangle(this.Location, this.Radius));
-            g.FillEllipse(new SolidBrush(Constants.SelectedColor), Geom.CircleToRectangle(this.Location, this.Radius / 5));
+            g.FillEllipse(
+                new SolidBrush(Constants.SelectedColor),
+                Geom.CircleToRectangle(this.Location, this.Radius / 5));
 
             if (this.RelevantManipulation.Type == ElementManipulationType.Scale)
                 g.DrawEllipse(
@@ -297,16 +299,29 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var distanceToGrabPoint = direction.Multiply(this.Radius);
             var grabPoint = this.Location + distanceToGrabPoint;
 
-            var movedGrabPoint = grabPoint + ((SizeF)diff).ProjectOn(direction);
+            var movedGrabPoint = grabPoint + ((SizeF) diff).ProjectOn(direction);
             var movedDistance = (movedGrabPoint - this.Location).Length();
 
             return new MouseSpeedIndicatorDefinition(
                 this.Id,
                 this.Location,
-                (int)movedDistance,
+                (int) movedDistance,
                 this.CurrentManipulation);
         }
 
         #endregion Transformations
+
+        /// <summary>
+        /// Returns a clone of this element definition.
+        /// </summary>
+        /// <returns>The cloned element definition.</returns>
+        public override ElementDefinition Clone()
+        {
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location.Clone(),
+                this.Radius,
+                this.CurrentManipulation);
+        }
     }
 }
