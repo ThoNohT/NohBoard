@@ -58,7 +58,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AcceptButton2.Location = new System.Drawing.Point(108, 185);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
@@ -69,7 +68,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             // 
             // CancelButton2
             // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButton2.Location = new System.Drawing.Point(27, 185);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);

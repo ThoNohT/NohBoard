@@ -144,7 +144,6 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // CloseButton
             // 
-            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CloseButton.Location = new System.Drawing.Point(261, 253);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);

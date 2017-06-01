@@ -240,7 +240,6 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // CancelButton2
             // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButton2.Location = new System.Drawing.Point(253, 241);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);

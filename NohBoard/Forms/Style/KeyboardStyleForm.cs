@@ -102,7 +102,6 @@ namespace ThoNohT.NohBoard.Forms.Style
         private void AcceptButton2_Click(object sender, System.EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         private void CancelButton2_Click(object sender, System.EventArgs e)
         {
             this.StyleChanged?.Invoke(this.initialStyle);
-            this.Close();
+            this.DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>

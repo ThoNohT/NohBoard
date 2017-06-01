@@ -119,7 +119,6 @@
             // 
             // CancelButton2
             // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButton2.Location = new System.Drawing.Point(85, 231);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
@@ -129,7 +128,6 @@
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AcceptButton2.Location = new System.Drawing.Point(166, 231);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
@@ -152,7 +150,6 @@
             // 
             // btnAddBoundary
             // 
-            this.btnAddBoundary.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnAddBoundary.Location = new System.Drawing.Point(4, 117);
             this.btnAddBoundary.Name = "btnAddBoundary";
             this.btnAddBoundary.Size = new System.Drawing.Size(75, 23);
@@ -162,7 +159,6 @@
             // 
             // btnRemoveBoundary
             // 
-            this.btnRemoveBoundary.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 146);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
@@ -172,7 +168,6 @@
             // 
             // btnBoundaryUp
             // 
-            this.btnBoundaryUp.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnBoundaryUp.Location = new System.Drawing.Point(4, 175);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
@@ -182,7 +177,6 @@
             // 
             // btnBoundaryDown
             // 
-            this.btnBoundaryDown.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnBoundaryDown.Location = new System.Drawing.Point(4, 204);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);

@@ -75,7 +75,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // Only add the event handlers after the initial style has been set.
             this.txtLocation.ValueChanged += this.txtLocation_ValueChanged;
             this.udRadius.ValueChanged += this.udRadius_ValueChanged;
-
         }
 
         /// <summary>
@@ -103,7 +102,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         /// <summary>
@@ -112,7 +110,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private void CancelButton2_Click(object sender, EventArgs e)
         {
             this.DefinitionChanged?.Invoke(this.initialDefinition);
-            this.Close();
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
