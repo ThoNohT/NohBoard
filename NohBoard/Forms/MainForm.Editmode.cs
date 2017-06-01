@@ -445,17 +445,18 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuRemoveElement_Click(object sender, EventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked) return;
-            if (this.highlightedDefinition == null) return;
+            if (this.highlightedDefinition == null && this.selectedDefinition == null) return;
 
             this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(this.highlightedDefinition);
+                .RemoveElement(this.highlightedDefinition ?? this.selectedDefinition);
 
             // Unset the definition everywhere because it no longer exists.
             this.highlightedDefinition = null;
             this.currentlyManipulating = null;
             this.manipulationStart = null;
+            this.selectedDefinition = null;
 
             this.ResetBackBrushes();
         }
