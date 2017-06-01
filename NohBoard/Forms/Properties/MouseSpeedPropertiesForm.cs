@@ -33,7 +33,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// <summary>
         /// A backup definition to return to if the user pressed cancel.
         /// </summary>
-        private MouseSpeedIndicatorDefinition initialDefinition;
+        private readonly MouseSpeedIndicatorDefinition initialDefinition;
 
         /// <summary>
         /// The currently loaded definition.
