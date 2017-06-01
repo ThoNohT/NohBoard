@@ -528,22 +528,24 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuElementProperties_Click(object sender, EventArgs e)
         {
             // Sanity check, don't try anything if there's no selected element.
-            if (this.elementUnderCursor == null) return;
+            var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
+            if (relevantElement == null) return;
 
-            if (this.elementUnderCursor is MouseKeyDefinition || this.elementUnderCursor is MouseScrollDefinition)
+
+            if (relevantElement is MouseKeyDefinition || relevantElement is MouseScrollDefinition)
             {
-                using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) this.elementUnderCursor))
+                using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) relevantElement))
                 {
                     propertiesForm.ShowDialog(this);
                     return;
                 }
             }
 
-            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition mouseSpeedElement)
+            if (relevantElement is MouseSpeedIndicatorDefinition mouseSpeedElement)
             {
                 using (var propertiesForm = new MouseSpeedPropertiesForm(mouseSpeedElement))
                 {
-                    propertiesForm.DefinitionChanged += (def) =>
+                    propertiesForm.DefinitionChanged += def =>
                     {
                         this.elementUnderCursor = null;
                         this.currentlyManipulating = null;
@@ -557,7 +559,7 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            if (this.elementUnderCursor is KeyboardKeyDefinition)
+            if (relevantElement is KeyboardKeyDefinition)
             {
                 using (var propertiesForm = new KeyboardKeyPropertiesForm())
                 {
