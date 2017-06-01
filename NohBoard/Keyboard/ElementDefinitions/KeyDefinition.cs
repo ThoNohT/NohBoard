@@ -441,7 +441,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
-        /// Rmeturns the background brush for the key.
+        /// Returns the background brush for the key.
         /// </summary>
         /// <param name="subStyle">The substyle to use for rendering the key.</param>
         /// <param name="pressed">Whether the is pressed.</param>
