@@ -114,9 +114,7 @@ namespace ThoNohT.NohBoard.Forms
             if (this.selectedDefinition != null)
             {
                 // Try to manipulate the selected definition, if one is selected.
-                toManipulate = this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown)
-                    ? this.selectedDefinition
-                    : null;
+                this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown);
                 toManipulate = this.selectedDefinition;
             }
             else
