@@ -293,7 +293,7 @@ namespace ThoNohT.NohBoard.Forms
 
 
             // Cancelling selection.
-            if (keyCode == Keys.Escape)
+            if (keyCode == Keys.Escape || keyCode == Keys.Enter)
             {
                 this.selectedDefinition = null;
                 return base.ProcessCmdKey(ref msg, keyData);
