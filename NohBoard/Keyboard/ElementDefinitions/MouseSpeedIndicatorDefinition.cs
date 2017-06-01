@@ -158,7 +158,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.FillEllipse(Constants.HighlightBrush, Geom.CircleToRectangle(this.Location, this.Radius));
 
-            if (this.RelevantManipulation.Type == ElementManipulationType.Scale)
+            if (this.RelevantManipulation?.Type == ElementManipulationType.Scale)
                 g.DrawEllipse(new Pen(Color.White, 3), Geom.CircleToRectangle(this.Location, this.Radius));
         }
 
@@ -173,7 +173,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 new SolidBrush(Constants.SelectedColor),
                 Geom.CircleToRectangle(this.Location, this.Radius / 5));
 
-            if (this.RelevantManipulation.Type == ElementManipulationType.Scale)
+            if (this.RelevantManipulation?.Type == ElementManipulationType.Scale)
                 g.DrawEllipse(
                     new Pen(Constants.SelectedColorSpecial, 3),
                     Geom.CircleToRectangle(this.Location, this.Radius));
