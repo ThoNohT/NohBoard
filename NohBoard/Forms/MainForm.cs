@@ -34,6 +34,7 @@ namespace ThoNohT.NohBoard.Forms
     using Keyboard;
     using Keyboard.ElementDefinitions;
     using Keyboard.Styles;
+    using Style;
     using Version = NohBoard.Version;
 
     /// <summary>
@@ -124,6 +125,9 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (GlobalSettings.CurrentDefinition == null) return;
 
+            this.undoHistory.Clear();
+            this.redoHistory.Clear();
+
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 
             this.ResetBackBrushes();
@@ -167,17 +171,16 @@ namespace ThoNohT.NohBoard.Forms
                     }
 
                     // Render the individual keys.
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>())
-                        def.Render(g, false, shift, caps);
+                    foreach (var def in GlobalSettings.CurrentDefinition.Elements)
+                    {
+                        if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseKeyDefinition>())
-                        def.Render(g, false, shift, caps);
+                        if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseScrollDefinition>())
-                        def.Render(g, 0);
+                        if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
 
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseSpeedIndicatorDefinition>())
-                        def.Render(g, new SizeF());
+                        // No need to render mouse speed indicators in backbrush.
+                    }
 
                     this.backBrushes[shift].Add(caps, new TextureBrush(bmp));
                 }
@@ -189,6 +192,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuLoadKeyboard_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             using (var manageForm = new LoadKeyboardForm())
             {
                 manageForm.DefinitionChanged += (kbDef, kbStyle, globalStyle) =>
@@ -240,6 +245,8 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="e"></param>
         private void mnuSaveDefinitionAsName_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentDefinition.Save();
             GlobalSettings.Settings.LoadedCategory = GlobalSettings.CurrentDefinition.Category;
             GlobalSettings.Settings.LoadedKeyboard = GlobalSettings.CurrentDefinition.Name;
@@ -250,6 +257,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuSaveDefinitionAs_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             using (var saveForm = new SaveKeyboardAsForm())
             {
                 saveForm.ShowDialog(this);
@@ -357,6 +366,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuSettings_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             using (var settingsForm = new SettingsForm())
             {
                 var result = settingsForm.ShowDialog(this);
@@ -375,6 +386,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            this.menuOpen = true;
+
             this.mnuSaveDefinition.Enabled = GlobalSettings.CurrentDefinition != null;
             if (GlobalSettings.CurrentDefinition != null)
             {
@@ -385,6 +398,8 @@ namespace ThoNohT.NohBoard.Forms
                 this.elementUnderCursor =
                     GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
                 this.mnuEditElementStyle.Enabled = this.elementUnderCursor != null;
+                this.mnuElementProperties.Enabled = this.elementUnderCursor != null;
+                this.mnuElementProperties.Visible = this.mnuToggleEditMode.Checked; // Only allow editing of an element in edit mode.
             }
 
             this.mnuEditKeyboardStyle.Enabled = GlobalSettings.CurrentDefinition != null;
@@ -395,18 +410,48 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveToGlobalStyleName.Enabled = GlobalSettings.CurrentStyle.IsGlobal;
             this.mnuSaveToGlobalStyleName.Visible = GlobalSettings.Settings.LoadedGlobalStyle;
 
-            this.mnuToggleEditMode.Enabled = false; // TODO: Implement edit mode.
+            this.mnuToggleEditMode.Enabled = GlobalSettings.CurrentDefinition != null;
 
-            if (this.latestVersion != null)
+            if (this.latestVersion != null && !this.mnuUpdate.Visible)
             {
-                this.MainMenu.Items.Add(
-                    $"New version available: {this.latestVersion.Format()}.",
-                    null,
-                    (s, ea) =>
-                    {
-                        Process.Start("https://github.com/ThoNohT/NohBoard/releases");
-                    });
+                this.mnuUpdate.Text = $"New version available: {this.latestVersion.Format()}.";
+                this.mnuUpdate.Visible = true;
+                this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
             }
+
+
+            this.mnuMoveElement.Visible = this.relevantDefinition != null;
+
+            var highlightedSomething = this.mnuToggleEditMode.Checked && this.relevantDefinition != null;
+
+            // Edit mode related menu items.
+            this.mnuAddBoundaryPoint.Visible = highlightedSomething &&
+                this.relevantDefinition.RelevantManipulation.Type == ElementManipulationType.MoveEdge;
+
+            this.mnuRemoveBoundaryPoint.Visible = highlightedSomething &&
+                this.relevantDefinition.RelevantManipulation.Type == ElementManipulationType.MoveBoundary;
+
+            this.mnuRemoveElement.Visible = highlightedSomething;
+            this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && this.relevantDefinition == null;
+        }
+
+        /// <summary>
+        /// Handles setting the menu open variable to false when esc is pressed.
+        /// </summary>
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            // Esc closes the menu too.
+            if (e.KeyCode == Keys.Escape)
+                this.menuOpen = false;
+        }
+
+        /// <summary>
+        /// Handles setting the menu open variable to false when the form loses focus.
+        /// </summary>
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            // Deactivating the form also closes the menu.
+            this.menuOpen = false;
         }
 
         /// <summary>
@@ -420,8 +465,6 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Settings
 
         #region Rendering
-        
-
         /// <summary>
         /// Paints the keyboard on the screen.
         /// </summary>
@@ -437,51 +480,57 @@ namespace ThoNohT.NohBoard.Forms
                 this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
                 new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
 
-            // Render keyboard keys.
-            var kbDefs = GlobalSettings.CurrentDefinition.Elements.OfType<KeyboardKeyDefinition>();
+            // Render all keys.
             var kbKeys = KeyboardState.PressedKeys;
-            var onlySingles = true;
-            foreach (var def in kbDefs
-                .Where(d => kbKeys.ContainsAll(d.KeyCodes))
-                .OrderByDescending(d => d.KeyCodes.Count)
-                .TakeWhile(
-                    d =>
-                    {
-                        if (d.KeyCodes.Count > 1) onlySingles = false;
-                        return onlySingles || d.KeyCodes.Count > 1;
-                    }))
-            {
-                def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-            }
-
-            // Render mouse keys.
-            onlySingles = true;
-            var mouseKeys = MouseState.PressedKeys;
-            foreach (var def in mouseKeys.SelectMany(
-                keyCode => GlobalSettings.CurrentDefinition.Elements.OfType<MouseKeyDefinition>()
-                    .Where(x => x.KeyCodes.Contains((int)keyCode))))
-            {
-                def.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-            }
-
-            // Render mouse scrolls.
-            onlySingles = true;
+            var mouseKeys = MouseState.PressedKeys.Select(k => (int)k).ToList();
             MouseState.CheckScrollAndMovement();
             var scrollCounts = MouseState.ScrollCounts;
-            for (var i = 0; i < scrollCounts.Count; i++)
+            var allDefs = GlobalSettings.CurrentDefinition.Elements;
+            foreach (var def in allDefs)
             {
-                if (scrollCounts[i] == 0)
-                    continue;
+                if (def is KeyboardKeyDefinition)
+                {
+                    var kkDef = (KeyboardKeyDefinition)def;
+                    if (!kkDef.KeyCodes.Any() || !kkDef.KeyCodes.All(kbKeys.Contains)) continue;
 
-                foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseScrollDefinition>()
-                    .Where(x => x.KeyCodes.Contains(i))
-                    .ToList())
-                    def.Render(e.Graphics, scrollCounts[i]);
+                    if (kkDef.KeyCodes.Count == 1
+                        && allDefs.OfType<KeyboardKeyDefinition>()
+                            .Any(d => d.KeyCodes.Count > 1
+                            && d.KeyCodes.All(kbKeys.Contains)
+                            && d.KeyCodes.ContainsAll(kkDef.KeyCodes))) continue;
+
+                    kkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+                }
+                if (def is MouseKeyDefinition)
+                {
+                    var mkDef = (MouseKeyDefinition)def;
+                    if (mouseKeys.Contains(mkDef.KeyCodes.Single()))
+                        mkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+                }
+                if (def is MouseScrollDefinition)
+                {
+                    var msDef = (MouseScrollDefinition)def;
+                    var scrollCount = scrollCounts[msDef.KeyCodes.Single()];
+                    if (scrollCount > 0) msDef.Render(e.Graphics, scrollCount);
+                }
+                if (def is MouseSpeedIndicatorDefinition)
+                {
+                    ((MouseSpeedIndicatorDefinition)def).Render(e.Graphics, MouseState.AverageSpeed);
+                }
             }
 
-            // Render mouse speeds.
-            foreach (var def in GlobalSettings.CurrentDefinition.Elements.OfType<MouseSpeedIndicatorDefinition>())
-                def.Render(e.Graphics, MouseState.AverageSpeed);
+            // Draw the element being manipulated
+            if (this.currentlyManipulating == null)
+            {
+                if (this.highlightedDefinition != this.selectedDefinition)
+                    // Draw highlighted only if it is not also selected.
+                    this.highlightedDefinition?.RenderHighlight(e.Graphics);
+                this.selectedDefinition?.RenderSelected(e.Graphics);
+            }
+            else
+            {
+                this.currentlyManipulating.Item2.RenderEditing(e.Graphics);
+            }
 
             base.OnPaint(e);
         }
@@ -513,12 +562,14 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuEditElementStyle_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
                 MessageBox.Show("Please load or save a style before editing element styles.");
                 return;
             }
-            
+
             // Sanity check, don't try anything if there's no selected element.
             if (this.elementUnderCursor == null) return;
             var id = this.elementUnderCursor.Id;
@@ -550,7 +601,7 @@ namespace ThoNohT.NohBoard.Forms
             if (this.elementUnderCursor is MouseSpeedIndicatorDefinition)
             {
                 using (var styleForm = new MouseSpeedStyleForm(
-                        GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(id),
+                    GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(id),
                     GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle))
                 {
                     styleForm.StyleChanged += style =>
@@ -569,7 +620,6 @@ namespace ThoNohT.NohBoard.Forms
                     styleForm.ShowDialog(this);
                 }
             }
-
         }
 
         /// <summary>
@@ -577,6 +627,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuEditKeyboardStyle_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
                 MessageBox.Show("Please load or save a style before editing the keyboard style.");
@@ -599,6 +651,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuSaveStyleToName_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentStyle.Save(false);
             GlobalSettings.Settings.LoadedStyle = GlobalSettings.CurrentStyle.Name;
             GlobalSettings.Settings.LoadedGlobalStyle = false;
@@ -609,6 +663,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuSaveToGlobalStyleName_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentStyle.Save(true);
             GlobalSettings.Settings.LoadedStyle = GlobalSettings.CurrentStyle.Name;
             GlobalSettings.Settings.LoadedGlobalStyle = true;

@@ -15,12 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
+    using System;
     using System.Windows.Forms;
+    using Controls;
     using Extra;
-    using ThoNohT.NohBoard.Controls;
-    using ThoNohT.NohBoard.Keyboard;
+    using Keyboard;
 
     /// <summary>
     /// The form used to change a keyboard's global style.
@@ -44,16 +45,10 @@ namespace ThoNohT.NohBoard.Forms
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the style has been changed.
-        /// </summary>
-        /// <param name="style">The keyboard style.</param>
-        public delegate void StyleChangedEventHandler(KeyboardStyle style);
-
-        /// <summary>
         /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event StyleChangedEventHandler StyleChanged;
+        public new event Action<KeyboardStyle> StyleChanged;
 
         #endregion Events
 
@@ -65,8 +60,8 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="initialStyle">The initial style.</param>
         public KeyboardStyleForm(KeyboardStyle initialStyle)
         {
-            this.initialStyle = initialStyle;
-            this.currentStyle = initialStyle;
+            this.initialStyle = initialStyle ?? new KeyboardStyle();
+            this.currentStyle = initialStyle.Clone();
             this.InitializeComponent();
         }
 
@@ -107,7 +102,6 @@ namespace ThoNohT.NohBoard.Forms
         private void AcceptButton2_Click(object sender, System.EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         /// <summary>
@@ -116,7 +110,7 @@ namespace ThoNohT.NohBoard.Forms
         private void CancelButton2_Click(object sender, System.EventArgs e)
         {
             this.StyleChanged?.Invoke(this.initialStyle);
-            this.Close();
+            this.DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>

@@ -73,6 +73,22 @@ namespace ThoNohT.NohBoard.Hooking
         }
 
         /// <summary>
+        /// Returns a value indicating whether any ctrl key is currently down.
+        /// </summary>
+        public static bool CtrlDown
+        {
+            get { lock (pressedKeys) return pressedKeys.Contains(VK_LCTRL) || pressedKeys.Contains(VK_RCTRL); }
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether any alt key is currently down.
+        /// </summary>
+        public static bool AltDown
+        {
+            get { lock (pressedKeys) return pressedKeys.Contains(VK_LALT) || pressedKeys.Contains(VK_RALT); }
+        }
+
+        /// <summary>
         /// Returns a value indicating whether caps lock is currently active.
         /// </summary>
         public static bool CapsActive => (GetKeyState(VK_CAPITAL) & 0x1) != 0;

@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
-    using ThoNohT.NohBoard.Controls;
+    using Controls;
 
     partial class KeyboardStyleForm
     {
@@ -32,9 +32,9 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -95,11 +95,10 @@ namespace ThoNohT.NohBoard.Forms
             this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
             this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
             this.clrKeyboardBackground.TabIndex = 2;
-            this.clrKeyboardBackground.ColorChanged += new ThoNohT.NohBoard.Controls.ColorChooser.ColorChangedEventHandler(this.Control_ColorChanged);
+            this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AcceptButton2.Location = new System.Drawing.Point(462, 328);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
@@ -110,7 +109,6 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // CancelButton2
             // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButton2.Location = new System.Drawing.Point(381, 328);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
@@ -146,7 +144,7 @@ namespace ThoNohT.NohBoard.Forms
             this.pressedKeys.SubStyle = keySubStyle3;
             this.pressedKeys.TabIndex = 13;
             this.pressedKeys.Title = "Pressed Keys";
-            this.pressedKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.pressedKeys_SubStyleChanged);
+            this.pressedKeys.StyleChanged += this.pressedKeys_SubStyleChanged;
             // 
             // looseKeys
             // 
@@ -175,7 +173,7 @@ namespace ThoNohT.NohBoard.Forms
             this.looseKeys.SubStyle = keySubStyle4;
             this.looseKeys.TabIndex = 12;
             this.looseKeys.Title = "Loose Keys";
-            this.looseKeys.StyleChanged += new ThoNohT.NohBoard.Controls.KeySubStylePanel.StyleChangedEventHandler(this.looseKeys_SubStyleChanged);
+            this.looseKeys.StyleChanged += this.looseKeys_SubStyleChanged;
             // 
             // lblKeyboard
             // 
@@ -205,7 +203,7 @@ namespace ThoNohT.NohBoard.Forms
             this.defaultMouseSpeed.Size = new System.Drawing.Size(171, 144);
             this.defaultMouseSpeed.TabIndex = 16;
             this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
-            this.defaultMouseSpeed.IndicatorStyleChanged += new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel.StyleChangedEventHandler(this.defaultMouseSpeed_IndicatorStyleChanged);
+            this.defaultMouseSpeed.IndicatorStyleChanged += this.defaultMouseSpeed_IndicatorStyleChanged;
             // 
             // txtBackgoundImage
             // 

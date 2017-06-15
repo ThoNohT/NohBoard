@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
-    using ThoNohT.NohBoard.Controls;
+    using Controls;
 
     partial class MouseSpeedStyleForm
     {
@@ -32,9 +32,9 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -58,7 +58,6 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.AcceptButton2.Location = new System.Drawing.Point(108, 185);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
@@ -69,7 +68,6 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // CancelButton2
             // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelButton2.Location = new System.Drawing.Point(27, 185);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);

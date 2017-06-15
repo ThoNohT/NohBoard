@@ -52,6 +52,11 @@ namespace ThoNohT.NohBoard
         public const string ImagesFolder = "images";
 
         /// <summary>
+        /// The default size in pixels for a new element.
+        /// </summary>
+        public const int DefaultElementSize = 40;
+
+        /// <summary>
         /// A GDI+ graphics context.
         /// </summary>
         public static Graphics G => Graphics.FromHwndInternal(new Form().Handle);
@@ -65,5 +70,20 @@ namespace ThoNohT.NohBoard
         /// Returns the path this executable is running in.
         /// </summary>
         public static string ExePath => AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// The brush to use for the background of highlighted elements.
+        /// </summary>
+        public static Brush HighlightBrush = new SolidBrush(Color.FromArgb(80, 0, 180, 255));
+
+        /// <summary>
+        /// The color to use for the outline for a selected element.
+        /// </summary>
+        public static Color SelectedColor = Color.DarkMagenta;
+
+        /// <summary>
+        /// The color to use for special manipulation type indications for a selected element.
+        /// </summary>
+        public static Color SelectedColorSpecial = Color.OrangeRed;
     }
 }

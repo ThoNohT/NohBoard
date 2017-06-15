@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms.Style
 {
     using System;
     using System.Windows.Forms;
@@ -48,16 +48,10 @@ namespace ThoNohT.NohBoard.Forms
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the style has been changed.
-        /// </summary>
-        /// <param name="style">The new mouse speed indicator style.</param>
-        public delegate void StyleChangedEventHandler(MouseSpeedIndicatorStyle style);
-
-        /// <summary>
         /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event StyleChangedEventHandler StyleChanged;
+        public new event Action<MouseSpeedIndicatorStyle> StyleChanged;
 
         #endregion Events
         
@@ -70,11 +64,10 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="defaultStyle">The default style to revert to when the override checkbox is unchecked.</param>
         public MouseSpeedStyleForm(MouseSpeedIndicatorStyle initialStyle, MouseSpeedIndicatorStyle defaultStyle)
         {
-            if (defaultStyle == null) throw new ArgumentNullException(nameof(defaultStyle));
+            this.initialStyle = initialStyle ?? new MouseSpeedIndicatorStyle();
+            this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
 
-            this.initialStyle = initialStyle;
-            this.defaultStyle = defaultStyle;
-            this.currentStyle = initialStyle;
+            this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle.Clone();
             this.InitializeComponent();
         }
 
@@ -102,7 +95,6 @@ namespace ThoNohT.NohBoard.Forms
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         /// <summary>
@@ -111,7 +103,7 @@ namespace ThoNohT.NohBoard.Forms
         private void CancelButton2_Click(object sender, EventArgs e)
         {
             this.StyleChanged?.Invoke(this.initialStyle);
-            this.Close();
+            this.DialogResult = DialogResult.Cancel;
         }
 
         /// <summary>
