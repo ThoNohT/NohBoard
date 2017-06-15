@@ -85,10 +85,20 @@ namespace ThoNohT.NohBoard.Forms
         private readonly Stack<KeyboardDefinition> redoHistory = new Stack<KeyboardDefinition>();
 
         /// <summary>
+        /// Whether the main menu is open. This variable is set to true when the main menu is opened. The next
+        /// keyboard/mouse hook events will only arrive after the menu is closed again. This causes strange jumps
+        /// in the selected element, the element under the cursor will be selected if none was before.
+        /// This variable is set to false when the left button goes up, so the first mouse down / move and up are ignored.
+        /// </summary>
+        private bool menuOpen;
+
+        /// <summary>
         /// Turns edit-mode on or off.
         /// </summary>
         private void mnuToggleEditMode_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
 
             if (!this.mnuToggleEditMode.Checked)
@@ -108,7 +118,8 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-            if (!this.mnuToggleEditMode.Checked) return;
+            if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
+
 
             ElementDefinition toManipulate;
             if (this.selectedDefinition != null)
@@ -149,7 +160,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!this.mnuToggleEditMode.Checked) return;
+            if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
             if (this.currentlyManipulating != null)
             {
@@ -183,6 +194,8 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+            this.menuOpen = false;
+
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(
@@ -207,6 +220,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToTop_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, int.MaxValue);
             this.ResetBackBrushes();
@@ -217,6 +232,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, 1);
             this.ResetBackBrushes();
@@ -227,6 +244,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveDown_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -1);
             this.ResetBackBrushes();
@@ -237,6 +256,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -int.MaxValue);
             this.ResetBackBrushes();
@@ -361,6 +382,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuAddKeyboardKeyDefinition_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             var c = this.currentManipulationPoint;
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
@@ -386,6 +409,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuAddMouseKeyDefinition_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             var c = this.currentManipulationPoint;
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
@@ -409,6 +434,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuAddMouseScrollDefinition_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             var c = this.currentManipulationPoint;
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
@@ -432,6 +459,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuAddMouseSpeedIndicatorDefinition_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             this.AddElement(
                 new MouseSpeedIndicatorDefinition(
                     GlobalSettings.CurrentDefinition.GetNextId(),
@@ -444,6 +473,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuRemoveElement_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             if (!this.mnuToggleEditMode.Checked) return;
             if (this.highlightedDefinition == null && this.selectedDefinition == null) return;
 
@@ -470,6 +501,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuAddBoundaryPoint_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             if (!this.mnuToggleEditMode.Checked) return;
             if (!(this.relevantDefinition is KeyDefinition)) return;
 
@@ -492,6 +525,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuRemoveBoundaryPoint_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             if (!this.mnuToggleEditMode.Checked) return;
             if (!(this.relevantDefinition is KeyDefinition)) return;
 
@@ -527,6 +562,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuElementProperties_Click(object sender, EventArgs e)
         {
+            this.menuOpen = false;
+
             // Sanity check, don't try anything if there's no selected element.
             var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
             if (relevantElement == null) return;
@@ -559,9 +596,9 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            if (relevantElement is KeyboardKeyDefinition)
+            if (relevantElement is KeyboardKeyDefinition keyboardKeyElement)
             {
-                using (var propertiesForm = new KeyboardKeyPropertiesForm())
+                using (var propertiesForm = new KeyboardKeyPropertiesForm(keyboardKeyElement))
                 {
                     propertiesForm.ShowDialog(this);
                     return;
