@@ -578,18 +578,21 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
+            // Local function to handle definition changed.
+            void OnDefinitionChanged(ElementDefinition def)
+            {
+                this.elementUnderCursor = null;
+                this.currentlyManipulating = null;
+                this.selectedDefinition = def;
+                GlobalSettings.CurrentDefinition.Elements[def.Id] = def;
+                this.ResetBackBrushes();
+            }
+
             if (relevantElement is MouseSpeedIndicatorDefinition mouseSpeedElement)
             {
                 using (var propertiesForm = new MouseSpeedPropertiesForm(mouseSpeedElement))
                 {
-                    propertiesForm.DefinitionChanged += def =>
-                    {
-                        this.elementUnderCursor = null;
-                        this.currentlyManipulating = null;
-                        this.selectedDefinition = def;
-                        GlobalSettings.CurrentDefinition.Elements[def.Id] = def;
-                        this.ResetBackBrushes();
-                    };
+                    propertiesForm.DefinitionChanged += OnDefinitionChanged;
 
                     propertiesForm.ShowDialog(this);
                     return;
@@ -600,6 +603,8 @@ namespace ThoNohT.NohBoard.Forms
             {
                 using (var propertiesForm = new KeyboardKeyPropertiesForm(keyboardKeyElement))
                 {
+                    propertiesForm.DefinitionChanged += OnDefinitionChanged;
+
                     propertiesForm.ShowDialog(this);
                     return;
                 }

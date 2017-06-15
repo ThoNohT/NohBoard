@@ -424,6 +424,32 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.CurrentManipulation);
         }
 
+
+        /// <summary>
+        /// Returns a new version of this element definition with the specified properties changed.
+        /// </summary>
+        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
+        /// <param name="keyCodes">The new key codes, or <c>null</c> if not changed.</param>
+        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
+        /// <param name="shiftText">The new shift text, or <c>null</c> if not changed.</param>
+        /// <param name="changeOnCaps">The new change on caps, or <c>null</c> if not changed.</param>
+        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
+        /// <returns>The new element definition.</returns>
+        public KeyboardKeyDefinition Modify(
+            List<TPoint> boundaries = null, List<int> keyCodes = null, string text = null, string shiftText = null,
+            bool? changeOnCaps = null, TPoint textPosition = null)
+        {
+            return new KeyboardKeyDefinition(
+                this.Id,
+                boundaries ?? this.Boundaries.Select(x => x.Clone()).ToList(),
+                keyCodes ?? this.KeyCodes.ToList(),
+                text ?? this.Text,
+                shiftText ?? this.ShiftText,
+                changeOnCaps ?? this.ChangeOnCaps,
+                textPosition ?? this.TextPosition,
+                this.CurrentManipulation);
+        }
+
         #endregion Private methods
     }
 }
