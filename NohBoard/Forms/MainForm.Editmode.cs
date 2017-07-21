@@ -125,14 +125,14 @@ namespace ThoNohT.NohBoard.Forms
             if (this.selectedDefinition != null)
             {
                 // Try to manipulate the selected definition, if one is selected.
-                this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown);
+                this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown);
                 toManipulate = this.selectedDefinition;
             }
             else
             {
                 // If none is selected, allow any key to become the element to manipulate.
                 toManipulate = GlobalSettings.CurrentDefinition.Elements
-                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
             }
 
             if (toManipulate == null)
@@ -178,12 +178,12 @@ namespace ThoNohT.NohBoard.Forms
                 if (this.selectedDefinition != null)
                 {
                     // Preview the manipulation.
-                    this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, true);
+                    this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, true, KeyboardState.CtrlDown);
                 }
                 else
                 {
                     this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
-                        .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown));
+                        .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
                 }
             }
         }

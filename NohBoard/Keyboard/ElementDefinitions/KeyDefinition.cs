@@ -266,11 +266,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="point">The point to start manipulating.</param>
         /// <param name="altDown">Whether any alt key is pressed.</param>
         /// <param name="preview">whether to set the preview manipulation, or the real one.</param>
+        /// <param name="translateOnly">Whether to ignore any special manipulations and only use translate.</param>
         /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
         /// at this point.</returns>
         /// <remarks>Manipulation preview is used to show what would be modified on a selected element. We cannot
         /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
-        public override bool StartManipulating(Point point, bool altDown, bool preview = false)
+        public override bool StartManipulating(Point point, bool altDown, bool preview = false, bool translateOnly = false)
         {
             if (!this.Inside(point))
             {
@@ -285,7 +286,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                      point.Y <= b.Y + 4 &&
                      point.Y >= b.Y - 4);
 
-            if (activeBoundary != null)
+            if (activeBoundary != null  && !translateOnly)
             {
                 this.SetManipulation(
                     new ElementManipulation
@@ -318,7 +319,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                         return Math.Abs(ac + cb - ab) < 4;
                     });
 
-            if (activeEdge != null)
+            if (activeEdge != null && !translateOnly)
             {
                 this.SetManipulation(
                     new ElementManipulation
