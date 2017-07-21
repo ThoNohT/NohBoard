@@ -42,7 +42,7 @@
             this.CancelButton2.Location = new System.Drawing.Point(85, 63);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 13;
+            this.CancelButton2.TabIndex = 3;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
@@ -52,7 +52,7 @@
             this.AcceptButton2.Location = new System.Drawing.Point(166, 63);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 12;
+            this.AcceptButton2.TabIndex = 4;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
             this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
@@ -74,7 +74,7 @@
             this.txtLocation.Separator = ';';
             this.txtLocation.Size = new System.Drawing.Size(172, 20);
             this.txtLocation.SpacesAroundSeparator = true;
-            this.txtLocation.TabIndex = 15;
+            this.txtLocation.TabIndex = 1;
             this.txtLocation.Text = "0 ; 0";
             this.txtLocation.X = 0;
             this.txtLocation.Y = 0;
@@ -93,7 +93,7 @@
             this.udRadius.Location = new System.Drawing.Point(69, 32);
             this.udRadius.Name = "udRadius";
             this.udRadius.Size = new System.Drawing.Size(172, 20);
-            this.udRadius.TabIndex = 17;
+            this.udRadius.TabIndex = 2;
             // 
             // MouseSpeedPropertiesForm
             // 

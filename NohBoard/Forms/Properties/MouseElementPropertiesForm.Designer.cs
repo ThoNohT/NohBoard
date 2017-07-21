@@ -53,7 +53,7 @@
             this.txtTextPosition.Separator = ';';
             this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
             this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 17;
+            this.txtTextPosition.TabIndex = 3;
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
@@ -73,7 +73,7 @@
             this.txtText.Location = new System.Drawing.Point(85, 39);
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
-            this.txtText.TabIndex = 18;
+            this.txtText.TabIndex = 2;
             this.txtText.TextChanged += new System.EventHandler(this.txtText_TextChanged);
             // 
             // lblText
@@ -91,7 +91,7 @@
             this.cmbKeyCode.Location = new System.Drawing.Point(85, 12);
             this.cmbKeyCode.Name = "cmbKeyCode";
             this.cmbKeyCode.Size = new System.Drawing.Size(156, 21);
-            this.cmbKeyCode.TabIndex = 20;
+            this.cmbKeyCode.TabIndex = 1;
             this.cmbKeyCode.SelectedIndexChanged += new System.EventHandler(this.cmbKeyCode_SelectedIndexChanged);
             // 
             // lblKeyCode
@@ -109,7 +109,7 @@
             this.lstBoundaries.Location = new System.Drawing.Point(85, 117);
             this.lstBoundaries.Name = "lstBoundaries";
             this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
-            this.lstBoundaries.TabIndex = 22;
+            this.lstBoundaries.TabIndex = 9;
             this.lstBoundaries.SelectedIndexChanged += new System.EventHandler(this.lstBoundaries_SelectedIndexChanged);
             // 
             // lblBoundaries
@@ -126,7 +126,7 @@
             this.CancelButton2.Location = new System.Drawing.Point(85, 231);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 25;
+            this.CancelButton2.TabIndex = 10;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
@@ -136,7 +136,7 @@
             this.AcceptButton2.Location = new System.Drawing.Point(166, 231);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 24;
+            this.AcceptButton2.TabIndex = 11;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
             this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
@@ -149,7 +149,7 @@
             this.txtBoundaries.Separator = ';';
             this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
             this.txtBoundaries.SpacesAroundSeparator = true;
-            this.txtBoundaries.TabIndex = 26;
+            this.txtBoundaries.TabIndex = 4;
             this.txtBoundaries.Text = "0 ; 0";
             this.txtBoundaries.X = 0;
             this.txtBoundaries.Y = 0;
@@ -159,7 +159,7 @@
             this.btnAddBoundary.Location = new System.Drawing.Point(4, 117);
             this.btnAddBoundary.Name = "btnAddBoundary";
             this.btnAddBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnAddBoundary.TabIndex = 27;
+            this.btnAddBoundary.TabIndex = 5;
             this.btnAddBoundary.Text = "Add";
             this.btnAddBoundary.UseVisualStyleBackColor = true;
             this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
@@ -169,7 +169,7 @@
             this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 146);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveBoundary.TabIndex = 28;
+            this.btnRemoveBoundary.TabIndex = 6;
             this.btnRemoveBoundary.Text = "Remove";
             this.btnRemoveBoundary.UseVisualStyleBackColor = true;
             this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
@@ -179,7 +179,7 @@
             this.btnBoundaryUp.Location = new System.Drawing.Point(4, 175);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryUp.TabIndex = 29;
+            this.btnBoundaryUp.TabIndex = 7;
             this.btnBoundaryUp.Text = "Up";
             this.btnBoundaryUp.UseVisualStyleBackColor = true;
             this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
@@ -189,7 +189,7 @@
             this.btnBoundaryDown.Location = new System.Drawing.Point(4, 204);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryDown.TabIndex = 30;
+            this.btnBoundaryDown.TabIndex = 8;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
             this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
