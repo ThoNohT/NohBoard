@@ -347,10 +347,47 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return this.UnionWith(keys.ConvertAll(x => (KeyboardKeyDefinition)x));
         }
 
+        /// <summary>
+        /// Returns a new version of this element definition with the specified properties changed.
+        /// </summary>
+        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
+        /// <param name="keyCode">The new key code, or <c>null</c> if not changed.</param>
+        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
+        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
+        /// <returns>The new element definition.</returns>
+        public override KeyDefinition ModifyMouse(List<TPoint> boundaries = null, int? keyCode = null, string text = null, TPoint textPosition = null)
+        {
+            throw new Exception("Cannot modify  the mouse properties of a keyboard key.");
+        }
+
+        /// <summary>
+        /// Returns a new version of this element definition with the specified properties changed.
+        /// </summary>
+        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
+        /// <param name="keyCodes">The new key codes, or <c>null</c> if not changed.</param>
+        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
+        /// <param name="shiftText">The new shift text, or <c>null</c> if not changed.</param>
+        /// <param name="changeOnCaps">The new change on caps, or <c>null</c> if not changed.</param>
+        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
+        /// <returns>The new element definition.</returns>
+        public KeyboardKeyDefinition Modify(
+            List<TPoint> boundaries = null, List<int> keyCodes = null, string text = null, string shiftText = null,
+            bool? changeOnCaps = null, TPoint textPosition = null)
+        {
+            return new KeyboardKeyDefinition(
+                this.Id,
+                boundaries ?? this.Boundaries.Select(x => x.Clone()).ToList(),
+                keyCodes ?? this.KeyCodes.ToList(),
+                text ?? this.Text,
+                shiftText ?? this.ShiftText,
+                changeOnCaps ?? this.ChangeOnCaps,
+                textPosition ?? this.TextPosition,
+                this.CurrentManipulation);
+        }
+
         #endregion Transformations
 
         #region Private methods
-
 
         /// <summary>
         /// Determines whether to use the shift text or the regular text for this key depening on the shift, caps lock
@@ -421,32 +458,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
-                this.CurrentManipulation);
-        }
-
-
-        /// <summary>
-        /// Returns a new version of this element definition with the specified properties changed.
-        /// </summary>
-        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
-        /// <param name="keyCodes">The new key codes, or <c>null</c> if not changed.</param>
-        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
-        /// <param name="shiftText">The new shift text, or <c>null</c> if not changed.</param>
-        /// <param name="changeOnCaps">The new change on caps, or <c>null</c> if not changed.</param>
-        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
-        /// <returns>The new element definition.</returns>
-        public KeyboardKeyDefinition Modify(
-            List<TPoint> boundaries = null, List<int> keyCodes = null, string text = null, string shiftText = null,
-            bool? changeOnCaps = null, TPoint textPosition = null)
-        {
-            return new KeyboardKeyDefinition(
-                this.Id,
-                boundaries ?? this.Boundaries.Select(x => x.Clone()).ToList(),
-                keyCodes ?? this.KeyCodes.ToList(),
-                text ?? this.Text,
-                shiftText ?? this.ShiftText,
-                changeOnCaps ?? this.ChangeOnCaps,
-                textPosition ?? this.TextPosition,
                 this.CurrentManipulation);
         }
 

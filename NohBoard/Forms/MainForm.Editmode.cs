@@ -568,16 +568,6 @@ namespace ThoNohT.NohBoard.Forms
             var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
             if (relevantElement == null) return;
 
-
-            if (relevantElement is MouseKeyDefinition || relevantElement is MouseScrollDefinition)
-            {
-                using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) relevantElement))
-                {
-                    propertiesForm.ShowDialog(this);
-                    return;
-                }
-            }
-
             // Local function to handle definition changed.
             void OnDefinitionChanged(ElementDefinition def)
             {
@@ -586,6 +576,17 @@ namespace ThoNohT.NohBoard.Forms
                 this.selectedDefinition = def;
                 GlobalSettings.CurrentDefinition.Elements[def.Id] = def;
                 this.ResetBackBrushes();
+            }
+
+            if (relevantElement is MouseKeyDefinition || relevantElement is MouseScrollDefinition)
+            {
+                using (var propertiesForm = new MouseElementPropertiesForm((KeyDefinition) relevantElement))
+                {
+                    propertiesForm.DefinitionChanged += OnDefinitionChanged;
+
+                    propertiesForm.ShowDialog(this);
+                    return;
+                }
             }
 
             if (relevantElement is MouseSpeedIndicatorDefinition mouseSpeedElement)

@@ -479,6 +479,18 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new Rectangle(min, new Size(max.X - min.X, max.Y - min.Y));
         }
 
+        /// <summary>
+        /// Returns a new version of this element definition with the specified properties changed.
+        /// Specific method for mouse keys that do not have the additional properties of keyboard keys.
+        /// </summary>
+        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
+        /// <param name="keyCode">The new key code, or <c>null</c> if not changed.</param>
+        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
+        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
+        /// <returns>The new element definition.</returns>
+        public abstract KeyDefinition ModifyMouse(
+            List<TPoint> boundaries = null, int? keyCode = null, string text = null, TPoint textPosition = null);
+
         #endregion Private methods
     }
 }

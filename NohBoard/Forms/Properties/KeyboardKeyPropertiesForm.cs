@@ -67,7 +67,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void KeyboardKeyPropertiesForm_Load(object sender, EventArgs e)
         {
-            // Keyboard key
             this.txtText.Text = this.initialDefinition.Text;
             this.txtShiftText.Text = this.initialDefinition.ShiftText;
             this.txtTextPosition.X = this.initialDefinition.TextPosition.X;

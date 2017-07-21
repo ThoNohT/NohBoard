@@ -57,6 +57,7 @@
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
+            this.txtTextPosition.ValueChanged += new System.Action<ThoNohT.NohBoard.Controls.VectorTextBox, ThoNohT.NohBoard.Extra.TPoint>(this.txtTextPosition_ValueChanged);
             // 
             // lblTextPosition
             // 
@@ -73,6 +74,7 @@
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
             this.txtText.TabIndex = 18;
+            this.txtText.TextChanged += new System.EventHandler(this.txtText_TextChanged);
             // 
             // lblText
             // 
@@ -90,6 +92,7 @@
             this.cmbKeyCode.Name = "cmbKeyCode";
             this.cmbKeyCode.Size = new System.Drawing.Size(156, 21);
             this.cmbKeyCode.TabIndex = 20;
+            this.cmbKeyCode.SelectedIndexChanged += new System.EventHandler(this.cmbKeyCode_SelectedIndexChanged);
             // 
             // lblKeyCode
             // 
@@ -107,6 +110,7 @@
             this.lstBoundaries.Name = "lstBoundaries";
             this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
             this.lstBoundaries.TabIndex = 22;
+            this.lstBoundaries.SelectedIndexChanged += new System.EventHandler(this.lstBoundaries_SelectedIndexChanged);
             // 
             // lblBoundaries
             // 
@@ -125,6 +129,7 @@
             this.CancelButton2.TabIndex = 25;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
+            this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
             // 
             // AcceptButton2
             // 
@@ -134,6 +139,7 @@
             this.AcceptButton2.TabIndex = 24;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
+            this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
             // 
             // txtBoundaries
             // 
@@ -156,6 +162,7 @@
             this.btnAddBoundary.TabIndex = 27;
             this.btnAddBoundary.Text = "Add";
             this.btnAddBoundary.UseVisualStyleBackColor = true;
+            this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
             // 
             // btnRemoveBoundary
             // 
@@ -165,6 +172,7 @@
             this.btnRemoveBoundary.TabIndex = 28;
             this.btnRemoveBoundary.Text = "Remove";
             this.btnRemoveBoundary.UseVisualStyleBackColor = true;
+            this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
             // 
             // btnBoundaryUp
             // 
@@ -174,6 +182,7 @@
             this.btnBoundaryUp.TabIndex = 29;
             this.btnBoundaryUp.Text = "Up";
             this.btnBoundaryUp.UseVisualStyleBackColor = true;
+            this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
             // 
             // btnBoundaryDown
             // 
@@ -183,6 +192,7 @@
             this.btnBoundaryDown.TabIndex = 30;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
+            this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
             // 
             // MouseElementPropertiesForm
             // 
@@ -208,6 +218,7 @@
             this.Name = "MouseElementPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MouseElementPropertiesForm";
+            this.Load += new System.EventHandler(this.MouseElementPropertiesForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

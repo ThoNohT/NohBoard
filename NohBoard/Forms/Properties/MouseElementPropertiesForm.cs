@@ -19,24 +19,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Forms.Properties
 {
     using System;
+    using System.Linq;
     using System.Windows.Forms;
+    using Extra;
     using Hooking;
     using Keyboard.ElementDefinitions;
 
     public partial class MouseElementPropertiesForm : Form
     {
+        #region Fields
+
+        /// <summary>
+        /// A backup definition to return to if the user pressed cancel.
+        /// </summary>
+        private readonly KeyDefinition initialDefinition;
+
+        /// <summary>
+        /// The currently loaded definition.
+        /// </summary>
+        private KeyDefinition currentDefinition;
+
+        #endregion Fields
+
+        #region Events
+
+        /// <summary>
+        /// The event that is invoked when the definition has been changed. Only invoked when the definition is changed
+        /// through the user interface, not when it is changed programmatically.
+        /// </summary>
+        public event Action<KeyDefinition> DefinitionChanged;
+
+        #endregion Events
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MouseElementPropertiesForm" /> class.
         /// </summary>
-        /// <param name="definition">The definition to show the properties for.</param>
-        public MouseElementPropertiesForm(KeyDefinition definition)
+        /// <param name="initialDefinition">The definition to show the properties for.</param>
+        public MouseElementPropertiesForm(KeyDefinition initialDefinition)
         {
-            this.InitializeComponent();
-
-            if (definition is KeyboardKeyDefinition)
+            if (initialDefinition is KeyboardKeyDefinition)
                 throw new Exception("A MouseElementePropertiesForm cannot be used for keyboard keys.");
 
-            if (definition is MouseKeyDefinition)
+            this.initialDefinition = initialDefinition;
+            this.currentDefinition = (KeyDefinition) initialDefinition.Clone();
+
+            this.InitializeComponent();
+
+            if (initialDefinition is MouseKeyDefinition)
             {
                 this.Text = "Mouse Key Properties";
 
@@ -48,7 +77,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
                 this.cmbKeyCode.Items.Add(MouseKeyCode.X2Button);
             }
 
-            if (definition is MouseScrollDefinition)
+            if (initialDefinition is MouseScrollDefinition)
             {
                 this.Text = "Mouse Scroll Properties";
 
@@ -58,8 +87,158 @@ namespace ThoNohT.NohBoard.Forms.Properties
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollDown);
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollLeft);
             }
-            
-            // TODO: Prefill properties from definition.
+        }
+
+        /// <summary>
+        /// Loads the form, setting the controls to the initial style.
+        /// </summary>
+        private void MouseElementPropertiesForm_Load(object sender, EventArgs e)
+        {
+            if (this.initialDefinition is MouseKeyDefinition)
+                this.cmbKeyCode.SelectedItem = (MouseKeyCode) this.initialDefinition.KeyCodes.Single();
+            if (this.initialDefinition is MouseScrollDefinition)
+                this.cmbKeyCode.SelectedItem = (MouseScrollKeyCode) this.initialDefinition.KeyCodes.Single();
+
+            this.txtText.Text = this.initialDefinition.Text;
+            this.txtTextPosition.X = this.initialDefinition.TextPosition.X;
+            this.txtTextPosition.Y = this.initialDefinition.TextPosition.Y;
+            this.lstBoundaries.Items.AddRange(this.initialDefinition.Boundaries.Cast<object>().ToArray());
+        }
+
+        #region Boundaries
+
+        /// <summary>
+        /// Handles selecting an item in the boundaries list.
+        /// </summary>
+        private void lstBoundaries_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lstBoundaries.SelectedItem == null) return;
+
+            this.txtBoundaries.X = ((TPoint)this.lstBoundaries.SelectedItem).X;
+            this.txtBoundaries.Y = ((TPoint)this.lstBoundaries.SelectedItem).Y;
+        }
+
+        /// <summary>
+        /// Handles adding a boundary, sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void btnAddBoundary_Click(object sender, EventArgs e)
+        {
+            var newBoundary = new TPoint(this.txtBoundaries.X, this.txtBoundaries.Y);
+            if (this.lstBoundaries.Items.Cast<TPoint>().Any(p => p.X == newBoundary.X && p.Y == newBoundary.Y)) return;
+
+            var newIndex = Math.Max(0, this.lstBoundaries.SelectedIndex);
+            this.lstBoundaries.Items.Insert(newIndex, newBoundary);
+            this.lstBoundaries.SelectedIndex = newIndex;
+
+            this.currentDefinition =
+                this.currentDefinition.ModifyMouse(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles removing a boundary, sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void btnRemoveBoundary_Click(object sender, EventArgs e)
+        {
+            if (this.lstBoundaries.SelectedItem == null) return;
+
+            var index = this.lstBoundaries.SelectedIndex;
+            this.lstBoundaries.Items.Remove(this.lstBoundaries.SelectedItem);
+            this.lstBoundaries.SelectedIndex = Math.Min(this.lstBoundaries.Items.Count - 1, index);
+
+            this.currentDefinition =
+                this.currentDefinition.ModifyMouse(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles moving a boundary up in the list, sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void btnBoundaryUp_Click(object sender, EventArgs e)
+        {
+            var item = this.lstBoundaries.SelectedItem;
+            var index = this.lstBoundaries.SelectedIndex;
+
+            if (item == null || index == 0) return;
+
+            this.lstBoundaries.Items.Remove(item);
+            this.lstBoundaries.Items.Insert(index - 1, item);
+            this.lstBoundaries.SelectedIndex = index - 1;
+
+            this.currentDefinition =
+                this.currentDefinition.ModifyMouse(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles moving a boundary down in the list, sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void btnBoundaryDown_Click(object sender, EventArgs e)
+        {
+            var item = this.lstBoundaries.SelectedItem;
+            var index = this.lstBoundaries.SelectedIndex;
+
+            if (item == null || index == this.lstBoundaries.Items.Count - 1) return;
+
+            this.lstBoundaries.Items.Remove(item);
+            this.lstBoundaries.Items.Insert(index + 1, item);
+            this.lstBoundaries.SelectedIndex = index + 1;
+
+            this.currentDefinition =
+                this.currentDefinition.ModifyMouse(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        #endregion Boundaries
+
+        /// <summary>
+        /// Handles changing the key-code, sets the new text and invokes the changed event.
+        /// </summary>
+        private void cmbKeyCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.initialDefinition is MouseKeyDefinition)
+                this.currentDefinition = this.currentDefinition
+                    .ModifyMouse(keyCode: (int) (MouseKeyCode) this.cmbKeyCode.SelectedItem);
+            if (this.initialDefinition is MouseScrollDefinition)
+                this.currentDefinition = this.currentDefinition
+                    .ModifyMouse(keyCode: (int) (MouseScrollKeyCode) this.cmbKeyCode.SelectedItem);
+
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles changing the text, sets the new text and invokes the changed event.
+        /// </summary>
+        private void txtText_TextChanged(object sender, EventArgs e)
+        {
+            this.currentDefinition = this.currentDefinition.ModifyMouse(text: this.txtText.Text);
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles changing the text position, sets the new text position and invokes the changed event.
+        /// </summary>
+        private void txtTextPosition_ValueChanged(Controls.VectorTextBox sender, TPoint newValue)
+        {
+            this.currentDefinition = this.currentDefinition.ModifyMouse(textPosition: newValue);
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Accepts the current definition.
+        /// </summary>
+        private void AcceptButton2_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Cancels the current definition, reverting to the initial definition.
+        /// </summary>
+        private void CancelButton2_Click(object sender, EventArgs e)
+        {
+            this.DefinitionChanged?.Invoke(this.initialDefinition);
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
