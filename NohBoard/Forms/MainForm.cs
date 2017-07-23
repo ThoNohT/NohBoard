@@ -499,9 +499,8 @@ namespace ThoNohT.NohBoard.Forms
             var allDefs = GlobalSettings.CurrentDefinition.Elements;
             foreach (var def in allDefs)
             {
-                if (def is KeyboardKeyDefinition)
+                if (def is KeyboardKeyDefinition kkDef)
                 {
-                    var kkDef = (KeyboardKeyDefinition)def;
                     if (!kkDef.KeyCodes.Any() || !kkDef.KeyCodes.All(kbKeys.Contains)) continue;
 
                     if (kkDef.KeyCodes.Count == 1
@@ -512,15 +511,13 @@ namespace ThoNohT.NohBoard.Forms
 
                     kkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
                 }
-                if (def is MouseKeyDefinition)
+                if (def is MouseKeyDefinition mkDef)
                 {
-                    var mkDef = (MouseKeyDefinition)def;
                     if (mouseKeys.Contains(mkDef.KeyCodes.Single()))
                         mkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
                 }
-                if (def is MouseScrollDefinition)
+                if (def is MouseScrollDefinition msDef)
                 {
-                    var msDef = (MouseScrollDefinition)def;
                     var scrollCount = scrollCounts[msDef.KeyCodes.Single()];
                     if (scrollCount > 0) msDef.Render(e.Graphics, scrollCount);
                 }
