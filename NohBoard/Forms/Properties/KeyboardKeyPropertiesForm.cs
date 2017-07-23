@@ -74,6 +74,13 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.Items.AddRange(this.initialDefinition.Boundaries.Cast<object>().ToArray());
             this.lstKeyCodes.Items.AddRange(
                 this.initialDefinition.KeyCodes.Select(x => x).Cast<object>().ToArray());
+
+            // Only add the event handlers after the initial properties have been set.
+            this.lstBoundaries.SelectedIndexChanged += this.lstBoundaries_SelectedIndexChanged;
+            this.txtText.TextChanged += this.txtText_TextChanged;
+            this.txtTextPosition.ValueChanged += this.txtTextPosition_ValueChanged;
+            this.txtShiftText.TextChanged += this.txtShiftText_TextChanged;
+            this.lstKeyCodes.SelectedIndexChanged += this.lstKeyCodes_SelectedIndexChanged;
         }
 
         #region Boundaries

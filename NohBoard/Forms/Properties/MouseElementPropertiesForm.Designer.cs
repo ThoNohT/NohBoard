@@ -57,7 +57,6 @@
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
-            this.txtTextPosition.ValueChanged += new System.Action<ThoNohT.NohBoard.Controls.VectorTextBox, ThoNohT.NohBoard.Extra.TPoint>(this.txtTextPosition_ValueChanged);
             // 
             // lblTextPosition
             // 
@@ -74,7 +73,6 @@
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
             this.txtText.TabIndex = 2;
-            this.txtText.TextChanged += new System.EventHandler(this.txtText_TextChanged);
             // 
             // lblText
             // 
@@ -92,7 +90,6 @@
             this.cmbKeyCode.Name = "cmbKeyCode";
             this.cmbKeyCode.Size = new System.Drawing.Size(156, 21);
             this.cmbKeyCode.TabIndex = 1;
-            this.cmbKeyCode.SelectedIndexChanged += new System.EventHandler(this.cmbKeyCode_SelectedIndexChanged);
             // 
             // lblKeyCode
             // 
@@ -110,7 +107,6 @@
             this.lstBoundaries.Name = "lstBoundaries";
             this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
             this.lstBoundaries.TabIndex = 9;
-            this.lstBoundaries.SelectedIndexChanged += new System.EventHandler(this.lstBoundaries_SelectedIndexChanged);
             // 
             // lblBoundaries
             // 

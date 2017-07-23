@@ -103,6 +103,13 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.X = this.initialDefinition.TextPosition.X;
             this.txtTextPosition.Y = this.initialDefinition.TextPosition.Y;
             this.lstBoundaries.Items.AddRange(this.initialDefinition.Boundaries.Cast<object>().ToArray());
+
+            // Only add the event handlers after the initial propererties have been set.
+            this.txtTextPosition.ValueChanged += this.txtTextPosition_ValueChanged;
+            this.txtText.TextChanged += this.txtText_TextChanged;
+            this.cmbKeyCode.SelectedIndexChanged += this.cmbKeyCode_SelectedIndexChanged;
+            this.lstBoundaries.SelectedIndexChanged += this.lstBoundaries_SelectedIndexChanged;
+
         }
 
         #region Boundaries

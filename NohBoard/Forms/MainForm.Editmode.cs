@@ -120,7 +120,6 @@ namespace ThoNohT.NohBoard.Forms
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
-
             ElementDefinition toManipulate;
             if (this.selectedDefinition != null)
             {
@@ -574,7 +573,11 @@ namespace ThoNohT.NohBoard.Forms
                 this.elementUnderCursor = null;
                 this.currentlyManipulating = null;
                 this.selectedDefinition = def;
-                GlobalSettings.CurrentDefinition.Elements[def.Id] = def;
+
+                var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
+                GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
+                    .RemoveElement(def).AddElement(def, index);
+
                 this.ResetBackBrushes();
             }
 

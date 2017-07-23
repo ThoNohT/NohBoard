@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 {
+    using System;
     using System.Drawing;
     using System.Runtime.Serialization;
 
@@ -26,7 +27,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
     [DataContract(Name = "ElementDefinition", Namespace = "")]
     [KnownType(typeof(KeyDefinition))]
     [KnownType(typeof(MouseSpeedIndicatorDefinition))]
-    public abstract class ElementDefinition
+    public abstract class ElementDefinition : IEquatable<ElementDefinition>
     {
         /// <summary>
         /// Compare this against the dependency counter to know when to update brushes.
@@ -139,5 +140,32 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.PreviewManipulation = null;
             }
         }
+
+        #region Equality
+
+        /// <inheritdoc />
+        public bool Equals(ElementDefinition other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return this.Id == other.Id;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return this.Equals((ElementDefinition) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return this.Id;
+        }
+
+        #endregion Equality
     }
 }

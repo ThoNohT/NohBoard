@@ -72,7 +72,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtLocation.Y = this.initialDefinition.Location.Y;
             this.udRadius.Value = this.initialDefinition.Radius;
 
-            // Only add the event handlers after the initial style has been set.
+            // Only add the event handlers after the initial propererties have been set.
             this.txtLocation.ValueChanged += this.txtLocation_ValueChanged;
             this.udRadius.ValueChanged += this.udRadius_ValueChanged;
         }

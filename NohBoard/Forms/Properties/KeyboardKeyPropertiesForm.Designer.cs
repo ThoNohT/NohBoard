@@ -59,7 +59,6 @@
             this.btnBoundaryDown.TabIndex = 8;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
-            this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
             // 
             // btnBoundaryUp
             // 
@@ -141,7 +140,6 @@
             this.lstBoundaries.Name = "lstBoundaries";
             this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
             this.lstBoundaries.TabIndex = 9;
-            this.lstBoundaries.SelectedIndexChanged += new System.EventHandler(this.lstBoundaries_SelectedIndexChanged);
             // 
             // lblText
             // 
@@ -158,7 +156,6 @@
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
             this.txtText.TabIndex = 1;
-            this.txtText.TextChanged += new System.EventHandler(this.txtText_TextChanged);
             // 
             // txtTextPosition
             // 
@@ -172,7 +169,6 @@
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
-            this.txtTextPosition.ValueChanged += new System.Action<ThoNohT.NohBoard.Controls.VectorTextBox, ThoNohT.NohBoard.Extra.TPoint>(this.txtTextPosition_ValueChanged);
             // 
             // lblTextPosition
             // 
@@ -198,7 +194,6 @@
             this.txtShiftText.Name = "txtShiftText";
             this.txtShiftText.Size = new System.Drawing.Size(156, 20);
             this.txtShiftText.TabIndex = 2;
-            this.txtShiftText.TextChanged += new System.EventHandler(this.txtShiftText_TextChanged);
             // 
             // lstKeyCodes
             // 
@@ -207,7 +202,6 @@
             this.lstKeyCodes.Name = "lstKeyCodes";
             this.lstKeyCodes.Size = new System.Drawing.Size(151, 160);
             this.lstKeyCodes.TabIndex = 13;
-            this.lstKeyCodes.SelectedIndexChanged += new System.EventHandler(this.lstKeyCodes_SelectedIndexChanged);
             // 
             // btnRemoveKeyCode
             // 
