@@ -221,6 +221,8 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
+            this.PushUndoHistory();
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, int.MaxValue);
             this.ResetBackBrushes();
@@ -232,6 +234,8 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
+
+            this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, 1);
@@ -245,6 +249,8 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
+            this.PushUndoHistory();
+
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -1);
             this.ResetBackBrushes();
@@ -256,6 +262,8 @@ namespace ThoNohT.NohBoard.Forms
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
+
+            this.PushUndoHistory();
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -int.MaxValue);
