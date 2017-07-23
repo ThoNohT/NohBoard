@@ -125,8 +125,14 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (GlobalSettings.CurrentDefinition == null) return;
 
+            // Reset all edit mode related fields, as we should be no longer in edit mode.
             this.undoHistory.Clear();
             this.redoHistory.Clear();
+            this.mnuToggleEditMode.Checked = false;
+            this.mnuToggleEditMode.Text = "Start Editing";
+            this.currentlyManipulating = null;
+            this.highlightedDefinition = null;
+            this.selectedDefinition = null;
 
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 

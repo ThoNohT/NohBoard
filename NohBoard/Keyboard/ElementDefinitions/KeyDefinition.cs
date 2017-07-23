@@ -243,6 +243,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.DrawPolygon(new Pen(Constants.SelectedColor, 3), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
+            if (this.RelevantManipulation == null) return;
+
             switch (this.RelevantManipulation.Type)
             {
                 case ElementManipulationType.MoveBoundary:
