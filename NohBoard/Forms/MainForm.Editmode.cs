@@ -75,6 +75,11 @@ namespace ThoNohT.NohBoard.Forms
         private ElementDefinition relevantDefinition => this.selectedDefinition ?? this.highlightedDefinition;
 
         /// <summary>
+        /// The element that was last copied.
+        /// </summary>
+        private ElementDefinition clipboard;
+
+        /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
         private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
@@ -368,6 +373,47 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Keyboard input handling
 
         #region Element management
+
+
+        /// <summary>
+        /// Handles setting the menu open variable to false when esc is pressed.
+        /// </summary>
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            // Esc closes the menu too.
+            if (e.KeyCode == Keys.Escape)
+                this.menuOpen = false;
+
+            // Copy the selected element.
+            if (e.KeyCode == Keys.C && e.Control && this.mnuToggleEditMode.Checked)
+            {
+                if (this.selectedDefinition == null) return;
+                this.clipboard = this.selectedDefinition.Clone();
+            }
+
+            // Paste whatever element is in the clipboard, at the cursor position.
+            if (e.KeyCode == Keys.V && e.Control && this.mnuToggleEditMode.Checked)
+            {
+                if (this.clipboard == null) return;
+
+                var newPos = this.PointToClient(MousePosition);
+
+                if (!GlobalSettings.CurrentDefinition.GetBoundingBox().Contains(newPos)) return;
+
+                var oldPos = this.clipboard.GetBoundingBox().GetCenter();
+                var dist = newPos - oldPos;
+
+                this.PushUndoHistory();
+
+                var elementToAdd = this.clipboard.SetId(GlobalSettings.CurrentDefinition.GetNextId())
+                    .Translate(dist.Width, dist.Height);
+                GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(elementToAdd);
+
+                this.selectedDefinition = elementToAdd;
+
+                this.ResetBackBrushes();
+            }
+        }
 
         /// <summary>
         /// Adds a new element definition to the current keyboard.

@@ -167,5 +167,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         #endregion Equality
+
+        /// <summary>
+        /// Changes the identifier of this element.
+        /// </summary>
+        /// <param name="newId">The new identifier of the element.</param>
+        /// <returns>A new instance of this <see cref="ElementDefinition"/> with the identifier changed.</returns>
+        public ElementDefinition SetId(int newId)
+        {
+            var newElement = this.Clone();
+            newElement.Id = newId;
+            return newElement;
+        }
     }
 }

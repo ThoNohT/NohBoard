@@ -16,6 +16,16 @@ namespace ThoNohT.NohBoard.Extra
     public static class Geom
     {
         /// <summary>
+        /// Returns the center of a rectangle.
+        /// </summary>
+        /// <param name="rect">The rectangle to get the center of.</param>
+        /// <returns>The point that lies in the center of the rectangle.</returns>
+        public static TPoint GetCenter(this Rectangle rect)
+        {
+            return rect.Location + new Size(rect.Width / 2, rect.Height / 2);
+        }
+
+        /// <summary>
         /// Converts the parameters for a circle to a rectangle containing the circle.
         /// </summary>
         /// <param name="center">The center of the circle.</param>

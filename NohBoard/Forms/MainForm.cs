@@ -430,7 +430,6 @@ namespace ThoNohT.NohBoard.Forms
                 this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
             }
 
-
             this.mnuMoveElement.Visible = this.relevantDefinition != null;
 
             var highlightedSomething = this.mnuToggleEditMode.Checked && this.relevantDefinition != null;
@@ -444,16 +443,6 @@ namespace ThoNohT.NohBoard.Forms
 
             this.mnuRemoveElement.Visible = highlightedSomething;
             this.mnuAddElement.Visible = this.mnuToggleEditMode.Checked && this.relevantDefinition == null;
-        }
-
-        /// <summary>
-        /// Handles setting the menu open variable to false when esc is pressed.
-        /// </summary>
-        private void MainForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            // Esc closes the menu too.
-            if (e.KeyCode == Keys.Escape)
-                this.menuOpen = false;
         }
 
         /// <summary>
