@@ -128,8 +128,13 @@ namespace ThoNohT.NohBoard.Forms
             // Reset all edit mode related fields, as we should be no longer in edit mode.
             this.undoHistory.Clear();
             this.redoHistory.Clear();
-            this.mnuToggleEditMode.Checked = false;
-            this.mnuToggleEditMode.Text = "Start Editing";
+
+            if (this.mnuToggleEditMode.Checked)
+            {
+                this.mnuToggleEditMode.Checked = false;
+                this.mnuToggleEditMode_Click(null, null);
+            }
+
             this.currentlyManipulating = null;
             this.highlightedDefinition = null;
             this.selectedDefinition = null;

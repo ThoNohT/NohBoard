@@ -165,6 +165,24 @@ namespace ThoNohT.NohBoard.Keyboard
         }
 
         /// <summary>
+        /// Resizes this keyboard definition.
+        /// </summary>
+        /// <param name="newSize">The new size.</param>
+        /// <returns>A new version of this <see cref="KeyboardDefinition"/> with the new size.</returns>
+        public KeyboardDefinition Resize(Size newSize)
+        {
+            return new KeyboardDefinition
+            {
+                Category = this.Category,
+                Elements = this.Elements.ToList(),
+                Width = newSize.Width,
+                Height = newSize.Height,
+                Name = this.Name,
+                Version = this.Version
+            };
+        }
+
+        /// <summary>
         /// Returns the next identifier for an alement definition to be used in this keyboard.
         /// </summary>
         public int GetNextId()

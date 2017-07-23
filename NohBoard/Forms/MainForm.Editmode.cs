@@ -100,6 +100,8 @@ namespace ThoNohT.NohBoard.Forms
             this.menuOpen = false;
 
             this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
+            this.FormBorderStyle =
+                this.mnuToggleEditMode.Checked ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle;
 
             if (!this.mnuToggleEditMode.Checked)
             {
@@ -626,5 +628,23 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Element properties
+
+        #region Keyboard properties
+
+        /// <summary>
+        /// Handles resizing the form. This changes the size of the keyboard.
+        /// </summary>
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            if (!this.mnuToggleEditMode.Checked) return;
+
+            this.PushUndoHistory();
+
+            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.Resize(this.ClientSize);
+
+            this.ResetBackBrushes();
+        }
+
+        #endregion Keyboard properties
     }
 }
