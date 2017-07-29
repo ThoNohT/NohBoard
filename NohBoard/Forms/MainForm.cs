@@ -574,10 +574,11 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             // Sanity check, don't try anything if there's no selected element.
-            if (this.elementUnderCursor == null) return;
-            var id = this.elementUnderCursor.Id;
+            var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
+            if (relevantElement == null) return;
+            var id = relevantElement.Id;
 
-            if (this.elementUnderCursor is KeyDefinition)
+            if (relevantElement is KeyDefinition)
             {
                 using (var styleForm = new KeyStyleForm(
                     GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(id),
@@ -601,7 +602,7 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            if (this.elementUnderCursor is MouseSpeedIndicatorDefinition)
+            if (relevantElement is MouseSpeedIndicatorDefinition)
             {
                 using (var styleForm = new MouseSpeedStyleForm(
                     GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(id),
