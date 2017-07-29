@@ -543,8 +543,12 @@ namespace ThoNohT.NohBoard.Forms
 
             this.PushUndoHistory();
 
+            var definitionToRemove = this.highlightedDefinition ?? this.selectedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
-                .RemoveElement(this.highlightedDefinition ?? this.selectedDefinition);
+                .RemoveElement(definitionToRemove);
+
+            if (GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(definitionToRemove.Id))
+                GlobalSettings.CurrentStyle.ElementStyles.Remove(definitionToRemove.Id);
 
             // Unset the definition everywhere because it no longer exists.
             this.highlightedDefinition = null;
