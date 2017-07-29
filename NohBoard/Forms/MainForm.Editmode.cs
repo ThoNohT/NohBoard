@@ -405,9 +405,17 @@ namespace ThoNohT.NohBoard.Forms
 
                 this.PushUndoHistory();
 
+                // Copy the element with a new id.
                 var elementToAdd = this.clipboard.SetId(GlobalSettings.CurrentDefinition.GetNextId())
                     .Translate(dist.Width, dist.Height);
                 GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(elementToAdd);
+
+                // Set the style if the original one had a custom style.
+                if (GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(this.clipboard.Id))
+                {
+                    GlobalSettings.CurrentStyle.ElementStyles.Add(elementToAdd.Id,
+                        GlobalSettings.CurrentStyle.ElementStyles[this.clipboard.Id].Clone());
+                }
 
                 this.selectedDefinition = elementToAdd;
 
