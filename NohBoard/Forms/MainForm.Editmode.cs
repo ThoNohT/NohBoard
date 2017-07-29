@@ -406,8 +406,9 @@ namespace ThoNohT.NohBoard.Forms
                 if (this.clipboard == null) return;
 
                 var newPos = this.PointToClient(MousePosition);
-
-                if (!GlobalSettings.CurrentDefinition.GetBoundingBox().Contains(newPos)) return;
+                var validArea = new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width,
+                        GlobalSettings.CurrentDefinition.Height);
+                if (!validArea.Contains(newPos)) return;
 
                 var oldPos = this.clipboard.GetBoundingBox().GetCenter();
                 var dist = newPos - oldPos;
