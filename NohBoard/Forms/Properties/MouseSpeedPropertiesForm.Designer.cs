@@ -39,9 +39,11 @@
             // 
             // CancelButton2
             // 
-            this.CancelButton2.Location = new System.Drawing.Point(85, 63);
+            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelButton2.Location = new System.Drawing.Point(113, 78);
+            this.CancelButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton2.Size = new System.Drawing.Size(100, 28);
             this.CancelButton2.TabIndex = 3;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
@@ -49,9 +51,10 @@
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(166, 63);
+            this.AcceptButton2.Location = new System.Drawing.Point(221, 78);
+            this.AcceptButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AcceptButton2.Name = "AcceptButton2";
-            this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
+            this.AcceptButton2.Size = new System.Drawing.Size(100, 28);
             this.AcceptButton2.TabIndex = 4;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
@@ -60,19 +63,21 @@
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(12, 9);
+            this.lblLocation.Location = new System.Drawing.Point(16, 11);
+            this.lblLocation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(51, 13);
+            this.lblLocation.Size = new System.Drawing.Size(66, 17);
             this.lblLocation.TabIndex = 14;
             this.lblLocation.Text = "Location:";
             // 
             // txtLocation
             // 
-            this.txtLocation.Location = new System.Drawing.Point(69, 6);
+            this.txtLocation.Location = new System.Drawing.Point(92, 7);
+            this.txtLocation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtLocation.MaxVal = 2147483647;
             this.txtLocation.Name = "txtLocation";
             this.txtLocation.Separator = ';';
-            this.txtLocation.Size = new System.Drawing.Size(172, 20);
+            this.txtLocation.Size = new System.Drawing.Size(228, 22);
             this.txtLocation.SpacesAroundSeparator = true;
             this.txtLocation.TabIndex = 1;
             this.txtLocation.Text = "0 ; 0";
@@ -82,24 +87,28 @@
             // lblRadius
             // 
             this.lblRadius.AutoSize = true;
-            this.lblRadius.Location = new System.Drawing.Point(12, 34);
+            this.lblRadius.Location = new System.Drawing.Point(16, 42);
+            this.lblRadius.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRadius.Name = "lblRadius";
-            this.lblRadius.Size = new System.Drawing.Size(43, 13);
+            this.lblRadius.Size = new System.Drawing.Size(56, 17);
             this.lblRadius.TabIndex = 16;
             this.lblRadius.Text = "Radius:";
             // 
             // udRadius
             // 
-            this.udRadius.Location = new System.Drawing.Point(69, 32);
+            this.udRadius.Location = new System.Drawing.Point(92, 39);
+            this.udRadius.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.udRadius.Name = "udRadius";
-            this.udRadius.Size = new System.Drawing.Size(172, 20);
+            this.udRadius.Size = new System.Drawing.Size(229, 22);
             this.udRadius.TabIndex = 2;
             // 
             // MouseSpeedPropertiesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AcceptButton = this.AcceptButton2;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(253, 98);
+            this.CancelButton = this.CancelButton2;
+            this.ClientSize = new System.Drawing.Size(337, 121);
             this.Controls.Add(this.udRadius);
             this.Controls.Add(this.lblRadius);
             this.Controls.Add(this.txtLocation);
@@ -107,6 +116,7 @@
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.AcceptButton2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MouseSpeedPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mouse Speed Indicator Properties";
