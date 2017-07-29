@@ -83,11 +83,13 @@ namespace ThoNohT.NohBoard.Forms
         /// A stack containing the previous edits made by the user.
         /// </summary>
         private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardStyle> undoHistoryStyle = new Stack<KeyboardStyle>();
 
         /// <summary>
         /// A stack containing the recently undone edits.
         /// </summary>
         private readonly Stack<KeyboardDefinition> redoHistory = new Stack<KeyboardDefinition>();
+        private readonly Stack<KeyboardStyle> redoHistoryStyle = new Stack<KeyboardStyle>();
 
         /// <summary>
         /// Whether the main menu is open. This variable is set to true when the main menu is opened. The next
@@ -342,7 +344,9 @@ namespace ThoNohT.NohBoard.Forms
                     if (!this.undoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
                     this.redoHistory.Push(GlobalSettings.CurrentDefinition);
+                    this.redoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
                     GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
+                    GlobalSettings.CurrentStyle = this.undoHistoryStyle.Pop();
                     this.ClientSize =
                         new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
                 }
@@ -351,7 +355,9 @@ namespace ThoNohT.NohBoard.Forms
                     if (!this.redoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
                     this.undoHistory.Push(GlobalSettings.CurrentDefinition);
+                    this.undoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
                     GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
+                    GlobalSettings.CurrentStyle = this.redoHistoryStyle.Pop();
                 }
 
                 this.selectedDefinition = null;
@@ -369,6 +375,7 @@ namespace ThoNohT.NohBoard.Forms
         private void PushUndoHistory()
         {
             this.undoHistory.Push(GlobalSettings.CurrentDefinition);
+            this.undoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
             this.redoHistory.Clear();
         }
 

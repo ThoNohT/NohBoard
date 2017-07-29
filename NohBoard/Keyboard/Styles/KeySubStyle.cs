@@ -83,6 +83,7 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
             return new KeySubStyle
             {
                 Background = this.Background.Clone(),
+                BackgroundImageFileName = this.BackgroundImageFileName,
                 Text = this.Text.Clone(),
                 Outline = this.Outline.Clone(),
                 ShowOutline = this.ShowOutline,
