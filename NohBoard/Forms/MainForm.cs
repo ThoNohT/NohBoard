@@ -410,10 +410,13 @@ namespace ThoNohT.NohBoard.Forms
                     GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
                 this.mnuEditElementStyle.Enabled = this.elementUnderCursor != null;
                 this.mnuElementProperties.Enabled = this.elementUnderCursor != null;
-                this.mnuElementProperties.Visible = this.mnuToggleEditMode.Checked; // Only allow editing of an element in edit mode.
             }
 
-            this.mnuEditKeyboardStyle.Enabled = GlobalSettings.CurrentDefinition != null;
+            // Only allow editing of properties/styles in edit mode.
+            this.mnuElementProperties.Visible = this.mnuToggleEditMode.Checked;
+            this.mnuEditKeyboardStyle.Visible = this.mnuToggleEditMode.Checked;
+            this.mnuEditElementStyle.Visible = this.mnuToggleEditMode.Checked;
+            this.MainMenuSep1.Visible = this.mnuToggleEditMode.Checked;
 
             this.mnuSaveStyleToName.Text = $"Save &To '{GlobalSettings.CurrentStyle.Name}'";
             this.mnuSaveStyleToName.Visible = !GlobalSettings.Settings.LoadedGlobalStyle;
