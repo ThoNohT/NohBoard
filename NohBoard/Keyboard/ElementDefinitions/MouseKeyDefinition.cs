@@ -359,6 +359,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Boundaries.Select(x => x.Clone()).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
+                this.TextPosition,
                 this.CurrentManipulation);
         }
 

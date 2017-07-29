@@ -86,6 +86,12 @@
     <Compile Include="Forms\Properties\MouseElementPropertiesForm.Designer.cs">
       <DependentUpon>MouseElementPropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Properties\KeyboardPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Properties\KeyboardPropertiesForm.Designer.cs">
+      <DependentUpon>KeyboardPropertiesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Properties\MouseSpeedPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Properties\MouseElementPropertiesForm.resx">
       <DependentUpon>MouseElementPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Properties\KeyboardPropertiesForm.resx">
+      <DependentUpon>KeyboardPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Properties\MouseSpeedPropertiesForm.resx">
       <DependentUpon>MouseSpeedPropertiesForm.cs</DependentUpon>

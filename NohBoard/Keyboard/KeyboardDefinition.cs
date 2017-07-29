@@ -174,9 +174,26 @@ namespace ThoNohT.NohBoard.Keyboard
             return new KeyboardDefinition
             {
                 Category = this.Category,
-                Elements = this.Elements.ToList(),
+                Elements = this.Elements.Select(x => x.Clone()).ToList(),
                 Width = newSize.Width,
                 Height = newSize.Height,
+                Name = this.Name,
+                Version = this.Version
+            };
+        }
+
+        /// <summary>
+        /// Returns a clone of this keyboard definition.
+        /// </summary>
+        /// <returns>The cloned keyboard definition.</returns>
+        public KeyboardDefinition Clone()
+        {
+            return new KeyboardDefinition
+            {
+                Category = this.Category,
+                Elements = this.Elements.Select(x => x.Clone()).ToList(),
+                Width = this.Width,
+                Height = this.Height,
                 Name = this.Name,
                 Version = this.Version
             };

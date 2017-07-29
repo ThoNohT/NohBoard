@@ -343,6 +343,8 @@ namespace ThoNohT.NohBoard.Forms
 
                     this.redoHistory.Push(GlobalSettings.CurrentDefinition);
                     GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
+                    this.ClientSize =
+                        new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
                 }
                 else
                 {
@@ -688,6 +690,34 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Element properties
 
         #region Keyboard properties
+
+        /// <summary>
+        /// Opens the keyboard properties form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuKeyboardProperties_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            using (var propertiesForm = new KeyboardPropertiesForm(GlobalSettings.CurrentDefinition))
+            {
+                propertiesForm.DefinitionChanged += def =>
+                {
+                    this.elementUnderCursor = null;
+                    this.currentlyManipulating = null;
+
+                    this.PushUndoHistory();
+                    GlobalSettings.CurrentDefinition = def;
+
+                    this.ClientSize = new Size(def.Width, def.Height);
+
+                    this.ResetBackBrushes();
+                };
+
+                propertiesForm.ShowDialog(this);
+            }
+        }
 
         /// <summary>
         /// Handles resizing the form. This changes the size of the keyboard.

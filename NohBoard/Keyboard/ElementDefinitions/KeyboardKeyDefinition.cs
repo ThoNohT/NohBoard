@@ -458,6 +458,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                this.TextPosition,
                 this.CurrentManipulation);
         }
 
