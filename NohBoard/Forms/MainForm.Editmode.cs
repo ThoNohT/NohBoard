@@ -17,16 +17,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using Extra;
+    using Hooking;
+    using Keyboard;
+    using Keyboard.ElementDefinitions;
+    using Keyboard.Styles;
+    using Properties;
+    using Style;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using Extra;
-    using Hooking;
-    using Keyboard;
-    using Keyboard.ElementDefinitions;
-    using Properties;
 
     /// <summary>
     /// Edit mode part of the main form.
@@ -632,7 +634,7 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Boundary management
 
-        #region Element properties
+        #region Properties
 
         /// <summary>
         /// Opens the element properties window for the element under the cursor.
@@ -650,7 +652,6 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.elementUnderCursor = null;
                 this.currentlyManipulating = null;
-                this.selectedDefinition = def;
 
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
                 GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -695,10 +696,6 @@ namespace ThoNohT.NohBoard.Forms
             throw new Exception("Unknown element, cannot open properties form.");
         }
 
-        #endregion Element properties
-
-        #region Keyboard properties
-
         /// <summary>
         /// Opens the keyboard properties form.
         /// </summary>
@@ -741,6 +738,136 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
-        #endregion Keyboard properties
+        #endregion Properties
+
+        #region Styles
+
+        /// <summary>
+        /// Opens the edit element style form for the element currently under the cursor.
+        /// </summary>
+        private void mnuEditElementStyle_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            if (GlobalSettings.Settings.LoadedStyle == null)
+            {
+                MessageBox.Show("Please load or save a style before editing element styles.");
+                return;
+            }
+
+            // Sanity check, don't try anything if there's no selected element.
+            var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
+            if (relevantElement == null) return;
+            var id = relevantElement.Id;
+
+            if (relevantElement is KeyDefinition)
+            {
+                using (var styleForm = new KeyStyleForm(
+                    GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(id),
+                    GlobalSettings.CurrentStyle.DefaultKeyStyle))
+                {
+                    styleForm.StyleChanged += style =>
+                    {
+                        if (style.Loose == null && style.Pressed == null
+                            && GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Remove(id);
+
+                        if (!GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Add(id, style);
+                        else
+                            GlobalSettings.CurrentStyle.ElementStyles[id] = style;
+
+                        this.ResetBackBrushes();
+                    };
+
+                    styleForm.ShowDialog(this);
+                }
+            }
+
+            if (relevantElement is MouseSpeedIndicatorDefinition)
+            {
+                using (var styleForm = new MouseSpeedStyleForm(
+                    GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(id),
+                    GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle))
+                {
+                    styleForm.StyleChanged += style =>
+                    {
+                        if (style == null && GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Remove(id);
+
+                        if (!GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
+                            GlobalSettings.CurrentStyle.ElementStyles.Add(id, style);
+                        else
+                            GlobalSettings.CurrentStyle.ElementStyles[id] = style;
+
+                        this.ResetBackBrushes();
+                    };
+
+                    styleForm.ShowDialog(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens the edit keyboard style form.
+        /// </summary>
+        private void mnuEditKeyboardStyle_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            if (GlobalSettings.Settings.LoadedStyle == null)
+            {
+                MessageBox.Show("Please load or save a style before editing the keyboard style.");
+                return;
+            }
+
+            using (var styleForm = new KeyboardStyleForm(GlobalSettings.CurrentStyle))
+            {
+                styleForm.StyleChanged += style =>
+                {
+                    GlobalSettings.CurrentStyle = style;
+                    this.ResetBackBrushes();
+                };
+                styleForm.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// Saves the current style to its default name.
+        /// </summary>
+        private void mnuSaveStyleToName_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            GlobalSettings.CurrentStyle.Save(false);
+            GlobalSettings.Settings.LoadedStyle = GlobalSettings.CurrentStyle.Name;
+            GlobalSettings.Settings.LoadedGlobalStyle = false;
+        }
+
+        /// <summary>
+        /// Saves the current style as a global style to its default name.
+        /// </summary>
+        private void mnuSaveToGlobalStyleName_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            GlobalSettings.CurrentStyle.Save(true);
+            GlobalSettings.Settings.LoadedStyle = GlobalSettings.CurrentStyle.Name;
+            GlobalSettings.Settings.LoadedGlobalStyle = true;
+        }
+
+        /// <summary>
+        /// Opens the save style as form to save the style under a custom name.
+        /// </summary>
+        private void mnuSaveStyleAs_Click(object sender, EventArgs e)
+        {
+            using (var saveForm = new SaveStyleAsForm())
+            {
+                saveForm.ShowDialog(this);
+                saveForm.Dispose();
+            }
+        }
+
+        #endregion Styles
     }
 }
