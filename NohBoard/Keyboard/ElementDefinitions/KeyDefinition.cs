@@ -219,6 +219,8 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         {
             g.FillPolygon(Constants.HighlightBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
 
+            if (this.RelevantManipulation == null) return;
+
             switch (this.RelevantManipulation.Type)
             {
                 case ElementManipulationType.MoveBoundary:
