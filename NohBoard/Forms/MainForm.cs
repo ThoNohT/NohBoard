@@ -410,8 +410,10 @@ namespace ThoNohT.NohBoard.Forms
                 var mousePos = this.PointToClient(Cursor.Position);
                 this.elementUnderCursor =
                     GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
-                this.mnuEditElementStyle.Enabled = this.elementUnderCursor != null;
-                this.mnuElementProperties.Enabled = this.elementUnderCursor != null;
+
+                var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
+                this.mnuEditElementStyle.Enabled = relevantElement != null;
+                this.mnuElementProperties.Enabled = relevantElement != null;
             }
 
             // Only allow editing of properties/styles in edit mode.
