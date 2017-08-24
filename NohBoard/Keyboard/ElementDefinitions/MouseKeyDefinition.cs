@@ -39,48 +39,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="boundaries">The boundaries.</param>
         /// <param name="keyCode">The keycode.</param>
         /// <param name="text">The text of the key.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        public MouseKeyDefinition(int id, List<TPoint> boundaries, int keyCode, string text)
-            : base(id, boundaries, keyCode.Singleton(), text)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseKeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
-        /// <param name="text">The text of the key.</param>
+        /// <param name="textPosition">The new text position.
+        /// If not provided, the new position will be recalculated from the bounding box of the key.</param>
         /// <param name="manipulation">The current manipulation.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        private MouseKeyDefinition(
+        public MouseKeyDefinition(
             int id,
             List<TPoint> boundaries,
             int keyCode,
             string text,
-            ElementManipulation manipulation)
-            : base(id, boundaries, keyCode.Singleton(), text, manipulation)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseKeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCode">The keycode.</param>
-        /// <param name="text">The text of the key.</param>
-        /// <param name="textPosition">The position of the text.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        private MouseKeyDefinition(
-            int id,
-            List<TPoint> boundaries,
-            int keyCode,
-            string text,
-            TPoint textPosition,
-            ElementManipulation manipulation)
+            TPoint textPosition = null,
+            ElementManipulation manipulation = null)
             : base(id, boundaries, keyCode.Singleton(), text, textPosition, manipulation)
         {
         }
@@ -199,6 +167,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Boundaries.Select((b, i) => i != index ? b : b + diff).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 
@@ -243,6 +212,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Boundaries.Select((b, i) => !doUpdate(i) ? b : b + projectedDiff).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 
@@ -264,6 +234,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Boundaries.Where((b, i) => i != this.RelevantManipulation.Index).ToList(),
                 this.KeyCodes.Single(),
                 this.Text,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 
@@ -286,6 +257,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 newBoundaries,
                 this.KeyCodes.Single(),
                 this.Text,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 

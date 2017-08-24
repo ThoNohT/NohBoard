@@ -162,6 +162,16 @@ namespace ThoNohT.NohBoard.Extra
         
         #endregion State
 
+        #region Editing
+
+        /// <summary>
+        /// Whether to update the text position of an element when updating boundaries or edges.
+        /// </summary>
+        [DataMember]
+        public bool UpdateTextPosition = true;
+
+        #endregion Editing
+
         #region Methods
 
         /// <summary>

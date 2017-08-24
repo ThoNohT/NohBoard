@@ -58,67 +58,23 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="normalText">The normal text.</param>
         /// <param name="shiftText">The shift text.</param>
         /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
+        /// <param name="textPosition">The new text position.
+        /// If not provided, the new position will be recalculated from the bounding box of the key.</param>
+        /// <param name="manipulation">The current manipulation.</param>
         public KeyboardKeyDefinition(
             int id,
             List<TPoint> boundaries,
             List<int> keyCodes,
             string normalText,
             string shiftText,
-            bool changeOnCaps) : base(id, boundaries, keyCodes, normalText)
+            bool changeOnCaps,
+            TPoint textPosition = null,
+            ElementManipulation manipulation = null) : base(id, boundaries, keyCodes, normalText, textPosition, manipulation)
         {
             this.ShiftText = shiftText;
             this.ChangeOnCaps = changeOnCaps;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardKeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="normalText">The normal text.</param>
-        /// <param name="shiftText">The shift text.</param>
-        /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        private KeyboardKeyDefinition(
-            int id,
-            List<TPoint> boundaries,
-            List<int> keyCodes,
-            string normalText,
-            string shiftText,
-            bool changeOnCaps,
-            ElementManipulation manipulation) : base(id, boundaries, keyCodes, normalText, manipulation)
-        {
-            this.ShiftText = shiftText;
-            this.ChangeOnCaps = changeOnCaps;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardKeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="text">The normal text.</param>
-        /// <param name="shiftText">The shift text.</param>
-        /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
-        /// <param name="textPosition">The position of the text.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        public KeyboardKeyDefinition(
-            int id,
-            List<TPoint> boundaries,
-            List<int> keyCodes,
-            string text,
-            string shiftText,
-            bool changeOnCaps,
-            TPoint textPosition,
-            ElementManipulation manipulation) : base(id, boundaries, keyCodes, text, textPosition, manipulation)
-        {
-            this.ShiftText = shiftText;
-            this.ChangeOnCaps = changeOnCaps;
-        }
 
         /// <summary>
         /// Renders the key in the specified surface.
@@ -239,6 +195,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 
@@ -287,6 +244,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 
@@ -310,6 +268,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.RelevantManipulation);
         }
 
@@ -334,6 +293,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Text,
                 this.ShiftText,
                 this.ChangeOnCaps,
+                GlobalSettings.Settings.UpdateTextPosition ? null : this.TextPosition,
                 this.CurrentManipulation);
         }
 

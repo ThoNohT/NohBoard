@@ -423,6 +423,7 @@ namespace ThoNohT.NohBoard.Forms
 
             // Only allow editing of properties/styles in edit mode.
             this.mnuKeyboardProperties.Visible = this.mnuToggleEditMode.Checked;
+            this.mnuUpdateTextPosition.Visible = this.mnuToggleEditMode.Checked;
             this.mnuElementProperties.Visible = this.mnuToggleEditMode.Checked;
             this.mnuEditKeyboardStyle.Visible = this.mnuToggleEditMode.Checked;
             this.mnuEditElementStyle.Visible = this.mnuToggleEditMode.Checked;

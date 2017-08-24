@@ -120,6 +120,17 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
+        /// <summary>
+        /// Toggles updating the text position of an element when a boundary or edge is updated.
+        /// </summary>
+        private void mnuUpdateTextPosition_Click(object sender, EventArgs e)
+        {
+            this.menuOpen = false;
+
+            GlobalSettings.Settings.UpdateTextPosition = this.mnuUpdateTextPosition.Checked;
+            GlobalSettings.Save();
+        }
+
         #region Mouse manipulations
 
         /// <summary>

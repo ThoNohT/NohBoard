@@ -80,33 +80,16 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <param name="boundaries">The boundaries.</param>
         /// <param name="keyCodes">The keycodes.</param>
         /// <param name="text">The text of the key.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
-        protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text)
-        {
-            this.Id = id;
-            this.Boundaries = boundaries;
-            this.KeyCodes = keyCodes;
-            this.Text = text;
-
-            var bb = this.GetBoundingBoxImpl();
-            this.TextPosition = (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="text">The text of the key.</param>
+        /// <param name="textPosition">The new text position.
+        /// If not provided, the new position will be recalculated from the bounding box of the key.</param>
         /// <param name="manipulation">The current manipulation.</param>
-        /// <remarks>The position of the text is determined from the bounding box of the key.</remarks>
         protected KeyDefinition(
             int id,
             List<TPoint> boundaries,
             List<int> keyCodes,
             string text,
-            ElementManipulation manipulation)
+            TPoint textPosition = null,
+            ElementManipulation manipulation = null)
         {
             this.Id = id;
             this.Boundaries = boundaries;
@@ -116,50 +99,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             var bb = this.GetBoundingBoxImpl();
             // TODO: Re-calculate text position based on its previous value.
-            this.TextPosition = (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="text">The text of the key.</param>
-        /// <param name="textPosition">The position of the text.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        protected KeyDefinition(
-            int id,
-            List<TPoint> boundaries,
-            List<int> keyCodes,
-            string text,
-            TPoint textPosition,
-            ElementManipulation manipulation)
-        {
-            this.Id = id;
-            this.Boundaries = boundaries;
-            this.KeyCodes = keyCodes;
-            this.Text = text;
-            this.TextPosition = textPosition;
-            this.CurrentManipulation = manipulation;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="text">The text of the key.</param>
-        /// <param name="textPosition">The position of the text.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        protected KeyDefinition(int id, List<TPoint> boundaries, List<int> keyCodes, string text, TPoint textPosition)
-        {
-            this.Id = id;
-            this.Boundaries = boundaries;
-            this.KeyCodes = keyCodes;
-            this.Text = text;
-            this.TextPosition = textPosition;
+            this.TextPosition = textPosition ?? (TPoint)bb.Location + new Size(bb.Width / 2, bb.Height / 2);
         }
 
         /// <summary>
