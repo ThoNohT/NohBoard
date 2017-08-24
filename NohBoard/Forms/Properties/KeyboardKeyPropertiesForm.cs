@@ -74,6 +74,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.Items.AddRange(this.initialDefinition.Boundaries.Cast<object>().ToArray());
             this.lstKeyCodes.Items.AddRange(
                 this.initialDefinition.KeyCodes.Select(x => x).Cast<object>().ToArray());
+            this.chkChangeOnCaps.Checked = this.initialDefinition.ChangeOnCaps;
 
             // Only add the event handlers after the initial properties have been set.
             this.lstBoundaries.SelectedIndexChanged += this.lstBoundaries_SelectedIndexChanged;
@@ -81,6 +82,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.ValueChanged += this.txtTextPosition_ValueChanged;
             this.txtShiftText.TextChanged += this.txtShiftText_TextChanged;
             this.lstKeyCodes.SelectedIndexChanged += this.lstKeyCodes_SelectedIndexChanged;
+            this.chkChangeOnCaps.CheckedChanged += this.chkChangeOnCaps_CheckedChanged;
         }
 
         #region Boundaries
@@ -240,6 +242,15 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private void txtTextPosition_ValueChanged(Controls.VectorTextBox sender, TPoint newValue)
         {
             this.currentDefinition = this.currentDefinition.Modify(textPosition: newValue);
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
+        /// Handles changing the change on caps state, sets the new value and invokes the changed event.
+        /// </summary>
+        private void chkChangeOnCaps_CheckedChanged(object sender, EventArgs e)
+        {
+            this.currentDefinition = this.currentDefinition.Modify(changeOnCaps: this.chkChangeOnCaps.Checked);
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 

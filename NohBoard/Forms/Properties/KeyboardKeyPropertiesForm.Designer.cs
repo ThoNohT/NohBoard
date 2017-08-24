@@ -65,6 +65,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnAddKeyCode = new System.Windows.Forms.Button();
             this.udKeyCode = new System.Windows.Forms.NumericUpDown();
             this.lblKeyCodes = new System.Windows.Forms.Label();
+            this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
             this.SuspendLayout();
             // 
@@ -215,14 +216,14 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // lstKeyCodes
             // 
             this.lstKeyCodes.FormattingEnabled = true;
-            this.lstKeyCodes.Location = new System.Drawing.Point(329, 37);
+            this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
             this.lstKeyCodes.Name = "lstKeyCodes";
-            this.lstKeyCodes.Size = new System.Drawing.Size(151, 160);
+            this.lstKeyCodes.Size = new System.Drawing.Size(151, 134);
             this.lstKeyCodes.TabIndex = 13;
             // 
             // btnRemoveKeyCode
             // 
-            this.btnRemoveKeyCode.Location = new System.Drawing.Point(247, 62);
+            this.btnRemoveKeyCode.Location = new System.Drawing.Point(247, 93);
             this.btnRemoveKeyCode.Name = "btnRemoveKeyCode";
             this.btnRemoveKeyCode.Size = new System.Drawing.Size(75, 23);
             this.btnRemoveKeyCode.TabIndex = 12;
@@ -232,7 +233,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // btnAddKeyCode
             // 
-            this.btnAddKeyCode.Location = new System.Drawing.Point(247, 33);
+            this.btnAddKeyCode.Location = new System.Drawing.Point(247, 64);
             this.btnAddKeyCode.Name = "btnAddKeyCode";
             this.btnAddKeyCode.Size = new System.Drawing.Size(75, 23);
             this.btnAddKeyCode.TabIndex = 11;
@@ -242,7 +243,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // udKeyCode
             // 
-            this.udKeyCode.Location = new System.Drawing.Point(329, 12);
+            this.udKeyCode.Location = new System.Drawing.Point(329, 38);
             this.udKeyCode.Maximum = new decimal(new int[] {
             1025,
             0,
@@ -265,11 +266,21 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // lblKeyCodes
             // 
             this.lblKeyCodes.AutoSize = true;
-            this.lblKeyCodes.Location = new System.Drawing.Point(251, 14);
+            this.lblKeyCodes.Location = new System.Drawing.Point(247, 40);
             this.lblKeyCodes.Name = "lblKeyCodes";
             this.lblKeyCodes.Size = new System.Drawing.Size(60, 13);
             this.lblKeyCodes.TabIndex = 51;
             this.lblKeyCodes.Text = "Key codes:";
+            // 
+            // chkChangeOnCaps
+            // 
+            this.chkChangeOnCaps.AutoSize = true;
+            this.chkChangeOnCaps.Location = new System.Drawing.Point(250, 9);
+            this.chkChangeOnCaps.Name = "chkChangeOnCaps";
+            this.chkChangeOnCaps.Size = new System.Drawing.Size(216, 17);
+            this.chkChangeOnCaps.TabIndex = 52;
+            this.chkChangeOnCaps.Text = "Change capitalization on Caps Lock key";
+            this.chkChangeOnCaps.UseVisualStyleBackColor = true;
             // 
             // KeyboardKeyPropertiesForm
             // 
@@ -278,6 +289,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
             this.ClientSize = new System.Drawing.Size(492, 234);
+            this.Controls.Add(this.chkChangeOnCaps);
             this.Controls.Add(this.lblKeyCodes);
             this.Controls.Add(this.udKeyCode);
             this.Controls.Add(this.btnRemoveKeyCode);
@@ -331,5 +343,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.Button btnAddKeyCode;
         private System.Windows.Forms.NumericUpDown udKeyCode;
         private System.Windows.Forms.Label lblKeyCodes;
+        private System.Windows.Forms.CheckBox chkChangeOnCaps;
     }
 }
