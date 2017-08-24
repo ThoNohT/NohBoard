@@ -413,7 +413,7 @@ namespace ThoNohT.NohBoard.Forms
                 if (this.mnuToggleEditMode.Checked && this.selectedDefinition == null)
                 {
                     this.highlightedDefinition = this.elementUnderCursor;
-                    this.highlightedDefinition.StartManipulating(mousePos, false);
+                    this.highlightedDefinition?.StartManipulating(mousePos, false);
                 }
 
                 var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
