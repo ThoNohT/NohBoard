@@ -56,7 +56,17 @@ namespace ThoNohT.NohBoard.Forms
         /// The point inside <see cref="currentlyManipulating"/> that is being manipulated. This determines the type of
         /// manipulation that will be performed on the currently manipulating element.
         /// </summary>
-        private Point currentManipulationPoint; 
+        private Point currentManipulationPoint;
+
+        /// <summary>
+        /// The position to translate every element in the keyboard from. <c>null</c> if not moving everything.
+        /// </summary>
+        private TPoint movingEverythingFrom;
+
+        /// <summary>
+        /// The starting point form which everything was being moved.
+        /// </summary>
+        private KeyboardDefinition movingEverythingStart;
 
         #endregion Manipulations
 
@@ -160,6 +170,15 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.currentlyManipulating = null;
                 this.selectedDefinition = null;
+
+                // Moving everything at once.
+                if (KeyboardState.AltDown)
+                {
+                    this.movingEverythingStart = GlobalSettings.CurrentDefinition.Clone();
+                    this.PushUndoHistory();
+                    this.movingEverythingFrom = e.Location;
+                }
+
                 return;
             }
 
@@ -182,6 +201,19 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
+
+            // Moving everything at once.
+            if (this.movingEverythingFrom != null)
+            {
+                var newDef = this.movingEverythingStart.Clone();
+                foreach (var element in this.movingEverythingStart.Elements)
+                {
+                    var diff = e.Location - this.movingEverythingFrom;
+                    newDef.Elements[element.Id] = element.Translate(diff.Width, diff.Height);
+                }
+                GlobalSettings.CurrentDefinition = newDef;
+                this.ResetBackBrushes();
+            }
 
             if (this.currentlyManipulating != null)
             {
@@ -214,6 +246,13 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
+            // Always reset this value when releasing the mouse.
+            if (this.movingEverythingFrom != null)
+            {
+                this.movingEverythingFrom = null;
+                this.ResetBackBrushes();
+            }
+
             if (e.Button != MouseButtons.Left) return;
             this.menuOpen = false;
 
