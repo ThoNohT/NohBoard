@@ -399,7 +399,6 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = true;
 
-
             this.mnuSaveDefinition.Enabled = GlobalSettings.CurrentDefinition != null;
             if (GlobalSettings.CurrentDefinition != null)
             {
@@ -409,7 +408,13 @@ namespace ThoNohT.NohBoard.Forms
                 var mousePos = this.PointToClient(Cursor.Position);
                 this.elementUnderCursor =
                     GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
-                this.highlightedDefinition = this.elementUnderCursor;
+
+                // Set the highlighted definition only if we're in edit mode, and there is not an already selected definition.
+                if (this.mnuToggleEditMode.Checked && this.selectedDefinition == null)
+                {
+                    this.highlightedDefinition = this.elementUnderCursor;
+                    this.highlightedDefinition.StartManipulating(mousePos, false);
+                }
 
                 var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
                 this.mnuEditElementStyle.Enabled = relevantElement != null;
