@@ -86,7 +86,7 @@
             this.clrBackground.PreviewShape = ColorChooser.Shape.Square;
             this.clrBackground.Size = new System.Drawing.Size(157, 26);
             this.clrBackground.TabIndex = 0;
-            this.clrBackground.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.clr_ColorChanged);
+            this.clrBackground.ColorChanged += this.clr_ColorChanged;
             // 
             // grpText
             // 
@@ -107,7 +107,7 @@
             this.fntText.Name = "fntText";
             this.fntText.Size = new System.Drawing.Size(156, 26);
             this.fntText.TabIndex = 1;
-            this.fntText.FontChanged += new FontChooser.FontChangedEventHandler(this.fntText_FontChanged);
+            this.fntText.FontChanged += this.fntText_FontChanged;
             // 
             // clrText
             // 
@@ -119,7 +119,7 @@
             this.clrText.PreviewShape = ColorChooser.Shape.Square;
             this.clrText.Size = new System.Drawing.Size(156, 26);
             this.clrText.TabIndex = 0;
-            this.clrText.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.clr_ColorChanged);
+            this.clrText.ColorChanged += this.clr_ColorChanged;
             // 
             // grpOutline
             // 
@@ -182,7 +182,7 @@
             this.clrOutline.PreviewShape = ColorChooser.Shape.Square;
             this.clrOutline.Size = new System.Drawing.Size(156, 26);
             this.clrOutline.TabIndex = 0;
-            this.clrOutline.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.clr_ColorChanged);
+            this.clrOutline.ColorChanged += this.clr_ColorChanged;
             // 
             // lblTitle
             // 

@@ -49,7 +49,7 @@ By default, no keyboard is loaded. You will see an empty window. All configurati
 * Open keyboard definitions and styles
 * Edit the currently loaded style for the keyboard and the default for its buttons
 * If over a key, edit the specific style of this key
-* *In the future also edit the currently loaded definition.*
+* Edit the currently loaded definition
 
 ### Capturing
 

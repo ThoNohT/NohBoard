@@ -101,10 +101,14 @@ namespace ThoNohT.NohBoard.Keyboard
         {
             return new KeyboardStyle
             {
+                Name = this.Name,
                 BackgroundColor = this.BackgroundColor,
                 BackgroundImageFileName = this.BackgroundImageFileName,
-                DefaultKeyStyle = (KeyStyle)this.DefaultKeyStyle.Clone(),
-                DefaultMouseSpeedIndicatorStyle = (MouseSpeedIndicatorStyle)this.DefaultMouseSpeedIndicatorStyle.Clone()
+                DefaultKeyStyle = (KeyStyle) this.DefaultKeyStyle.Clone(),
+                DefaultMouseSpeedIndicatorStyle =
+                    (MouseSpeedIndicatorStyle) this.DefaultMouseSpeedIndicatorStyle.Clone(),
+                ElementStyles = this.ElementStyles.Select(s => Tuple.Create(s.Key, s.Value.Clone()))
+                    .ToDictionary(s => s.Item1, s => s.Item2)
             };
         }
 

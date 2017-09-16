@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Controls
 {
+    using System;
     using System.Drawing;
     using System.Windows.Forms;
 
@@ -28,15 +29,10 @@ namespace ThoNohT.NohBoard.Controls
         #region Events
 
         /// <summary>
-        /// The delegate to invoke when the color has been changed.
-        /// </summary>
-        public delegate void ColorChangedEventHandler(ColorChooser sender, Color color);
-
-        /// <summary>
         /// The event that is invoked when the color has been changed. Only invoked when the color is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public event ColorChangedEventHandler ColorChanged;
+        public event Action<ColorChooser, Color> ColorChanged;
 
         #endregion Events
 

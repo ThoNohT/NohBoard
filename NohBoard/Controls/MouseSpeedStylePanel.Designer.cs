@@ -48,7 +48,7 @@
             this.clrOuter.PreviewShape = ColorChooser.Shape.Square;
             this.clrOuter.Size = new System.Drawing.Size(157, 26);
             this.clrOuter.TabIndex = 0;
-            this.clrOuter.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.clr_ColorChanged);
+            this.clrOuter.ColorChanged += this.clr_ColorChanged;
             // 
             // grpOutline
             // 
@@ -95,7 +95,7 @@
             this.clrInner.PreviewShape = ColorChooser.Shape.Square;
             this.clrInner.Size = new System.Drawing.Size(156, 26);
             this.clrInner.TabIndex = 0;
-            this.clrInner.ColorChanged += new ColorChooser.ColorChangedEventHandler(this.clr_ColorChanged);
+            this.clrInner.ColorChanged += this.clr_ColorChanged;
             // 
             // lblTitle
             // 

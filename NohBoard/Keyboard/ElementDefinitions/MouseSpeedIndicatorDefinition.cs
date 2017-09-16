@@ -60,6 +60,21 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MouseSpeedIndicatorDefinition" /> class.
+        /// </summary>
+        /// <param name="id">The identifier of the key.</param>
+        /// <param name="location">The location.</param>
+        /// <param name="radius">The radius.</param>
+        /// <param name="manipulation">The current element manipulation.</param>
+        private MouseSpeedIndicatorDefinition(int id, TPoint location, int radius, ElementManipulation manipulation)
+        {
+            this.Id = id;
+            this.Location = location;
+            this.Radius = radius;
+            this.CurrentManipulation = manipulation;
+        }
+
+        /// <summary>
         /// Renders the key in the specified surface.
         /// </summary>
         /// <param name="g">The GDI+ surface to render on.</param>
@@ -67,26 +82,26 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         public void Render(Graphics g, SizeF speed)
         {
             var subStyle = GlobalSettings.CurrentStyle.TryGetElementStyle<MouseSpeedIndicatorStyle>(this.Id)
-                ?? GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle;
+                           ?? GlobalSettings.CurrentStyle.DefaultMouseSpeedIndicatorStyle;
 
             // Small circles have a fifth of the radius of the full control.
-            var smallRadius = (float)this.Radius / 5;
+            var smallRadius = (float) this.Radius / 5;
 
             // The sensitivity is a factor over the mouse speed.
-            var sensitivity = GlobalSettings.Settings.MouseSensitivity / (float)100;
+            var sensitivity = GlobalSettings.Settings.MouseSensitivity / (float) 100;
 
             // The total length is determined by the sensitivity, speed and radius. But never more than the radius.
-            var pointerLength = (int)Math.Min(this.Radius, sensitivity * speed.GetLength() * this.Radius);
+            var pointerLength = (int) Math.Min(this.Radius, sensitivity * speed.Length() * this.Radius);
 
-            var colorMultiplier = Math.Max(0, Math.Min(1, (float)pointerLength / this.Radius));
+            var colorMultiplier = Math.Max(0, Math.Min(1, (float) pointerLength / this.Radius));
 
             Color color1 = subStyle.InnerColor;
             Color outerColor = subStyle.OuterColor;
             // The second color should be averaged over the two specified colours, based upon how far out the thingymabob is.
             var color2 = Color.FromArgb(
-                (int)(color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
-                (int)(color1.G * (1 - colorMultiplier) + outerColor.G * colorMultiplier),
-                (int)(color1.B * (1 - colorMultiplier) + outerColor.B * colorMultiplier));
+                (int) (color1.R * (1 - colorMultiplier) + outerColor.R * colorMultiplier),
+                (int) (color1.G * (1 - colorMultiplier) + outerColor.G * colorMultiplier),
+                (int) (color1.B * (1 - colorMultiplier) + outerColor.B * colorMultiplier));
 
             // Draw the edge.
             g.DrawEllipse(
@@ -114,12 +129,54 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
                     // Draw a circle on the outter edge in the direction of the pointer.
                     var pointerEdge = this.Location.CircularTranslate(this.Radius, angle);
-                    g.FillEllipse(new SolidBrush(color2), Geom.CircleToRectangle(pointerEdge, (int)smallRadius));
+                    g.FillEllipse(new SolidBrush(color2), Geom.CircleToRectangle(pointerEdge, (int) smallRadius));
                 }
             }
 
             // Draw the circle in the center.
-            g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int)smallRadius));
+            g.FillEllipse(new SolidBrush(color1), Geom.CircleToRectangle(this.Location, (int) smallRadius));
+        }
+
+        /// <summary>
+        /// Renders a simple representation of the element while it is being edited. This representation does not depend
+        /// on the state of the program and is merely intended to provide a clear overview of the current position and
+        /// shape of the element.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderEditing(Graphics g)
+        {
+            g.FillEllipse(new SolidBrush(Color.Silver), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.DrawEllipse(new Pen(Color.White, 1), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.FillEllipse(new SolidBrush(Color.White), Geom.CircleToRectangle(this.Location, this.Radius / 5));
+        }
+
+        /// <summary>
+        /// Renders a simple representation of the element while it is being highlighted in edit mode.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderHighlight(Graphics g)
+        {
+            g.FillEllipse(Constants.HighlightBrush, Geom.CircleToRectangle(this.Location, this.Radius));
+
+            if (this.RelevantManipulation?.Type == ElementManipulationType.Scale)
+                g.DrawEllipse(new Pen(Color.White, 3), Geom.CircleToRectangle(this.Location, this.Radius));
+        }
+
+        /// <summary>
+        /// Renders a simple representation of the element while it is selected in edit mode.
+        /// </summary>
+        /// <param name="g">The graphics context to render to.</param>
+        public override void RenderSelected(Graphics g)
+        {
+            g.DrawEllipse(new Pen(Constants.SelectedColor, 2), Geom.CircleToRectangle(this.Location, this.Radius));
+            g.FillEllipse(
+                new SolidBrush(Constants.SelectedColor),
+                Geom.CircleToRectangle(this.Location, this.Radius / 5));
+
+            if (this.RelevantManipulation?.Type == ElementManipulationType.Scale)
+                g.DrawEllipse(
+                    new Pen(Constants.SelectedColorSpecial, 3),
+                    Geom.CircleToRectangle(this.Location, this.Radius));
         }
 
         /// <summary>
@@ -146,7 +203,22 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return new MouseSpeedIndicatorDefinition(
                 this.Id,
                 new Point(this.Location.X + dx, this.Location.Y + dy),
-                this.Radius);
+                this.Radius,
+                this.CurrentManipulation);
+        }
+
+        /// <summary>
+        /// Sets the radius of the element.
+        /// </summary>
+        /// <param name="newRadius">The new radius.</param>
+        /// <returns>A new <see cref="MouseSpeedIndicatorDefinition"/> with the specified radius.</returns>
+        public MouseSpeedIndicatorDefinition SetRadius(int newRadius)
+        {
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location,
+                newRadius,
+                this.CurrentManipulation);
         }
 
         /// <summary>
@@ -160,6 +232,111 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             return point.X >= bb.Left && point.X <= bb.Right && point.Y >= bb.Top && point.Y <= bb.Bottom;
         }
 
+        /// <summary>
+        /// Returns the type of manipulation that will happen when interacting with the element at the specified point.
+        /// </summary>
+        /// <param name="point">The point to start manipulating.</param>
+        /// <param name="altDown">Whether any alt key is pressed.</param>
+        /// <param name="preview">whether to set the preview manipulation, or the real one.</param>
+        /// <param name="translateOnly">Whether to ignore any special manipulations and only use translate.</param>
+        /// <returns>The manipulation type for the specified point. <c>null</c> if no manipulation would happen
+        /// at this point.</returns>
+        /// <remarks>Manipulation preview is used to show what would be modified on a selected element. We cannot
+        /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
+        public override bool StartManipulating(Point point, bool altDown, bool preview = false, bool translateOnly = false)
+        {
+            SizeF d = point - this.Location;
+            if (d.Length() > this.Radius + 2)
+            {
+                this.PreviewManipulation = null;
+                return false;
+            }
+
+            // Scale if mouse over the outter edge.
+            if (Math.Sqrt(Math.Abs(Math.Pow(d.Width, 2) + Math.Pow(d.Height, 2) - Math.Pow(this.Radius, 2))) < 16 && !translateOnly)
+            {
+                this.SetManipulation(
+                    new ElementManipulation
+                    {
+                        Type = ElementManipulationType.Scale,
+                        Index = 0,
+                        Direction = d.GetUnitVector()
+
+                    },
+                    preview);
+                return true;
+            }
+
+            this.SetManipulation(
+                new ElementManipulation
+                {
+                    Type = ElementManipulationType.Translate,
+                    Index = 0
+                },
+                preview);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Manipulates the element according to its current manipulation state. If no manipulation state is set,
+        /// the element is returned without any changes. Otherwise, the element itself will determine what to modify
+        /// about its position or shape and return the updated version of itself.
+        /// </summary>
+        /// <param name="diff">The distance to manipulate the element by.</param>
+        /// <returns>The updated element.</returns>
+        public override ElementDefinition Manipulate(Size diff)
+        {
+            if (this.RelevantManipulation == null) return this;
+
+            switch (this.RelevantManipulation.Type)
+            {
+                case ElementManipulationType.Translate:
+                    return this.Translate(diff.Width, diff.Height);
+
+                case ElementManipulationType.Scale:
+                    return this.Scale(diff, this.RelevantManipulation.Direction);
+
+                default:
+                    return this;
+            }
+        }
+
+        /// <summary>
+        /// Scales the element by the specified distance into the specified direction. Scaling is done from the center,
+        /// direction is used to project the diff on.
+        /// </summary>
+        /// <param name="diff">The distance to perform the scale on.</param>
+        /// <param name="direction">The direction to project the diff on to determine the new radius from.</param>
+        /// <returns></returns>
+        private ElementDefinition Scale(Size diff, SizeF direction)
+        {
+            var distanceToGrabPoint = direction.Multiply(this.Radius);
+            var grabPoint = this.Location + distanceToGrabPoint;
+
+            var movedGrabPoint = grabPoint + ((SizeF) diff).ProjectOn(direction);
+            var movedDistance = (movedGrabPoint - this.Location).Length();
+
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location,
+                (int) movedDistance,
+                this.CurrentManipulation);
+        }
+
         #endregion Transformations
+
+        /// <summary>
+        /// Returns a clone of this element definition.
+        /// </summary>
+        /// <returns>The cloned element definition.</returns>
+        public override ElementDefinition Clone()
+        {
+            return new MouseSpeedIndicatorDefinition(
+                this.Id,
+                this.Location.Clone(),
+                this.Radius,
+                this.CurrentManipulation);
+        }
     }
 }

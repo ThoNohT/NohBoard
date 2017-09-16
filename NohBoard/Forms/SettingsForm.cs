@@ -145,7 +145,6 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Save();
 
             this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         /// <summary>
