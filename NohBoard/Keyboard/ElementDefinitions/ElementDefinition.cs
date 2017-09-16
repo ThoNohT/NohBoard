@@ -89,8 +89,6 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// keep updating the element manipulation as the mouse moves, but do want to provide a visual indicator.</remarks>
         public abstract bool StartManipulating(Point point, bool altDown, bool preview = false, bool translateOnly = false);
         
-        // TODO: Add StopManipulating?
-
         /// <summary>
         /// Renders a simple representation of the element while it is being edited. This representation does not depend
         /// on the state of the program and is merely intended to provide a clear overview of the current position and

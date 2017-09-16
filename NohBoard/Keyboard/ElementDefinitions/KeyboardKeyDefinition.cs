@@ -358,15 +358,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>The text to display for this key.</returns>
         private string GetText(bool shift, bool capsLock)
         {
-            if (GlobalSettings.Settings.Capitalization == CapitalizationMethod.Capitalize)
+            if (GlobalSettings.Settings.Capitalization != CapitalizationMethod.FollowKeys)
             {
-                shift = false;
-                capsLock = true;
-            }
-            if (GlobalSettings.Settings.Capitalization == CapitalizationMethod.Lowercase)
-            {
-                shift = false;
-                capsLock = false;
+                // Caps lock is set based on the capitalization method.
+                capsLock = GlobalSettings.Settings.Capitalization == CapitalizationMethod.Capitalize;
+
+                // If follow shift for caps insensitive keys is true, then don't edit the shift value if ChangeOnCaps.
+                // If follow shift for caps sensitive keys is true, then don't edit the shift value if not ChangeOnCaps.
+                var preserveShift = GlobalSettings.Settings.FollowShiftForCapsInsensitive && !this.ChangeOnCaps
+                                    || GlobalSettings.Settings.FollowShiftForCapsSensitive && this.ChangeOnCaps;
+                // Shift is ignored, but only if the follow shift is not set for this key's ChangeOnCaps setting.
+                shift &= preserveShift;
             }
 
             var capitalize = this.ChangeOnCaps && (capsLock ^ shift) || !this.ChangeOnCaps && shift;

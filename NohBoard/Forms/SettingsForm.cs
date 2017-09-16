@@ -75,6 +75,11 @@ namespace ThoNohT.NohBoard.Forms
                     break;
             }
 
+            this.chkFollowShiftCapsInsensitive.Enabled = !this.rdbFollowKeystate.Checked;
+            this.chkFollowShiftCapsSensitive.Enabled = !this.rdbFollowKeystate.Checked;
+            this.chkFollowShiftCapsInsensitive.Checked = GlobalSettings.Settings.FollowShiftForCapsInsensitive;
+            this.chkFollowShiftCapsSensitive.Checked = GlobalSettings.Settings.FollowShiftForCapsSensitive;
+
             this.chkMouseFromCenter.Checked = GlobalSettings.Settings.MouseFromCenter;
 
             this.SetToolTips();
@@ -111,6 +116,15 @@ namespace ThoNohT.NohBoard.Forms
             tooltip.SetToolTip(this.rdbAlwaysCaps, "Always show capitalized letters.");
             tooltip.SetToolTip(this.rdbAlwaysLower, "Always show lower-case letters.");
 
+            tooltip.SetToolTip(this.chkFollowShiftCapsInsensitive,
+                "When Always show capitalized or lower-case letters is selected, checking this means the shift key is " +
+                "still used to shift to the alternate text on the element, for all elements that are not sensitive to " +
+                "caps lock.");
+            tooltip.SetToolTip(this.chkFollowShiftCapsSensitive,
+                "When Always show capitalized or lower-case letters is selected, checking this means the shift key is " +
+                "still used to shift to the alternate text on the element, for all elements that are sensitive to " +
+                "caps lock.");
+
             tooltip.SetToolTip(
                 this.chkMouseFromCenter,
                 "Some games keep resetting the cursor position to the center of the screen. This setting uses this " +
@@ -138,6 +152,8 @@ namespace ThoNohT.NohBoard.Forms
                 : this.rdbAlwaysLower.Checked
                     ? CapitalizationMethod.Lowercase
                     : CapitalizationMethod.Capitalize;
+            GlobalSettings.Settings.FollowShiftForCapsInsensitive = this.chkFollowShiftCapsInsensitive.Checked;
+            GlobalSettings.Settings.FollowShiftForCapsSensitive = this.chkFollowShiftCapsSensitive.Checked;
 
             GlobalSettings.Settings.MouseFromCenter = this.chkMouseFromCenter.Checked;
             MouseState.SetMouseFromCenter(GlobalSettings.Settings.MouseFromCenter);
@@ -173,6 +189,15 @@ namespace ThoNohT.NohBoard.Forms
             HookManager.DisableMouseHook();
             this.capturingKey = true;
             this.txtToggleKey.Text = "Press a key...";
+        }
+
+        /// <summary>
+        /// Updates the enabled state of the follow shift check boxes.
+        /// </summary>
+        private void rdbFollowKeystate_CheckedChanged(object sender, System.EventArgs e)
+        {
+            this.chkFollowShiftCapsInsensitive.Enabled = !this.rdbFollowKeystate.Checked;
+            this.chkFollowShiftCapsSensitive.Enabled = !this.rdbFollowKeystate.Checked;
         }
     }
 }

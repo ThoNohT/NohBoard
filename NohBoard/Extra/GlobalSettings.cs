@@ -119,6 +119,22 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public CapitalizationMethod Capitalization { get; set; } = CapitalizationMethod.FollowKeys;
 
+        /// <summary>
+        /// If <see cref="Capitalization"/> is not <see cref="CapitalizationMethod.FollowKeys"/>, then setting this
+        /// property to <c>true</c> means that the keys that are insensitive to Caps Lock will still follow the shift
+        /// key.
+        /// </summary>
+        [DataMember]
+        public bool FollowShiftForCapsInsensitive { get; set; }
+
+        /// <summary>
+        /// If <see cref="Capitalization"/> is not <see cref="CapitalizationMethod.FollowKeys"/>, then setting this
+        /// property to <c>true</c> means that the keys that are sensitive to Caps Lock will still follow the shift
+        /// key.
+        /// </summary>
+        [DataMember]
+        public bool FollowShiftForCapsSensitive { get; set; }
+
         #endregion Capitalization
 
         #region State
