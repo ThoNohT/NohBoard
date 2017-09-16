@@ -206,10 +206,11 @@ namespace ThoNohT.NohBoard.Forms
             if (this.movingEverythingFrom != null)
             {
                 var newDef = this.movingEverythingStart.Clone();
+                newDef.Elements.Clear();
                 foreach (var element in this.movingEverythingStart.Elements)
                 {
                     var diff = e.Location - this.movingEverythingFrom;
-                    newDef.Elements[element.Id] = element.Translate(diff.Width, diff.Height);
+                    newDef.Elements.Add(element.Translate(diff.Width, diff.Height));
                 }
                 GlobalSettings.CurrentDefinition = newDef;
                 this.ResetBackBrushes();
