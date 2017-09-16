@@ -77,6 +77,33 @@ When editing styles, it is important to know where to place images for this styl
 
 The usage of the other fields should be pretty straightforward.
 
+### Edit mode
+
+Since v1.0.0, NohBoard contains an edit mode. Edit mode can be enabled by right clicking a loaded keyboard, and selecting 'Start Editing'. Similarly, it can be disabled by choosing 'Stop Editing'.
+
+From edit mode, many operations are possible:
+- Moving elements
+- Moving edges (between corner points) of elements
+- Moving boundaries (corner points) of elements
+- Adding or removing boundaries of elements
+- Moving text inside elements
+- Editing the properties of elements
+- Changing the z-index of elements
+
+Most edits are possibly by dragging the mouse from a point over an element. The element will highlight the manipulation that is going to happen, e.g. while hovering over a boundary point, it will indicate that that boundary point will be manipulated. There are also modifiers possible.
+
+- `Alt` key over an element moves the text inside the element.
+- `Alt` key over the keyboard moves all elements at the same time.
+- `Ctrl` key over an element will always move the entire element, rather than a boundary or edge that is highlighted.
+
+When clicking on an element, it is selected. Selections are sticky, this means that the selection won't simply be removed or switched to another key. This is done in order to allow manipulations on keys that are partly covered. You can edit covered boundaries or edges without having to move the element from under the covering elements. Ending a selection is done by pressing `Esc`, or `Enter`.
+
+When right clicking an element, or a boundary point or edge of an element, the context menu will contain options for editing the element. These options include opening the properties window, removing the entire element, adding boundary points, if an edge is highlighted, and removing a boundary point if one is highlighted. The *move* menu allows you to move elements on top of others, i.e. change the z-index of the element. The properties for the entire keyboard can always be opened from the right click menu while in edit mode.
+
+Finally, when an element has a custom text position, it is annoying if the text position resets itself to some computed value whenever a boundary point or edge is moved. To prevent this, there is the *update text position* menu, which when unchecked, leaves the text position as it is whenever a manipulation is done that is not moving the entire element.
+
+All actions can be undone using `Ctrl` + `Z`, and redone using `Ctrl` + `Shift` + `Z`.
+
 ## Keyboard Files
 
 All keyboard files are in the JSON format. NohBoard uses a serialization method that inserts newlines where needed to make the files as humanly readable as possible. This is done in order to encourage users to make their own versions of keyboards. This JSON format may seem a lot more bloated in comparison to the plain-text keyboard files, however it does allow for much greater configurability.
