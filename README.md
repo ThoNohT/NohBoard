@@ -17,6 +17,7 @@ An initial version was made in C++, this originated from the desire to make some
 
 **Keyboard layouts**
 - BaronBargy
+- Burning Fish
 - Cloudwolf
 - Daigtas
 - Floatingthru
