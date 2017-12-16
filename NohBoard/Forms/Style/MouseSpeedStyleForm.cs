@@ -67,7 +67,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.initialStyle = initialStyle ?? new MouseSpeedIndicatorStyle();
             this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
 
-            this.currentStyle = (MouseSpeedIndicatorStyle)this.initialStyle.Clone();
+            this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle?.Clone();
             this.InitializeComponent();
         }
 
@@ -82,7 +82,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         {
             // Mouse speed indicator
             this.defaultMouseSpeed.IndicatorStyle = this.initialStyle ?? this.defaultStyle;
-            this.chkOverwrite.Checked = this.initialStyle != null;
+            this.chkOverwrite.Checked = this.currentStyle != null;
             this.defaultMouseSpeed.Enabled = this.chkOverwrite.Checked;
 
             // Only add the event handler after the initial style has been set.
