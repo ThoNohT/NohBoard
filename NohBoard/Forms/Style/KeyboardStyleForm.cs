@@ -61,7 +61,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         public KeyboardStyleForm(KeyboardStyle initialStyle)
         {
             this.initialStyle = initialStyle ?? new KeyboardStyle();
-            this.currentStyle = initialStyle.Clone();
+            this.currentStyle = this.initialStyle.Clone();
             this.InitializeComponent();
         }
 
