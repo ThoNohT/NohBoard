@@ -64,8 +64,8 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// <param name="defaultStyle">The default style to revert to when the override checkbox is unchecked.</param>
         public MouseSpeedStyleForm(MouseSpeedIndicatorStyle initialStyle, MouseSpeedIndicatorStyle defaultStyle)
         {
-            this.initialStyle = initialStyle ?? new MouseSpeedIndicatorStyle();
             this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
+            this.initialStyle = initialStyle ?? defaultStyle;
 
             this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle?.Clone();
             this.InitializeComponent();
@@ -81,7 +81,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         private void MouseSpeedStyleForm_Load(object sender, EventArgs e)
         {
             // Mouse speed indicator
-            this.defaultMouseSpeed.IndicatorStyle = this.initialStyle ?? this.defaultStyle;
+            this.defaultMouseSpeed.IndicatorStyle = this.currentStyle ?? this.defaultStyle;
             this.chkOverwrite.Checked = this.currentStyle != null;
             this.defaultMouseSpeed.Enabled = this.chkOverwrite.Checked;
 
