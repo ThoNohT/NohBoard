@@ -65,7 +65,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         public MouseSpeedStyleForm(MouseSpeedIndicatorStyle initialStyle, MouseSpeedIndicatorStyle defaultStyle)
         {
             this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
-            this.initialStyle = initialStyle ?? defaultStyle;
+            this.initialStyle = initialStyle;
 
             this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle?.Clone();
             this.InitializeComponent();
