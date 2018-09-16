@@ -703,6 +703,10 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.elementUnderCursor = null;
                 this.currentlyManipulating = null;
+                if (def.Equals(this.selectedDefinition))
+                {
+                    this.selectedDefinition = def;
+                }
 
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
                 GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
