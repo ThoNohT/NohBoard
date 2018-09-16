@@ -351,10 +351,10 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_Move(object sender, EventArgs e)
         {
-            if (GlobalSettings.Settings != null && WindowState == FormWindowState.Normal)
+            if (GlobalSettings.Settings != null && this.WindowState == FormWindowState.Normal)
             {
-                GlobalSettings.Settings.X = Location.X;
-                GlobalSettings.Settings.Y = Location.Y;
+                GlobalSettings.Settings.X = this.Location.X;
+                GlobalSettings.Settings.Y = this.Location.Y;
             }
         }
 
