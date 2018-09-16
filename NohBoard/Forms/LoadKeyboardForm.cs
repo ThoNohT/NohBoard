@@ -158,7 +158,19 @@ namespace ThoNohT.NohBoard.Forms
                 this.PopulateKeyboards();
 
                 if (GlobalSettings.Settings.LoadedKeyboard != null)
+                {
+                    var loadedStyle = GlobalSettings.Settings.LoadedStyle;
                     this.DefinitionsList.SelectedItem = GlobalSettings.Settings.LoadedKeyboard;
+
+                    if (loadedStyle != null)
+                    {
+                        var styleIndex = this.FindStyleListIndex(loadedStyle);
+                        if (styleIndex != -1)
+                        {
+                            this.StyleList.SelectedIndex = styleIndex;
+                        }
+                    }
+                }
             }
             this.loaded = true;
         }
@@ -270,6 +282,23 @@ namespace ThoNohT.NohBoard.Forms
             this.StyleList.Items.Clear();
             this.StyleList.Items.AddRange(this.globalStyles.Cast<object>().ToArray());
             this.StyleList.Items.AddRange(specificStyles.Cast<object>().ToArray());
+        }
+
+        /// <summary>
+        /// Returns the index of an item in StyleList that has a given name.
+        /// </summary>
+        private int FindStyleListIndex(string styleName)
+        {
+            for (int i = 0; i < this.StyleList.Items.Count; i++)
+            {
+                var item = (StyleInfo)this.StyleList.Items[i];
+                if (item.Name == styleName)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         #endregion Helpers
