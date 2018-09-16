@@ -401,6 +401,7 @@ namespace ThoNohT.NohBoard.Forms
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
+            this.Move += new System.EventHandler(this.MainForm_Move);
             this.MainMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
