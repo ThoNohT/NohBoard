@@ -148,6 +148,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private void btnRemoveBoundary_Click(object sender, EventArgs e)
         {
             if (this.lstBoundaries.SelectedItem == null) return;
+            if (this.lstBoundaries.Items.Count < 4) return;
 
             var index = this.lstBoundaries.SelectedIndex;
             this.lstBoundaries.Items.Remove(this.lstBoundaries.SelectedItem);
