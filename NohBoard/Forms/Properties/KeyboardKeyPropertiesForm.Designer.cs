@@ -77,6 +77,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryDown.TabIndex = 8;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
+            this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
             // 
             // btnBoundaryUp
             // 
