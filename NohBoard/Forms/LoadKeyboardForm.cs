@@ -208,8 +208,7 @@ namespace ThoNohT.NohBoard.Forms
             var kbDef = KeyboardDefinition.Load(this.SelectedCategory, this.SelectedDefinition);
 
             this.LoadStyles();
-            if (this.StyleList.Items.Count > 0) this.StyleList.SelectedIndex = 0;
-            else this.DefinitionChanged?.Invoke(kbDef, null, false);
+            if (this.StyleList.Items.Count == 0) this.DefinitionChanged?.Invoke(kbDef, null, false);
         }
 
         /// <summary>
@@ -270,6 +269,35 @@ namespace ThoNohT.NohBoard.Forms
             this.StyleList.Items.Clear();
             this.StyleList.Items.AddRange(this.globalStyles.Cast<object>().ToArray());
             this.StyleList.Items.AddRange(specificStyles.Cast<object>().ToArray());
+
+            // Try to retain the style.
+            var loadedStyle = GlobalSettings.Settings.LoadedStyle;
+            if (this.StyleList.Items.Count > 0) this.StyleList.SelectedIndex = 0;
+            if (loadedStyle != null)
+            {
+                var styleIndex = this.FindStyleListIndex(loadedStyle);
+                if (styleIndex != -1)
+                {
+                    this.StyleList.SelectedIndex = styleIndex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the index of an item in StyleList that has a given name.
+        /// </summary>
+        private int FindStyleListIndex(string styleName)
+        {
+            for (int i = 0; i < this.StyleList.Items.Count; i++)
+            {
+                var item = (StyleInfo)this.StyleList.Items[i];
+                if (item.Name == styleName)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         #endregion Helpers
