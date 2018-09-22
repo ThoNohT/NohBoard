@@ -347,15 +347,24 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         /// <summary>
-        /// Handles the closing of the form. Hooks are disabled and the current position is stored before closing.
+        /// Handles the moving of the form. Stores the current position for future use.
+        /// </summary>
+        private void MainForm_Move(object sender, EventArgs e)
+        {
+            if (GlobalSettings.Settings != null && this.WindowState == FormWindowState.Normal)
+            {
+                GlobalSettings.Settings.X = this.Location.X;
+                GlobalSettings.Settings.Y = this.Location.Y;
+            }
+        }
+
+        /// <summary>
+        /// Handles the closing of the form. Hooks are disabled and the settings are saved before closing.
         /// </summary>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             HookManager.DisableMouseHook();
             HookManager.DisableKeyboardHook();
-
-            GlobalSettings.Settings.X = this.Location.X;
-            GlobalSettings.Settings.Y = this.Location.Y;
 
             GlobalSettings.Save();
         }
