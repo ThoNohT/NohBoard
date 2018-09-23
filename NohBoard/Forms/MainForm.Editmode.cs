@@ -263,9 +263,21 @@ namespace ThoNohT.NohBoard.Forms
                 this.currentlyManipulating.Item2,
                 this.currentlyManipulating.Item1);
 
-            // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
-            this.selectedDefinition = this.currentlyManipulating?.Item2;
+            if (this.cumulManipulation.Length() == 0 && this.selectedDefinition != null)
+            {
+                var elementsUnderCursor = GlobalSettings.CurrentDefinition.Elements
+                  .Where(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
+                  .Reverse();
 
+                var nextelementUnderCursor = elementsUnderCursor.SkipWhile(el => el.Id != this.currentlyManipulating.Item1).Skip(1).FirstOrDefault()
+                    ?? elementsUnderCursor.FirstOrDefault();
+                this.selectedDefinition = nextelementUnderCursor;
+            }
+            else
+            {
+                // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
+                this.selectedDefinition = this.currentlyManipulating.Item2;
+            }
             this.currentlyManipulating = null;
             this.manipulationStart = null;
             this.currentManipulationPoint = new Point();

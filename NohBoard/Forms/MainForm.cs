@@ -488,6 +488,7 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Settings
 
         #region Rendering
+
         /// <summary>
         /// Paints the keyboard on the screen.
         /// </summary>
@@ -511,32 +512,7 @@ namespace ThoNohT.NohBoard.Forms
             var allDefs = GlobalSettings.CurrentDefinition.Elements;
             foreach (var def in allDefs)
             {
-                if (def is KeyboardKeyDefinition kkDef)
-                {
-                    if (!kkDef.KeyCodes.Any() || !kkDef.KeyCodes.All(kbKeys.Contains)) continue;
-
-                    if (kkDef.KeyCodes.Count == 1
-                        && allDefs.OfType<KeyboardKeyDefinition>()
-                            .Any(d => d.KeyCodes.Count > 1
-                            && d.KeyCodes.All(kbKeys.Contains)
-                            && d.KeyCodes.ContainsAll(kkDef.KeyCodes))) continue;
-
-                    kkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-                }
-                if (def is MouseKeyDefinition mkDef)
-                {
-                    if (mouseKeys.Contains(mkDef.KeyCodes.Single()))
-                        mkDef.Render(e.Graphics, true, KeyboardState.ShiftDown, KeyboardState.CapsActive);
-                }
-                if (def is MouseScrollDefinition msDef)
-                {
-                    var scrollCount = scrollCounts[msDef.KeyCodes.Single()];
-                    if (scrollCount > 0) msDef.Render(e.Graphics, scrollCount);
-                }
-                if (def is MouseSpeedIndicatorDefinition)
-                {
-                    ((MouseSpeedIndicatorDefinition)def).Render(e.Graphics, MouseState.AverageSpeed);
-                }
+                Render(e.Graphics, def, allDefs, kbKeys, mouseKeys, scrollCounts, false);
             }
 
             // Draw the element being manipulated
@@ -545,7 +521,12 @@ namespace ThoNohT.NohBoard.Forms
                 if (this.highlightedDefinition != this.selectedDefinition)
                     // Draw highlighted only if it is not also selected.
                     this.highlightedDefinition?.RenderHighlight(e.Graphics);
-                this.selectedDefinition?.RenderSelected(e.Graphics);
+
+                if (this.selectedDefinition != null)
+                {
+                    Render(e.Graphics, this.selectedDefinition, allDefs, kbKeys, mouseKeys, scrollCounts, true);
+                    this.selectedDefinition.RenderSelected(e.Graphics);
+                }
             }
             else
             {
@@ -553,6 +534,58 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             base.OnPaint(e);
+        }
+
+        /// <summary>
+        /// Renders a single element definition.
+        /// </summary>
+        /// <param name="g">The GDI+ surface to render on.</param>
+        /// <param name="def">The element definition to render.</param>
+        /// <param name="allDefs">The list of all element definition.</param>
+        /// <param name="kbKeys">The list of keyboard keys that are pressed.</param>
+        /// <param name="mouseKeys">The list of mouse keys that are pressed.</param>
+        /// <param name="scrollCounts">The list of scroll counts.</param>
+        /// <param name="scrollCounts">If <c>true</c>, the key will always render, regardless of whether it is
+        /// different from the background.</param>
+        private void Render(
+            Graphics g,
+            ElementDefinition def,
+            List<ElementDefinition> allDefs,
+            IReadOnlyList<int> kbKeys,
+            List<int> mouseKeys,
+            IReadOnlyList<int> scrollCounts,
+            bool alwaysRender)
+        {
+            if (def is KeyboardKeyDefinition kkDef)
+            {
+                var pressed = true;
+                if (!kkDef.KeyCodes.Any() || !kkDef.KeyCodes.All(kbKeys.Contains)) pressed = false;
+
+                if (kkDef.KeyCodes.Count == 1
+                    && allDefs.OfType<KeyboardKeyDefinition>()
+                        .Any(d => d.KeyCodes.Count > 1
+                        && d.KeyCodes.All(kbKeys.Contains)
+                        && d.KeyCodes.ContainsAll(kkDef.KeyCodes))) pressed = false;
+
+                if (!pressed && !alwaysRender) return;
+
+                kkDef.Render(g, pressed, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+            }
+            if (def is MouseKeyDefinition mkDef)
+            {
+                var pressed = mouseKeys.Contains(mkDef.KeyCodes.Single());
+                if (pressed || alwaysRender)
+                    mkDef.Render(g, pressed, KeyboardState.ShiftDown, KeyboardState.CapsActive);
+            }
+            if (def is MouseScrollDefinition msDef)
+            {
+                var scrollCount = scrollCounts[msDef.KeyCodes.Single()];
+                if (scrollCount > 0 || alwaysRender) msDef.Render(g, scrollCount);
+            }
+            if (def is MouseSpeedIndicatorDefinition)
+            {
+                ((MouseSpeedIndicatorDefinition)def).Render(g, MouseState.AverageSpeed);
+            }
         }
 
         /// <summary>
