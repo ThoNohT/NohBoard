@@ -284,6 +284,12 @@ namespace ThoNohT.NohBoard.Keyboard
             }
 
             var kbDef = FileHelper.Deserialize<KeyboardDefinition>(filePath);
+
+            // Check that there are not duplicate elements.
+            var elementIds = kbDef.Elements.Select(e => e.Id);
+            if (elementIds.Count() != elementIds.Distinct().Count())
+                throw new Exception("Not all element ids are unique in this keyboard definition.");
+
             kbDef.Category = category;
             kbDef.Name = name;
             return kbDef;

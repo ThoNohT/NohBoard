@@ -150,6 +150,7 @@ namespace ThoNohT.NohBoard.Keyboard
                 throw new Exception($"Style file not found for {currentPath}/{name}.");
 
             var kbStyle = FileHelper.Deserialize<KeyboardStyle>(filePath);
+
             kbStyle.Name = name;
             return kbStyle;
         }

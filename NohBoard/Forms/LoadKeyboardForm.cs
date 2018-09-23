@@ -205,10 +205,17 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void DefinitionsList_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            var kbDef = KeyboardDefinition.Load(this.SelectedCategory, this.SelectedDefinition);
+            try
+            {
+                var kbDef = KeyboardDefinition.Load(this.SelectedCategory, this.SelectedDefinition);
 
-            this.LoadStyles();
-            if (this.StyleList.Items.Count == 0) this.DefinitionChanged?.Invoke(kbDef, null, false);
+                this.LoadStyles();
+                if (this.StyleList.Items.Count == 0) this.DefinitionChanged?.Invoke(kbDef, null, false);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load keyboard {this.SelectedDefinition}: {ex.Message}");
+                return;
+            }
         }
 
         /// <summary>
@@ -216,10 +223,18 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void StyleList_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            this.DefinitionChanged?.Invoke(
-                KeyboardDefinition.Load(this.SelectedCategory, this.SelectedDefinition),
-                KeyboardStyle.Load(this.SelectedStyle.Name, this.SelectedStyle.Global),
-                this.SelectedStyle.Global);
+            try
+            {
+                this.DefinitionChanged?.Invoke(
+                    KeyboardDefinition.Load(this.SelectedCategory, this.SelectedDefinition),
+                    KeyboardStyle.Load(this.SelectedStyle.Name, this.SelectedStyle.Global),
+                    this.SelectedStyle.Global);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load keyboard {this.SelectedDefinition}: {ex.Message}");
+                return;
+            }
         }
 
         #region Helpers
