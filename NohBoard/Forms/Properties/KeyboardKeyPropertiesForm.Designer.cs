@@ -49,14 +49,12 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp = new System.Windows.Forms.Button();
             this.btnRemoveBoundary = new System.Windows.Forms.Button();
             this.btnAddBoundary = new System.Windows.Forms.Button();
-            this.txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.CancelButton2 = new System.Windows.Forms.Button();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.lblBoundaries = new System.Windows.Forms.Label();
             this.lstBoundaries = new System.Windows.Forms.ListBox();
             this.lblText = new System.Windows.Forms.Label();
             this.txtText = new System.Windows.Forms.TextBox();
-            this.txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.lblTextPosition = new System.Windows.Forms.Label();
             this.lblShiftText = new System.Windows.Forms.Label();
             this.txtShiftText = new System.Windows.Forms.TextBox();
@@ -66,6 +64,9 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.udKeyCode = new System.Windows.Forms.NumericUpDown();
             this.lblKeyCodes = new System.Windows.Forms.Label();
             this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
+            this.btnDetectKeyCode = new System.Windows.Forms.Button();
+            this.txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            this.txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,19 +109,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnAddBoundary.Text = "Add";
             this.btnAddBoundary.UseVisualStyleBackColor = true;
             this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
-            // 
-            // txtBoundaries
-            // 
-            this.txtBoundaries.Location = new System.Drawing.Point(85, 90);
-            this.txtBoundaries.MaxVal = 2147483647;
-            this.txtBoundaries.Name = "txtBoundaries";
-            this.txtBoundaries.Separator = ';';
-            this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
-            this.txtBoundaries.SpacesAroundSeparator = true;
-            this.txtBoundaries.TabIndex = 4;
-            this.txtBoundaries.Text = "0 ; 0";
-            this.txtBoundaries.X = 0;
-            this.txtBoundaries.Y = 0;
             // 
             // CancelButton2
             // 
@@ -175,19 +163,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
             this.txtText.TabIndex = 1;
-            // 
-            // txtTextPosition
-            // 
-            this.txtTextPosition.Location = new System.Drawing.Point(85, 64);
-            this.txtTextPosition.MaxVal = 2147483647;
-            this.txtTextPosition.Name = "txtTextPosition";
-            this.txtTextPosition.Separator = ';';
-            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
-            this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 3;
-            this.txtTextPosition.Text = "0 ; 0";
-            this.txtTextPosition.X = 0;
-            this.txtTextPosition.Y = 0;
             // 
             // lblTextPosition
             // 
@@ -283,6 +258,44 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.chkChangeOnCaps.Text = "Change capitalization on Caps Lock key";
             this.chkChangeOnCaps.UseVisualStyleBackColor = true;
             // 
+            // btnDetectKeyCode
+            // 
+            this.btnDetectKeyCode.Location = new System.Drawing.Point(247, 122);
+            this.btnDetectKeyCode.Name = "btnDetectKeyCode";
+            this.btnDetectKeyCode.Size = new System.Drawing.Size(75, 23);
+            this.btnDetectKeyCode.TabIndex = 53;
+            this.btnDetectKeyCode.Text = "Detect";
+            this.btnDetectKeyCode.UseVisualStyleBackColor = true;
+            this.btnDetectKeyCode.Enter += new System.EventHandler(this.btnDetectKeyCode_Enter);
+            this.btnDetectKeyCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnDetectKeyCode_KeyDown);
+            this.btnDetectKeyCode.Leave += new System.EventHandler(this.btnDetectKeyCode_Leave);
+            // 
+            // txtBoundaries
+            // 
+            this.txtBoundaries.Location = new System.Drawing.Point(85, 90);
+            this.txtBoundaries.MaxVal = 2147483647;
+            this.txtBoundaries.Name = "txtBoundaries";
+            this.txtBoundaries.Separator = ';';
+            this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
+            this.txtBoundaries.SpacesAroundSeparator = true;
+            this.txtBoundaries.TabIndex = 4;
+            this.txtBoundaries.Text = "0 ; 0";
+            this.txtBoundaries.X = 0;
+            this.txtBoundaries.Y = 0;
+            // 
+            // txtTextPosition
+            // 
+            this.txtTextPosition.Location = new System.Drawing.Point(85, 64);
+            this.txtTextPosition.MaxVal = 2147483647;
+            this.txtTextPosition.Name = "txtTextPosition";
+            this.txtTextPosition.Separator = ';';
+            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
+            this.txtTextPosition.SpacesAroundSeparator = true;
+            this.txtTextPosition.TabIndex = 3;
+            this.txtTextPosition.Text = "0 ; 0";
+            this.txtTextPosition.X = 0;
+            this.txtTextPosition.Y = 0;
+            // 
             // KeyboardKeyPropertiesForm
             // 
             this.AcceptButton = this.AcceptButton2;
@@ -290,6 +303,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
             this.ClientSize = new System.Drawing.Size(492, 234);
+            this.Controls.Add(this.btnDetectKeyCode);
             this.Controls.Add(this.chkChangeOnCaps);
             this.Controls.Add(this.lblKeyCodes);
             this.Controls.Add(this.udKeyCode);
@@ -345,5 +359,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.NumericUpDown udKeyCode;
         private System.Windows.Forms.Label lblKeyCodes;
         private System.Windows.Forms.CheckBox chkChangeOnCaps;
+        private System.Windows.Forms.Button btnDetectKeyCode;
     }
 }
