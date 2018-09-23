@@ -67,6 +67,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lblKeyCodes = new System.Windows.Forms.Label();
             this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
             this.btnUpdateBoundary = new System.Windows.Forms.Button();
+            this.btnRectangle = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,7 +127,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(324, 232);
+            this.CancelButton2.Location = new System.Drawing.Point(328, 261);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 15;
@@ -136,7 +137,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(405, 232);
+            this.AcceptButton2.Location = new System.Drawing.Point(405, 261);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 16;
@@ -158,7 +159,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.FormattingEnabled = true;
             this.lstBoundaries.Location = new System.Drawing.Point(85, 116);
             this.lstBoundaries.Name = "lstBoundaries";
-            this.lstBoundaries.Size = new System.Drawing.Size(156, 134);
+            this.lstBoundaries.Size = new System.Drawing.Size(156, 160);
             this.lstBoundaries.TabIndex = 10;
             // 
             // lblText
@@ -220,7 +221,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstKeyCodes.FormattingEnabled = true;
             this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
             this.lstKeyCodes.Name = "lstKeyCodes";
-            this.lstKeyCodes.Size = new System.Drawing.Size(151, 160);
+            this.lstKeyCodes.Size = new System.Drawing.Size(151, 186);
             this.lstKeyCodes.TabIndex = 14;
             // 
             // btnRemoveKeyCode
@@ -294,14 +295,25 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
             // 
+            // btnRectangle
+            // 
+            this.btnRectangle.Location = new System.Drawing.Point(4, 261);
+            this.btnRectangle.Name = "btnRectangle";
+            this.btnRectangle.Size = new System.Drawing.Size(75, 23);
+            this.btnRectangle.TabIndex = 53;
+            this.btnRectangle.Text = "Rectangle";
+            this.btnRectangle.UseVisualStyleBackColor = true;
+            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
+            // 
             // KeyboardKeyPropertiesForm
             // 
             this.AcceptButton = this.AcceptButton2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(492, 261);
+            this.ClientSize = new System.Drawing.Size(492, 293);
             this.Controls.Add(this.btnUpdateBoundary);
+            this.Controls.Add(this.btnRectangle);
             this.Controls.Add(this.chkChangeOnCaps);
             this.Controls.Add(this.lblKeyCodes);
             this.Controls.Add(this.udKeyCode);
@@ -358,5 +370,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.Label lblKeyCodes;
         private System.Windows.Forms.CheckBox chkChangeOnCaps;
         private System.Windows.Forms.Button btnUpdateBoundary;
+        private System.Windows.Forms.Button btnRectangle;
     }
 }

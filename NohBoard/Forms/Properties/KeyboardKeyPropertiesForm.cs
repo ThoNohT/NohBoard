@@ -191,6 +191,36 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
+        /// <summary>
+        /// Handles the click even of the "Rectangle" button, opens the dialog.
+        /// </summary>
+        private void btnRectangle_Click(object sender, EventArgs e)
+        {
+            var rectangle = TRectangle.FromPointList(this.lstBoundaries.Items.Cast<TPoint>().ToArray());
+            using (var rectangleForm = new RectangleBoundaryForm(rectangle))
+            {
+                rectangleForm.DimensionsSet += OnRectangleDimensionsSet;
+                rectangleForm.ShowDialog(this);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Called when the user clicks "Apply" in the rectangle dialog. Sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void OnRectangleDimensionsSet(TRectangle rectangle)
+        {
+            this.lstBoundaries.Items.Clear();
+            this.lstBoundaries.Items.Add(rectangle.TopLeft);
+            this.lstBoundaries.Items.Add(rectangle.TopRight);
+            this.lstBoundaries.Items.Add(rectangle.BottomRight);
+            this.lstBoundaries.Items.Add(rectangle.BottomLeft);
+
+            this.currentDefinition =
+                this.currentDefinition.Modify(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
         #endregion Boundaries
 
         #region KeyCodes
