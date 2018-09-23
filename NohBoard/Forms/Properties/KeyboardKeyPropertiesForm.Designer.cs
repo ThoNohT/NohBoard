@@ -66,12 +66,13 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.udKeyCode = new System.Windows.Forms.NumericUpDown();
             this.lblKeyCodes = new System.Windows.Forms.Label();
             this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
+            this.btnUpdateBoundary = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBoundaryDown
             // 
-            this.btnBoundaryDown.Location = new System.Drawing.Point(4, 203);
+            this.btnBoundaryDown.Location = new System.Drawing.Point(4, 232);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
             this.btnBoundaryDown.TabIndex = 8;
@@ -81,7 +82,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // btnBoundaryUp
             // 
-            this.btnBoundaryUp.Location = new System.Drawing.Point(4, 174);
+            this.btnBoundaryUp.Location = new System.Drawing.Point(4, 203);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
             this.btnBoundaryUp.TabIndex = 7;
@@ -91,7 +92,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // btnRemoveBoundary
             // 
-            this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 145);
+            this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 174);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
             this.btnRemoveBoundary.TabIndex = 6;
@@ -157,7 +158,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.FormattingEnabled = true;
             this.lstBoundaries.Location = new System.Drawing.Point(85, 116);
             this.lstBoundaries.Name = "lstBoundaries";
-            this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
+            this.lstBoundaries.Size = new System.Drawing.Size(156, 134);
             this.lstBoundaries.TabIndex = 9;
             // 
             // lblText
@@ -283,13 +284,24 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.chkChangeOnCaps.Text = "Change capitalization on Caps Lock key";
             this.chkChangeOnCaps.UseVisualStyleBackColor = true;
             // 
+            // btnUpdateBoundary
+            // 
+            this.btnUpdateBoundary.Location = new System.Drawing.Point(4, 145);
+            this.btnUpdateBoundary.Name = "btnUpdateBoundary";
+            this.btnUpdateBoundary.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdateBoundary.TabIndex = 53;
+            this.btnUpdateBoundary.Text = "Update";
+            this.btnUpdateBoundary.UseVisualStyleBackColor = true;
+            this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
+            // 
             // KeyboardKeyPropertiesForm
             // 
             this.AcceptButton = this.AcceptButton2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(492, 234);
+            this.ClientSize = new System.Drawing.Size(492, 261);
+            this.Controls.Add(this.btnUpdateBoundary);
             this.Controls.Add(this.chkChangeOnCaps);
             this.Controls.Add(this.lblKeyCodes);
             this.Controls.Add(this.udKeyCode);
@@ -345,5 +357,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.NumericUpDown udKeyCode;
         private System.Windows.Forms.Label lblKeyCodes;
         private System.Windows.Forms.CheckBox chkChangeOnCaps;
+        private System.Windows.Forms.Button btnUpdateBoundary;
     }
 }
