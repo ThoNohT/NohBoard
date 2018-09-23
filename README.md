@@ -12,6 +12,7 @@ An initial version was made in C++, this originated from the desire to make some
 - Eric "ThoNohT" Bataille (e.c.p.bataille@gmail.com) - Original author
 
 **Contributors**
+- Marius "Buttercak3" Becker - Various bugfixes
 - Ivan "YaLTeR" Molodetskikh - Added the scroll counter *(NohBoard classic)*
 - Michal Mitter - Added button outline *(NohBoard classic)*
 
