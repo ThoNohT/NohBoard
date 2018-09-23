@@ -126,7 +126,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(324, 203);
+            this.CancelButton2.Location = new System.Drawing.Point(324, 232);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 14;
@@ -136,7 +136,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(405, 203);
+            this.AcceptButton2.Location = new System.Drawing.Point(405, 232);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 15;
@@ -220,7 +220,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstKeyCodes.FormattingEnabled = true;
             this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
             this.lstKeyCodes.Name = "lstKeyCodes";
-            this.lstKeyCodes.Size = new System.Drawing.Size(151, 134);
+            this.lstKeyCodes.Size = new System.Drawing.Size(151, 160);
             this.lstKeyCodes.TabIndex = 13;
             // 
             // btnRemoveKeyCode
