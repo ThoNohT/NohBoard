@@ -116,6 +116,27 @@ namespace ThoNohT.NohBoard.Forms.Properties
         }
 
         /// <summary>
+        /// Handles updating a boundary, sets the new boundaries and invokes the changed event.
+        /// </summary>
+        private void btnUpdateBoundary_Click(object sender, EventArgs e)
+        {
+            if (this.lstBoundaries.SelectedItem == null) return;
+
+            var updateIndex = this.lstBoundaries.SelectedIndex;
+            var newBoundary = new TPoint(this.txtBoundaries.X, this.txtBoundaries.Y);
+
+            if (this.lstBoundaries.Items.Cast<TPoint>().Any(p => p.X == newBoundary.X && p.Y == newBoundary.Y)) return;
+
+            this.lstBoundaries.Items.RemoveAt(updateIndex);
+            this.lstBoundaries.Items.Insert(updateIndex, newBoundary);
+            this.lstBoundaries.SelectedIndex = updateIndex;
+
+            this.currentDefinition =
+                this.currentDefinition.Modify(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
+            this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        /// <summary>
         /// Handles removing a boundary, sets the new boundaries and invokes the changed event.
         /// </summary>
         private void btnRemoveBoundary_Click(object sender, EventArgs e)
