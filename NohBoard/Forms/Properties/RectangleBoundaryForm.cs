@@ -15,11 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Windows.Forms;
-
 namespace ThoNohT.NohBoard.Forms.Properties
 {
+    using System;
+    using System.Windows.Forms;
     using Extra;
 
     /// <summary>
