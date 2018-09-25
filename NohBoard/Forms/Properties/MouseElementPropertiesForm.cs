@@ -249,7 +249,31 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void txtTextPosition_ValueChanged(Controls.VectorTextBox sender, TPoint newValue)
         {
-            this.currentDefinition = this.currentDefinition.ModifyMouse(textPosition: newValue);
+            this.UpdateTextPosition();
+        }
+
+        /// <summary>
+        /// Handles clicking of the "Center" button for the text location. Sets the input's value to the center of the button and updates the text.
+        /// </summary>
+        private void btnCenterText_Click(object sender, EventArgs e)
+        {
+            var bBox = this.currentDefinition.GetBoundingBox();
+            var center = new TPoint((bBox.Left + bBox.Right) / 2, (bBox.Top + bBox.Bottom) / 2);
+
+            this.txtTextPosition.X = center.X;
+            this.txtTextPosition.Y = center.Y;
+
+            this.UpdateTextPosition();
+        }
+
+        /// <summary>
+        /// Takes the current text position input value, updates the current defifinition with it and invokes the change events.
+        /// </summary>
+        private void UpdateTextPosition()
+        {
+            var newPos = new TPoint(this.txtTextPosition.X, this.txtTextPosition.Y);
+
+            this.currentDefinition = this.currentDefinition.ModifyMouse(textPosition: newPos);
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 

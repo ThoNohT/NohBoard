@@ -61,6 +61,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp = new System.Windows.Forms.Button();
             this.btnBoundaryDown = new System.Windows.Forms.Button();
             this.btnUpdateBoundary = new System.Windows.Forms.Button();
+            this.btnCenterText = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTextPosition
@@ -69,9 +70,9 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.MaxVal = 2147483647;
             this.txtTextPosition.Name = "txtTextPosition";
             this.txtTextPosition.Separator = ';';
-            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
+            this.txtTextPosition.Size = new System.Drawing.Size(77, 20);
             this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 3;
+            this.txtTextPosition.TabIndex = 2;
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
@@ -90,7 +91,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtText.Location = new System.Drawing.Point(85, 39);
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
-            this.txtText.TabIndex = 2;
+            this.txtText.TabIndex = 1;
             // 
             // lblText
             // 
@@ -107,7 +108,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.cmbKeyCode.Location = new System.Drawing.Point(85, 12);
             this.cmbKeyCode.Name = "cmbKeyCode";
             this.cmbKeyCode.Size = new System.Drawing.Size(156, 21);
-            this.cmbKeyCode.TabIndex = 1;
+            this.cmbKeyCode.TabIndex = 0;
             // 
             // lblKeyCode
             // 
@@ -219,6 +220,16 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
             // 
+            // btnCenterText
+            // 
+            this.btnCenterText.Location = new System.Drawing.Point(168, 63);
+            this.btnCenterText.Name = "btnCenterText";
+            this.btnCenterText.Size = new System.Drawing.Size(73, 23);
+            this.btnCenterText.TabIndex = 3;
+            this.btnCenterText.Text = "Center";
+            this.btnCenterText.UseVisualStyleBackColor = true;
+            this.btnCenterText.Click += new System.EventHandler(this.btnCenterText_Click);
+            // 
             // MouseElementPropertiesForm
             // 
             this.AcceptButton = this.AcceptButton2;
@@ -227,6 +238,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.CancelButton = this.CancelButton2;
             this.ClientSize = new System.Drawing.Size(253, 261);
             this.Controls.Add(this.btnUpdateBoundary);
+            this.Controls.Add(this.btnCenterText);
             this.Controls.Add(this.btnBoundaryDown);
             this.Controls.Add(this.btnBoundaryUp);
             this.Controls.Add(this.btnRemoveBoundary);
@@ -270,5 +282,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.Button btnBoundaryUp;
         private System.Windows.Forms.Button btnBoundaryDown;
         private System.Windows.Forms.Button btnUpdateBoundary;
+        private System.Windows.Forms.Button btnCenterText;
     }
 }
