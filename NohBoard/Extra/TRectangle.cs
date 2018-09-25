@@ -85,7 +85,7 @@ namespace ThoNohT.NohBoard.Extra
         /// <summary>
         /// Returns a Size object with the Width and Height properties of this rectangle.
         /// </summary>
-        public Size Size =>new Size(this.Right - this.Left, this.Bottom - this.Top);
+        public Size Size => new Size(this.Right - this.Left, this.Bottom - this.Top);
 
         /// <summary>
         /// Returns the top left corner of the rectangle as a TPoint.
