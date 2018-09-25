@@ -91,7 +91,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtText.Location = new System.Drawing.Point(85, 39);
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
-            this.txtText.TabIndex = 2;
+            this.txtText.TabIndex = 1;
             // 
             // lblText
             // 
@@ -108,7 +108,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.cmbKeyCode.Location = new System.Drawing.Point(85, 12);
             this.cmbKeyCode.Name = "cmbKeyCode";
             this.cmbKeyCode.Size = new System.Drawing.Size(156, 21);
-            this.cmbKeyCode.TabIndex = 1;
+            this.cmbKeyCode.TabIndex = 0;
             // 
             // lblKeyCode
             // 
@@ -175,7 +175,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnAddBoundary.Location = new System.Drawing.Point(4, 117);
             this.btnAddBoundary.Name = "btnAddBoundary";
             this.btnAddBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnAddBoundary.TabIndex = 5;
+            this.btnAddBoundary.TabIndex = 4;
             this.btnAddBoundary.Text = "Add";
             this.btnAddBoundary.UseVisualStyleBackColor = true;
             this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
@@ -185,7 +185,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 175);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveBoundary.TabIndex = 7;
+            this.btnRemoveBoundary.TabIndex = 6;
             this.btnRemoveBoundary.Text = "Remove";
             this.btnRemoveBoundary.UseVisualStyleBackColor = true;
             this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
@@ -195,7 +195,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp.Location = new System.Drawing.Point(4, 204);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryUp.TabIndex = 8;
+            this.btnBoundaryUp.TabIndex = 7;
             this.btnBoundaryUp.Text = "Up";
             this.btnBoundaryUp.UseVisualStyleBackColor = true;
             this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
@@ -205,7 +205,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryDown.Location = new System.Drawing.Point(4, 233);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryDown.TabIndex = 9;
+            this.btnBoundaryDown.TabIndex = 8;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
             this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
@@ -215,7 +215,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.Location = new System.Drawing.Point(4, 146);
             this.btnUpdateBoundary.Name = "btnUpdateBoundary";
             this.btnUpdateBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateBoundary.TabIndex = 6;
+            this.btnUpdateBoundary.TabIndex = 5;
             this.btnUpdateBoundary.Text = "Update";
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
@@ -225,7 +225,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnRectangle.Location = new System.Drawing.Point(4, 262);
             this.btnRectangle.Name = "btnRectangle";
             this.btnRectangle.Size = new System.Drawing.Size(75, 23);
-            this.btnRectangle.TabIndex = 8;
+            this.btnRectangle.TabIndex = 9;
             this.btnRectangle.Text = "Rectangle";
             this.btnRectangle.UseVisualStyleBackColor = true;
             this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);

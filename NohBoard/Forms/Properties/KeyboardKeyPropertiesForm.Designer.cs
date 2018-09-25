@@ -76,7 +76,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryDown.Location = new System.Drawing.Point(4, 232);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryDown.TabIndex = 9;
+            this.btnBoundaryDown.TabIndex = 8;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
             this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
@@ -86,7 +86,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp.Location = new System.Drawing.Point(4, 203);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryUp.TabIndex = 8;
+            this.btnBoundaryUp.TabIndex = 7;
             this.btnBoundaryUp.Text = "Up";
             this.btnBoundaryUp.UseVisualStyleBackColor = true;
             this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
@@ -96,7 +96,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 174);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveBoundary.TabIndex = 7;
+            this.btnRemoveBoundary.TabIndex = 6;
             this.btnRemoveBoundary.Text = "Remove";
             this.btnRemoveBoundary.UseVisualStyleBackColor = true;
             this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
@@ -106,7 +106,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnAddBoundary.Location = new System.Drawing.Point(4, 116);
             this.btnAddBoundary.Name = "btnAddBoundary";
             this.btnAddBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnAddBoundary.TabIndex = 5;
+            this.btnAddBoundary.TabIndex = 4;
             this.btnAddBoundary.Text = "Add";
             this.btnAddBoundary.UseVisualStyleBackColor = true;
             this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
@@ -119,7 +119,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtBoundaries.Separator = ';';
             this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
             this.txtBoundaries.SpacesAroundSeparator = true;
-            this.txtBoundaries.TabIndex = 4;
+            this.txtBoundaries.TabIndex = 3;
             this.txtBoundaries.Text = "0 ; 0";
             this.txtBoundaries.X = 0;
             this.txtBoundaries.Y = 0;
@@ -176,7 +176,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtText.Location = new System.Drawing.Point(85, 11);
             this.txtText.Name = "txtText";
             this.txtText.Size = new System.Drawing.Size(156, 20);
-            this.txtText.TabIndex = 1;
+            this.txtText.TabIndex = 0;
             // 
             // txtTextPosition
             // 
@@ -186,7 +186,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.Separator = ';';
             this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
             this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 3;
+            this.txtTextPosition.TabIndex = 2;
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
@@ -214,7 +214,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtShiftText.Location = new System.Drawing.Point(85, 37);
             this.txtShiftText.Name = "txtShiftText";
             this.txtShiftText.Size = new System.Drawing.Size(156, 20);
-            this.txtShiftText.TabIndex = 2;
+            this.txtShiftText.TabIndex = 1;
             // 
             // lstKeyCodes
             // 
@@ -290,7 +290,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.Location = new System.Drawing.Point(4, 145);
             this.btnUpdateBoundary.Name = "btnUpdateBoundary";
             this.btnUpdateBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateBoundary.TabIndex = 6;
+            this.btnUpdateBoundary.TabIndex = 5;
             this.btnUpdateBoundary.Text = "Update";
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
@@ -300,7 +300,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnRectangle.Location = new System.Drawing.Point(4, 261);
             this.btnRectangle.Name = "btnRectangle";
             this.btnRectangle.Size = new System.Drawing.Size(75, 23);
-            this.btnRectangle.TabIndex = 53;
+            this.btnRectangle.TabIndex = 9;
             this.btnRectangle.Text = "Rectangle";
             this.btnRectangle.UseVisualStyleBackColor = true;
             this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
