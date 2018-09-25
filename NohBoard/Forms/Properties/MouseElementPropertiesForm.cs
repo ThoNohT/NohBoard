@@ -152,6 +152,8 @@ namespace ThoNohT.NohBoard.Forms.Properties
             var updateIndex = this.lstBoundaries.SelectedIndex;
             var newBoundary = new TPoint(this.txtBoundaries.X, this.txtBoundaries.Y);
 
+            if (this.lstBoundaries.Items.Cast<TPoint>().Any(p => p.X == newBoundary.X && p.Y == newBoundary.Y)) return;
+
             this.lstBoundaries.Items.RemoveAt(updateIndex);
             this.lstBoundaries.Items.Insert(updateIndex, newBoundary);
             this.lstBoundaries.SelectedIndex = updateIndex;
