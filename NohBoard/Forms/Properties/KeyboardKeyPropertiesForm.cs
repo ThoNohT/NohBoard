@@ -201,7 +201,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             {
                 rectangleForm.DimensionsSet += OnRectangleDimensionsSet;
                 rectangleForm.ShowDialog(this);
-                return;
             }
         }
 
