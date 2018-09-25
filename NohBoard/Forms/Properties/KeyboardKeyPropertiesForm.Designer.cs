@@ -75,7 +75,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryDown.Location = new System.Drawing.Point(4, 232);
             this.btnBoundaryDown.Name = "btnBoundaryDown";
             this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryDown.TabIndex = 8;
+            this.btnBoundaryDown.TabIndex = 9;
             this.btnBoundaryDown.Text = "Down";
             this.btnBoundaryDown.UseVisualStyleBackColor = true;
             this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
@@ -85,7 +85,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp.Location = new System.Drawing.Point(4, 203);
             this.btnBoundaryUp.Name = "btnBoundaryUp";
             this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryUp.TabIndex = 7;
+            this.btnBoundaryUp.TabIndex = 8;
             this.btnBoundaryUp.Text = "Up";
             this.btnBoundaryUp.UseVisualStyleBackColor = true;
             this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
@@ -95,7 +95,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 174);
             this.btnRemoveBoundary.Name = "btnRemoveBoundary";
             this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveBoundary.TabIndex = 6;
+            this.btnRemoveBoundary.TabIndex = 7;
             this.btnRemoveBoundary.Text = "Remove";
             this.btnRemoveBoundary.UseVisualStyleBackColor = true;
             this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
@@ -129,7 +129,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.CancelButton2.Location = new System.Drawing.Point(324, 232);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 14;
+            this.CancelButton2.TabIndex = 15;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
@@ -139,7 +139,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.AcceptButton2.Location = new System.Drawing.Point(405, 232);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 15;
+            this.AcceptButton2.TabIndex = 16;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
             this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
@@ -159,7 +159,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.Location = new System.Drawing.Point(85, 116);
             this.lstBoundaries.Name = "lstBoundaries";
             this.lstBoundaries.Size = new System.Drawing.Size(156, 134);
-            this.lstBoundaries.TabIndex = 9;
+            this.lstBoundaries.TabIndex = 10;
             // 
             // lblText
             // 
@@ -221,14 +221,14 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
             this.lstKeyCodes.Name = "lstKeyCodes";
             this.lstKeyCodes.Size = new System.Drawing.Size(151, 160);
-            this.lstKeyCodes.TabIndex = 13;
+            this.lstKeyCodes.TabIndex = 14;
             // 
             // btnRemoveKeyCode
             // 
             this.btnRemoveKeyCode.Location = new System.Drawing.Point(247, 93);
             this.btnRemoveKeyCode.Name = "btnRemoveKeyCode";
             this.btnRemoveKeyCode.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveKeyCode.TabIndex = 12;
+            this.btnRemoveKeyCode.TabIndex = 13;
             this.btnRemoveKeyCode.Text = "Remove";
             this.btnRemoveKeyCode.UseVisualStyleBackColor = true;
             this.btnRemoveKeyCode.Click += new System.EventHandler(this.btnRemoveKeyCode_Click);
@@ -238,7 +238,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnAddKeyCode.Location = new System.Drawing.Point(247, 64);
             this.btnAddKeyCode.Name = "btnAddKeyCode";
             this.btnAddKeyCode.Size = new System.Drawing.Size(75, 23);
-            this.btnAddKeyCode.TabIndex = 11;
+            this.btnAddKeyCode.TabIndex = 12;
             this.btnAddKeyCode.Text = "Add";
             this.btnAddKeyCode.UseVisualStyleBackColor = true;
             this.btnAddKeyCode.Click += new System.EventHandler(this.btnAddKeyCode_Click);
@@ -258,7 +258,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             0});
             this.udKeyCode.Name = "udKeyCode";
             this.udKeyCode.Size = new System.Drawing.Size(151, 20);
-            this.udKeyCode.TabIndex = 10;
+            this.udKeyCode.TabIndex = 11;
             this.udKeyCode.Value = new decimal(new int[] {
             1,
             0,
@@ -289,7 +289,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.Location = new System.Drawing.Point(4, 145);
             this.btnUpdateBoundary.Name = "btnUpdateBoundary";
             this.btnUpdateBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateBoundary.TabIndex = 53;
+            this.btnUpdateBoundary.TabIndex = 6;
             this.btnUpdateBoundary.Text = "Update";
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
