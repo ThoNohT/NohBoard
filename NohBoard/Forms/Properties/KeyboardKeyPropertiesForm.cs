@@ -192,7 +192,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         }
 
         /// <summary>
-        /// Handles the click even of the "Rectangle" button, opens the dialog.
+        /// Handles the click event of the "Rectangle" button, opens the dialog.
         /// </summary>
         private void btnRectangle_Click(object sender, EventArgs e)
         {
