@@ -132,6 +132,6 @@ namespace ThoNohT.NohBoard.Extra
             return new TRectangle(left, top, right, bottom);
         }
 
-        #endregion
+        #endregion Methods
     }
 }
