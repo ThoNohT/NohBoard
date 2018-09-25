@@ -338,7 +338,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "KeyboardKeyPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "KeyboardKeyPropertiesForm";
+            this.Text = "Keyboard Key Properties";
             this.Load += new System.EventHandler(this.KeyboardKeyPropertiesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).EndInit();
             this.ResumeLayout(false);
