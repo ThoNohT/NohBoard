@@ -61,6 +61,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnBoundaryUp = new System.Windows.Forms.Button();
             this.btnBoundaryDown = new System.Windows.Forms.Button();
             this.btnUpdateBoundary = new System.Windows.Forms.Button();
+            this.btnRectangle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTextPosition
@@ -71,7 +72,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.Separator = ';';
             this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
             this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 3;
+            this.txtTextPosition.TabIndex = 2;
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
@@ -123,7 +124,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstBoundaries.FormattingEnabled = true;
             this.lstBoundaries.Location = new System.Drawing.Point(85, 117);
             this.lstBoundaries.Name = "lstBoundaries";
-            this.lstBoundaries.Size = new System.Drawing.Size(156, 108);
+            this.lstBoundaries.Size = new System.Drawing.Size(156, 134);
             this.lstBoundaries.TabIndex = 10;
             // 
             // lblBoundaries
@@ -138,7 +139,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(85, 233);
+            this.CancelButton2.Location = new System.Drawing.Point(85, 262);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 11;
@@ -148,7 +149,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(166, 233);
+            this.AcceptButton2.Location = new System.Drawing.Point(166, 262);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 12;
@@ -164,7 +165,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtBoundaries.Separator = ';';
             this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
             this.txtBoundaries.SpacesAroundSeparator = true;
-            this.txtBoundaries.TabIndex = 4;
+            this.txtBoundaries.TabIndex = 3;
             this.txtBoundaries.Text = "0 ; 0";
             this.txtBoundaries.X = 0;
             this.txtBoundaries.Y = 0;
@@ -219,14 +220,25 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnUpdateBoundary.UseVisualStyleBackColor = true;
             this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
             // 
+            // btnRectangle
+            // 
+            this.btnRectangle.Location = new System.Drawing.Point(4, 262);
+            this.btnRectangle.Name = "btnRectangle";
+            this.btnRectangle.Size = new System.Drawing.Size(75, 23);
+            this.btnRectangle.TabIndex = 8;
+            this.btnRectangle.Text = "Rectangle";
+            this.btnRectangle.UseVisualStyleBackColor = true;
+            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
+            // 
             // MouseElementPropertiesForm
             // 
             this.AcceptButton = this.AcceptButton2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(253, 261);
+            this.ClientSize = new System.Drawing.Size(253, 292);
             this.Controls.Add(this.btnUpdateBoundary);
+            this.Controls.Add(this.btnRectangle);
             this.Controls.Add(this.btnBoundaryDown);
             this.Controls.Add(this.btnBoundaryUp);
             this.Controls.Add(this.btnRemoveBoundary);
@@ -270,5 +282,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.Button btnBoundaryUp;
         private System.Windows.Forms.Button btnBoundaryDown;
         private System.Windows.Forms.Button btnUpdateBoundary;
+        private System.Windows.Forms.Button btnRectangle;
     }
 }
