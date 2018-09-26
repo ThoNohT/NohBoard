@@ -77,6 +77,7 @@
     <Compile Include="Controls\ColorChooser.Designer.cs">
       <DependentUpon>ColorChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extra\TRectangle.cs" />
     <Compile Include="Forms\Properties\KeyboardKeyPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +101,12 @@
     </Compile>
     <Compile Include="Forms\Properties\MouseSpeedPropertiesForm.Designer.cs">
       <DependentUpon>MouseSpeedPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Properties\RectangleBoundaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Properties\RectangleBoundaryForm.Designer.cs">
+      <DependentUpon>RectangleBoundaryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Style\MouseSpeedStyleForm.cs">
       <SubType>Form</SubType>
@@ -207,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Properties\MouseSpeedPropertiesForm.resx">
       <DependentUpon>MouseSpeedPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Properties\RectangleBoundaryForm.resx">
+      <DependentUpon>RectangleBoundaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Style\MouseSpeedStyleForm.resx">
       <DependentUpon>MouseSpeedStyleForm.cs</DependentUpon>
