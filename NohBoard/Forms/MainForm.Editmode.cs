@@ -720,6 +720,8 @@ namespace ThoNohT.NohBoard.Forms
                     this.selectedDefinition = def;
                 }
 
+                this.PushUndoHistory();
+
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
                 GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                     .RemoveElement(def).AddElement(def, index);
