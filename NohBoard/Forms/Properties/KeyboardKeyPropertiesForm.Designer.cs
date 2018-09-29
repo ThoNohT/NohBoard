@@ -66,9 +66,10 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
             this.btnUpdateBoundary = new System.Windows.Forms.Button();
             this.btnCenterText = new System.Windows.Forms.Button();
+            this.btnRectangle = new System.Windows.Forms.Button();
+            this.btnDetectKeyCode = new System.Windows.Forms.Button();
             this.txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
-            this.btnRectangle = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,7 +119,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.CancelButton2.Location = new System.Drawing.Point(328, 261);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 17;
+            this.CancelButton2.TabIndex = 18;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
@@ -128,7 +129,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.AcceptButton2.Location = new System.Drawing.Point(405, 261);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 18;
+            this.AcceptButton2.TabIndex = 19;
             this.AcceptButton2.Text = "Accept";
             this.AcceptButton2.UseVisualStyleBackColor = true;
             this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
@@ -197,7 +198,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
             this.lstKeyCodes.Name = "lstKeyCodes";
             this.lstKeyCodes.Size = new System.Drawing.Size(151, 186);
-            this.lstKeyCodes.TabIndex = 16;
+            this.lstKeyCodes.TabIndex = 17;
             // 
             // btnRemoveKeyCode
             // 
@@ -280,6 +281,28 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnCenterText.UseVisualStyleBackColor = true;
             this.btnCenterText.Click += new System.EventHandler(this.btnCenterText_Click);
             // 
+            // btnRectangle
+            // 
+            this.btnRectangle.Location = new System.Drawing.Point(4, 261);
+            this.btnRectangle.Name = "btnRectangle";
+            this.btnRectangle.Size = new System.Drawing.Size(75, 23);
+            this.btnRectangle.TabIndex = 11;
+            this.btnRectangle.Text = "Rectangle";
+            this.btnRectangle.UseVisualStyleBackColor = true;
+            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
+            // 
+            // btnDetectKeyCode
+            // 
+            this.btnDetectKeyCode.Location = new System.Drawing.Point(247, 122);
+            this.btnDetectKeyCode.Name = "btnDetectKeyCode";
+            this.btnDetectKeyCode.Size = new System.Drawing.Size(75, 23);
+            this.btnDetectKeyCode.TabIndex = 16;
+            this.btnDetectKeyCode.Text = "Detect";
+            this.btnDetectKeyCode.UseVisualStyleBackColor = true;
+            this.btnDetectKeyCode.Enter += new System.EventHandler(this.btnDetectKeyCode_Enter);
+            this.btnDetectKeyCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnDetectKeyCode_KeyDown);
+            this.btnDetectKeyCode.Leave += new System.EventHandler(this.btnDetectKeyCode_Leave);
+            // 
             // txtBoundaries
             // 
             this.txtBoundaries.Location = new System.Drawing.Point(85, 90);
@@ -299,22 +322,12 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.MaxVal = 2147483647;
             this.txtTextPosition.Name = "txtTextPosition";
             this.txtTextPosition.Separator = ';';
-            this.txtTextPosition.Size = new System.Drawing.Size(77, 20);
+            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
             this.txtTextPosition.SpacesAroundSeparator = true;
             this.txtTextPosition.TabIndex = 3;
             this.txtTextPosition.Text = "0 ; 0";
             this.txtTextPosition.X = 0;
             this.txtTextPosition.Y = 0;
-            // 
-            // btnRectangle
-            // 
-            this.btnRectangle.Location = new System.Drawing.Point(4, 261);
-            this.btnRectangle.Name = "btnRectangle";
-            this.btnRectangle.Size = new System.Drawing.Size(75, 23);
-            this.btnRectangle.TabIndex = 11;
-            this.btnRectangle.Text = "Rectangle";
-            this.btnRectangle.UseVisualStyleBackColor = true;
-            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
             // 
             // KeyboardKeyPropertiesForm
             // 
@@ -326,6 +339,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.Controls.Add(this.btnUpdateBoundary);
             this.Controls.Add(this.btnCenterText);
             this.Controls.Add(this.btnRectangle);
+            this.Controls.Add(this.btnDetectKeyCode);
             this.Controls.Add(this.chkChangeOnCaps);
             this.Controls.Add(this.lblKeyCodes);
             this.Controls.Add(this.udKeyCode);
@@ -384,5 +398,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private System.Windows.Forms.Button btnUpdateBoundary;
         private System.Windows.Forms.Button btnCenterText;
         private System.Windows.Forms.Button btnRectangle;
+        private System.Windows.Forms.Button btnDetectKeyCode;
     }
 }

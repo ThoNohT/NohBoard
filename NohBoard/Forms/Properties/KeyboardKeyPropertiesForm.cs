@@ -267,6 +267,30 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
+        /// <summary>
+        /// Handles pressing a key down while the component is selected, sets the value of the key code control.
+        /// </summary>
+        private void btnDetectKeyCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.udKeyCode.Value = e.KeyValue;
+        }
+
+        /// <summary>
+        /// Changes the button's label to signal that it's active.
+        /// </summary>
+        private void btnDetectKeyCode_Enter(object sender, EventArgs e)
+        {
+            this.btnDetectKeyCode.Text = "Detecting...";
+        }
+
+        /// <summary>
+        /// Changes the button's label back to its default.
+        /// </summary>
+        private void btnDetectKeyCode_Leave(object sender, EventArgs e)
+        {
+            this.btnDetectKeyCode.Text = "Detect";
+        }
+
         #endregion KeyCodes
 
         /// <summary>
