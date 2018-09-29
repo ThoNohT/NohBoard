@@ -40,6 +40,11 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private KeyboardKeyDefinition currentDefinition;
 
+        /// <summary>
+        /// Indicates whether we are currently detecting key pressed via the <see cref="Hooking.Interop.HookManager"/>.
+        /// </summary>
+        private bool detectingKeyCode;
+
         #endregion Fields
 
         #region Events
@@ -268,27 +273,26 @@ namespace ThoNohT.NohBoard.Forms.Properties
         }
 
         /// <summary>
-        /// Handles pressing a key down while the component is selected, sets the value of the key code control.
+        /// Toggles the key-code detection.
         /// </summary>
-        private void btnDetectKeyCode_KeyDown(object sender, KeyEventArgs e)
+        private void btnDetectKeyCode_Click(object sender, EventArgs e)
         {
-            this.udKeyCode.Value = e.KeyValue;
-        }
+            this.detectingKeyCode = !this.detectingKeyCode;
 
-        /// <summary>
-        /// Changes the button's label to signal that it's active.
-        /// </summary>
-        private void btnDetectKeyCode_Enter(object sender, EventArgs e)
-        {
-            this.btnDetectKeyCode.Text = "Detecting...";
-        }
-
-        /// <summary>
-        /// Changes the button's label back to its default.
-        /// </summary>
-        private void btnDetectKeyCode_Leave(object sender, EventArgs e)
-        {
-            this.btnDetectKeyCode.Text = "Detect";
+            if (this.detectingKeyCode)
+            {
+                this.btnDetectKeyCode.Text = "Detecting...";
+                Hooking.Interop.HookManager.KeyboardInsert = code =>
+                {
+                    this.udKeyCode.Value = code;
+                    return true;
+                };
+            }
+            else
+            {
+                this.btnDetectKeyCode.Text = "Detect";
+                Hooking.Interop.HookManager.KeyboardInsert = null;
+            }
         }
 
         #endregion KeyCodes

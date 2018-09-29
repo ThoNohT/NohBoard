@@ -299,9 +299,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.btnDetectKeyCode.TabIndex = 16;
             this.btnDetectKeyCode.Text = "Detect";
             this.btnDetectKeyCode.UseVisualStyleBackColor = true;
-            this.btnDetectKeyCode.Enter += new System.EventHandler(this.btnDetectKeyCode_Enter);
-            this.btnDetectKeyCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnDetectKeyCode_KeyDown);
-            this.btnDetectKeyCode.Leave += new System.EventHandler(this.btnDetectKeyCode_Leave);
+            this.btnDetectKeyCode.Click += new System.EventHandler(this.btnDetectKeyCode_Click);
             // 
             // txtBoundaries
             // 

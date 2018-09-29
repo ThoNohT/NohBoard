@@ -252,7 +252,7 @@ namespace ThoNohT.NohBoard.Hooking.Interop
                     break;
             }
 
-            if (trapEnabled && TrapKeyboard)
+            if (KeyboardInsert?.Invoke(code) ?? false || (trapEnabled && TrapKeyboard))
                 return 1;
 
             return CallNextHookEx(keyboardHookHandle, nCode, wParam, lParam);

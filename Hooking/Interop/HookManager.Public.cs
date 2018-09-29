@@ -28,19 +28,25 @@ namespace ThoNohT.NohBoard.Hooking.Interop
     /// </summary>
     public static partial class HookManager
     {
-	    #region Properties
+        #region Properties
 
-	    /// <summary>
-	    /// This property is set from outside this class. If <c>true</c>, the Scroll Lock key can toggle the mouse
-	    /// trap.
-	    /// </summary>
-	    public static bool TrapMouse { get; set; }
+        /// <summary>
+        /// This property is set from outside this class. If <c>true</c>, <see cref="TrapToggleKeyCode"/> can toggle
+        /// the mouse trap.
+        /// </summary>
+        public static bool TrapMouse { get; set; }
 
-	    /// <summary>
-	    /// This property is set from outside this class. If <c>true</c>, the Scroll Lock key can toggle the keyboard
-	    /// trap.
-	    /// </summary>
-	    public static bool TrapKeyboard { get; set; }
+        /// <summary>
+        /// This property is set from outside this class. If <c>true</c>, <see cref="TrapToggleKeyCode"/> key can
+        /// toggle the keyboard trap.
+        /// </summary>
+        public static bool TrapKeyboard { get; set; }
+
+        /// <summary>
+        /// If this property is set, every key-code processed from the keyboard will be passed through this function.
+        /// If the function returns true, the keycode is then trapped.
+        /// </summary>
+        public static Func<int, bool> KeyboardInsert = null;
 
 	    /// <summary>
 	    /// The keycode that toggles the mouse and or keyboard traps. Default is Scroll Lock.
