@@ -85,6 +85,8 @@ The usage of the other fields should be pretty straightforward.
 Since v1.0.0, NohBoard contains an edit mode. Edit mode can be enabled by right clicking a loaded keyboard, and selecting 'Start Editing'. Similarly, it can be disabled by choosing 'Stop Editing'.
 
 From edit mode, many operations are possible:
+- Adding or removing elements
+- Copy-pasting (using `Ctrl` + `C`, `Ctrl` + `V`) elements
 - Moving elements
 - Moving edges (between corner points) of elements
 - Moving boundaries (corner points) of elements
@@ -99,7 +101,7 @@ Most edits are possibly by dragging the mouse from a point over an element. The 
 - `Alt` key over the keyboard moves all elements at the same time.
 - `Ctrl` key over an element will always move the entire element, rather than a boundary or edge that is highlighted.
 
-When clicking on an element, it is selected. Selections are sticky, this means that the selection won't simply be removed or switched to another key. This is done in order to allow manipulations on keys that are partly covered. You can edit covered boundaries or edges without having to move the element from under the covering elements. Ending a selection is done by pressing `Esc`, or `Enter`.
+When clicking on an element, it is selected. Selections are sticky when it comes to moving the element, if no mouse movement is done while pressing the left mouse key, the selection will be undone or a new element will be selected if it's present where the mouse click event occured. If two or more elements are overlapping, clicking on the overlapping area will cycle through those elements. Ending a selection is done by pressing `Esc`, or `Enter`.
 
 When right clicking an element, or a boundary point or edge of an element, the context menu will contain options for editing the element. These options include opening the properties window, removing the entire element, adding boundary points, if an edge is highlighted, and removing a boundary point if one is highlighted. The *move* menu allows you to move elements on top of others, i.e. change the z-index of the element. The properties for the entire keyboard can always be opened from the right click menu while in edit mode.
 
