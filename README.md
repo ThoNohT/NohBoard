@@ -92,8 +92,10 @@ From edit mode, many operations are possible:
 - Moving boundaries (corner points) of elements
 - Adding or removing boundaries of elements
 - Moving text inside elements
-- Editing the properties of elements
+- Editing the properties and styles of elements
+- Editing the properties and styles of the keyboard
 - Changing the z-index of elements
+- Resizing keyboard window
 
 Most edits are possibly by dragging the mouse from a point over an element. The element will highlight the manipulation that is going to happen, e.g. while hovering over a boundary point, it will indicate that that boundary point will be manipulated. There are also modifiers possible.
 
@@ -101,13 +103,89 @@ Most edits are possibly by dragging the mouse from a point over an element. The 
 - `Alt` key over the keyboard moves all elements at the same time.
 - `Ctrl` key over an element will always move the entire element, rather than a boundary or edge that is highlighted.
 
+When an element has a custom text position, it is annoying if the text position resets itself to some computed value whenever a boundary point or edge is moved. To prevent this, there is the *update text position* menu, which when unchecked, leaves the text position as it is whenever a manipulation is done that is not moving the entire element.
+
 When clicking on an element, it is selected. Selections are sticky when it comes to moving the element, if no mouse movement is done while pressing the left mouse key, the selection will be undone or a new element will be selected if it's present where the mouse click event occured. If two or more elements are overlapping, clicking on the overlapping area will cycle through those elements. Ending a selection is done by pressing `Esc`, or `Enter`.
 
-When right clicking an element, or a boundary point or edge of an element, the context menu will contain options for editing the element. These options include opening the properties window, removing the entire element, adding boundary points, if an edge is highlighted, and removing a boundary point if one is highlighted. The *move* menu allows you to move elements on top of others, i.e. change the z-index of the element. The properties for the entire keyboard can always be opened from the right click menu while in edit mode.
-
-Finally, when an element has a custom text position, it is annoying if the text position resets itself to some computed value whenever a boundary point or edge is moved. To prevent this, there is the *update text position* menu, which when unchecked, leaves the text position as it is whenever a manipulation is done that is not moving the entire element.
+When right clicking an element, or a boundary point or edge of an element, the context menu will contain options for editing the element. These options include opening the properties and style window, removing the entire element, adding boundary points, if an edge is highlighted, and removing a boundary point if one is highlighted. The *move* menu allows you to move elements on top of others, i.e. change the z-index of the element. The properties and style for the entire keyboard can always be opened from the right click menu while in edit mode.
 
 All actions can be undone using `Ctrl` + `Z`, and redone using `Ctrl` + `Shift` + `Z`.
+
+#### Properties and Style
+
+- **Keyboard Properties**
+  - **Size**  
+On this window, you will be able to change the width and height, in pixels, of the keyboard window. It's more precise than dragging the window borders and corners.
+
+- **Keyboard Style**
+  - **Keyboard**
+    - **Background**  
+The background of the keyboard can be a solid color (chosen by double clicking the colored square on the left of the *Background Color* text) or an image from images/ folder located in the category subdirectory (besides the name, you also need to provide the image format).
+
+  - **Loose Keys**/**Pressed Keys**
+    - **Background**  
+The background of the loose/pressed keys can be a solid color or an image from images/ folder located in the category subdirectory.
+
+    - **Text**  
+Here you can change the font type and color of the loose/pressed keys.
+
+    - **Outline**  
+Here you can opt if you want to show the outline of the loose/pressed keys by ticking the CheckBox. You can also change its color and its width.
+
+  - **MouseSpeedIndicator**
+    - **General**  
+The *Color 1* refers to the color of the mouse speed indicator outer circle as well as the color of the direction indicator when the mouse is moving slowly. The *Color 2* refers to the color of the direction indicator when the mouse is moving quickly. The mouse speed is relative to the *Mouse sensitivity* value in the *Settings*. You can also change its width.
+
+- **Elements Properties**
+  - **Keyboard Key Properties**
+    - **Text**/**Shift Text**  
+Text shown on the element when, respectively, the 'Shift' key isn't/is pressed or 'Caps Lock' isn't/is activated.
+
+    - **Text Position**  
+Text position relative to the keyboard itself. The *Center* button automatically calculates the center of the element.
+
+    - **Boundaries**  
+Here you are presented with a TextBox where you can enter the *x* and *y* values. You can add this new boundary by using the *Add* button or update an existing one by selecting one in the boundaries list and using the *Update* button. The boundary list in right below where you can select each boundary and remove, move up or move down. The *Rectangle* button is there to make your life easier allowing you to create a rectangle key by just providing the upper left boundary position and the width and height.
+
+    - **Change captalization on Caps Lock key**  
+If ticked, this CheckBox will make the element sensitive to 'Caps Lock'. This means that the *Shift Text* will be used if 'Caps Lock **sensitive** keys' option is marked in *Settings*. If this CheckBox is not ticked, the *Shift Text* will only be used when if 'Caps Lock **insensitive** keys' option is marked in *Settings*. This allows all possible combinations when it's about using or not the *Shift Text*. An example of this is if the user wants only the number keys not to follow the *Shift Text*, like *5* turning *%*, she/he can untick this option on all the number keys and in *Settings* let only 'Caps Lock **sensitive** keys' checked.
+
+    - **Key codes**  
+Here you are presented with a TextBox where you can enter a key-code. You can add this new key-code by using the *Add* button. The boundary list in right below where you can select each key-code and remove it. The *Detect* button is there to make your life easier allowing you to detect a specific key-code of a key by just pressing the key on your physical keyboard. By adding more than one key-code you can make special shortcut elements, e.g., by adding the 162 and 65 key-codes, you can make an element that will light up when 'Ctrl' + 'A' is used.
+
+  - **Mouse Key Properties**
+    - **KeyCode**  
+In the drop-down list you can choose which mouse button will light up the element. Currently there're 5 options: *LeftButton*, *MiddleButton*, *RightButton*, *X1Button* and *X2Button* (these last two being the side buttons of the mouse).
+
+    - **Text**  
+Text shown on the element.
+
+    - **Text Position**  
+Text position relative to the keyboard itself. The *Center* button automatically calculates the center of the element.
+
+    - **Boundaries**  
+Here you are presented with a TextBox where you can enter the *x* and *y* values. You can add this new boundary by using the *Add* button or update an existing one by selecting one in the boundaries list and using the *Update* button. The boundary list in right below where you can select each boundary and remove, move up or move down. The *Rectangle* button is there to make your life easier allowing you to create a rectangle key by just providing the upper left boundary position and the width and height.
+
+  - **Mouse Speed Indicator Properties**
+    - **Location**  
+The *x* and *y* where the center of the mouse speed indicator will be located.
+
+    - **Radius**  
+The radius of the mouse speed indicator outer circle.
+
+- **Elements Style**
+  - **Loose**/**Pressed**
+    - **Overwrite default style**  
+If checked, the *Keyboard Style* settings will be overwritten by the settings in this window for the current element.
+
+    - **Background**  
+The background of the loose/pressed keys can be a solid color or an image from images/ folder located in the category subdirectory.
+
+    - **Text**  
+Here you can change the font type and color of the loose/pressed keys.
+
+    - **Outline**  
+Here you can opt if you want to show the outline of the loose/pressed keys by ticking the CheckBox. You can also change its color and its width.
 
 ## Keyboard Files
 
