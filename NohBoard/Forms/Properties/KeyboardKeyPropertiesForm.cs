@@ -295,6 +295,15 @@ namespace ThoNohT.NohBoard.Forms.Properties
             }
         }
 
+        /// <summary>
+        /// Disables key-code detection, in case it was still active.
+        /// </summary>
+        private void KeyboardKeyPropertiesForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.btnDetectKeyCode.Text = "Detect";
+            Hooking.Interop.HookManager.KeyboardInsert = null;
+        }
+
         #endregion KeyCodes
 
         /// <summary>

@@ -363,6 +363,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.Name = "KeyboardKeyPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Keyboard Key Properties";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyboardKeyPropertiesForm_FormClosing);
             this.Load += new System.EventHandler(this.KeyboardKeyPropertiesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).EndInit();
             this.ResumeLayout(false);
