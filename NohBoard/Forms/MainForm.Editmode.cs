@@ -269,7 +269,7 @@ namespace ThoNohT.NohBoard.Forms
                   .Where(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
                   .Reverse();
 
-                var nextelementUnderCursor = elementsUnderCursor.SkipWhile(el => el.Id != this.currentlyManipulating.Item1).Skip(1).FirstOrDefault()
+                var nextelementUnderCursor = elementsUnderCursor.SkipWhile(el => el.Id != this.currentlyManipulating.Item2.Id).Skip(1).FirstOrDefault()
                     ?? elementsUnderCursor.FirstOrDefault();
                 this.selectedDefinition = nextelementUnderCursor;
             }
