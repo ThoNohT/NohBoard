@@ -111,7 +111,7 @@ When right clicking an element, or a boundary point or edge of an element, the c
 
 All actions can be undone using `Ctrl` + `Z`, and redone using `Ctrl` + `Shift` + `Z`.
 
-#### Properties and Style
+#### Properties and Style Windows
 
 - **Keyboard Properties**
   - **Size**  
@@ -155,7 +155,7 @@ Here you are presented with a TextBox where you can enter a key-code. You can ad
 
   - **Mouse Key Properties**
     - **KeyCode**  
-In the drop-down list you can choose which mouse button will light up the element. Currently there're 5 options: *LeftButton*, *MiddleButton*, *RightButton*, *X1Button* and *X2Button* (these last two being the side buttons of the mouse).
+In the drop-down list you can choose which mouse button will light up the element. Currently there are 5 options: *LeftButton*, *MiddleButton*, *RightButton*, *X1Button* and *X2Button* (these last two being the side buttons of the mouse).
 
     - **Text**  
 Text shown on the element.
