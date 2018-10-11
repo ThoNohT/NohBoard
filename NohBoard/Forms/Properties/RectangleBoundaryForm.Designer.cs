@@ -1,4 +1,21 @@
-﻿namespace ThoNohT.NohBoard.Forms.Properties
+﻿/*
+Copyright (C) 2018 by Marius Becker <marius.becker.8@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+namespace ThoNohT.NohBoard.Forms.Properties
 {
     partial class RectangleBoundaryForm
     {
@@ -35,27 +52,27 @@
             this.txtSize = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.txtPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
             this.SuspendLayout();
-            // 
+            //
             // lblPosition
-            // 
+            //
             this.lblPosition.AutoSize = true;
             this.lblPosition.Location = new System.Drawing.Point(8, 14);
             this.lblPosition.Name = "lblPosition";
             this.lblPosition.Size = new System.Drawing.Size(44, 13);
             this.lblPosition.TabIndex = 0;
             this.lblPosition.Text = "Position";
-            // 
+            //
             // lblSize
-            // 
+            //
             this.lblSize.AutoSize = true;
             this.lblSize.Location = new System.Drawing.Point(8, 40);
             this.lblSize.Name = "lblSize";
             this.lblSize.Size = new System.Drawing.Size(27, 13);
             this.lblSize.TabIndex = 1;
             this.lblSize.Text = "Size";
-            // 
+            //
             // btnCancel
-            // 
+            //
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(35, 63);
             this.btnCancel.Name = "btnCancel";
@@ -64,9 +81,9 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
+            //
             // btnApply
-            // 
+            //
             this.btnApply.Location = new System.Drawing.Point(116, 63);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
@@ -74,9 +91,9 @@
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
-            // 
+            //
             // txtSize
-            // 
+            //
             this.txtSize.Location = new System.Drawing.Point(85, 37);
             this.txtSize.MaxVal = 2147483647;
             this.txtSize.Name = "txtSize";
@@ -87,9 +104,9 @@
             this.txtSize.Text = "0 ; 0";
             this.txtSize.X = 0;
             this.txtSize.Y = 0;
-            // 
+            //
             // txtPosition
-            // 
+            //
             this.txtPosition.Location = new System.Drawing.Point(85, 11);
             this.txtPosition.MaxVal = 2147483647;
             this.txtPosition.Name = "txtPosition";
@@ -100,9 +117,9 @@
             this.txtPosition.Text = "0 ; 0";
             this.txtPosition.X = 0;
             this.txtPosition.Y = 0;
-            // 
+            //
             // RectangleBoundaryForm
-            // 
+            //
             this.AcceptButton = this.btnApply;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
