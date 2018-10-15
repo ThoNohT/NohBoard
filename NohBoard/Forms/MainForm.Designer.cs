@@ -84,6 +84,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this.mnuGenerateLog = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,9 +117,10 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveStyle,
             this.MainMenuSep3,
             this.mnuExit,
-            this.mnuUpdate});
+            this.mnuUpdate,
+            this.mnuGenerateLog});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(203, 424);
+            this.MainMenu.Size = new System.Drawing.Size(203, 446);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -380,6 +382,13 @@ namespace ThoNohT.NohBoard.Forms
             this.KeyCheckTimer.Interval = 1000;
             this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
             // 
+            // mnuGenerateLog
+            // 
+            this.mnuGenerateLog.Name = "mnuGenerateLog";
+            this.mnuGenerateLog.Size = new System.Drawing.Size(202, 22);
+            this.mnuGenerateLog.Text = "Generate crash log";
+            this.mnuGenerateLog.Click += new System.EventHandler(this.mnuGenerateLog_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -446,6 +455,7 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ToolStripSeparator MainMenuSep4;
         private System.Windows.Forms.ToolStripMenuItem mnuKeyboardProperties;
         private System.Windows.Forms.ToolStripMenuItem mnuUpdateTextPosition;
+        private System.Windows.Forms.ToolStripMenuItem mnuGenerateLog;
     }
 }
 

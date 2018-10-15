@@ -607,5 +607,18 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Rendering
+
+        /// <summary>
+        /// Crashes NohBoard, in order to generate a crash log.
+        /// This seems strange, but can be an easy way for someone to serialize all their settings into a single file
+        /// to be sent for support reasons.
+        /// </summary>
+        private void mnuGenerateLog_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This will crash NohBoard in order to generate a log, are you sure you want to do this?", "Generate crash log", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                throw new Exception("A crash log was requested.");
+            }
+        }
     }
 }

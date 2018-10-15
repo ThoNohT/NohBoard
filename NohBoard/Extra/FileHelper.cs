@@ -88,6 +88,26 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Serializes <paramref name="obj"/> into a string and returns the string.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to serialize.</typeparam>
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>The serialized string/</returns>
+        public static string Serialize<T>(T obj)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(memoryStream, Encoding.UTF8, true, true))
+                {
+                    serializer.WriteObject(writer, obj);
+                }
+
+                return Encoding.UTF8.GetString(memoryStream.ToArray());
+            }
+        }
+
+        /// <summary>
         /// Ensures that a filename does not contain illegal characters or points to sub or parent folders.
         /// </summary>
         /// <param name="filename">The filename to sanitize.</param>
