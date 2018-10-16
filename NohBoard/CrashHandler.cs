@@ -40,13 +40,22 @@ namespace ThoNohT.NohBoard
             }
             catch (Exception ex)
             {
-                var logFile = GetLogFile();
-
-                File.WriteAllText(logFile.FullName, $"{ShowException(ex)}{CollectState()}");
-
-                MessageBox.Show($"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
-                    $"A crash log was generated: {logFile.FullName}", "NohBoard has crashed");
+                HandleException(ex);
             }
+        }
+
+        /// <summary>
+        /// Handles an exception.
+        /// </summary>
+        public static void HandleException(Exception ex)
+        {
+            var logFile = GetLogFile();
+
+            File.WriteAllText(logFile.FullName, $"{ShowException(ex)}{CollectState()}");
+
+            MessageBox.Show($"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
+                $"A crash log was generated: {logFile.FullName}", "NohBoard has crashed");
+            Application.Exit();
         }
 
         /// <summary>
@@ -131,7 +140,7 @@ namespace ThoNohT.NohBoard
 
             var file = new FileInfo(Path.Combine("logs", fileName));
 
-            if (file.Directory.Exists) file.Directory.Create();
+            if (!file.Directory.Exists) file.Directory.Create();
 
             return file;
         }

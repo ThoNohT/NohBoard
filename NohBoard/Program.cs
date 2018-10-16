@@ -31,6 +31,10 @@ namespace ThoNohT.NohBoard
         {
             CrashHandler.Protect(() =>
             {
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                Application.ThreadException += (s, e) => CrashHandler.HandleException(e.Exception);
+                AppDomain.CurrentDomain.UnhandledException += (s, e) => CrashHandler.HandleException((Exception)e.ExceptionObject);
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
