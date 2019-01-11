@@ -229,7 +229,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             if (index < 0 || index >= this.Boundaries.Count)
                 throw new Exception("Attempting to move a non-existent edge.");
 
-            Func<int, bool> doUpdate = i => i == index || i == (index + 1) % this.Boundaries.Count;
+            bool doUpdate(int i) => i == index || i == (index + 1) % this.Boundaries.Count;
 
             // Project the mouse movement onto the orthogonal vector.
             var edgeBoundaries = this.Boundaries.Where((b, i) => doUpdate(i)).ToList();

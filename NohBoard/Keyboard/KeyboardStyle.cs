@@ -162,8 +162,7 @@ namespace ThoNohT.NohBoard.Keyboard
         /// <returns>The retrieved identifier, or null if it is not defined.</returns>
         public T TryGetElementStyle<T>(int id) where T: ElementStyle
         {
-            ElementStyle style;
-            var success = this.ElementStyles.TryGetValue(id, out style);
+            var success = this.ElementStyles.TryGetValue(id, out var style);
 
             // Not found, return null.
             if (!success) return null;
