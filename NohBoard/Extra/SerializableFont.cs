@@ -17,10 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Extra
 {
-    using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Runtime.Serialization;
-    using System.Windows.Forms;
 
     /// <summary>
     /// Represents a font, stored in a way that it can be serialized.
@@ -33,7 +32,20 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public string FontFamily { get; set; }
-        
+
+        /// <summary>
+        /// An alternate font family to use for rendering. If not set, <see cref="FontFamily"/> is used. If
+        /// <see cref="FontFamily"/> does not exist on the system, it cannot be used. Therefore, this property can be
+        /// filled with another font that does exist to fall back on.
+        /// </summary>
+        public string AlternateFontFamily { get; set; }
+
+        /// <summary>
+        /// The font family that is used for rendering. Uses <see cref="AlternateFontFamily"/> if it has a value. Otherwise
+        /// <see cref="FontFamily"/>.
+        /// </summary>
+        public string UsedFontFamily => this.AlternateFontFamily ?? this.FontFamily;
+
         /// <summary>
         /// The font size.
         /// </summary>
@@ -47,12 +59,19 @@ namespace ThoNohT.NohBoard.Extra
         public SerializableFontStyle Style { get; set; }
 
         /// <summary>
+        /// The url to download the font from. If <c>null</c>, the font cannot be downloaded and will only be used if
+        /// it exists locally.
+        /// </summary>
+        [DataMember]
+        public string DownloadUrl { get; set; }
+
+        /// <summary>
         /// Converts a <see cref="SerializableFont"/> to a <see cref="Font"/>.
         /// </summary>
         /// <param name="src">The font to convert.</param>
         public static implicit operator Font(SerializableFont src)
         {
-            return new Font(new FontFamily(src.FontFamily), src.Size, (FontStyle)src.Style);
+            return new Font(new FontFamily(src.UsedFontFamily), src.Size, (FontStyle)src.Style);
         }
 
         /// <summary>
@@ -76,6 +95,24 @@ namespace ThoNohT.NohBoard.Extra
         public SerializableFont Clone()
         {
             return (SerializableFont)this.MemberwiseClone();
+        }
+
+        /// <summary>
+        /// An equality comparer that just compares the font family.
+        /// </summary>
+        public class FamilyComparer : IEqualityComparer<SerializableFont>
+        {
+            /// </inheritdoc>
+            public bool Equals(SerializableFont x, SerializableFont y)
+            {
+                return Equals(x.FontFamily, y.FontFamily);
+            }
+
+            /// </inheritdoc>
+            public int GetHashCode(SerializableFont obj)
+            {
+                return obj.FontFamily.GetHashCode();
+            }
         }
     }
 

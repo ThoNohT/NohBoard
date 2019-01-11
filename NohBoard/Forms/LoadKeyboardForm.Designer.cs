@@ -58,7 +58,12 @@ namespace ThoNohT.NohBoard.Forms
             this.StyleList = new System.Windows.Forms.ListBox();
             this.LoadLegacyButton = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.lblMissingFonts = new System.Windows.Forms.Label();
+            this.fontsGrid = new System.Windows.Forms.DataGridView();
+            this.lblRestart = new System.Windows.Forms.Label();
+            this.btnRestart = new System.Windows.Forms.Button();
             this.DefinitionListMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fontsGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // lblCategory
@@ -144,6 +149,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // CloseButton
             // 
+            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CloseButton.Location = new System.Drawing.Point(261, 253);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
@@ -152,13 +158,67 @@ namespace ThoNohT.NohBoard.Forms
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // lblMissingFonts
+            // 
+            this.lblMissingFonts.AutoSize = true;
+            this.lblMissingFonts.Location = new System.Drawing.Point(344, 13);
+            this.lblMissingFonts.Name = "lblMissingFonts";
+            this.lblMissingFonts.Size = new System.Drawing.Size(389, 26);
+            this.lblMissingFonts.TabIndex = 10;
+            this.lblMissingFonts.Text = "The following fonts are defined in the chosen style but not present on this syste" +
+    "m.\r\nIf a link is provided, you may download it by double clicking the link:";
+            // 
+            // fontsGrid
+            // 
+            this.fontsGrid.AllowUserToAddRows = false;
+            this.fontsGrid.AllowUserToDeleteRows = false;
+            this.fontsGrid.AllowUserToResizeRows = false;
+            this.fontsGrid.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.fontsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.fontsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.fontsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.fontsGrid.Location = new System.Drawing.Point(347, 42);
+            this.fontsGrid.Name = "fontsGrid";
+            this.fontsGrid.RowHeadersVisible = false;
+            this.fontsGrid.ShowCellErrors = false;
+            this.fontsGrid.ShowCellToolTips = false;
+            this.fontsGrid.ShowEditingIcon = false;
+            this.fontsGrid.ShowRowErrors = false;
+            this.fontsGrid.Size = new System.Drawing.Size(589, 205);
+            this.fontsGrid.TabIndex = 11;
+            this.fontsGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.fontsGrid_CellDoubleClick);
+            // 
+            // lblRestart
+            // 
+            this.lblRestart.AutoSize = true;
+            this.lblRestart.Location = new System.Drawing.Point(356, 258);
+            this.lblRestart.Name = "lblRestart";
+            this.lblRestart.Size = new System.Drawing.Size(399, 13);
+            this.lblRestart.TabIndex = 12;
+            this.lblRestart.Text = "After a new font has been installed, NohBoard needs to be restarted to recognize " +
+    "it.";
+            // 
+            // btnRestart
+            // 
+            this.btnRestart.Location = new System.Drawing.Point(861, 253);
+            this.btnRestart.Name = "btnRestart";
+            this.btnRestart.Size = new System.Drawing.Size(75, 23);
+            this.btnRestart.TabIndex = 13;
+            this.btnRestart.Text = "Restart";
+            this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
+            // 
             // LoadKeyboardForm
             // 
             this.AcceptButton = this.CloseButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
-            this.ClientSize = new System.Drawing.Size(348, 286);
+            this.ClientSize = new System.Drawing.Size(948, 286);
+            this.Controls.Add(this.btnRestart);
+            this.Controls.Add(this.lblRestart);
+            this.Controls.Add(this.fontsGrid);
+            this.Controls.Add(this.lblMissingFonts);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.LoadLegacyButton);
             this.Controls.Add(this.StyleList);
@@ -173,6 +233,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Text = "Load Keyboard";
             this.Load += new System.EventHandler(this.LoadKeyboardForm_Load);
             this.DefinitionListMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fontsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,5 +251,9 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.ContextMenuStrip DefinitionListMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuDeleteDefinition;
+        private System.Windows.Forms.Label lblMissingFonts;
+        private System.Windows.Forms.DataGridView fontsGrid;
+        private System.Windows.Forms.Label lblRestart;
+        private System.Windows.Forms.Button btnRestart;
     }
 }

@@ -19,6 +19,7 @@ namespace ThoNohT.NohBoard.Forms
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -32,7 +33,7 @@ namespace ThoNohT.NohBoard.Forms
     public partial class LoadKeyboardForm : Form
     {
         #region Fields
-        
+
         /// <summary>
         /// The name of the currently selected category.
         /// </summary>
@@ -83,6 +84,22 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
+        /// <summary>
+        /// A helper class for filling the missing fonts table.
+        /// </summary>
+        private class MissingFont
+        {
+            /// <summary>
+            /// The name of the font.
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
+            /// The link to download the font.
+            /// </summary>
+            public string Link { get; set; }
+        }
+
         #endregion Fields
 
         #region Events
@@ -106,6 +123,33 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Constructors
+
+        /// <summary>
+        /// Shows or hides the font download panel depending on wether there are missing fonts in the currently loaded
+        /// style.
+        /// </summary>
+        /// <param name="missingFonts"></param>
+        public void ToggleFontsPanel(List<SerializableFont> missingFonts)
+        {
+            if (!missingFonts.Any())
+            {
+                // Hide the panel.
+                this.Width = 364;
+            }
+            else
+            {
+                this.Width = 964;
+                var gridData = missingFonts
+                    .Select(f => new MissingFont { Name = f.FontFamily, Link = f.DownloadUrl ?? "No download URL provided" })
+                    .ToList();
+                this.fontsGrid.DataSource = gridData;
+                this.fontsGrid.Columns[0].Width = 140;
+                this.fontsGrid.Columns[1].Width = 448;
+
+                this.fontsGrid.Update();
+
+            }
+        }
 
         /// <summary>
         /// Loads a legacy keyboard definition. This immediately closes the form and loads it in the main form.
@@ -143,7 +187,7 @@ namespace ThoNohT.NohBoard.Forms
                 .ToList();
 
             var root = FileHelper.FromKbs();
-            
+
             // If there are no keyboard files, no initialization is required.
             if (!root.Exists) return;
 
@@ -237,6 +281,19 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
+        /// <summary>
+        /// Handles a double click on the link cell. Will open the browser if it contains an URL.
+        /// </summary>
+        private void fontsGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var linkText = (string)this.fontsGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+            if (string.IsNullOrWhiteSpace(linkText)) return;
+            if (!Uri.IsWellFormedUriString(linkText, UriKind.Absolute)) return;
+
+            Process.Start(linkText);
+        }
+
         #region Helpers
 
         /// <summary>
@@ -316,5 +373,13 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         #endregion Helpers
+
+        /// <summary>
+        /// Restarts the application.
+        /// </summary>
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
     }
 }

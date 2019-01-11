@@ -26,6 +26,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Drawing.Text;
     using System.Linq;
     using System.Net.Http;
     using System.Runtime.Serialization.Json;
@@ -33,6 +34,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using System.Xml;
+    using ThoNohT.NohBoard.Keyboard.Styles;
     using Version = NohBoard.Version;
 
     /// <summary>
@@ -86,7 +88,7 @@ namespace ThoNohT.NohBoard.Forms
                     var updateUrl =
                         "https://gist.githubusercontent.com/ThoNohT/3181561f8148fb6b865f88714e975154/raw/nohboard_version.json";
 
-                    Func<string, VersionInfo> downloadVersionInfo = url =>
+                    VersionInfo downloadVersionInfo(string url)
                     {
                         var serializer = new DataContractJsonSerializer(typeof(VersionInfo));
                         using (var client = new HttpClient())
@@ -98,7 +100,7 @@ namespace ThoNohT.NohBoard.Forms
                         {
                             return (VersionInfo)serializer.ReadObject(reader);
                         }
-                    };
+                    }
 
                     var versionInfo = downloadVersionInfo(updateUrl);
 
@@ -119,9 +121,14 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Loads the keyboard currently defined in the settings.
         /// </summary>
-        private void LoadKeyboard()
+        /// <returns>The list of fonts that are not present on this system and might be downloaded for this keyboard.
+        /// </returns>
+        private List<SerializableFont> LoadKeyboard()
         {
-            if (GlobalSettings.CurrentDefinition == null) return;
+            if (GlobalSettings.CurrentDefinition == null) return new List<SerializableFont>();
+
+            //Prompt to download any fonts we don't have yet.
+            var missingFonts = this.CheckMissingFonts();
 
             // Reset all edit mode related fields, as we should be no longer in edit mode.
             this.undoHistory.Clear();
@@ -142,6 +149,37 @@ namespace ThoNohT.NohBoard.Forms
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 
             this.ResetBackBrushes();
+
+            return missingFonts;
+        }
+
+        /// <summary>
+        /// Checks if there are any fonts that are not on the system, and do have a download link in them. If this is
+        /// the case, then those fonts are returned.
+        /// </summary>
+        /// <returns>The list of fonts that are not present and might be downloaded. Missing fonts without a download
+        /// link are also returned.</returns>
+        private List<SerializableFont> CheckMissingFonts()
+        {
+            var style = GlobalSettings.CurrentStyle;
+            var usedFonts = style.ElementStyles.Values.OfType<KeyStyle>()
+                .SelectMany(s => new[] { s.Loose?.Font, s.Pressed?.Font })
+                .Union(new[] { style.DefaultKeyStyle?.Loose?.Font, style.DefaultKeyStyle?.Pressed?.Font })
+                .Where(f => f != null).ToList();
+
+            var installedFonts = new InstalledFontCollection();
+            var installedFontFamilyNames = new HashSet<string>(installedFonts.Families.Select(f => f.Name));
+            var notInstalledUsedFonts = usedFonts.Where(f => !installedFontFamilyNames.Contains(f.FontFamily)).ToList();
+
+            foreach (var font in notInstalledUsedFonts)
+            {
+                // For now, update the used family to the default. Next time they could have downloaded the font.
+                font.AlternateFontFamily = SystemFonts.DefaultFont.FontFamily.Name;
+            }
+
+            if (!notInstalledUsedFonts.Any()) return new List<SerializableFont>();
+
+            return notInstalledUsedFonts.OrderBy(f => f.DownloadUrl == null).Distinct(new SerializableFont.FamilyComparer()).ToList();
         }
 
         /// <summary>
@@ -216,7 +254,7 @@ namespace ThoNohT.NohBoard.Forms
                     var backupKb = GlobalSettings.Settings.LoadedKeyboard;
                     var backupKbStyle = GlobalSettings.Settings.LoadedStyle;
                     var backupkbGlobalStyle = GlobalSettings.Settings.LoadedGlobalStyle;
-                    
+
                     GlobalSettings.CurrentDefinition = kbDef;
                     GlobalSettings.CurrentStyle = kbStyle ?? new KeyboardStyle();
 
@@ -227,7 +265,8 @@ namespace ThoNohT.NohBoard.Forms
 
                     try
                     {
-                        this.LoadKeyboard();
+                        var missingKeyboards = this.LoadKeyboard();
+                        manageForm.ToggleFontsPanel(missingKeyboards);
                     }
                     catch (Exception ex)
                     {
@@ -325,6 +364,7 @@ namespace ThoNohT.NohBoard.Forms
                     GlobalSettings.CurrentStyle = KeyboardStyle.Load(
                         GlobalSettings.Settings.LoadedStyle,
                         GlobalSettings.Settings.LoadedGlobalStyle);
+                    this.LoadKeyboard();
                     this.ResetBackBrushes();
                 }
                 catch
@@ -343,7 +383,7 @@ namespace ThoNohT.NohBoard.Forms
             this.KeyCheckTimer.Enabled = true;
 
             this.Activate();
-            this.ApplySettings();
+            this.ApplySettings(false); // Keyboard was already loaded above.
         }
 
         /// <summary>
@@ -372,12 +412,15 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Applies the currently stored settings.
         /// </summary>
-        private void ApplySettings()
+        private void ApplySettings(bool loadKeyboard = true)
         {
             HookManager.TrapKeyboard = GlobalSettings.Settings.TrapKeyboard;
             HookManager.TrapMouse = GlobalSettings.Settings.TrapMouse;
             HookManager.TrapToggleKeyCode = GlobalSettings.Settings.TrapToggleKeyCode;
             HookManager.ScrollHold = GlobalSettings.Settings.ScrollHold;
+
+            if (!loadKeyboard) return;
+
             this.LoadKeyboard();
         }
 
