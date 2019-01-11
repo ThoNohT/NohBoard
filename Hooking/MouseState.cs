@@ -312,7 +312,11 @@ namespace ThoNohT.NohBoard.Hooking
                 (r, p) => p.X >= r.Left && p.X <= r.Right && p.Y >= r.Top && p.Y <= r.Bottom;
 
             var result = ScreenCenters.Where(t => contains(t.Item1, point))
-                .Select(t => (Point?)t.Item2).SingleOrDefault();
+                .Select(t => (Point?)t.Item2).FirstOrDefault();
+            // For some reason a point can be in multiple screens at the same time? Probably while dragging the window
+            // around over to another window. To bypass this, we just get the first one, and it'll have to do. There is
+            // no way to prioritize any of the screens.
+
             return result;
         }
 
