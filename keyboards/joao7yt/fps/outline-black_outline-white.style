@@ -12,7 +12,7 @@
         "Green": 0,
         "Red": 0
       },
-      "BackgroundImageFileName": "keyw.png",
+      "BackgroundImageFileName": "keyob.png",
       "Font": {
         "FontFamily": "Razer Blackwidow",
         "Size": 11.25,
@@ -27,9 +27,9 @@
       "OutlineWidth": 1,
       "ShowOutline": false,
       "Text": {
-        "Blue": 0,
-        "Green": 0,
-        "Red": 0
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
       }
     },
     "Pressed": {
@@ -38,7 +38,7 @@
         "Green": 255,
         "Red": 255
       },
-      "BackgroundImageFileName": "keyb.png",
+      "BackgroundImageFileName": "keyow.png",
       "Font": {
         "FontFamily": "Razer Blackwidow",
         "Size": 11.25,
@@ -52,9 +52,9 @@
       "OutlineWidth": 1,
       "ShowOutline": false,
       "Text": {
-        "Blue": 255,
-        "Green": 255,
-        "Red": 255
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
       }
     }
   },
@@ -73,62 +73,6 @@
   },
   "ElementStyles": [
     {
-      "Key": 25,
-      "Value": {
-        "__type": "KeyStyle",
-        "Loose": {
-          "Background": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
-          },
-          "BackgroundImageFileName": "tabw.png",
-          "Font": {
-            "FontFamily": "Razer Blackwidow",
-            "Size": 9.75,
-            "Style": 0
-          },
-          "Outline": {
-            "Blue": 0,
-            "Green": 255,
-            "Red": 0
-          },
-          "OutlineWidth": 1,
-          "ShowOutline": false,
-          "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
-          }
-        },
-        "Pressed": {
-          "Background": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
-          },
-          "BackgroundImageFileName": "tabb.png",
-          "Font": {
-            "FontFamily": "Razer Blackwidow",
-            "Size": 9.75,
-            "Style": 0
-          },
-          "Outline": {
-            "Blue": 0,
-            "Green": 255,
-            "Red": 0
-          },
-          "OutlineWidth": 1,
-          "ShowOutline": false,
-          "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
-          }
-        }
-      }
-    },
-    {
       "Key": 32,
       "Value": {
         "__type": "KeyStyle",
@@ -138,7 +82,32 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "capsw.png",
+          "BackgroundImageFileName": "capsob.png",
+          "Font": {
+            "FontFamily": "Razer Blackwidow",
+            "Size": 9.75,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "capsow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
@@ -156,14 +125,20 @@
             "Green": 0,
             "Red": 0
           }
-        },
-        "Pressed": {
+        }
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
           "Background": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           },
-          "BackgroundImageFileName": "capsb.png",
+          "BackgroundImageFileName": "ctrlob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
@@ -180,6 +155,31 @@
             "Blue": 255,
             "Green": 255,
             "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "ctrlow.png",
+          "Font": {
+            "FontFamily": "Razer Blackwidow",
+            "Size": 9.75,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -194,7 +194,32 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "tabw.png",
+          "BackgroundImageFileName": "tabob.png",
+          "Font": {
+            "FontFamily": "Razer Blackwidow",
+            "Size": 9.75,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "tabow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
@@ -211,31 +236,6 @@
             "Blue": 0,
             "Green": 0,
             "Red": 0
-          }
-        },
-        "Pressed": {
-          "Background": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
-          },
-          "BackgroundImageFileName": "tabb.png",
-          "Font": {
-            "FontFamily": "Razer Blackwidow",
-            "Size": 9.75,
-            "Style": 0
-          },
-          "Outline": {
-            "Blue": 0,
-            "Green": 255,
-            "Red": 0
-          },
-          "OutlineWidth": 1,
-          "ShowOutline": false,
-          "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
           }
         }
       }
@@ -250,7 +250,32 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "shiftw.png",
+          "BackgroundImageFileName": "shiftob.png",
+          "Font": {
+            "FontFamily": "Razer Blackwidow",
+            "Size": 9.75,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "shiftow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
@@ -267,31 +292,6 @@
             "Blue": 0,
             "Green": 0,
             "Red": 0
-          }
-        },
-        "Pressed": {
-          "Background": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
-          },
-          "BackgroundImageFileName": "shiftb.png",
-          "Font": {
-            "FontFamily": "Razer Blackwidow",
-            "Size": 9.75,
-            "Style": 0
-          },
-          "Outline": {
-            "Blue": 0,
-            "Green": 255,
-            "Red": 0
-          },
-          "OutlineWidth": 1,
-          "ShowOutline": false,
-          "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
           }
         }
       }
@@ -306,7 +306,32 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "tabw.png",
+          "BackgroundImageFileName": "tabob.png",
+          "Font": {
+            "FontFamily": "Razer Blackwidow",
+            "Size": 9.75,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "tabow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
@@ -323,31 +348,6 @@
             "Blue": 0,
             "Green": 0,
             "Red": 0
-          }
-        },
-        "Pressed": {
-          "Background": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
-          },
-          "BackgroundImageFileName": "tabb.png",
-          "Font": {
-            "FontFamily": "Razer Blackwidow",
-            "Size": 9.75,
-            "Style": 0
-          },
-          "Outline": {
-            "Blue": 0,
-            "Green": 255,
-            "Red": 0
-          },
-          "OutlineWidth": 1,
-          "ShowOutline": false,
-          "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
           }
         }
       }
@@ -362,7 +362,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "keyw.png",
+          "BackgroundImageFileName": "keyob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -376,9 +376,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -387,7 +387,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "keyb.png",
+          "BackgroundImageFileName": "keyow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -401,9 +401,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -418,7 +418,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "keyw.png",
+          "BackgroundImageFileName": "keyob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -432,9 +432,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -443,7 +443,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "keyb.png",
+          "BackgroundImageFileName": "keyow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -457,9 +457,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -474,7 +474,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "keyw.png",
+          "BackgroundImageFileName": "keyob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -488,9 +488,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -499,7 +499,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "keyb.png",
+          "BackgroundImageFileName": "keyow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -513,9 +513,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -530,7 +530,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "keyw.png",
+          "BackgroundImageFileName": "keyob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -544,9 +544,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -555,7 +555,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "keyb.png",
+          "BackgroundImageFileName": "keyow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -569,9 +569,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -586,7 +586,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "keyw.png",
+          "BackgroundImageFileName": "keyob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -600,9 +600,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -611,7 +611,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "keyb.png",
+          "BackgroundImageFileName": "keyow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
@@ -625,9 +625,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -642,7 +642,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "spacew.png",
+          "BackgroundImageFileName": "spaceob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -656,9 +656,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 0,
-            "Green": 0,
-            "Red": 0
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
           }
         },
         "Pressed": {
@@ -667,7 +667,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "spaceb.png",
+          "BackgroundImageFileName": "spaceow.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -681,9 +681,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -698,7 +698,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "leftw.png",
+          "BackgroundImageFileName": "leftob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -723,7 +723,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "leftwp.png",
+          "BackgroundImageFileName": "leftobp.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -779,7 +779,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "sub.png",
+          "BackgroundImageFileName": "suw.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 12.25,
@@ -793,9 +793,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -810,7 +810,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "sw.png",
+          "BackgroundImageFileName": "t.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -835,7 +835,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "sb.png",
+          "BackgroundImageFileName": "sw.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -866,7 +866,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "rightw.png",
+          "BackgroundImageFileName": "rightob.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -891,7 +891,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "rightwp.png",
+          "BackgroundImageFileName": "rightobp.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -947,7 +947,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "sdb.png",
+          "BackgroundImageFileName": "sdw.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 12.25,
@@ -961,9 +961,9 @@
           "OutlineWidth": 1,
           "ShowOutline": false,
           "Text": {
-            "Blue": 255,
-            "Green": 255,
-            "Red": 255
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
           }
         }
       }
@@ -978,7 +978,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "m5w.png",
+          "BackgroundImageFileName": "m5b.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -1003,7 +1003,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "m5b.png",
+          "BackgroundImageFileName": "m5w.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -1034,7 +1034,7 @@
             "Green": 0,
             "Red": 0
           },
-          "BackgroundImageFileName": "m4w.png",
+          "BackgroundImageFileName": "m4b.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -1059,7 +1059,7 @@
             "Green": 255,
             "Red": 255
           },
-          "BackgroundImageFileName": "m4b.png",
+          "BackgroundImageFileName": "m4w.png",
           "Font": {
             "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
@@ -1082,6 +1082,14 @@
     },
     {
       "Key": 12,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": null,
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 15,
       "Value": {
         "__type": "KeyStyle",
         "Loose": null,

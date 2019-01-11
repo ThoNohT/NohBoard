@@ -14,9 +14,10 @@
       },
       "BackgroundImageFileName": "keyiw.png",
       "Font": {
-        "FontFamily": "Tahoma",
+        "FontFamily": "Razer Blackwidow",
         "Size": 11.25,
-        "Style": 0
+        "Style": 0,
+        "DownloadUrl": "https://www.dafont.com/razer-blackwidow.font"
       },
       "Outline": {
         "Blue": 0,
@@ -39,7 +40,7 @@
       },
       "BackgroundImageFileName": "keyb.png",
       "Font": {
-        "FontFamily": "Tahoma",
+        "FontFamily": "Razer Blackwidow",
         "Size": 11.25,
         "Style": 0
       },
@@ -83,7 +84,7 @@
           },
           "BackgroundImageFileName": "capsiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -108,7 +109,7 @@
           },
           "BackgroundImageFileName": "capsb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -139,7 +140,7 @@
           },
           "BackgroundImageFileName": "tabiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -164,7 +165,7 @@
           },
           "BackgroundImageFileName": "tabb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -195,7 +196,7 @@
           },
           "BackgroundImageFileName": "tabiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -220,7 +221,7 @@
           },
           "BackgroundImageFileName": "tabb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -251,7 +252,7 @@
           },
           "BackgroundImageFileName": "shiftiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -276,7 +277,7 @@
           },
           "BackgroundImageFileName": "shiftb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -307,7 +308,7 @@
           },
           "BackgroundImageFileName": "tabiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -332,7 +333,7 @@
           },
           "BackgroundImageFileName": "tabb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 9.75,
             "Style": 0
           },
@@ -363,7 +364,7 @@
           },
           "BackgroundImageFileName": "keyiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -388,7 +389,7 @@
           },
           "BackgroundImageFileName": "keyb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -419,7 +420,7 @@
           },
           "BackgroundImageFileName": "keyiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -444,7 +445,7 @@
           },
           "BackgroundImageFileName": "keyb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -475,7 +476,7 @@
           },
           "BackgroundImageFileName": "keyiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -500,7 +501,7 @@
           },
           "BackgroundImageFileName": "keyb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -531,7 +532,7 @@
           },
           "BackgroundImageFileName": "keyiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -556,7 +557,7 @@
           },
           "BackgroundImageFileName": "keyb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -587,7 +588,7 @@
           },
           "BackgroundImageFileName": "keyiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -612,7 +613,7 @@
           },
           "BackgroundImageFileName": "keyb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 14.25,
             "Style": 0
           },
@@ -643,7 +644,7 @@
           },
           "BackgroundImageFileName": "spaceiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -668,7 +669,7 @@
           },
           "BackgroundImageFileName": "spaceb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -699,7 +700,7 @@
           },
           "BackgroundImageFileName": "leftiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -724,7 +725,7 @@
           },
           "BackgroundImageFileName": "leftiwp.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -755,7 +756,7 @@
           },
           "BackgroundImageFileName": "t.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -780,7 +781,7 @@
           },
           "BackgroundImageFileName": "sub.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 12.25,
             "Style": 0
           },
@@ -811,7 +812,7 @@
           },
           "BackgroundImageFileName": "sw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -836,7 +837,7 @@
           },
           "BackgroundImageFileName": "sb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -867,7 +868,7 @@
           },
           "BackgroundImageFileName": "rightiw.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -892,7 +893,7 @@
           },
           "BackgroundImageFileName": "rightiwp.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -923,7 +924,7 @@
           },
           "BackgroundImageFileName": "t.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -948,7 +949,7 @@
           },
           "BackgroundImageFileName": "sdb.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 12.25,
             "Style": 0
           },
@@ -979,7 +980,7 @@
           },
           "BackgroundImageFileName": "m5w.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -1004,7 +1005,7 @@
           },
           "BackgroundImageFileName": "m5b.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -1035,7 +1036,7 @@
           },
           "BackgroundImageFileName": "m4w.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
@@ -1060,7 +1061,7 @@
           },
           "BackgroundImageFileName": "m4b.png",
           "Font": {
-            "FontFamily": "Tahoma",
+            "FontFamily": "Razer Blackwidow",
             "Size": 11.25,
             "Style": 0
           },
