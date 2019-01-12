@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System;
     using System.Windows.Forms;
     using Extra;
     using Hooking;
@@ -90,6 +91,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void SetToolTips()
         {
+            var nl = Environment.NewLine;
+
             var tooltip = new ToolTip();
             tooltip.SetToolTip(this.txtToggleKey, "Double click to change the toggle key for the mouse/keyboard trap.");
 
@@ -106,29 +109,29 @@ namespace ThoNohT.NohBoard.Forms
 
             tooltip.SetToolTip(
                 this.chkShowKeypresses,
-                "When checked, the last pressed numeric key will be displayed in (TODO). "
+                "When checked, the last pressed numeric key will be displayed in (TODO). " + nl
                 + "This can be used to determine key codes when manually creating keyboard files.");
 
             tooltip.SetToolTip(
                 this.rdbFollowKeystate,
-                "Show capitalized letter when shift or caps is pressed, " +
-                "but normal letters when both or neither are pressed.");
+                "Show capitalized letter when shift or caps is pressed, " + nl
+                + "but normal letters when both or neither are pressed.");
             tooltip.SetToolTip(this.rdbAlwaysCaps, "Always show capitalized letters.");
             tooltip.SetToolTip(this.rdbAlwaysLower, "Always show lower-case letters.");
 
             tooltip.SetToolTip(this.chkFollowShiftCapsInsensitive,
-                "When Always show capitalized or lower-case letters is selected, checking this means the shift key is " +
-                "still used to shift to the alternate text on the element, for all elements that are not sensitive to " +
-                "caps lock.");
+                "When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
+                "key is still used to shift to the alternate text on the element, for all elements that are not " + nl +
+                "sensitive to caps lock.");
             tooltip.SetToolTip(this.chkFollowShiftCapsSensitive,
-                "When Always show capitalized or lower-case letters is selected, checking this means the shift key is " +
-                "still used to shift to the alternate text on the element, for all elements that are sensitive to " +
-                "caps lock.");
+                "When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
+                "key is still used to shift to the alternate text on the element, for all elements that are " + nl +
+                "sensitive to caps lock.");
 
             tooltip.SetToolTip(
                 this.chkMouseFromCenter,
-                "Some games keep resetting the cursor position to the center of the screen. This setting uses this " +
-                "fact and compares the current mouse position to the center of the screen, rather than its " +
+                "Some games keep resetting the cursor position to the center of the screen. This setting uses " + nl +
+                "this fact and compares the current mouse position to the center of the screen, rather than its " + nl +
                 "last position.");
         }
 
