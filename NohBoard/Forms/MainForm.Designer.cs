@@ -83,8 +83,8 @@ namespace ThoNohT.NohBoard.Forms
             this.MainMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.mnuGenerateLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,7 +120,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuUpdate,
             this.mnuGenerateLog});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(203, 446);
+            this.MainMenu.Size = new System.Drawing.Size(203, 424);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
             // 
             // mnuSettings
@@ -377,17 +377,17 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuUpdate.Text = "Update available";
             this.mnuUpdate.Visible = false;
             // 
-            // KeyCheckTimer
-            // 
-            this.KeyCheckTimer.Interval = 1000;
-            this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
-            // 
             // mnuGenerateLog
             // 
             this.mnuGenerateLog.Name = "mnuGenerateLog";
             this.mnuGenerateLog.Size = new System.Drawing.Size(202, 22);
             this.mnuGenerateLog.Text = "Generate crash log";
             this.mnuGenerateLog.Click += new System.EventHandler(this.mnuGenerateLog_Click);
+            // 
+            // KeyCheckTimer
+            // 
+            this.KeyCheckTimer.Interval = 1000;
+            this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
             // 
             // MainForm
             // 

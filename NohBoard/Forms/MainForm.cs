@@ -383,7 +383,7 @@ namespace ThoNohT.NohBoard.Forms
             this.KeyCheckTimer.Enabled = true;
 
             this.Activate();
-            this.ApplySettings(false); // Keyboard was already loaded above.
+            this.ApplySettings();
         }
 
         /// <summary>
@@ -412,14 +412,12 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Applies the currently stored settings.
         /// </summary>
-        private void ApplySettings(bool loadKeyboard = true)
+        private void ApplySettings()
         {
             HookManager.TrapKeyboard = GlobalSettings.Settings.TrapKeyboard;
             HookManager.TrapMouse = GlobalSettings.Settings.TrapMouse;
             HookManager.TrapToggleKeyCode = GlobalSettings.Settings.TrapToggleKeyCode;
             HookManager.ScrollHold = GlobalSettings.Settings.ScrollHold;
-
-            if (!loadKeyboard) return;
 
             this.LoadKeyboard();
         }

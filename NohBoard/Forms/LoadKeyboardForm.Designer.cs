@@ -161,7 +161,7 @@ namespace ThoNohT.NohBoard.Forms
             // lblMissingFonts
             // 
             this.lblMissingFonts.AutoSize = true;
-            this.lblMissingFonts.Location = new System.Drawing.Point(344, 13);
+            this.lblMissingFonts.Location = new System.Drawing.Point(356, 13);
             this.lblMissingFonts.Name = "lblMissingFonts";
             this.lblMissingFonts.Size = new System.Drawing.Size(389, 26);
             this.lblMissingFonts.TabIndex = 10;
@@ -177,14 +177,15 @@ namespace ThoNohT.NohBoard.Forms
             this.fontsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.fontsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fontsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.fontsGrid.Location = new System.Drawing.Point(347, 42);
+            this.fontsGrid.Enabled = false;
+            this.fontsGrid.Location = new System.Drawing.Point(359, 42);
             this.fontsGrid.Name = "fontsGrid";
             this.fontsGrid.RowHeadersVisible = false;
             this.fontsGrid.ShowCellErrors = false;
             this.fontsGrid.ShowCellToolTips = false;
             this.fontsGrid.ShowEditingIcon = false;
             this.fontsGrid.ShowRowErrors = false;
-            this.fontsGrid.Size = new System.Drawing.Size(589, 205);
+            this.fontsGrid.Size = new System.Drawing.Size(577, 205);
             this.fontsGrid.TabIndex = 11;
             this.fontsGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.fontsGrid_CellDoubleClick);
             // 
@@ -200,6 +201,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // btnRestart
             // 
+            this.btnRestart.Enabled = false;
             this.btnRestart.Location = new System.Drawing.Point(861, 253);
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(75, 23);
@@ -214,7 +216,7 @@ namespace ThoNohT.NohBoard.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
-            this.ClientSize = new System.Drawing.Size(948, 286);
+            this.ClientSize = new System.Drawing.Size(348, 286);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblRestart);
             this.Controls.Add(this.fontsGrid);

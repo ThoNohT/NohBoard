@@ -135,10 +135,15 @@ namespace ThoNohT.NohBoard.Forms
             {
                 // Hide the panel.
                 this.Width = 364;
+                this.fontsGrid.Enabled = false;
+                this.btnRestart.Enabled = false;
             }
             else
             {
                 this.Width = 964;
+                this.fontsGrid.Enabled = true;
+                this.btnRestart.Enabled = true;
+
                 var gridData = missingFonts
                     .Select(f => new MissingFont { Name = f.FontFamily, Link = f.DownloadUrl ?? "No download URL provided" })
                     .ToList();
