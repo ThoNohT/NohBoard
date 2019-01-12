@@ -35,7 +35,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>NohBoard.ico</ApplicationIcon>
+    <ApplicationIcon>NohBoard2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -263,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NohBoard.ico" />
+    <Content Include="NohBoard2.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.template" />
