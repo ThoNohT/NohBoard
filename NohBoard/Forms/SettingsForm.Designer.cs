@@ -47,7 +47,6 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkShowKeypresses = new System.Windows.Forms.CheckBox();
             this.TrapGroup = new System.Windows.Forms.GroupBox();
             this.txtToggleKey = new System.Windows.Forms.TextBox();
             this.lblToggleKey = new System.Windows.Forms.Label();
@@ -62,31 +61,19 @@ namespace ThoNohT.NohBoard.Forms
             this.lblMouseSensititivy = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton2 = new System.Windows.Forms.Button();
-            this.DebugGroup = new System.Windows.Forms.GroupBox();
             this.CapitalizationGroup = new System.Windows.Forms.GroupBox();
+            this.chkFollowShiftCapsSensitive = new System.Windows.Forms.CheckBox();
+            this.lblFollowShift = new System.Windows.Forms.Label();
+            this.chkFollowShiftCapsInsensitive = new System.Windows.Forms.CheckBox();
             this.rdbAlwaysLower = new System.Windows.Forms.RadioButton();
             this.rdbAlwaysCaps = new System.Windows.Forms.RadioButton();
             this.rdbFollowKeystate = new System.Windows.Forms.RadioButton();
-            this.chkFollowShiftCapsInsensitive = new System.Windows.Forms.CheckBox();
-            this.lblFollowShift = new System.Windows.Forms.Label();
-            this.chkFollowShiftCapsSensitive = new System.Windows.Forms.CheckBox();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).BeginInit();
-            this.DebugGroup.SuspendLayout();
             this.CapitalizationGroup.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // chkShowKeypresses
-            // 
-            this.chkShowKeypresses.AutoSize = true;
-            this.chkShowKeypresses.Location = new System.Drawing.Point(15, 19);
-            this.chkShowKeypresses.Name = "chkShowKeypresses";
-            this.chkShowKeypresses.Size = new System.Drawing.Size(110, 17);
-            this.chkShowKeypresses.TabIndex = 4;
-            this.chkShowKeypresses.Text = "Show Keypresses";
-            this.chkShowKeypresses.UseVisualStyleBackColor = true;
             // 
             // TrapGroup
             // 
@@ -242,7 +229,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(334, 272);
+            this.OkButton.Location = new System.Drawing.Point(334, 245);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 7;
@@ -253,22 +240,12 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(253, 272);
+            this.CancelButton2.Location = new System.Drawing.Point(253, 245);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 6;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
-            // 
-            // DebugGroup
-            // 
-            this.DebugGroup.Controls.Add(this.chkShowKeypresses);
-            this.DebugGroup.Location = new System.Drawing.Point(12, 246);
-            this.DebugGroup.Name = "DebugGroup";
-            this.DebugGroup.Size = new System.Drawing.Size(187, 49);
-            this.DebugGroup.TabIndex = 5;
-            this.DebugGroup.TabStop = false;
-            this.DebugGroup.Text = "Debugging";
             // 
             // CapitalizationGroup
             // 
@@ -284,6 +261,35 @@ namespace ThoNohT.NohBoard.Forms
             this.CapitalizationGroup.TabIndex = 8;
             this.CapitalizationGroup.TabStop = false;
             this.CapitalizationGroup.Text = "Capitalization of Keys";
+            // 
+            // chkFollowShiftCapsSensitive
+            // 
+            this.chkFollowShiftCapsSensitive.AutoSize = true;
+            this.chkFollowShiftCapsSensitive.Location = new System.Drawing.Point(199, 65);
+            this.chkFollowShiftCapsSensitive.Name = "chkFollowShiftCapsSensitive";
+            this.chkFollowShiftCapsSensitive.Size = new System.Drawing.Size(146, 17);
+            this.chkFollowShiftCapsSensitive.TabIndex = 5;
+            this.chkFollowShiftCapsSensitive.Text = "Caps Lock sensitive keys";
+            this.chkFollowShiftCapsSensitive.UseVisualStyleBackColor = true;
+            // 
+            // lblFollowShift
+            // 
+            this.lblFollowShift.AutoSize = true;
+            this.lblFollowShift.Location = new System.Drawing.Point(199, 19);
+            this.lblFollowShift.Name = "lblFollowShift";
+            this.lblFollowShift.Size = new System.Drawing.Size(93, 13);
+            this.lblFollowShift.TabIndex = 4;
+            this.lblFollowShift.Text = "Still follow shift for:";
+            // 
+            // chkFollowShiftCapsInsensitive
+            // 
+            this.chkFollowShiftCapsInsensitive.AutoSize = true;
+            this.chkFollowShiftCapsInsensitive.Location = new System.Drawing.Point(199, 42);
+            this.chkFollowShiftCapsInsensitive.Name = "chkFollowShiftCapsInsensitive";
+            this.chkFollowShiftCapsInsensitive.Size = new System.Drawing.Size(154, 17);
+            this.chkFollowShiftCapsInsensitive.TabIndex = 3;
+            this.chkFollowShiftCapsInsensitive.Text = "Caps Lock insensitive keys";
+            this.chkFollowShiftCapsInsensitive.UseVisualStyleBackColor = true;
             // 
             // rdbAlwaysLower
             // 
@@ -319,44 +325,14 @@ namespace ThoNohT.NohBoard.Forms
             this.rdbFollowKeystate.UseVisualStyleBackColor = true;
             this.rdbFollowKeystate.CheckedChanged += new System.EventHandler(this.rdbFollowKeystate_CheckedChanged);
             // 
-            // chkFollowShiftCapsInsensitive
-            // 
-            this.chkFollowShiftCapsInsensitive.AutoSize = true;
-            this.chkFollowShiftCapsInsensitive.Location = new System.Drawing.Point(199, 42);
-            this.chkFollowShiftCapsInsensitive.Name = "chkFollowShiftCapsInsensitive";
-            this.chkFollowShiftCapsInsensitive.Size = new System.Drawing.Size(154, 17);
-            this.chkFollowShiftCapsInsensitive.TabIndex = 3;
-            this.chkFollowShiftCapsInsensitive.Text = "Caps Lock insensitive keys";
-            this.chkFollowShiftCapsInsensitive.UseVisualStyleBackColor = true;
-            // 
-            // lblFollowShift
-            // 
-            this.lblFollowShift.AutoSize = true;
-            this.lblFollowShift.Location = new System.Drawing.Point(199, 19);
-            this.lblFollowShift.Name = "lblFollowShift";
-            this.lblFollowShift.Size = new System.Drawing.Size(93, 13);
-            this.lblFollowShift.TabIndex = 4;
-            this.lblFollowShift.Text = "Still follow shift for:";
-            // 
-            // chkFollowShiftCapsSensitive
-            // 
-            this.chkFollowShiftCapsSensitive.AutoSize = true;
-            this.chkFollowShiftCapsSensitive.Location = new System.Drawing.Point(199, 65);
-            this.chkFollowShiftCapsSensitive.Name = "chkFollowShiftCapsSensitive";
-            this.chkFollowShiftCapsSensitive.Size = new System.Drawing.Size(146, 17);
-            this.chkFollowShiftCapsSensitive.TabIndex = 5;
-            this.chkFollowShiftCapsSensitive.Text = "Caps Lock sensitive keys";
-            this.chkFollowShiftCapsSensitive.UseVisualStyleBackColor = true;
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(421, 304);
+            this.ClientSize = new System.Drawing.Size(421, 279);
             this.Controls.Add(this.CapitalizationGroup);
-            this.Controls.Add(this.DebugGroup);
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.InputGroup);
@@ -372,8 +348,6 @@ namespace ThoNohT.NohBoard.Forms
             this.InputGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).EndInit();
-            this.DebugGroup.ResumeLayout(false);
-            this.DebugGroup.PerformLayout();
             this.CapitalizationGroup.ResumeLayout(false);
             this.CapitalizationGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -389,8 +363,6 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.Label lblScrollHold;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton2;
-        private System.Windows.Forms.GroupBox DebugGroup;
-        internal System.Windows.Forms.CheckBox chkShowKeypresses;
         internal System.Windows.Forms.CheckBox chkTrapMouse;
         internal System.Windows.Forms.CheckBox chkTrapKeyboard;
         internal System.Windows.Forms.NumericUpDown udMouseSensitivity;

@@ -101,16 +101,6 @@ namespace ThoNohT.NohBoard.Extra
 
         #endregion Trapping
 
-        #region Debugging
-
-        /// <summary>
-        /// Indicates whether to show keypresses for debugging purposes.
-        /// </summary>
-        [DataMember]
-        public bool ShowKeyPresses { get; set; }
-
-        #endregion Debugging
-
         #region Capitalization
 
         /// <summary>

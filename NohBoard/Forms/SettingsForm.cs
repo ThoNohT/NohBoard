@@ -58,8 +58,6 @@ namespace ThoNohT.NohBoard.Forms
             this.chkTrapKeyboard.Checked = GlobalSettings.Settings.TrapKeyboard;
             this.chkTrapMouse.Checked = GlobalSettings.Settings.TrapMouse;
 
-            this.chkShowKeypresses.Checked = GlobalSettings.Settings.ShowKeyPresses;
-
             this.trapToggleKey = GlobalSettings.Settings.TrapToggleKeyCode;
             this.txtToggleKey.Text = ((Keys)this.trapToggleKey).ToString();
 
@@ -108,11 +106,6 @@ namespace ThoNohT.NohBoard.Forms
             tooltip.SetToolTip(this.chkTrapMouse, "Check to let the mouse be trapped by pressing the trap toggle key.");
 
             tooltip.SetToolTip(
-                this.chkShowKeypresses,
-                "When checked, the last pressed numeric key will be displayed in (TODO). " + nl
-                + "This can be used to determine key codes when manually creating keyboard files.");
-
-            tooltip.SetToolTip(
                 this.rdbFollowKeystate,
                 "Show capitalized letter when shift or caps is pressed, " + nl
                 + "but normal letters when both or neither are pressed.");
@@ -147,8 +140,6 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.TrapKeyboard = this.chkTrapKeyboard.Checked;
             GlobalSettings.Settings.TrapMouse = this.chkTrapMouse.Checked;
             GlobalSettings.Settings.TrapToggleKeyCode = this.trapToggleKey;
-
-            GlobalSettings.Settings.ShowKeyPresses = this.chkShowKeypresses.Checked;
 
             GlobalSettings.Settings.Capitalization = this.rdbFollowKeystate.Checked
                 ? CapitalizationMethod.FollowKeys
