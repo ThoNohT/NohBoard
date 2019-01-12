@@ -31,16 +31,16 @@
             this.grpBackground = new System.Windows.Forms.GroupBox();
             this.txtBackgoundImage = new System.Windows.Forms.TextBox();
             this.lblBackgroundImage = new System.Windows.Forms.Label();
-            this.clrBackground = new ColorChooser();
             this.grpText = new System.Windows.Forms.GroupBox();
-            this.fntText = new FontChooser();
-            this.clrText = new ColorChooser();
             this.grpOutline = new System.Windows.Forms.GroupBox();
             this.lblOutlineWidth = new System.Windows.Forms.Label();
             this.udOutlineWidth = new System.Windows.Forms.NumericUpDown();
             this.chkShowOutline = new System.Windows.Forms.CheckBox();
-            this.clrOutline = new ColorChooser();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.clrText = new ThoNohT.NohBoard.Controls.ColorChooser();
+            this.clrBackground = new ThoNohT.NohBoard.Controls.ColorChooser();
+            this.clrOutline = new ThoNohT.NohBoard.Controls.ColorChooser();
+            this.fntText = new ThoNohT.NohBoard.Controls.FontChooser();
             this.grpBackground.SuspendLayout();
             this.grpText.SuspendLayout();
             this.grpOutline.SuspendLayout();
@@ -76,50 +76,16 @@
             this.lblBackgroundImage.Text = "Image:";
             this.lblBackgroundImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // clrBackground
-            // 
-            this.clrBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrBackground.Color = System.Drawing.Color.Black;
-            this.clrBackground.LabelText = "Background Color";
-            this.clrBackground.Location = new System.Drawing.Point(6, 19);
-            this.clrBackground.Name = "clrBackground";
-            this.clrBackground.PreviewShape = ColorChooser.Shape.Square;
-            this.clrBackground.Size = new System.Drawing.Size(157, 26);
-            this.clrBackground.TabIndex = 0;
-            this.clrBackground.ColorChanged += this.clr_ColorChanged;
-            // 
             // grpText
             // 
             this.grpText.Controls.Add(this.fntText);
             this.grpText.Controls.Add(this.clrText);
             this.grpText.Location = new System.Drawing.Point(2, 109);
             this.grpText.Name = "grpText";
-            this.grpText.Size = new System.Drawing.Size(166, 84);
+            this.grpText.Size = new System.Drawing.Size(166, 107);
             this.grpText.TabIndex = 2;
             this.grpText.TabStop = false;
             this.grpText.Text = "Text";
-            // 
-            // fntText
-            // 
-            this.fntText.BackColor = System.Drawing.SystemColors.Control;
-            this.fntText.LabelText = "Text Font";
-            this.fntText.Location = new System.Drawing.Point(7, 52);
-            this.fntText.Name = "fntText";
-            this.fntText.Size = new System.Drawing.Size(156, 26);
-            this.fntText.TabIndex = 1;
-            this.fntText.FontChanged += this.fntText_FontChanged;
-            // 
-            // clrText
-            // 
-            this.clrText.BackColor = System.Drawing.SystemColors.Control;
-            this.clrText.Color = System.Drawing.Color.Black;
-            this.clrText.LabelText = "Text Color";
-            this.clrText.Location = new System.Drawing.Point(7, 19);
-            this.clrText.Name = "clrText";
-            this.clrText.PreviewShape = ColorChooser.Shape.Square;
-            this.clrText.Size = new System.Drawing.Size(156, 26);
-            this.clrText.TabIndex = 0;
-            this.clrText.ColorChanged += this.clr_ColorChanged;
             // 
             // grpOutline
             // 
@@ -127,7 +93,7 @@
             this.grpOutline.Controls.Add(this.udOutlineWidth);
             this.grpOutline.Controls.Add(this.chkShowOutline);
             this.grpOutline.Controls.Add(this.clrOutline);
-            this.grpOutline.Location = new System.Drawing.Point(2, 199);
+            this.grpOutline.Location = new System.Drawing.Point(2, 222);
             this.grpOutline.Name = "grpOutline";
             this.grpOutline.Size = new System.Drawing.Size(166, 105);
             this.grpOutline.TabIndex = 3;
@@ -172,18 +138,6 @@
             this.chkShowOutline.UseVisualStyleBackColor = true;
             this.chkShowOutline.CheckedChanged += new System.EventHandler(this.chkShowOutline_CheckedChanged);
             // 
-            // clrOutline
-            // 
-            this.clrOutline.BackColor = System.Drawing.SystemColors.Control;
-            this.clrOutline.Color = System.Drawing.Color.Black;
-            this.clrOutline.LabelText = "Outline Color";
-            this.clrOutline.Location = new System.Drawing.Point(7, 19);
-            this.clrOutline.Name = "clrOutline";
-            this.clrOutline.PreviewShape = ColorChooser.Shape.Square;
-            this.clrOutline.Size = new System.Drawing.Size(156, 26);
-            this.clrOutline.TabIndex = 0;
-            this.clrOutline.ColorChanged += this.clr_ColorChanged;
-            // 
             // lblTitle
             // 
             this.lblTitle.AutoEllipsis = true;
@@ -195,6 +149,52 @@
             this.lblTitle.Text = "SubStyle";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // clrText
+            // 
+            this.clrText.BackColor = System.Drawing.SystemColors.Control;
+            this.clrText.Color = System.Drawing.Color.Black;
+            this.clrText.LabelText = "Text Color";
+            this.clrText.Location = new System.Drawing.Point(7, 19);
+            this.clrText.Name = "clrText";
+            this.clrText.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
+            this.clrText.Size = new System.Drawing.Size(156, 26);
+            this.clrText.TabIndex = 0;
+            this.clrText.ColorChanged += this.clr_ColorChanged;
+            // 
+            // clrBackground
+            // 
+            this.clrBackground.BackColor = System.Drawing.SystemColors.Control;
+            this.clrBackground.Color = System.Drawing.Color.Black;
+            this.clrBackground.LabelText = "Background Color";
+            this.clrBackground.Location = new System.Drawing.Point(6, 19);
+            this.clrBackground.Name = "clrBackground";
+            this.clrBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
+            this.clrBackground.Size = new System.Drawing.Size(157, 26);
+            this.clrBackground.TabIndex = 0;
+            this.clrBackground.ColorChanged += this.clr_ColorChanged;
+            // 
+            // clrOutline
+            // 
+            this.clrOutline.BackColor = System.Drawing.SystemColors.Control;
+            this.clrOutline.Color = System.Drawing.Color.Black;
+            this.clrOutline.LabelText = "Outline Color";
+            this.clrOutline.Location = new System.Drawing.Point(7, 19);
+            this.clrOutline.Name = "clrOutline";
+            this.clrOutline.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
+            this.clrOutline.Size = new System.Drawing.Size(156, 26);
+            this.clrOutline.TabIndex = 0;
+            this.clrOutline.ColorChanged += this.clr_ColorChanged;
+            // 
+            // fntText
+            // 
+            this.fntText.BackColor = System.Drawing.SystemColors.Control;
+            this.fntText.LabelText = "Pick a font.";
+            this.fntText.Location = new System.Drawing.Point(9, 52);
+            this.fntText.Name = "fntText";
+            this.fntText.Size = new System.Drawing.Size(154, 50);
+            this.fntText.TabIndex = 1;
+            this.fntText.FontChanged += this.fntText_FontChanged;
+            // 
             // KeySubStylePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,7 +204,7 @@
             this.Controls.Add(this.grpBackground);
             this.Controls.Add(this.grpOutline);
             this.Name = "KeySubStylePanel";
-            this.Size = new System.Drawing.Size(171, 309);
+            this.Size = new System.Drawing.Size(171, 329);
             this.grpBackground.ResumeLayout(false);
             this.grpBackground.PerformLayout();
             this.grpText.ResumeLayout(false);
@@ -222,12 +222,12 @@
         private ColorChooser clrText;
         private System.Windows.Forms.GroupBox grpOutline;
         private ColorChooser clrOutline;
-        private FontChooser fntText;
         private System.Windows.Forms.CheckBox chkShowOutline;
         private System.Windows.Forms.Label lblOutlineWidth;
         private System.Windows.Forms.NumericUpDown udOutlineWidth;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblBackgroundImage;
         private System.Windows.Forms.TextBox txtBackgoundImage;
+        private FontChooser fntText;
     }
 }

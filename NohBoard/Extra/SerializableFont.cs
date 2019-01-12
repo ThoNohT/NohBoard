@@ -28,6 +28,26 @@ namespace ThoNohT.NohBoard.Extra
     public class SerializableFont
     {
         /// <summary>
+        /// Creates an empty serializable font.
+        /// </summary>
+        public SerializableFont()
+        {
+        }
+
+        /// <summary>
+        /// Creates a font from a <see cref="Font"/> and a download URL.
+        /// </summary>
+        /// <param name="font">The font.</param>
+        /// <param name="downloadUrl">The download URL.</param>
+        public SerializableFont(Font font, string downloadUrl)
+        {
+            this.FontFamily = font.FontFamily.Name;
+            this.Style = (SerializableFontStyle)font.Style;
+            this.Size = font.Size;
+            this.DownloadUrl = downloadUrl;
+        }
+
+        /// <summary>
         /// The font family.
         /// </summary>
         [DataMember]

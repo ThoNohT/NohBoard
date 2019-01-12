@@ -59,15 +59,15 @@ namespace ThoNohT.NohBoard.Forms.Style
             ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
             this.AcceptButton2 = new System.Windows.Forms.Button();
             this.CancelButton2 = new System.Windows.Forms.Button();
-            this.pressed = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
-            this.loose = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
             this.chkOverwriteLoose = new System.Windows.Forms.CheckBox();
             this.chkOverwritePressed = new System.Windows.Forms.CheckBox();
+            this.pressed = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
+            this.loose = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
             this.SuspendLayout();
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(285, 350);
+            this.AcceptButton2.Location = new System.Drawing.Point(285, 366);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 10;
@@ -77,7 +77,8 @@ namespace ThoNohT.NohBoard.Forms.Style
             // 
             // CancelButton2
             // 
-            this.CancelButton2.Location = new System.Drawing.Point(204, 350);
+            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelButton2.Location = new System.Drawing.Point(204, 366);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 11;
@@ -85,18 +86,42 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.CancelButton2.UseVisualStyleBackColor = true;
             this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
             // 
+            // chkOverwriteLoose
+            // 
+            this.chkOverwriteLoose.AutoSize = true;
+            this.chkOverwriteLoose.Location = new System.Drawing.Point(14, 343);
+            this.chkOverwriteLoose.Name = "chkOverwriteLoose";
+            this.chkOverwriteLoose.Size = new System.Drawing.Size(130, 17);
+            this.chkOverwriteLoose.TabIndex = 18;
+            this.chkOverwriteLoose.Text = "Overwrite default style";
+            this.chkOverwriteLoose.UseVisualStyleBackColor = true;
+            this.chkOverwriteLoose.CheckedChanged += new System.EventHandler(this.chkOverwriteLoose_CheckedChanged);
+            // 
+            // chkOverwritePressed
+            // 
+            this.chkOverwritePressed.AutoSize = true;
+            this.chkOverwritePressed.Location = new System.Drawing.Point(191, 343);
+            this.chkOverwritePressed.Name = "chkOverwritePressed";
+            this.chkOverwritePressed.Size = new System.Drawing.Size(130, 17);
+            this.chkOverwritePressed.TabIndex = 19;
+            this.chkOverwritePressed.Text = "Overwrite default style";
+            this.chkOverwritePressed.UseVisualStyleBackColor = true;
+            this.chkOverwritePressed.CheckedChanged += new System.EventHandler(this.chkOverwritePressed_CheckedChanged);
+            // 
             // pressed
             // 
             this.pressed.Location = new System.Drawing.Point(189, 12);
             this.pressed.Name = "pressed";
-            this.pressed.Size = new System.Drawing.Size(171, 309);
+            this.pressed.Size = new System.Drawing.Size(171, 331);
             serializableColor1.Blue = ((byte)(0));
             serializableColor1.Green = ((byte)(0));
             serializableColor1.Red = ((byte)(0));
             keySubStyle1.Background = serializableColor1;
             keySubStyle1.BackgroundImageFileName = "";
-            serializableFont1.FontFamily = "Microsoft Sans Serif";
-            serializableFont1.Size = 8.25F;
+            serializableFont1.AlternateFontFamily = null;
+            serializableFont1.DownloadUrl = null;
+            serializableFont1.FontFamily = "Courier New";
+            serializableFont1.Size = 10F;
             serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
             keySubStyle1.Font = serializableFont1;
             serializableColor2.Blue = ((byte)(0));
@@ -117,14 +142,16 @@ namespace ThoNohT.NohBoard.Forms.Style
             // 
             this.loose.Location = new System.Drawing.Point(12, 12);
             this.loose.Name = "loose";
-            this.loose.Size = new System.Drawing.Size(171, 309);
+            this.loose.Size = new System.Drawing.Size(171, 331);
             serializableColor4.Blue = ((byte)(0));
             serializableColor4.Green = ((byte)(0));
             serializableColor4.Red = ((byte)(0));
             keySubStyle2.Background = serializableColor4;
             keySubStyle2.BackgroundImageFileName = "";
-            serializableFont2.FontFamily = "Microsoft Sans Serif";
-            serializableFont2.Size = 8.25F;
+            serializableFont2.AlternateFontFamily = null;
+            serializableFont2.DownloadUrl = null;
+            serializableFont2.FontFamily = "Courier New";
+            serializableFont2.Size = 10F;
             serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
             keySubStyle2.Font = serializableFont2;
             serializableColor5.Blue = ((byte)(0));
@@ -141,35 +168,13 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.loose.TabIndex = 12;
             this.loose.Title = "Loose";
             // 
-            // chkOverwriteLoose
-            // 
-            this.chkOverwriteLoose.AutoSize = true;
-            this.chkOverwriteLoose.Location = new System.Drawing.Point(12, 327);
-            this.chkOverwriteLoose.Name = "chkOverwriteLoose";
-            this.chkOverwriteLoose.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwriteLoose.TabIndex = 18;
-            this.chkOverwriteLoose.Text = "Overwrite default style";
-            this.chkOverwriteLoose.UseVisualStyleBackColor = true;
-            this.chkOverwriteLoose.CheckedChanged += new System.EventHandler(this.chkOverwriteLoose_CheckedChanged);
-            // 
-            // chkOverwritePressed
-            // 
-            this.chkOverwritePressed.AutoSize = true;
-            this.chkOverwritePressed.Location = new System.Drawing.Point(189, 327);
-            this.chkOverwritePressed.Name = "chkOverwritePressed";
-            this.chkOverwritePressed.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwritePressed.TabIndex = 19;
-            this.chkOverwritePressed.Text = "Overwrite default style";
-            this.chkOverwritePressed.UseVisualStyleBackColor = true;
-            this.chkOverwritePressed.CheckedChanged += new System.EventHandler(this.chkOverwritePressed_CheckedChanged);
-            // 
             // KeyStyleForm
             // 
             this.AcceptButton = this.AcceptButton2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(370, 383);
+            this.ClientSize = new System.Drawing.Size(370, 399);
             this.Controls.Add(this.chkOverwritePressed);
             this.Controls.Add(this.chkOverwriteLoose);
             this.Controls.Add(this.pressed);

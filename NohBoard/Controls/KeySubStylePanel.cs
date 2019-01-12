@@ -70,7 +70,7 @@ namespace ThoNohT.NohBoard.Controls
                     BackgroundImageFileName = this.txtBackgoundImage.Text.SanitizeFilename(),
 
                     Text = this.clrText.Color,
-                    Font = this.fntText.Font,
+                    Font = new SerializableFont(this.fntText.Font, this.fntText.Link),
 
                     Outline = this.clrOutline.Color,
                     ShowOutline = this.chkShowOutline.Checked,
@@ -86,6 +86,7 @@ namespace ThoNohT.NohBoard.Controls
 
                 this.clrText.Color = value.Text;
                 this.fntText.Font = value.Font;
+                this.fntText.Link = value.Font.DownloadUrl;
 
                 this.clrOutline.Color = value.Outline;
                 this.chkShowOutline.Checked = value.ShowOutline;
@@ -119,7 +120,7 @@ namespace ThoNohT.NohBoard.Controls
         /// <summary>
         /// Handles the font changed event of the text font chooser.
         /// </summary>
-        private void fntText_FontChanged(FontChooser sender, System.Drawing.Font font)
+        private void fntText_FontChanged(FontChooser sender, System.Drawing.Font font, string link)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }

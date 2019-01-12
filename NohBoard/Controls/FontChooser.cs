@@ -41,10 +41,10 @@ namespace ThoNohT.NohBoard.Controls
         /// The event that is invoked when the font has been changed. Only invoked when the font is changed through
         /// the user interface, not when it is changed programmatically.
         /// </summary>
-        public new event Action<FontChooser, Font> FontChanged;
+        public new event Action<FontChooser, Font, string> FontChanged;
 
         #endregion Events
-        
+
         #region Constructors
 
         /// <summary>
@@ -55,6 +55,15 @@ namespace ThoNohT.NohBoard.Controls
             this.InitializeComponent();
             this.Font = DefaultFont;
             this.DisplayLabel.Text = "Pick a font.";
+
+            var nl = Environment.NewLine;
+            var tooltip = new ToolTip();
+            tooltip.SetToolTip(
+                this.txtLink,
+                "If a font is used that is not present on Windows systems by default, this field can be used " + nl +
+                "to provide an URL to download the font from. The user can then click on the link, download the " + nl +
+                "font and be able to use the style with the correct font. Note that every link only needs to be " + nl +
+                "provided once, even if it is used in multiple key definitions.");
 
             this.DisplayLabel.Left = this.Height + 2;
             this.DisplayLabel.Width = this.Width - this.Height - 2;
@@ -89,8 +98,17 @@ namespace ThoNohT.NohBoard.Controls
             set { this.DisplayLabel.Text = value; }
         }
 
+        /// <summary>
+        /// The link to download the font.
+        /// </summary>
+        public string Link
+        {
+            get { return string.IsNullOrWhiteSpace(this.txtLink.Text) ? null : this.txtLink.Text; }
+            set { this.txtLink.Text = value ?? string.Empty; }
+        }
+
         #endregion Properties
-        
+
         #region Methods
 
         /// <summary>
@@ -111,7 +129,15 @@ namespace ThoNohT.NohBoard.Controls
 
             this.Refresh();
 
-            this.FontChanged?.Invoke(this, picker.Font);
+            this.FontChanged?.Invoke(this, picker.Font, this.Link);
+        }
+
+        /// <summary>
+        /// Handles changing the link text. Updates the DownloadLink of the font.
+        /// </summary>
+        private void txtLink_TextChanged(object sender, EventArgs e)
+        {
+            this.FontChanged?.Invoke(this, this.Font, this.Link);
         }
 
         /// <summary>
