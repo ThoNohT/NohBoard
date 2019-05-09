@@ -234,6 +234,8 @@ namespace ThoNohT.NohBoard.Forms
                     this.backBrushes[shift].Add(caps, new TextureBrush(bmp));
                 }
             }
+
+            this.Refresh();
         }
 
         /// <summary>

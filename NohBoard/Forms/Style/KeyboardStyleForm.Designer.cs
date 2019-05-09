@@ -112,6 +112,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
             this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
             this.clrKeyboardBackground.TabIndex = 2;
+            this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
             // 
             // AcceptButton2
             // 
