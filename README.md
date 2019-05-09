@@ -36,6 +36,7 @@ An initial version was made in C++, this originated from the desire to make some
 - wingsltd
 - zolia
 - SirDifferential
+- flyingmongoose
 
 If you want to contribute, either with code, with keyboard definitions or keyboard styles, feel free to fork this repository and provide your changes via a pull request, or other means of submitting your changes back to me.
 
