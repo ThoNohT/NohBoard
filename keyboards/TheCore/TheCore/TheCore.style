@@ -1076,7 +1076,7 @@
           "BackgroundImageFileName": "sb.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1102,7 +1102,7 @@
           "BackgroundImageFileName": "sw.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1134,7 +1134,7 @@
           "BackgroundImageFileName": "t.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1160,7 +1160,7 @@
           "BackgroundImageFileName": "suw.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 12.25,
             "Style": 0
           },
@@ -1192,7 +1192,7 @@
           "BackgroundImageFileName": "t.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1218,7 +1218,7 @@
           "BackgroundImageFileName": "sdw.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 12.25,
             "Style": 0
           },
@@ -1250,7 +1250,7 @@
           "BackgroundImageFileName": "m5b.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1276,7 +1276,7 @@
           "BackgroundImageFileName": "m5w.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1308,7 +1308,7 @@
           "BackgroundImageFileName": "m4b.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1334,7 +1334,7 @@
           "BackgroundImageFileName": "m4w.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1366,7 +1366,7 @@
           "BackgroundImageFileName": "rightb.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1392,7 +1392,7 @@
           "BackgroundImageFileName": "rightbp.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1424,7 +1424,7 @@
           "BackgroundImageFileName": "leftb.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
@@ -1450,7 +1450,7 @@
           "BackgroundImageFileName": "leftbp.png",
           "Font": {
             "DownloadUrl": null,
-            "FontFamily": "Razer Blackwidow",
+            "FontFamily": "Courier New",
             "Size": 11.25,
             "Style": 0
           },
