@@ -1,0 +1,1701 @@
+{
+  "BackgroundColor": {
+    "Blue": 0,
+    "Green": 255,
+    "Red": 0
+  },
+  "BackgroundImageFileName": null,
+  "DefaultKeyStyle": {
+    "Loose": {
+      "Background": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      },
+      "BackgroundImageFileName": "unpressed-hr.png",
+      "Font": {
+        "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+        "FontFamily": "Kairos Sans Medium Condensed",
+        "Size": 72,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      }
+    },
+    "Pressed": {
+      "Background": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      },
+      "BackgroundImageFileName": "pressed-hr.png",
+      "Font": {
+        "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+        "FontFamily": "Kairos Sans Medium Condensed",
+        "Size": 72,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 255
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 255
+      }
+    }
+  },
+  "DefaultMouseSpeedIndicatorStyle": {
+    "InnerColor": {
+      "Blue": 255,
+      "Green": 255,
+      "Red": 255
+    },
+    "OuterColor": {
+      "Blue": 0,
+      "Green": 0,
+      "Red": 255
+    },
+    "OutlineWidth": 12
+  },
+  "ElementStyles": [
+    {
+      "Key": 1,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "space-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "spacectrlpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 21,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "t-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "mwheelup-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 22,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "t-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "mwheeldown-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 29,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "m5b-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m5w-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 30,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "m4b-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m4w-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 32,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 1
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "mouse-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "mouseleftclick-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "mouse-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "mouserightclick-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 42,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "mouse-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "mousemiddleclick-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 43,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "shiftctrlunpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "shiftctrlpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 44,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "shiftctrlunpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "shiftctrlpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 33,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 34,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 36,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 37,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 38,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 13,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 18,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 10,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 7,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 16,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 9,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 11,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 45,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 46,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 47,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "unpressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pressed-hr.png",
+          "Font": {
+            "DownloadUrl": "https://github.com/Monotype/Monotype_prototype_variable_fonts",
+            "FontFamily": "Kairos Sans Medium Condensed",
+            "Size": 72,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 255
+          }
+        }
+      }
+    }
+  ]
+}

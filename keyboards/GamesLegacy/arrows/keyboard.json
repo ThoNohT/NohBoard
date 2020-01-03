@@ -1,0 +1,127 @@
+{
+  "Elements": [
+    {
+      "__type": "KeyboardKey",
+      "Id": 0,
+      "Boundaries": [
+        {
+          "X": 9,
+          "Y": 54
+        },
+        {
+          "X": 53,
+          "Y": 54
+        },
+        {
+          "X": 53,
+          "Y": 98
+        },
+        {
+          "X": 9,
+          "Y": 98
+        }
+      ],
+      "KeyCodes": [ 37 ],
+      "Text": "←",
+      "TextPosition": {
+        "X": 31,
+        "Y": 76
+      },
+      "ChangeOnCaps": false,
+      "ShiftText": "←"
+    },
+    {
+      "__type": "KeyboardKey",
+      "Id": 1,
+      "Boundaries": [
+        {
+          "X": 54,
+          "Y": 9
+        },
+        {
+          "X": 98,
+          "Y": 9
+        },
+        {
+          "X": 98,
+          "Y": 53
+        },
+        {
+          "X": 54,
+          "Y": 53
+        }
+      ],
+      "KeyCodes": [ 38 ],
+      "Text": "↑",
+      "TextPosition": {
+        "X": 76,
+        "Y": 31
+      },
+      "ChangeOnCaps": false,
+      "ShiftText": "↑"
+    },
+    {
+      "__type": "KeyboardKey",
+      "Id": 2,
+      "Boundaries": [
+        {
+          "X": 99,
+          "Y": 54
+        },
+        {
+          "X": 143,
+          "Y": 54
+        },
+        {
+          "X": 143,
+          "Y": 98
+        },
+        {
+          "X": 99,
+          "Y": 98
+        }
+      ],
+      "KeyCodes": [ 39 ],
+      "Text": "→",
+      "TextPosition": {
+        "X": 121,
+        "Y": 76
+      },
+      "ChangeOnCaps": false,
+      "ShiftText": "→"
+    },
+    {
+      "__type": "KeyboardKey",
+      "Id": 3,
+      "Boundaries": [
+        {
+          "X": 54,
+          "Y": 54
+        },
+        {
+          "X": 98,
+          "Y": 54
+        },
+        {
+          "X": 98,
+          "Y": 98
+        },
+        {
+          "X": 54,
+          "Y": 98
+        }
+      ],
+      "KeyCodes": [ 40 ],
+      "Text": "↓",
+      "TextPosition": {
+        "X": 76,
+        "Y": 76
+      },
+      "ChangeOnCaps": false,
+      "ShiftText": "↓"
+    }
+  ],
+  "Height": 107,
+  "Version": 2,
+  "Width": 152
+}
