@@ -91,7 +91,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.txtBackgoundImage.Name = "txtBackgoundImage";
             this.txtBackgoundImage.Size = new System.Drawing.Size(100, 20);
             this.txtBackgoundImage.TabIndex = 4;
-            this.txtBackgoundImage.TextChanged += new System.EventHandler(this.txtBackgoundImage_TextChanged);
             // 
             // lblBackgroundImage
             // 
@@ -112,7 +111,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
             this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
             this.clrKeyboardBackground.TabIndex = 2;
-            this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
             // 
             // AcceptButton2
             // 
@@ -140,7 +138,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.pressedKeys.Location = new System.Drawing.Point(366, 13);
             this.pressedKeys.Name = "pressedKeys";
             this.pressedKeys.Size = new System.Drawing.Size(171, 331);
-            this.pressedKeys.StyleChanged += this.pressedKeys_SubStyleChanged;
             serializableColor1.Blue = ((byte)(0));
             serializableColor1.Green = ((byte)(0));
             serializableColor1.Red = ((byte)(0));
@@ -171,7 +168,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.looseKeys.Location = new System.Drawing.Point(189, 13);
             this.looseKeys.Name = "looseKeys";
             this.looseKeys.Size = new System.Drawing.Size(171, 331);
-            this.looseKeys.StyleChanged += this.looseKeys_SubStyleChanged;
             serializableColor4.Blue = ((byte)(0));
             serializableColor4.Green = ((byte)(0));
             serializableColor4.Red = ((byte)(0));

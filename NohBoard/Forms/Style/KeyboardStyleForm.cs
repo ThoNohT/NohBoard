@@ -84,6 +84,14 @@ namespace ThoNohT.NohBoard.Forms.Style
 
             // Mouse speed indicator
             this.defaultMouseSpeed.IndicatorStyle = this.initialStyle.DefaultMouseSpeedIndicatorStyle;
+
+            // Add event handlers after styles have been set.
+            this.defaultMouseSpeed.IndicatorStyleChanged += this.defaultMouseSpeed_IndicatorStyleChanged;
+            this.looseKeys.StyleChanged += this.looseKeys_SubStyleChanged;
+            this.pressedKeys.StyleChanged += this.pressedKeys_SubStyleChanged;
+            this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
+            this.txtBackgoundImage.TextChanged += this.txtBackgoundImage_TextChanged;
+
         }
 
         /// <summary>
