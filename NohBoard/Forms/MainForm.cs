@@ -267,8 +267,8 @@ namespace ThoNohT.NohBoard.Forms
 
                     try
                     {
-                        var missingKeyboards = this.LoadKeyboard();
-                        manageForm.ToggleFontsPanel(missingKeyboards);
+                        var missingFonts = this.LoadKeyboard();
+                        manageForm.ToggleFontsPanel(missingFonts);
                     }
                     catch (Exception ex)
                     {
