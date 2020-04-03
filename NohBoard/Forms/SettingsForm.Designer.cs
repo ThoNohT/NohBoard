@@ -68,11 +68,15 @@ namespace ThoNohT.NohBoard.Forms
             this.rdbAlwaysLower = new System.Windows.Forms.RadioButton();
             this.rdbAlwaysCaps = new System.Windows.Forms.RadioButton();
             this.rdbFollowKeystate = new System.Windows.Forms.RadioButton();
+            this.GeneralGroup = new System.Windows.Forms.GroupBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).BeginInit();
             this.CapitalizationGroup.SuspendLayout();
+            this.GeneralGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // TrapGroup
@@ -229,7 +233,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(334, 245);
+            this.OkButton.Location = new System.Drawing.Point(334, 263);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 7;
@@ -240,7 +244,7 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(253, 245);
+            this.CancelButton2.Location = new System.Drawing.Point(253, 263);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 6;
@@ -325,13 +329,41 @@ namespace ThoNohT.NohBoard.Forms
             this.rdbFollowKeystate.UseVisualStyleBackColor = true;
             this.rdbFollowKeystate.CheckedChanged += new System.EventHandler(this.rdbFollowKeystate_CheckedChanged);
             // 
+            // GeneralGroup
+            // 
+            this.GeneralGroup.Controls.Add(this.lblTitle);
+            this.GeneralGroup.Controls.Add(this.txtTitle);
+            this.GeneralGroup.Location = new System.Drawing.Point(13, 246);
+            this.GeneralGroup.Name = "GeneralGroup";
+            this.GeneralGroup.Size = new System.Drawing.Size(234, 50);
+            this.GeneralGroup.TabIndex = 9;
+            this.GeneralGroup.TabStop = false;
+            this.GeneralGroup.Text = "General";
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Location = new System.Drawing.Point(81, 19);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(147, 20);
+            this.txtTitle.TabIndex = 0;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Location = new System.Drawing.Point(7, 22);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(68, 13);
+            this.lblTitle.TabIndex = 1;
+            this.lblTitle.Text = "Window title:";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(421, 279);
+            this.ClientSize = new System.Drawing.Size(421, 308);
+            this.Controls.Add(this.GeneralGroup);
             this.Controls.Add(this.CapitalizationGroup);
             this.Controls.Add(this.CancelButton2);
             this.Controls.Add(this.OkButton);
@@ -351,6 +383,8 @@ namespace ThoNohT.NohBoard.Forms
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).EndInit();
             this.CapitalizationGroup.ResumeLayout(false);
             this.CapitalizationGroup.PerformLayout();
+            this.GeneralGroup.ResumeLayout(false);
+            this.GeneralGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -378,5 +412,8 @@ namespace ThoNohT.NohBoard.Forms
         private CheckBox chkFollowShiftCapsSensitive;
         private Label lblFollowShift;
         private CheckBox chkFollowShiftCapsInsensitive;
+        private GroupBox GeneralGroup;
+        private Label lblTitle;
+        private TextBox txtTitle;
     }
 }

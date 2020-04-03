@@ -346,7 +346,9 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             this.Location = new Point(GlobalSettings.Settings.X, GlobalSettings.Settings.Y);
-            this.Text = $"NohBoard {Version.Get}";
+            var title = GlobalSettings.Settings.WindowTitle;
+
+            this.Text = string.IsNullOrWhiteSpace(title) ? $"NohBoard {Version.Get}" : title;
 
             this.GetLatestVersion().Start();
 
@@ -430,6 +432,9 @@ namespace ThoNohT.NohBoard.Forms
             HookManager.TrapMouse = GlobalSettings.Settings.TrapMouse;
             HookManager.TrapToggleKeyCode = GlobalSettings.Settings.TrapToggleKeyCode;
             HookManager.ScrollHold = GlobalSettings.Settings.ScrollHold;
+
+            var title = GlobalSettings.Settings.WindowTitle;
+            this.Text = string.IsNullOrWhiteSpace(title) ? $"NohBoard {Version.Get}" : title;
 
             this.LoadKeyboard();
         }

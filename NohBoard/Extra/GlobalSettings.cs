@@ -68,6 +68,16 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         public static int StyleDependencyCounter { get; set; } = 0;
 
+        #region General
+
+        /// <summary>
+        /// The window title. If empty, NohBoard with the version number will be shown.
+        /// </summary>
+        [DataMember]
+        public string WindowTitle { get; set; } = "";
+
+        #endregion General
+
         #region Input
 
         /// <summary>
