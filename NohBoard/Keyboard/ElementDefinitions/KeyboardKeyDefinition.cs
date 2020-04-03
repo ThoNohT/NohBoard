@@ -424,6 +424,32 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.CurrentManipulation);
         }
 
+        /// <summary>
+        /// Checks whether the definition has changes relative to the specified other definition.
+        /// </summary>
+        /// <param name="other">The definition to compare against.</param>
+        /// <returns>True if the definition has changes, false otherwise.</returns>
+        public override bool IsChanged(ElementDefinition other)
+        {
+            if (!(other is KeyboardKeyDefinition kkd)) return true;
+
+            if (this.Text != kkd.Text) return true;
+            if (this.ShiftText != kkd.ShiftText) return true;
+            if (this.ChangeOnCaps != kkd.ChangeOnCaps) return true;
+            if (this.TextPosition.IsChanged(kkd.TextPosition)) return true;
+            if (!this.KeyCodes.ToSet().SetEquals(kkd.KeyCodes)) return true;
+
+            if (this.Boundaries.Count != kkd.Boundaries.Count) return true;
+
+            // Boundary order change is also a change. So loop through them all.
+            for (var i = 0; i < this.Boundaries.Count; i++)
+            {
+                if (this.Boundaries[i].IsChanged(kkd.Boundaries[i])) return true;
+            }
+
+            return false;
+        }
+
         #endregion Private methods
     }
 }

@@ -177,5 +177,12 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             newElement.Id = newId;
             return newElement;
         }
+
+        /// <summary>
+        /// Checks whether the definition has changes relative to the specified other definition.
+        /// </summary>
+        /// <param name="other">The definition to compare against.</param>
+        /// <returns>True if the definition has changes, false otherwise.</returns>
+        public abstract bool IsChanged(ElementDefinition other);
     }
 }

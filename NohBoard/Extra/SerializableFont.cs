@@ -118,6 +118,18 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Checks whether the font has changes relative to the specified other font.
+        /// </summary>
+        /// <param name="other">The font to compare against.</param>
+        /// <returns>True if the font has changes, false otherwise.</returns>
+        public bool IsChanged(SerializableFont other)
+        {
+            return this.FontFamily != other.FontFamily ||
+                this.AlternateFontFamily != other.AlternateFontFamily ||
+                this.DownloadUrl != other.DownloadUrl;
+        }
+
+        /// <summary>
         /// An equality comparer that just compares the font family.
         /// </summary>
         public class FamilyComparer : IEqualityComparer<SerializableFont>

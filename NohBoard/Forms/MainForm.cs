@@ -132,9 +132,10 @@ namespace ThoNohT.NohBoard.Forms
 
             // Reset all edit mode related fields, as we should be no longer in edit mode.
             this.undoHistory.Clear();
-            this.undoHistoryStyle.Clear();
             this.redoHistory.Clear();
-            this.redoHistoryStyle.Clear();
+
+            GlobalSettings.UnsavedDefinitionChanges = false;
+            GlobalSettings.UnsavedStyleChanges = false;
 
             if (this.mnuToggleEditMode.Checked)
             {
@@ -243,6 +244,17 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuLoadKeyboard_Click(object sender, EventArgs e)
         {
+            if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges)
+            {
+                var result = MessageBox.Show(
+                    "You have unsaved changes. Loading a new keyboard will undo them. Are you sure you want to load a new keyboard?",
+                    "Discard changes",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.OK) return;
+            }
+
             this.menuOpen = false;
 
             using (var manageForm = new LoadKeyboardForm())
@@ -293,8 +305,6 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Saves the current definition under its default name.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void mnuSaveDefinitionAsName_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -555,7 +565,7 @@ namespace ThoNohT.NohBoard.Forms
             var allDefs = GlobalSettings.CurrentDefinition.Elements;
             foreach (var def in allDefs)
             {
-                Render(e.Graphics, def, allDefs, kbKeys, mouseKeys, scrollCounts, false);
+                this.Render(e.Graphics, def, allDefs, kbKeys, mouseKeys, scrollCounts, false);
             }
 
             // Draw the element being manipulated
@@ -567,7 +577,7 @@ namespace ThoNohT.NohBoard.Forms
 
                 if (this.selectedDefinition != null)
                 {
-                    Render(e.Graphics, this.selectedDefinition, allDefs, kbKeys, mouseKeys, scrollCounts, true);
+                    this.Render(e.Graphics, this.selectedDefinition, allDefs, kbKeys, mouseKeys, scrollCounts, true);
                     this.selectedDefinition.RenderSelected(e.Graphics);
                 }
             }

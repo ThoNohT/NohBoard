@@ -60,5 +60,17 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
                 Pressed = this.Pressed?.Clone()
             };
         }
+
+        /// <summary>
+        /// Checks whether the style has changes relative to the specified other style.
+        /// </summary>
+        /// <param name="other">The style to compare against.</param>
+        /// <returns>True if the style has changes, false otherwise.</returns>
+        public override bool IsChanged(ElementStyle other)
+        {
+            if (!(other is KeyStyle ks)) return true;
+
+            return this.Loose.IsChanged(ks.Loose) || this.Pressed.IsChanged(ks.Pressed);
+        }
     }
 }

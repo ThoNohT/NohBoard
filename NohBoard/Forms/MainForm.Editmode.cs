@@ -94,14 +94,23 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// A stack containing the previous edits made by the user.
         /// </summary>
-        private readonly Stack<KeyboardDefinition> undoHistory = new Stack<KeyboardDefinition>();
-        private readonly Stack<KeyboardStyle> undoHistoryStyle = new Stack<KeyboardStyle>();
+        private readonly Stack<(KeyboardDefinition, KeyboardStyle, ChangeType)> undoHistory =
+                new Stack<(KeyboardDefinition, KeyboardStyle, ChangeType)>();
 
         /// <summary>
         /// A stack containing the recently undone edits.
         /// </summary>
-        private readonly Stack<KeyboardDefinition> redoHistory = new Stack<KeyboardDefinition>();
-        private readonly Stack<KeyboardStyle> redoHistoryStyle = new Stack<KeyboardStyle>();
+        private readonly Stack<(KeyboardDefinition, KeyboardStyle, ChangeType)> redoHistory =
+            new Stack<(KeyboardDefinition, KeyboardStyle, ChangeType)>();
+
+        /// <summary>
+        /// Backup values for unsaved changes. The actual properties are stored in global settings. These are just used
+        /// If something is prematurely being marked as changed, this state can be stored, and it can be reverted to later.
+        /// </summary>
+        private bool unsavedDefinitionChanges;
+        private bool unsavedStyleChanges;
+        private KeyboardDefinition oldDefinition;
+        private KeyboardStyle oldStyle;
 
         /// <summary>
         /// Whether the main menu is open. This variable is set to true when the main menu is opened. The next
@@ -175,7 +184,8 @@ namespace ThoNohT.NohBoard.Forms
                 if (KeyboardState.AltDown)
                 {
                     this.movingEverythingStart = GlobalSettings.CurrentDefinition.Clone();
-                    this.PushUndoHistory();
+                    this.SaveUnsavedStatus(ChangeType.Definition);
+                    this.PushUndoHistory(ChangeType.Definition);
                     this.movingEverythingFrom = e.Location;
                 }
 
@@ -188,7 +198,8 @@ namespace ThoNohT.NohBoard.Forms
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
-            this.PushUndoHistory();
+            this.SaveUnsavedStatus(ChangeType.Definition);
+            this.PushUndoHistory(ChangeType.Definition);
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.RemoveElement(toManipulate);
 
             this.ResetBackBrushes();
@@ -259,9 +270,14 @@ namespace ThoNohT.NohBoard.Forms
 
             if (!this.mnuToggleEditMode.Checked || this.currentlyManipulating == null) return;
 
-            GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.AddElement(
+            var newDefinition = GlobalSettings.CurrentDefinition.AddElement(
                 this.currentlyManipulating.Item2,
                 this.currentlyManipulating.Item1);
+
+            // If nothing changed since the key down, then restore.
+            if (!newDefinition.IsChanged(this.oldDefinition)) this.RemoveLastHistoryEntry();
+
+            GlobalSettings.CurrentDefinition = newDefinition;
 
             if (this.cumulManipulation.Length() == 0 && this.selectedDefinition != null)
             {
@@ -295,7 +311,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, int.MaxValue);
@@ -309,7 +325,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, 1);
@@ -323,7 +339,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -1);
@@ -337,7 +353,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .MoveElementDown(this.relevantDefinition, -int.MaxValue);
@@ -363,7 +379,7 @@ namespace ThoNohT.NohBoard.Forms
             // Manipulations by keyboard keys.
             if (this.selectedDefinition != null && new[] { Keys.Up, Keys.Right, Keys.Down, Keys.Left }.Contains(keyCode))
             {
-                this.PushUndoHistory();
+                this.PushUndoHistory(ChangeType.Definition);
                 ElementDefinition newDefinition;
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(this.selectedDefinition);
                 switch (keyCode)
@@ -408,21 +424,36 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     if (!this.undoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
-                    this.redoHistory.Push(GlobalSettings.CurrentDefinition);
-                    this.redoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
-                    GlobalSettings.CurrentDefinition = this.undoHistory.Pop();
-                    GlobalSettings.CurrentStyle = this.undoHistoryStyle.Pop();
-                    this.ClientSize =
-                        new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
+                    var (defToRevertTo, styleToRevertTo, typeToRevert) = this.undoHistory.Pop();
+
+                    this.redoHistory.Push((GlobalSettings.CurrentDefinition, GlobalSettings.CurrentStyle.Clone(), typeToRevert));
+
+                    GlobalSettings.CurrentDefinition = defToRevertTo;
+                    GlobalSettings.CurrentStyle = styleToRevertTo;
+                    this.ClientSize = new Size(defToRevertTo.Width, defToRevertTo.Height);
+
+                    // If there is no more undo history, then there are also no more pending changes.
+                    if (!this.undoHistory.Any())
+                    {
+                        GlobalSettings.UnsavedDefinitionChanges = false;
+                        GlobalSettings.UnsavedStyleChanges = false;
+                    }
                 }
                 else
                 {
                     if (!this.redoHistory.Any()) return base.ProcessCmdKey(ref msg, keyData);
 
-                    this.undoHistory.Push(GlobalSettings.CurrentDefinition);
-                    this.undoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
-                    GlobalSettings.CurrentDefinition = this.redoHistory.Pop();
-                    GlobalSettings.CurrentStyle = this.redoHistoryStyle.Pop();
+                    var (defToRevertTo, styleToRevertTo, typeToRevert) = this.redoHistory.Pop();
+
+                    this.undoHistory.Push((GlobalSettings.CurrentDefinition, GlobalSettings.CurrentStyle.Clone(), typeToRevert));
+
+                    GlobalSettings.CurrentDefinition = defToRevertTo;
+                    GlobalSettings.CurrentStyle = styleToRevertTo;
+
+                    // Redoing will always trigger unsaved changes.
+                    // TODO: Change based on change type.
+                    GlobalSettings.UnsavedDefinitionChanges = true;
+                    GlobalSettings.UnsavedStyleChanges = true;
                 }
 
                 this.selectedDefinition = null;
@@ -437,17 +468,70 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// Pushes the current keyboard state into the undo history and clears the redo history.
         /// </summary>
-        private void PushUndoHistory()
+        /// <param name="changeType">The change type. This only has effect on whether the definition or style will
+        /// be marked as having unsaved changes.</param>
+        private void PushUndoHistory(ChangeType changeType)
         {
-            this.undoHistory.Push(GlobalSettings.CurrentDefinition);
-            this.undoHistoryStyle.Push(GlobalSettings.CurrentStyle.Clone());
+            // If there was a history entry, and it is the same as the current elements, then don't add a new one.
+            if (this.undoHistory.Any())
+            {
+                var (lastDef, lastStyle, _) = this.undoHistory.Peek();
+
+                if (!GlobalSettings.CurrentDefinition.IsChanged(lastDef) &&
+                    !GlobalSettings.CurrentStyle.IsChanged(lastStyle))
+                {
+                    return;
+                }
+            }
+
+            this.undoHistory.Push((GlobalSettings.CurrentDefinition, GlobalSettings.CurrentStyle.Clone(), changeType));
             this.redoHistory.Clear();
+
+            if ((changeType & ChangeType.Definition) > 0) GlobalSettings.UnsavedDefinitionChanges = true;
+            if ((changeType & ChangeType.Style) > 0) GlobalSettings.UnsavedStyleChanges = true;
+        }
+
+        /// <summary>
+        /// Preserves the unsaved changes status, so it can later be reverted to.
+        /// </summary>
+        /// <param name="changeType">The change type.</param>
+        private void SaveUnsavedStatus(ChangeType changeType)
+        {
+            if ((changeType & ChangeType.Definition) > 0)
+            {
+                this.unsavedDefinitionChanges = GlobalSettings.UnsavedDefinitionChanges;
+                this.oldDefinition = GlobalSettings.CurrentDefinition;
+            }
+
+            if ((changeType & ChangeType.Style) > 0)
+            {
+                this.unsavedStyleChanges = GlobalSettings.UnsavedStyleChanges;
+                this.oldStyle = GlobalSettings.CurrentStyle;
+            }
+        }
+
+        /// <summary>
+        /// Removes the last history entry, and reverts the changed status.
+        /// Note that <see cref="SaveUnsavedStatus"/> has to be called before to set
+        /// the point to revert the saved status to.
+        /// </summary>
+        private void RemoveLastHistoryEntry()
+        {
+            if (this.undoHistory.Any())
+            {
+                var (_, _, changeType) = this.undoHistory.Pop();
+
+                if ((changeType & ChangeType.Definition) > 0)
+                    GlobalSettings.UnsavedDefinitionChanges = this.unsavedDefinitionChanges;
+
+                if ((changeType & ChangeType.Style) > 0)
+                    GlobalSettings.UnsavedStyleChanges = this.unsavedStyleChanges;
+            }
         }
 
         #endregion Keyboard input handling
 
         #region Element management
-
 
         /// <summary>
         /// Handles setting the menu open variable to false when esc is pressed.
@@ -478,7 +562,7 @@ namespace ThoNohT.NohBoard.Forms
                 var oldPos = this.clipboard.GetBoundingBox().GetCenter();
                 var dist = newPos - oldPos;
 
-                this.PushUndoHistory();
+                this.PushUndoHistory(ChangeType.Definition);
 
                 // Copy the element with a new id.
                 var elementToAdd = this.clipboard.SetId(GlobalSettings.CurrentDefinition.GetNextId())
@@ -507,7 +591,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (this.highlightedDefinition != null) return;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
                 .AddElement(definition);
@@ -616,7 +700,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (this.highlightedDefinition == null && this.selectedDefinition == null) return;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             var definitionToRemove = this.highlightedDefinition ?? this.selectedDefinition;
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -648,7 +732,7 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.mnuToggleEditMode.Checked) return;
             if (!(this.relevantDefinition is KeyDefinition)) return;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             var def = (KeyDefinition)this.relevantDefinition;
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
@@ -682,7 +766,7 @@ namespace ThoNohT.NohBoard.Forms
                 return;
             }
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
             var newDef = def.RemoveBoundary();
@@ -720,7 +804,7 @@ namespace ThoNohT.NohBoard.Forms
                     this.selectedDefinition = def;
                 }
 
-                this.PushUndoHistory();
+                this.PushUndoHistory(ChangeType.Definition);
 
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
                 GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition
@@ -781,7 +865,7 @@ namespace ThoNohT.NohBoard.Forms
                     this.elementUnderCursor = null;
                     this.currentlyManipulating = null;
 
-                    this.PushUndoHistory();
+                    this.PushUndoHistory(ChangeType.Definition);
                     GlobalSettings.CurrentDefinition = def;
 
                     this.ClientSize = new Size(def.Width, def.Height);
@@ -800,7 +884,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (!this.mnuToggleEditMode.Checked) return;
 
-            this.PushUndoHistory();
+            this.PushUndoHistory(ChangeType.Definition);
 
             GlobalSettings.CurrentDefinition = GlobalSettings.CurrentDefinition.Resize(this.ClientSize);
 
@@ -837,6 +921,7 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     styleForm.StyleChanged += style =>
                     {
+                        this.PushUndoHistory(ChangeType.Style);
                         if (style.Loose == null && style.Pressed == null)
                         {
                             if (GlobalSettings.CurrentStyle.ElementStyles.ContainsKey(id))
@@ -903,6 +988,7 @@ namespace ThoNohT.NohBoard.Forms
             {
                 styleForm.StyleChanged += style =>
                 {
+                    this.PushUndoHistory(ChangeType.Style);
                     GlobalSettings.CurrentStyle = style;
                     this.ResetBackBrushes();
                 };

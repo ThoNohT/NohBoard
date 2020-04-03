@@ -41,6 +41,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -78,6 +81,7 @@
     <Compile Include="Controls\ColorChooser.Designer.cs">
       <DependentUpon>ColorChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extra\ChangeType.cs" />
     <Compile Include="Extra\TRectangle.cs" />
     <Compile Include="Forms\Properties\KeyboardKeyPropertiesForm.cs">
       <SubType>Form</SubType>
@@ -266,6 +270,7 @@
     <Content Include="NohBoard2.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AssemblyInfo.cs.template" />
     <None Include="Version.cs.template" />
   </ItemGroup>

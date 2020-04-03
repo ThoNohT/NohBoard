@@ -365,7 +365,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private int FindStyleListIndex(string styleName)
         {
-            for (int i = 0; i < this.StyleList.Items.Count; i++)
+            for (var i = 0; i < this.StyleList.Items.Count; i++)
             {
                 var item = (StyleInfo)this.StyleList.Items[i];
                 if (item.Name == styleName)

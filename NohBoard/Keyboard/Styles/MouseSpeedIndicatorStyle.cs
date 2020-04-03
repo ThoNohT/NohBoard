@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Keyboard.Styles
 {
+    using System;
     using System.Drawing;
     using System.Runtime.Serialization;
     using Extra;
@@ -62,6 +63,20 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
                 OuterColor = this.OuterColor.Clone(),
                 OutlineWidth = this.OutlineWidth
             };
+        }
+
+        /// <summary>
+        /// Checks whether the style has changes relative to the specified other style.
+        /// </summary>
+        /// <param name="other">The style to compare against.</param>
+        /// <returns>True if the style has changes, false otherwise.</returns>
+        public override bool IsChanged(ElementStyle other)
+        {
+            if (!(other is MouseSpeedIndicatorStyle msis)) return true;
+
+            return this.InnerColor.IsChanged(msis.InnerColor) ||
+                this.OuterColor.IsChanged(msis.OuterColor) ||
+                this.OutlineWidth != msis.OutlineWidth;
         }
     }
 }

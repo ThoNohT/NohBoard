@@ -75,6 +75,16 @@ namespace ThoNohT.NohBoard.Extra
         {
             return (SerializableColor)this.MemberwiseClone();
         }
+
+        /// <summary>
+        /// Checks if this color has changes relative with the specified other color.
+        /// </summary>
+        /// <param name="other">The color to compare against.</param>
+        /// <returns>True if the color has changes, false otherwise.</returns>
+        public bool IsChanged(SerializableColor other)
+        {
+            return this.Red != other.Red || this.Green != other.Green || this.Blue != other.Blue;
+        }
     }
 
 }

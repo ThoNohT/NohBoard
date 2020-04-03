@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Extra
 {
+    using System;
     using System.Drawing;
     using System.Runtime.Serialization;
     using ClipperLib;
@@ -208,6 +209,15 @@ namespace ThoNohT.NohBoard.Extra
         public TPoint Clone()
         {
             return new TPoint(this.X, this.Y);
+        }
+        /// <summary>
+        /// Checks whether the point has changes relative to the specified other point.
+        /// </summary>
+        /// <param name="other">The point to compare against.</param>
+        /// <returns>True if the point has changes, false otherwise.</returns>
+        internal bool IsChanged(TPoint other)
+        {
+            return this.X != other.X || this.Y != other.Y;
         }
     }
 }

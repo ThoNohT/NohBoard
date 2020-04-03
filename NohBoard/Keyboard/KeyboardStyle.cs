@@ -113,6 +113,25 @@ namespace ThoNohT.NohBoard.Keyboard
         }
 
         /// <summary>
+        /// Checks whether the style has changes relative to the specified other style.
+        /// </summary>
+        /// <param name="other">The style to compare against.</param>
+        /// <returns>True if the style has changes, false otherwise.</returns>
+        public bool IsChanged(KeyboardStyle other)
+        {
+            if (this.BackgroundColor.IsChanged(other.BackgroundColor)) return true;
+            if (this.BackgroundImageFileName != other.BackgroundImageFileName) return true;
+            if (this.BackgroundColor != other.BackgroundColor) return true;
+            if (this.DefaultKeyStyle.IsChanged(other.DefaultKeyStyle)) return true;
+            if (this.DefaultMouseSpeedIndicatorStyle.IsChanged(other.DefaultMouseSpeedIndicatorStyle)) return true;
+
+            if (!this.ElementStyles.Keys.ToSet().SetEquals(other.ElementStyles.Keys)) return true;
+
+            // the same element ids are present, now compare each.
+            return this.ElementStyles.Any(e => e.Value.IsChanged(other.ElementStyles[e.Key]));
+        }
+
+        /// <summary>
         /// Saves this keyboard style.
         /// </summary>
         /// <param name="global">Indicates whether to save it as a global style or as a definition specific
@@ -129,6 +148,9 @@ namespace ThoNohT.NohBoard.Keyboard
 
             FileHelper.EnsurePathExists(filename);
             FileHelper.Serialize(filename, this);
+
+            // The style was saved, so there are now no unsaved style changes.
+            GlobalSettings.UnsavedStyleChanges = false;
         }
 
         /// <summary>

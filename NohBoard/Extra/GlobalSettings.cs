@@ -31,6 +31,18 @@ namespace ThoNohT.NohBoard.Extra
     public class GlobalSettings
     {
         /// <summary>
+        /// Indicates whether there were changes made to the definition since the last save or load action.
+        /// Changes are tracked when undo history is pushed, and reset when a keyboard is loaded or saved.
+        /// </summary>
+        public static bool UnsavedDefinitionChanges { get; set; }
+
+        /// <summary>
+        /// Indicates whether there were changes made to the style since the last save or load action.
+        /// Changes are tracked when undo history is pushed, and reset when a style is loaded or saved.
+        /// </summary>
+        public static bool UnsavedStyleChanges { get; set; }
+
+        /// <summary>
         /// Retrieves the global settings.
         /// </summary>
         public static GlobalSettings Settings { get; private set; }

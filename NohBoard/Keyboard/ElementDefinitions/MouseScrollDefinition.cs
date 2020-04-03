@@ -313,6 +313,29 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.TextPosition,
                 this.CurrentManipulation);
         }
+        /// <summary>
+        /// Checks whether the definition has changes relative to the specified other definition.
+        /// </summary>
+        /// <param name="other">The definition to compare against.</param>
+        /// <returns>True if the definition has changes, false otherwise.</returns>
+        public override bool IsChanged(ElementDefinition other)
+        {
+            if (!(other is MouseScrollDefinition msd)) return true;
+
+            if (this.Text != msd.Text) return true;
+            if (this.TextPosition.IsChanged(msd.TextPosition)) return true;
+            if (!this.KeyCodes.ToSet().SetEquals(msd.KeyCodes)) return true;
+
+            if (this.Boundaries.Count != msd.Boundaries.Count) return true;
+
+            // Boundary order change is also a change. So loop through them all.
+            for (var i = 0; i < this.Boundaries.Count; i++)
+            {
+                if (this.Boundaries[i].IsChanged(msd.Boundaries[i])) return true;
+            }
+
+            return false;
+        }
 
         #endregion Private methods
     }

@@ -47,5 +47,16 @@ namespace ThoNohT.NohBoard.Extra
         {
             return new List<T> { element };
         }
+
+        /// <summary>
+        /// Converts an enumerable to a set.
+        /// </summary>
+        /// <typeparam name="T">The element type.</typeparam>
+        /// <param name="enumerable">The enumerable to convert.</param>
+        /// <returns>The converted set.</returns>
+        public static HashSet<T> ToSet<T>(this IEnumerable<T> enumerable)
+        {
+            return new HashSet<T>(enumerable);
+        }
     }
 }

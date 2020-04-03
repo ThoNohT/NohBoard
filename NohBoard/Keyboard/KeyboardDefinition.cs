@@ -200,6 +200,26 @@ namespace ThoNohT.NohBoard.Keyboard
         }
 
         /// <summary>
+        /// Checks whether the definition has changes relative to the specified other definition.
+        /// </summary>
+        /// <param name="other">The definition to compare against.</param>
+        /// <returns>True if the definition has changes, false otherwise.</returns>
+        public bool IsChanged(KeyboardDefinition other)
+        {
+            if (this.Category != other.Category) return true;
+            if (this.Width != other.Width) return true;
+            if (this.Height != other.Height) return true;
+
+            if (!this.Elements.Select(e => e.Id).ToSet().SetEquals(other.Elements.Select(e => e.Id)))
+                return true;
+
+            var otherElements = other.Elements.ToDictionary(e => e.Id);
+
+            // The same element ids are present, now compare each.
+            return this.Elements.Any(e => e.IsChanged(otherElements[e.Id]));
+        }
+
+        /// <summary>
         /// Returns the next identifier for an alement definition to be used in this keyboard.
         /// </summary>
         public int GetNextId()
@@ -239,6 +259,9 @@ namespace ThoNohT.NohBoard.Keyboard
 
             FileHelper.EnsurePathExists(filename);
             FileHelper.Serialize(filename, this);
+
+            // The definition was saved, so there are now no unsaved definition changes.
+            GlobalSettings.UnsavedDefinitionChanges = false;
         }
 
         /// <summary>

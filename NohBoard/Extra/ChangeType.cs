@@ -15,29 +15,30 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace ThoNohT.NohBoard.Keyboard.Styles
+
+namespace ThoNohT.NohBoard.Extra
 {
-    using System.Runtime.Serialization;
+    using System;
 
     /// <summary>
-    /// Represents the style of any element that can be placed on a keyboard.
+    /// The types of changes to a keyboard.
     /// </summary>
-    [KnownType(typeof(KeyStyle))]
-    [KnownType(typeof(MouseSpeedIndicatorStyle))]
-    [DataContract(Name = "ElementStyle", Namespace = "")]
-    public abstract class ElementStyle
+    [Flags]
+    public enum ChangeType
     {
         /// <summary>
-        /// Returns a clone of this element style.
+        /// A change to the keyboard definition.
         /// </summary>
-        /// <returns>The cloned element style.</returns>
-        public abstract ElementStyle Clone();
+        Definition = 1,
 
         /// <summary>
-        /// Checks whether the style has changes relative to the specified other style.
+        /// A change to the keyboard style.
         /// </summary>
-        /// <param name="other">The style to compare against.</param>
-        /// <returns>True if the style has changes, false otherwise.</returns>
-        public abstract bool IsChanged(ElementStyle other);
+        Style = 2,
+
+        /// <summary>
+        /// A change to both the keyboard definition and style.
+        /// </summary>
+        Both = 3
     }
 }

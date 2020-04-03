@@ -338,5 +338,17 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
                 this.Radius,
                 this.CurrentManipulation);
         }
+
+        /// <summary>
+        /// Checks whether the definition has changes relative to the specified other definition.
+        /// </summary>
+        /// <param name="other">The definition to compare against.</param>
+        /// <returns>True if the definition has changes, false otherwise.</returns>
+        public override bool IsChanged(ElementDefinition other)
+        {
+            if (!(other is MouseSpeedIndicatorDefinition msid)) return true;
+
+            return this.Location.IsChanged(msid.Location) || this.Radius != msid.Radius;
+        }
     }
 }
