@@ -112,6 +112,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "KeyboardPropertiesForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Keyboard Properties";
             this.Load += new System.EventHandler(this.MouseSpeedPropertiesForm_Load);

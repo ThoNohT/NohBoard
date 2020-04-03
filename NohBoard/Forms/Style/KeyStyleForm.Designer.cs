@@ -183,6 +183,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.Controls.Add(this.AcceptButton2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "KeyStyleForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Key Style";
             this.Load += new System.EventHandler(this.KeyStyleForm_Load);

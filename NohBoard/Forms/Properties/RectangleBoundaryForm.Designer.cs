@@ -116,6 +116,7 @@
             this.Controls.Add(this.lblPosition);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "RectangleBoundaryForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Rectangle";
             this.ResumeLayout(false);

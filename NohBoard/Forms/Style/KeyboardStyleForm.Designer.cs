@@ -238,6 +238,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.Controls.Add(this.KeyboardGroup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "KeyboardStyleForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Keyboard Style";
             this.Load += new System.EventHandler(this.KeyboardStyleForm_Load);

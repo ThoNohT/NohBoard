@@ -122,6 +122,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Controls.Add(this.lblCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SaveKeyboardAsForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Save Keyboard Definition";
             this.Load += new System.EventHandler(this.SaveKeyboardAsForm_Load);

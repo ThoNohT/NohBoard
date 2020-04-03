@@ -231,6 +231,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Controls.Add(this.lblCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LoadKeyboardForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Load Keyboard";
             this.Load += new System.EventHandler(this.LoadKeyboardForm_Load);

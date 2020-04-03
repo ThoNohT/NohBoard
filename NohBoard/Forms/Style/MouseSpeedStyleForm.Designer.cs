@@ -118,6 +118,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.Controls.Add(this.AcceptButton2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MouseSpeedStyleForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mouse Speed Indicator Style";
             this.Load += new System.EventHandler(this.MouseSpeedStyleForm_Load);
