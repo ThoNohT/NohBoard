@@ -50,6 +50,11 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         public event Action<MouseSpeedIndicatorDefinition> DefinitionChanged;
 
+        /// <summary>
+        /// The event that is invoked when the definition is saved.
+        /// </summary>
+        public event Action DefinitionSaved;
+
         #endregion Events
 
         /// <summary>
@@ -101,6 +106,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
+            this.DefinitionSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 

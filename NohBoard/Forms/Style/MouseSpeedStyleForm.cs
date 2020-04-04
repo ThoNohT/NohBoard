@@ -53,8 +53,13 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// </summary>
         public new event Action<MouseSpeedIndicatorStyle> StyleChanged;
 
+        /// <summary>
+        /// The event that is invoked when the style is saved.
+        /// </summary>
+        public event Action StyleSaved;
+
         #endregion Events
-        
+
         #region Constructors
 
         /// <summary>
@@ -94,6 +99,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
+            this.StyleSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 

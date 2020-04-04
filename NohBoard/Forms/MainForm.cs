@@ -130,13 +130,9 @@ namespace ThoNohT.NohBoard.Forms
             //Prompt to download any fonts we don't have yet.
             var missingFonts = this.CheckMissingFonts();
 
+            GlobalSettings.Settings.InitUndoHistory();
+
             // Reset all edit mode related fields, as we should be no longer in edit mode.
-            this.undoHistory.Clear();
-            this.redoHistory.Clear();
-
-            GlobalSettings.UnsavedDefinitionChanges = false;
-            GlobalSettings.UnsavedStyleChanges = false;
-
             if (this.mnuToggleEditMode.Checked)
             {
                 this.mnuToggleEditMode.Checked = false;
@@ -269,8 +265,9 @@ namespace ThoNohT.NohBoard.Forms
                     var backupKbStyle = GlobalSettings.Settings.LoadedStyle;
                     var backupkbGlobalStyle = GlobalSettings.Settings.LoadedGlobalStyle;
 
-                    GlobalSettings.CurrentDefinition = kbDef;
-                    GlobalSettings.CurrentStyle = kbStyle ?? new KeyboardStyle();
+                    // Don't worry about undo history, it will be initialized alter in LoadKeyboard.
+                    GlobalSettings.Settings.UpdateDefinition(kbDef, false);
+                    GlobalSettings.Settings.UpdateStyle(kbStyle ?? new KeyboardStyle(), false);
 
                     GlobalSettings.Settings.LoadedCategory = kbDef.Category;
                     GlobalSettings.Settings.LoadedKeyboard = kbDef.Name;
@@ -284,8 +281,8 @@ namespace ThoNohT.NohBoard.Forms
                     }
                     catch (Exception ex)
                     {
-                        GlobalSettings.CurrentDefinition = backupDef;
-                        GlobalSettings.CurrentStyle = backupStyle;
+                        GlobalSettings.Settings.UpdateDefinition(backupDef, false);
+                        GlobalSettings.Settings.UpdateStyle(backupStyle, false);
 
                         GlobalSettings.Settings.LoadedCategory = backupCat;
                         GlobalSettings.Settings.LoadedKeyboard = backupKb;
@@ -357,8 +354,8 @@ namespace ThoNohT.NohBoard.Forms
             {
                 try
                 {
-                    GlobalSettings.CurrentDefinition = KeyboardDefinition
-                        .Load(GlobalSettings.Settings.LoadedCategory, GlobalSettings.Settings.LoadedKeyboard);
+                    GlobalSettings.Settings.UpdateDefinition(KeyboardDefinition
+                        .Load(GlobalSettings.Settings.LoadedCategory, GlobalSettings.Settings.LoadedKeyboard), false);
                 }
                 catch (Exception ex)
                 {
@@ -375,9 +372,9 @@ namespace ThoNohT.NohBoard.Forms
             {
                 try
                 {
-                    GlobalSettings.CurrentStyle = KeyboardStyle.Load(
+                    GlobalSettings.Settings.UpdateStyle(KeyboardStyle.Load(
                         GlobalSettings.Settings.LoadedStyle,
-                        GlobalSettings.Settings.LoadedGlobalStyle);
+                        GlobalSettings.Settings.LoadedGlobalStyle), false);
                     this.LoadKeyboard();
                     this.ResetBackBrushes();
                 }

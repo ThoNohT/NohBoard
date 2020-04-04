@@ -270,6 +270,7 @@
     <Content Include="NohBoard2.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extra\GlobalSettings.ChangeTracking.cs" />
     <None Include="packages.config" />
     <None Include="Properties\AssemblyInfo.cs.template" />
     <None Include="Version.cs.template" />

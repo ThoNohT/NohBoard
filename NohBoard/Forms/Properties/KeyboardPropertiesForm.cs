@@ -52,6 +52,11 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         public event Action<KeyboardDefinition> DefinitionChanged;
 
+        /// <summary>
+        /// The event that is invoked when the definition is saved.
+        /// </summary>
+        public event Action DefinitionSaved;
+
         #endregion Events
 
         /// <summary>
@@ -88,12 +93,13 @@ namespace ThoNohT.NohBoard.Forms.Properties
             if (newSize.X >= 25 && newSize.Y >= 25 && newSize.X <= 4096 && newSize.Y <= 4096)
                 this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
-        
+
         /// <summary>
         /// Accepts the current definition.
         /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
+            this.DefinitionSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 

@@ -28,7 +28,7 @@ namespace ThoNohT.NohBoard.Extra
     /// Contains global settings for NohBoard.
     /// </summary>
     [DataContract(Name = "GlobalSettings", Namespace = "")]
-    public class GlobalSettings
+    public partial class GlobalSettings
     {
         /// <summary>
         /// Indicates whether there were changes made to the definition since the last save or load action.
@@ -50,12 +50,12 @@ namespace ThoNohT.NohBoard.Extra
         /// <summary>
         /// The currently loaded keyboard definition.
         /// </summary>
-        public static KeyboardDefinition CurrentDefinition { get; set; }
+        public static KeyboardDefinition CurrentDefinition { get; private set; }
 
         /// <summary>
         /// The currently loaded keyboard style.
         /// </summary>
-        public static KeyboardStyle CurrentStyle { get; set; } = new KeyboardStyle();
+        public static KeyboardStyle CurrentStyle { get; private set; } = new KeyboardStyle();
 
         /// <summary>
         /// Any errors while loading settings.
@@ -187,7 +187,7 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public int Y { get; set; } = 25;
-        
+
         #endregion State
 
         #region Editing

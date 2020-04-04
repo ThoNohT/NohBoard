@@ -54,7 +54,7 @@ namespace ThoNohT.NohBoard.Keyboard
         public bool IsGlobal => !this.ElementStyles.Any();
 
         #region The keyboard itself
-        
+
         /// <summary>
         /// The background color of the keyboard.
         /// </summary>
@@ -110,6 +110,50 @@ namespace ThoNohT.NohBoard.Keyboard
                 ElementStyles = this.ElementStyles.Select(s => Tuple.Create(s.Key, s.Value.Clone()))
                     .ToDictionary(s => s.Item1, s => s.Item2)
             };
+        }
+
+
+        /// <summary>
+        /// Returns a value indicating whether the specified element has a custom style.
+        /// </summary>
+        /// <param name="elementId">The identifier of the element to check for a style.</param>
+        /// <returns>True if there is a style for the element, false otherwise.</returns>
+        public bool ElementIsStyled(int elementId)
+        {
+            return this.ElementStyles.ContainsKey(elementId);
+        }
+
+        /// <summary>
+        /// Sets the style for the specified element.
+        /// </summary>
+        /// <param name="index">The identifier of the element to set the style for.</param>
+        /// <param name="style">The style to set.</param>
+        /// <returns>A new version of this <see cref="KeyboardStyle"/> with the element style set.</returns>
+        public KeyboardStyle SetElementStyle(int id, ElementStyle style)
+        {
+            var result = this.Clone();
+            if (this.ElementStyles.TryGetValue(id, out _))
+            {
+                result.ElementStyles[id] = style.Clone();
+                return result;
+            }
+            else
+            {
+                result.ElementStyles.Add(id, style.Clone());
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Removes the element style for the specified element.
+        /// </summary>
+        /// <param name="id">The identifier of the element to set the style for.</param>
+        /// <returns>A new version of this <see cref="KeyboardStyle"/> with the element style removed.</returns>
+        public KeyboardStyle RemoveElementStyle(int id)
+        {
+            var result = this.Clone();
+            result.ElementStyles.Remove(id);
+            return result;
         }
 
         /// <summary>

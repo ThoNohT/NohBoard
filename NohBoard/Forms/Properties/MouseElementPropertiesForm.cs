@@ -49,6 +49,11 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         public event Action<KeyDefinition> DefinitionChanged;
 
+        /// <summary>
+        /// The event that is invoked when the definition is saved.
+        /// </summary>
+        public event Action DefinitionSaved;
+
         #endregion Events
 
         /// <summary>
@@ -282,6 +287,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
+            this.DefinitionSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 
@@ -302,7 +308,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             var rectangle = TRectangle.FromPointList(this.lstBoundaries.Items.Cast<TPoint>().ToArray());
             using (var rectangleForm = new RectangleBoundaryForm(rectangle))
             {
-                rectangleForm.DimensionsSet += OnRectangleDimensionsSet;
+                rectangleForm.DimensionsSet += this.OnRectangleDimensionsSet;
                 rectangleForm.ShowDialog(this);
             }
         }

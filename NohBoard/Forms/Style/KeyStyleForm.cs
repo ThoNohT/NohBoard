@@ -37,7 +37,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// The style to revert to if the overwrite checkbox is unchecked.
         /// </summary>
         private readonly KeyStyle defaultStyle;
-        
+
         /// <summary>
         /// The currently loaded style.
         /// </summary>
@@ -52,6 +52,11 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// the user interface, not when it is changed programmatically.
         /// </summary>
         public new event Action<KeyStyle> StyleChanged;
+
+        /// <summary>
+        /// The event that is invoked when the style is saved.
+        /// </summary>
+        public event Action StyleSaved;
 
         #endregion Events
 
@@ -105,6 +110,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
+            this.StyleSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 

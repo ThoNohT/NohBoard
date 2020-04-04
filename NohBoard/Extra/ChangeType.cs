@@ -27,6 +27,11 @@ namespace ThoNohT.NohBoard.Extra
     public enum ChangeType
     {
         /// <summary>
+        /// No change. This can be used for the initial entry.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// A change to the keyboard definition.
         /// </summary>
         Definition = 1,
