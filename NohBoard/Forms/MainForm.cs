@@ -127,6 +127,18 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (GlobalSettings.CurrentDefinition == null) return new List<SerializableFont>();
 
+            // Enable the mouse hook only if there are mouse keys on the screen.
+            if (GlobalSettings.CurrentDefinition.Elements.Any(x => !(x is KeyboardKeyDefinition)))
+                HookManager.EnableMouseHook();
+            else
+                HookManager.DisableMouseHook();
+
+            // Enable the keyboard hook only if there are keyboard keys on the screen.
+            if (GlobalSettings.CurrentDefinition.Elements.Any(x => x is KeyboardKeyDefinition))
+                HookManager.EnableKeyboardHook();
+            else
+                HookManager.DisableKeyboardHook();
+
             //Prompt to download any fonts we don't have yet.
             var missingFonts = this.CheckMissingFonts();
 
@@ -387,8 +399,13 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            HookManager.EnableMouseHook();
-            HookManager.EnableKeyboardHook();
+            // Enable the mouse hook only if there are mouse keys on the screen.
+            if (GlobalSettings.CurrentDefinition.Elements.Any(x => !(x is KeyboardKeyDefinition)))
+                HookManager.EnableMouseHook();
+
+            // Enable the keyboard hook only if there are keyboard keys on the screen.
+            if (GlobalSettings.CurrentDefinition.Elements.Any(x => x is KeyboardKeyDefinition))
+                HookManager.EnableKeyboardHook();
 
             this.UpdateTimer.Enabled = true;
             this.KeyCheckTimer.Enabled = true;
