@@ -431,6 +431,21 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges)
+            {
+                var result = MessageBox.Show(
+                    "You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?",
+                    "Discard changes",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.OK)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
             HookManager.DisableMouseHook();
             HookManager.DisableKeyboardHook();
 
