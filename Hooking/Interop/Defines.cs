@@ -186,6 +186,11 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         public const byte VK_CAPITAL = 0x14;
 
         /// <summary>
+        /// The num-lock key.
+        /// </summary>
+        public const byte VK_NUMLOCK = 0x90;
+
+        /// <summary>
         /// The scroll-lock key.
         /// </summary>
         public const byte VK_SCROLL = 0x91;
@@ -199,7 +204,7 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         /// The left shift key.
         /// </summary>
         public const byte VK_LSHIFT = 0XA0;
-        
+
         /// <summary>
         /// The right shift key.
         /// </summary>

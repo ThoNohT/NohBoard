@@ -67,19 +67,19 @@ namespace ThoNohT.NohBoard.Legacy
                     switch (elements[0])
                     {
                         case "key":
-                            var keyInfo = LegacyKeyCodeMapping.Map(int.Parse(elements[1]));
-                            switch (keyInfo.Item1)
+                            var (keyType, keyCode) = LegacyKeyCodeMapping.Map(int.Parse(elements[1]));
+                            switch (keyType)
                             {
                                 case KeyType.Keyboard:
-                                    AddKeyboardKey(elementId++, elements, definition, keyInfo.Item2);
+                                    AddKeyboardKey(elementId++, elements, definition, keyCode);
                                     break;
 
                                 case KeyType.Mouse:
-                                    AddMouseKey(elementId++, elements, definition, keyInfo.Item2);
+                                    AddMouseKey(elementId++, elements, definition, keyCode);
                                     break;
 
                                 case KeyType.MouseScroll:
-                                    AddMouseScroll(elementId++, elements, definition, keyInfo.Item2);
+                                    AddMouseScroll(elementId++, elements, definition, keyCode);
                                     break;
 
                                 case KeyType.MouseMovement:

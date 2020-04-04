@@ -30,42 +30,41 @@ namespace ThoNohT.NohBoard.Legacy
         /// </summary>
         /// <param name="keyCode">The key code to map.</param>
         /// <returns>The mapped key type and code.</returns>
-        public static Tuple<KeyType, int> Map(int keyCode)
+        public static (KeyType, int) Map(int keyCode)
         {
             // 1025 will still be mapped to the Enter key on the numpad. There is no other suitable key-code for this.
             if (keyCode <= 1025)
-                return Tuple.Create(KeyType.Keyboard, keyCode);
+                return (KeyType.Keyboard, keyCode);
 
             // Mouse buttons.
             if (keyCode == 1026)
-                return Tuple.Create(KeyType.Mouse, (int)MouseKeyCode.LeftButton);
+                return (KeyType.Mouse, (int)MouseKeyCode.LeftButton);
             if (keyCode == 1027)
-                return Tuple.Create(KeyType.Mouse, (int)MouseKeyCode.RightButton);
+                return (KeyType.Mouse, (int)MouseKeyCode.RightButton);
 
             // Mouse movement.
             if (keyCode == 1028)
-                return Tuple.Create(KeyType.MouseMovement, 0);
+                return (KeyType.MouseMovement, 0);
 
             // Mouse scrolling.
             if (keyCode == 1029)
-                return Tuple.Create(KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollUp);
+                return (KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollUp);
             if (keyCode == 1030)
-                return Tuple.Create(KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollDown);
+                return (KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollDown);
             if (keyCode == 1031)
-                return Tuple.Create(KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollRight);
+                return (KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollRight);
             if (keyCode == 1032)
-                return Tuple.Create(KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollLeft);
+                return (KeyType.MouseScroll, (int)MouseScrollKeyCode.ScrollLeft);
 
             // Morem ouse buttons.
             if (keyCode == 1033)
-                return Tuple.Create(KeyType.Mouse, (int)MouseKeyCode.MiddleButton);
+                return (KeyType.Mouse, (int)MouseKeyCode.MiddleButton);
             if (keyCode == 1034)
-                return Tuple.Create(KeyType.Mouse, (int)MouseKeyCode.X1Button);
+                return (KeyType.Mouse, (int)MouseKeyCode.X1Button);
             if (keyCode == 1035)
-                return Tuple.Create(KeyType.Mouse, (int)MouseKeyCode.X2Button);
+                return (KeyType.Mouse, (int)MouseKeyCode.X2Button);
 
             throw new ArgumentOutOfRangeException(nameof(keyCode));
         }
     }
 }
- 

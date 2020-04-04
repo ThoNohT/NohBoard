@@ -585,7 +585,7 @@ namespace ThoNohT.NohBoard.Forms
             }
             else
             {
-                this.currentlyManipulating.Item2.RenderEditing(e.Graphics);
+                this.currentlyManipulating.Value.definition.RenderEditing(e.Graphics);
             }
 
             base.OnPaint(e);

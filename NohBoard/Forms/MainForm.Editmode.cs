@@ -40,7 +40,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <summary>
         /// The keyboard element that is currently being manipulated.
         /// </summary>
-        private Tuple<int, ElementDefinition> currentlyManipulating = null;
+        private (int id, ElementDefinition definition)? currentlyManipulating = null;
 
         /// <summary>
         /// The currently manipulated element, at the point where the manipulation started.
@@ -170,7 +170,7 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             var indexToManipulate = GlobalSettings.CurrentDefinition.Elements.IndexOf(toManipulate);
-            this.currentlyManipulating = Tuple.Create(indexToManipulate, toManipulate);
+            this.currentlyManipulating = (indexToManipulate, toManipulate);
             this.highlightedDefinition = null;
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
@@ -210,7 +210,7 @@ namespace ThoNohT.NohBoard.Forms
                 var diff = (TPoint)e.Location - this.currentManipulationPoint;
                 this.cumulManipulation += diff;
 
-                this.currentlyManipulating = Tuple.Create(this.currentlyManipulating.Item1, this.manipulationStart.Manipulate(this.cumulManipulation));
+                this.currentlyManipulating = (this.currentlyManipulating.Value.id, this.manipulationStart.Manipulate(this.cumulManipulation));
                 this.currentManipulationPoint = e.Location;
             }
             else
@@ -252,8 +252,8 @@ namespace ThoNohT.NohBoard.Forms
 
             GlobalSettings.Settings.UpdateDefinition(
                 GlobalSettings.CurrentDefinition.AddElement(
-                    this.currentlyManipulating.Item2,
-                    this.currentlyManipulating.Item1),
+                    this.currentlyManipulating.Value.definition,
+                    this.currentlyManipulating.Value.id),
                 true);
 
             if (this.cumulManipulation.Length() == 0 && this.selectedDefinition != null)
@@ -263,14 +263,14 @@ namespace ThoNohT.NohBoard.Forms
                   .Reverse();
 
                 var nextelementUnderCursor = elementsUnderCursor
-                    .SkipWhile(el => el.Id != this.currentlyManipulating.Item2.Id).Skip(1).FirstOrDefault()
+                    .SkipWhile(el => el.Id != this.currentlyManipulating.Value.definition.Id).Skip(1).FirstOrDefault()
                     ?? elementsUnderCursor.FirstOrDefault();
                 this.selectedDefinition = nextelementUnderCursor;
             }
             else
             {
                 // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
-                this.selectedDefinition = this.currentlyManipulating.Item2;
+                this.selectedDefinition = this.currentlyManipulating.Value.definition;
             }
             this.currentlyManipulating = null;
             this.manipulationStart = null;

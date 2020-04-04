@@ -58,7 +58,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// </summary>
         [DataMember]
         public TPoint TextPosition { get; private set; }
-        
+
         /// <summary>
         /// The keycodes of the key.
         /// </summary>
@@ -150,7 +150,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             g.FillPolygon(Brushes.Silver, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
             g.DrawPolygon(new Pen(Brushes.White, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
         }
-        
+
         /// <summary>
         /// Renders a simple representation of the element while it is being highlighted in edit mode.
         /// </summary>

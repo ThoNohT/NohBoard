@@ -57,7 +57,7 @@ namespace ThoNohT.NohBoard.Hooking
         /// <summary>
         /// The center of the screen to compare against.
         /// </summary>
-        private static List<Tuple<Rectangle, Point>> ScreenCenters = new List<Tuple<Rectangle, Point>>();
+        private static List<(Rectangle screen, Point center)> ScreenCenters = new List<(Rectangle, Point)>();
 
         /// <summary>
         /// A bag containing all currently pressed keys.
@@ -144,7 +144,7 @@ namespace ThoNohT.NohBoard.Hooking
                 var sum = speedHistory.Aggregate((acc, elem) => acc + elem);
                 return new SizeF(sum.Width / speedHistory.Size, sum.Height / speedHistory.Size);
             }
-        } 
+        }
 
         #endregion Properties
 
@@ -163,7 +163,7 @@ namespace ThoNohT.NohBoard.Hooking
 
             // Determine the screens and their centers.
             if (activate)
-                ScreenCenters = Screen.AllScreens.Select(x => Tuple.Create(x.Bounds, getCenter(x.Bounds))).ToList();
+                ScreenCenters = Screen.AllScreens.Select(x => (x.Bounds, getCenter(x.Bounds))).ToList();
         }
 
         /// <summary>
@@ -311,8 +311,8 @@ namespace ThoNohT.NohBoard.Hooking
             Func<Rectangle, Point, bool> contains =
                 (r, p) => p.X >= r.Left && p.X <= r.Right && p.Y >= r.Top && p.Y <= r.Bottom;
 
-            var result = ScreenCenters.Where(t => contains(t.Item1, point))
-                .Select(t => (Point?)t.Item2).FirstOrDefault();
+            var result = ScreenCenters.Where(t => contains(t.screen, point))
+                .Select(t => (Point?)t.center).FirstOrDefault();
             // For some reason a point can be in multiple screens at the same time? Probably while dragging the window
             // around over to another window. To bypass this, we just get the first one, and it'll have to do. There is
             // no way to prioritize any of the screens.

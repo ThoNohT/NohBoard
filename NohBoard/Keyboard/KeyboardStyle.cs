@@ -107,7 +107,7 @@ namespace ThoNohT.NohBoard.Keyboard
                 DefaultKeyStyle = (KeyStyle) this.DefaultKeyStyle.Clone(),
                 DefaultMouseSpeedIndicatorStyle =
                     (MouseSpeedIndicatorStyle) this.DefaultMouseSpeedIndicatorStyle.Clone(),
-                ElementStyles = this.ElementStyles.Select(s => Tuple.Create(s.Key, s.Value.Clone()))
+                ElementStyles = this.ElementStyles.Select(s => (s.Key, s.Value.Clone()))
                     .ToDictionary(s => s.Item1, s => s.Item2)
             };
         }

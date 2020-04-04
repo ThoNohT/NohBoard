@@ -224,7 +224,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             // 
             this.udKeyCode.Location = new System.Drawing.Point(329, 38);
             this.udKeyCode.Maximum = new decimal(new int[] {
-            1025,
+            1028,
             0,
             0,
             0});
