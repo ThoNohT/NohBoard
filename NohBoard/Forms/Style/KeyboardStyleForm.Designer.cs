@@ -70,6 +70,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.looseKeys = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
             this.lblKeyboard = new System.Windows.Forms.Label();
             this.defaultMouseSpeed = new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel();
+            this.lblOutlineWarning = new System.Windows.Forms.Label();
             this.KeyboardGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -222,6 +223,17 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.defaultMouseSpeed.TabIndex = 16;
             this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
             // 
+            // lblOutlineWarning
+            // 
+            this.lblOutlineWarning.AutoSize = true;
+            this.lblOutlineWarning.Location = new System.Drawing.Point(12, 267);
+            this.lblOutlineWarning.Name = "lblOutlineWarning";
+            this.lblOutlineWarning.Size = new System.Drawing.Size(173, 39);
+            this.lblOutlineWarning.TabIndex = 21;
+            this.lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutli" +
+    "ne behind the pressed key.";
+            this.lblOutlineWarning.Visible = false;
+            // 
             // KeyboardStyleForm
             // 
             this.AcceptButton = this.AcceptButton2;
@@ -229,6 +241,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
             this.ClientSize = new System.Drawing.Size(542, 372);
+            this.Controls.Add(this.lblOutlineWarning);
             this.Controls.Add(this.defaultMouseSpeed);
             this.Controls.Add(this.lblKeyboard);
             this.Controls.Add(this.pressedKeys);
@@ -245,6 +258,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.KeyboardGroup.ResumeLayout(false);
             this.KeyboardGroup.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -259,5 +273,6 @@ namespace ThoNohT.NohBoard.Forms.Style
         private MouseSpeedStylePanel defaultMouseSpeed;
         private System.Windows.Forms.TextBox txtBackgoundImage;
         private System.Windows.Forms.Label lblBackgroundImage;
+        private System.Windows.Forms.Label lblOutlineWarning;
     }
 }

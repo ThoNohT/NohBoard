@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms.Style
     using Controls;
     using Extra;
     using Keyboard;
+    using ThoNohT.NohBoard.Keyboard.Styles;
 
     /// <summary>
     /// The form used to change a keyboard's global style.
@@ -97,6 +98,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.clrKeyboardBackground.ColorChanged += this.Control_ColorChanged;
             this.txtBackgoundImage.TextChanged += this.txtBackgoundImage_TextChanged;
 
+            this.UpdateOutlineWarning();
         }
 
         /// <summary>
@@ -135,6 +137,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         {
             this.currentStyle.DefaultKeyStyle.Pressed = style;
             this.StyleChanged?.Invoke(this.currentStyle);
+            this.UpdateOutlineWarning();
         }
 
         /// <summary>
@@ -145,6 +148,7 @@ namespace ThoNohT.NohBoard.Forms.Style
         {
             this.currentStyle.DefaultKeyStyle.Loose = style;
             this.StyleChanged?.Invoke(this.currentStyle);
+            this.UpdateOutlineWarning();
         }
 
         /// <summary>
@@ -165,6 +169,18 @@ namespace ThoNohT.NohBoard.Forms.Style
         {
             this.currentStyle.BackgroundImageFileName = this.txtBackgoundImage.Text.SanitizeFilename();
             this.StyleChanged?.Invoke(this.currentStyle);
+        }
+
+
+        /// Updates the visibility of the outline warning.
+        /// </summary>
+        private void UpdateOutlineWarning()
+        {
+            int OutlineWidth(KeySubStyle subStyle) => subStyle.ShowOutline ? subStyle.OutlineWidth : 0;
+
+            var style = this.currentStyle.DefaultKeyStyle;
+
+            this.lblOutlineWarning.Visible = OutlineWidth(style.Pressed) < OutlineWidth(style.Loose);
         }
 
         #endregion Methods

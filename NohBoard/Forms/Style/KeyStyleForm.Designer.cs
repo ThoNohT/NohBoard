@@ -63,11 +63,12 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.chkOverwritePressed = new System.Windows.Forms.CheckBox();
             this.pressed = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
             this.loose = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
+            this.lblOutlineWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AcceptButton2
             // 
-            this.AcceptButton2.Location = new System.Drawing.Point(285, 366);
+            this.AcceptButton2.Location = new System.Drawing.Point(285, 375);
             this.AcceptButton2.Name = "AcceptButton2";
             this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton2.TabIndex = 10;
@@ -78,7 +79,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(204, 366);
+            this.CancelButton2.Location = new System.Drawing.Point(204, 375);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 11;
@@ -168,13 +169,25 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.loose.TabIndex = 12;
             this.loose.Title = "Loose";
             // 
+            // lblOutlineWarning
+            // 
+            this.lblOutlineWarning.AutoSize = true;
+            this.lblOutlineWarning.Location = new System.Drawing.Point(9, 363);
+            this.lblOutlineWarning.Name = "lblOutlineWarning";
+            this.lblOutlineWarning.Size = new System.Drawing.Size(173, 39);
+            this.lblOutlineWarning.TabIndex = 20;
+            this.lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutli" +
+    "ne behind the pressed key.";
+            this.lblOutlineWarning.Visible = false;
+            // 
             // KeyStyleForm
             // 
             this.AcceptButton = this.AcceptButton2;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(370, 399);
+            this.ClientSize = new System.Drawing.Size(370, 410);
+            this.Controls.Add(this.lblOutlineWarning);
             this.Controls.Add(this.chkOverwritePressed);
             this.Controls.Add(this.chkOverwriteLoose);
             this.Controls.Add(this.pressed);
@@ -199,5 +212,6 @@ namespace ThoNohT.NohBoard.Forms.Style
         private KeySubStylePanel pressed;
         private System.Windows.Forms.CheckBox chkOverwriteLoose;
         private System.Windows.Forms.CheckBox chkOverwritePressed;
+        private System.Windows.Forms.Label lblOutlineWarning;
     }
 }
