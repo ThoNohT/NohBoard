@@ -86,6 +86,7 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
                 BackgroundImageFileName = this.BackgroundImageFileName,
                 Text = this.Text.Clone(),
                 Outline = this.Outline.Clone(),
+                OutlineWidth = this.OutlineWidth,
                 ShowOutline = this.ShowOutline,
                 Font = this.Font.Clone()
             };

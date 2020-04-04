@@ -34,7 +34,8 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         {
             Background = Color.FromArgb(100, 100, 100),
             Text = Color.FromArgb(0, 0, 0),
-            Outline = Color.FromArgb(0, 255, 0)
+            Outline = Color.FromArgb(0, 255, 0),
+            OutlineWidth = 1
         };
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         {
             Background = Color.FromArgb(255, 255, 255),
             Text = Color.FromArgb(0, 0, 0),
-            Outline = Color.FromArgb(0, 255, 0)
+            Outline = Color.FromArgb(0, 255, 0),
+            OutlineWidth = 1
         };
 
         /// <summary>
