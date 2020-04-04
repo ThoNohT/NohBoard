@@ -99,6 +99,13 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public bool MouseFromCenter { get; set; }
 
+        /// <summary>
+        /// The time in milliseconds for which to at least show key presses. Presses are still shown as long as they are
+        /// actually pressed. But if they are pressed for shorter than this duration, they will be held active longer.
+        /// </summary>
+        [DataMember]
+        public int PressHold { get; set; }
+
         #endregion Input
 
         #region Trapping

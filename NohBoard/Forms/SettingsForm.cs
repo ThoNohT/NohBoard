@@ -83,6 +83,8 @@ namespace ThoNohT.NohBoard.Forms
 
             this.txtTitle.Text = GlobalSettings.Settings.WindowTitle;
 
+            this.udPressHold.Value = GlobalSettings.Settings.PressHold;
+
             this.SetToolTips();
         }
 
@@ -133,6 +135,8 @@ namespace ThoNohT.NohBoard.Forms
                 this.txtTitle,
                 "Fill in if you want a custom window title." + nl
                 + "If left empty, the default window title of \"NohBoard + version number\" will be shown.");
+
+            tooltip.SetToolTip(this.udPressHold, "TODO: Tooltip about holding presses.");
         }
 
         /// <summary>
@@ -160,6 +164,8 @@ namespace ThoNohT.NohBoard.Forms
             MouseState.SetMouseFromCenter(GlobalSettings.Settings.MouseFromCenter);
 
             GlobalSettings.Settings.WindowTitle = this.txtTitle.Text;
+
+            GlobalSettings.Settings.PressHold = (int)this.udPressHold.Value;
 
             GlobalSettings.Save();
 
