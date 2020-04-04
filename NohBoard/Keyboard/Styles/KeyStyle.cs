@@ -70,7 +70,10 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         {
             if (!(other is KeyStyle ks)) return true;
 
-            return this.Loose.IsChanged(ks.Loose) || this.Pressed.IsChanged(ks.Pressed);
+            if (this.Loose is null != ks.Loose is null) return true;
+            if (this.Pressed is null != ks.Pressed is null) return true;
+
+            return (this.Loose?.IsChanged(ks.Loose) ?? false) || (this.Pressed?.IsChanged(ks.Pressed) ?? false);
         }
     }
 }
