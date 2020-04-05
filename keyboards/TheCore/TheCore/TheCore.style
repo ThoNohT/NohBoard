@@ -1,0 +1,1473 @@
+{
+  "BackgroundColor": {
+    "Blue": 0,
+    "Green": 0,
+    "Red": 0
+  },
+  "BackgroundImageFileName": null,
+  "DefaultKeyStyle": {
+    "Loose": {
+      "Background": {
+        "Blue": 128,
+        "Green": 128,
+        "Red": 128
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 14.25,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 255,
+        "Red": 0
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      }
+    },
+    "Pressed": {
+      "Background": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 14.25,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 255,
+        "Red": 0
+      },
+      "OutlineWidth": 1,
+      "ShowOutline": false,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      }
+    }
+  },
+  "DefaultMouseSpeedIndicatorStyle": {
+    "InnerColor": {
+      "Blue": 100,
+      "Green": 100,
+      "Red": 100
+    },
+    "OuterColor": {
+      "Blue": 255,
+      "Green": 255,
+      "Red": 255
+    },
+    "OutlineWidth": 1
+  },
+  "ElementStyles": [
+    {
+      "Key": 37,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 193,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 52,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 48,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 64,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 24,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 64,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 38,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 64,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 36,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 106,
+            "Red": 213
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 64,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 128,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 71,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 73,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 202,
+            "Red": 202
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 42,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 249,
+            "Green": 0,
+            "Red": 249
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 75,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 81,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 128,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 80,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 128,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 79,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 64,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 26,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 128,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 43,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 221
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 77,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 83,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 86,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 85,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 2,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 84,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 0,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 78,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 76,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 128
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 14.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 255,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 90,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "sb.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "sw.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 93,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "t.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "suw.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 12.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 92,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "t.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "sdw.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 12.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 87,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "m5b.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m5w.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 88,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "m4b.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m4w.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 91,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "rightb.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "rightbp.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 94,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "leftb.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "leftbp.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    }
+  ]
+}
