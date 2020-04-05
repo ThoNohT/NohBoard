@@ -31,7 +31,7 @@ namespace ThoNohT.NohBoard.Hooking
     /// A class representing the current state of the mouse. I.e. which buttons are pressed, what is the current
     /// location, movement and scroll state.
     /// </summary>
-    public static class MouseState
+    public class MouseState : StateBase<MouseKeyCode>
     {
         #region Configuration
 
@@ -60,11 +60,6 @@ namespace ThoNohT.NohBoard.Hooking
         private static List<(Rectangle screen, Point center)> ScreenCenters = new List<(Rectangle, Point)>();
 
         /// <summary>
-        /// A bag containing all currently pressed keys.
-        /// </summary>
-        private static readonly HashSet<MouseKeyCode> pressedKeys = new HashSet<MouseKeyCode>();
-
-        /// <summary>
         /// The history of recorded mouse speeds.
         /// </summary>
         private static readonly CircleBuffer<SizeF> speedHistory = new CircleBuffer<SizeF>(mouseSmooth, default(SizeF));
@@ -78,11 +73,6 @@ namespace ThoNohT.NohBoard.Hooking
         /// The time of the last location update.
         /// </summary>
         private static int? lastLocationUpdate;
-
-        /// <summary>
-        /// A value indicating whether something has changed since the last check.
-        /// </summary>
-        private static bool updated;
 
         /// <summary>
         /// Timers used to determine how long to keep a scroll direction as pressed.
@@ -102,29 +92,6 @@ namespace ThoNohT.NohBoard.Hooking
         #endregion State
 
         #region Properties
-
-        /// <summary>
-        /// A value indicating whether something has changed since the last check.
-        /// Accessing this property will reset it to <c>false</c>.
-        /// </summary>
-        public static bool Updated
-        {
-            get
-            {
-                if (!updated) return false;
-
-                updated = false;
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Returns a list with all keys that are currently pressed.
-        /// </summary>
-        public static IReadOnlyList<MouseKeyCode> PressedKeys
-        {
-            get { lock (pressedKeys) return pressedKeys.ToList().AsReadOnly(); }
-        }
 
         /// <summary>
         /// Returns a list of scroll counts.
@@ -169,15 +136,34 @@ namespace ThoNohT.NohBoard.Hooking
         /// <summary>
         /// Checks the state of all keys and removes the ones that are no longer pressed from the list of pressed keys.
         /// </summary>
-        public static void CheckKeys()
+        /// <param name="hold">The minimum time to hold keys.</param>
+        public static void CheckKeys(int hold)
         {
             lock (pressedKeys)
             {
-                foreach (var key in pressedKeys.Where(KeyIsUp).ToList())
+                if (!pressedKeys.Any()) return;
+
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                foreach (var key in pressedKeys.Where(t => KeyIsUp(t.Key)).Select(t => t.Key).ToList())
                 {
-                    pressedKeys.Remove(key);
+                    var pressed = pressedKeys[key];
+
+                    if (pressed.startTime + hold < time)
+                    {
+                        pressedKeys.Remove(key);
+                    }
+                    else
+                    {
+                        pressed.removed = true;
+                        pressedKeys[key] = pressed;
+                    }
+
+                    // Always update to keep checking whether to remove the key on the next render cycle.
                     updated = true;
                 }
+
+                TryStopStopwatch();
             }
         }
 
@@ -247,10 +233,29 @@ namespace ThoNohT.NohBoard.Hooking
         {
             lock (pressedKeys)
             {
-                if (pressedKeys.Contains(keyCode)) return;
+                EnsureStopwatchRunning();
 
-                pressedKeys.Add(keyCode);
-                updated = true;
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                if (pressedKeys.TryGetValue(keyCode, out var pressed))
+                {
+                    pressed.startTime = time;
+                    pressed.removed = false;
+                    pressedKeys[keyCode] = pressed;
+                }
+                else
+                {
+                    pressedKeys.Add(
+                        keyCode,
+                        new KeyPress
+                        {
+                            startTime = keyHoldStopwatch.ElapsedMilliseconds,
+                            removed = false
+                        });
+
+                    updated = true;
+                }
+
             }
         }
 
@@ -258,14 +263,31 @@ namespace ThoNohT.NohBoard.Hooking
         /// Removes the specified keycode from the list of pressed keys.
         /// </summary>
         /// <param name="keyCode">The keycode to remove.</param>
-        public static void RemovePressedElement(MouseKeyCode keyCode)
+        /// <param name="hold">The minimum time to hold keys.</param>
+        public static void RemovePressedElement(MouseKeyCode keyCode, int hold)
         {
             lock (pressedKeys)
             {
-                if (!pressedKeys.Contains(keyCode)) return;
+                if (!pressedKeys.ContainsKey(keyCode)) return;
 
-                pressedKeys.Remove(keyCode);
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                var pressed = pressedKeys[keyCode];
+
+                if (pressed.startTime + hold < time)
+                {
+                    pressedKeys.Remove(keyCode);
+                }
+                else
+                {
+                    pressed.removed = true;
+                    pressedKeys[keyCode] = pressed;
+                }
+
+                // Always update to keep checking whether to remove the key on the next render cycle.
                 updated = true;
+
+                TryStopStopwatch();
             }
         }
 

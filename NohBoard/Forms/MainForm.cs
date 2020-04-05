@@ -466,6 +466,7 @@ namespace ThoNohT.NohBoard.Forms
             HookManager.TrapMouse = GlobalSettings.Settings.TrapMouse;
             HookManager.TrapToggleKeyCode = GlobalSettings.Settings.TrapToggleKeyCode;
             HookManager.ScrollHold = GlobalSettings.Settings.ScrollHold;
+            HookManager.PressHold = GlobalSettings.Settings.PressHold;
 
             var title = GlobalSettings.Settings.WindowTitle;
             this.Text = string.IsNullOrWhiteSpace(title) ? $"NohBoard {Version.Get}" : title;
@@ -597,8 +598,10 @@ namespace ThoNohT.NohBoard.Forms
                 new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
 
             // Render all keys.
+            KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
             var kbKeys = KeyboardState.PressedKeys;
             var mouseKeys = MouseState.PressedKeys.Select(k => (int)k).ToList();
+            MouseState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
             MouseState.CheckScrollAndMovement();
             var scrollCounts = MouseState.ScrollCounts;
             var allDefs = GlobalSettings.CurrentDefinition.Elements;
@@ -694,8 +697,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void KeyCheckTimer_Tick(object sender, EventArgs e)
         {
-            MouseState.CheckKeys();
-            KeyboardState.CheckKeys();
+            MouseState.CheckKeys(GlobalSettings.Settings.PressHold);
+            KeyboardState.CheckKeys(GlobalSettings.Settings.PressHold);
         }
 
         #endregion Rendering

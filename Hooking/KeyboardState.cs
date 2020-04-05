@@ -25,7 +25,7 @@ namespace ThoNohT.NohBoard.Hooking
     /// <summary>
     /// A class representing the current state of the keyboard. I.e. which buttons are pressed.
     /// </summary>
-    public class KeyboardState
+    public class KeyboardState : StateBase<int>
     {
         /// <summary>
         /// A dictionary mapping key codes to the key codes of the state keys they update.
@@ -37,20 +37,6 @@ namespace ThoNohT.NohBoard.Hooking
             { VK_SCROLL, 1028 }
         };
 
-        #region State
-
-        /// <summary>
-        /// A bag containing all currently pressed keys.
-        /// </summary>
-        private static readonly HashSet<int> pressedKeys = new HashSet<int>();
-
-        /// <summary>
-        /// A value indicating whether something has changed since the last check.
-        /// </summary>
-        private static bool updated;
-
-        #endregion State
-
         /// <summary>
         /// Initializes the state of state keys.
         /// </summary>
@@ -58,31 +44,10 @@ namespace ThoNohT.NohBoard.Hooking
         {
             foreach (var key in StateKeys)
             {
-                if (CheckStateKey(key.Key)) AddPressedElement(key.Value);
+                // Note that during this initialization, hold is not relevant as we are only adding keys that are
+                // currently active. So passing 0 is not an issue.
+                if (CheckStateKey(key.Key)) AddPressedElement(key.Value, 0);
             }
-        }
-
-        /// <summary>
-        /// A value indicating whether something has changed since the last check.
-        /// Accessing this property will reset it to <c>false</c>.
-        /// </summary>
-        public static bool Updated
-        {
-            get
-            {
-                if (!updated) return false;
-
-                updated = false;
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Returns a list with all keys that are currently pressed.
-        /// </summary>
-        public static IReadOnlyList<int> PressedKeys
-        {
-            get { lock (pressedKeys) return pressedKeys.ToList().AsReadOnly(); }
         }
 
         /// <summary>
@@ -90,7 +55,7 @@ namespace ThoNohT.NohBoard.Hooking
         /// </summary>
         public static bool ShiftDown
         {
-            get { lock (pressedKeys) return pressedKeys.Contains(VK_LSHIFT) || pressedKeys.Contains(VK_RSHIFT); }
+            get { lock (pressedKeys) return pressedKeys.ContainsKey(VK_LSHIFT) || pressedKeys.ContainsKey(VK_RSHIFT); }
         }
 
         /// <summary>
@@ -98,7 +63,7 @@ namespace ThoNohT.NohBoard.Hooking
         /// </summary>
         public static bool CtrlDown
         {
-            get { lock (pressedKeys) return pressedKeys.Contains(VK_LCTRL) || pressedKeys.Contains(VK_RCTRL); }
+            get { lock (pressedKeys) return pressedKeys.ContainsKey(VK_LCTRL) || pressedKeys.ContainsKey(VK_RCTRL); }
         }
 
         /// <summary>
@@ -106,7 +71,7 @@ namespace ThoNohT.NohBoard.Hooking
         /// </summary>
         public static bool AltDown
         {
-            get { lock (pressedKeys) return pressedKeys.Contains(VK_LALT) || pressedKeys.Contains(VK_RALT); }
+            get { lock (pressedKeys) return pressedKeys.ContainsKey(VK_LALT) || pressedKeys.ContainsKey(VK_RALT); }
         }
 
         /// <summary>
@@ -117,15 +82,35 @@ namespace ThoNohT.NohBoard.Hooking
         /// <summary>
         /// Checks the state of all keys and removes the ones that are no longer pressed from the list of pressed keys.
         /// </summary>
-        public static void CheckKeys()
+        /// <param name="hold">The minimum time to hold keys.</param>
+        public static void CheckKeys(int hold)
         {
+            return;
             lock (pressedKeys)
             {
-                foreach (var key in pressedKeys.Where(KeyIsUp).ToList())
+                if (!pressedKeys.Any()) return;
+
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                foreach (var key in pressedKeys.Where(t => KeyIsUp(t.Key)).Select(t => t.Key).ToList())
                 {
-                    pressedKeys.Remove(key);
+                    var pressed = pressedKeys[key];
+
+                    if (pressed.startTime + hold < time)
+                    {
+                        pressedKeys.Remove(key);
+                    }
+                    else
+                    {
+                        pressed.removed = true;
+                        pressedKeys[key] = pressed;
+                    }
+
+                    // Always update to keep checking whether to remove the key on the next render cycle.
                     updated = true;
                 }
+
+                TryStopStopwatch();
             }
         }
 
@@ -133,16 +118,36 @@ namespace ThoNohT.NohBoard.Hooking
         /// Adds the specified mouse keycode to the list of pressed keys.
         /// </summary>
         /// <param name="keyCode">The keycode to add.</param>
-        public static void AddPressedElement(int keyCode)
+        /// <param name="hold">The minimum time to hold keys.</param>
+        public static void AddPressedElement(int keyCode, int hold)
         {
             lock (pressedKeys)
             {
-                TryToggleStateKey(keyCode);
+                EnsureStopwatchRunning();
 
-                if (pressedKeys.Contains(keyCode)) return;
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
 
-                pressedKeys.Add(keyCode);
-                updated = true;
+                TryToggleStateKey(keyCode, hold);
+
+                if (pressedKeys.TryGetValue(keyCode, out var pressed))
+                {
+                    pressed.startTime = time;
+                    pressed.removed = false;
+                    pressedKeys[keyCode] = pressed;
+                }
+                else
+                {
+                    pressedKeys.Add(
+                        keyCode,
+                        new KeyPress
+                        {
+                            startTime = keyHoldStopwatch.ElapsedMilliseconds,
+                            removed = false
+                        });
+
+                    updated = true;
+                }
+
             }
         }
 
@@ -151,18 +156,19 @@ namespace ThoNohT.NohBoard.Hooking
         /// is looked up and removed or added from the list of pressed keys.
         /// </summary>
         /// <param name="keyCode">The key code of the key to check.</param>
-        private static void TryToggleStateKey(int keyCode)
+        /// <param name="hold">The minimum time to hold keys.</param>
+        private static void TryToggleStateKey(int keyCode, int hold)
         {
             if (!StateKeys.TryGetValue(keyCode, out var stateKey)) return;
 
             // The state at this moment is that before the switch.
             if (!CheckStateKey(keyCode))
             {
-                AddPressedElement(stateKey);
+                AddPressedElement(stateKey, hold);
             }
             else
             {
-                RemovePressedElement(stateKey);
+                RemovePressedElement(stateKey, hold);
             }
         }
 
@@ -170,14 +176,30 @@ namespace ThoNohT.NohBoard.Hooking
         /// Removes the specified keycode from the list of pressed keys.
         /// </summary>
         /// <param name="keyCode">The keycode to remove.</param>
-        public static void RemovePressedElement(int keyCode)
+        /// <param name="hold">The minimum time to hold keys.</param>
+        public static void RemovePressedElement(int keyCode, int hold)
         {
             lock (pressedKeys)
             {
-                if (!pressedKeys.Contains(keyCode)) return;
+                if (!pressedKeys.ContainsKey(keyCode)) return;
 
-                pressedKeys.Remove(keyCode);
+                var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                var pressed = pressedKeys[keyCode];
+
+                if (pressed.startTime + hold < time)
+                {
+                    pressedKeys.Remove(keyCode);
+                }
+                else
+                {
+                    pressed.removed = true;
+                    pressedKeys[keyCode] = pressed;
+                }
+
+                // Always update to keep checking whether to remove the key on the next render cycle.
                 updated = true;
+                TryStopStopwatch();
             }
         }
 

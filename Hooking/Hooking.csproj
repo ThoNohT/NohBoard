@@ -49,6 +49,7 @@
     <Compile Include="CircleBuffer.cs" />
     <Compile Include="Interop\FunctionImports.cs" />
     <Compile Include="Interop\HookManager.cs" />
+    <Compile Include="StateBase.cs" />
     <Compile Include="KeyboardState.cs" />
     <Compile Include="MouseKeyCode.cs" />
     <Compile Include="MouseScrollKeyCode.cs" />

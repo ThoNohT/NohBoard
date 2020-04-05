@@ -48,15 +48,20 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         /// </summary>
         public static Func<int, bool> KeyboardInsert = null;
 
-	    /// <summary>
-	    /// The keycode that toggles the mouse and or keyboard traps. Default is Scroll Lock.
-	    /// </summary>
+        /// <summary>
+        /// The keycode that toggles the mouse and or keyboard traps. Default is Scroll Lock.
+        /// </summary>
 	    public static int TrapToggleKeyCode { get; set; } = VK_SCROLL;
 
         /// <summary>
         /// The time in milliseconds to hold the scroll key.
         /// </summary>
         public static int ScrollHold { get; set; } = 50;
+
+        /// <summary>
+        /// The minimum time in milliseconds to hold key presses.
+        /// </summary>
+        public static int PressHold { get; set; } = 0;
 
         #endregion Properties
 

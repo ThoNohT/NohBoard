@@ -54,6 +54,9 @@ namespace ThoNohT.NohBoard.Forms
             this.chkTrapMouse = new System.Windows.Forms.CheckBox();
             this.lblTrapping = new System.Windows.Forms.Label();
             this.InputGroup = new System.Windows.Forms.GroupBox();
+            this.lblPressHold = new System.Windows.Forms.Label();
+            this.udPressHold = new System.Windows.Forms.NumericUpDown();
+            this.lblPresHoldDuration = new System.Windows.Forms.Label();
             this.chkMouseFromCenter = new System.Windows.Forms.CheckBox();
             this.udScrollHold = new System.Windows.Forms.NumericUpDown();
             this.udMouseSensitivity = new System.Windows.Forms.NumericUpDown();
@@ -71,16 +74,13 @@ namespace ThoNohT.NohBoard.Forms
             this.GeneralGroup = new System.Windows.Forms.GroupBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.lblPresHoldDuration = new System.Windows.Forms.Label();
-            this.udPressHold = new System.Windows.Forms.NumericUpDown();
-            this.lblPressHold = new System.Windows.Forms.Label();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).BeginInit();
             this.CapitalizationGroup.SuspendLayout();
             this.GeneralGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).BeginInit();
             this.SuspendLayout();
             // 
             // TrapGroup
@@ -166,6 +166,36 @@ namespace ThoNohT.NohBoard.Forms
             this.InputGroup.TabIndex = 2;
             this.InputGroup.TabStop = false;
             this.InputGroup.Text = "Input";
+            // 
+            // lblPressHold
+            // 
+            this.lblPressHold.AutoSize = true;
+            this.lblPressHold.Location = new System.Drawing.Point(6, 105);
+            this.lblPressHold.Name = "lblPressHold";
+            this.lblPressHold.Size = new System.Drawing.Size(142, 13);
+            this.lblPressHold.TabIndex = 12;
+            this.lblPressHold.Text = "Show keypresses for at least";
+            // 
+            // udPressHold
+            // 
+            this.udPressHold.Location = new System.Drawing.Point(26, 123);
+            this.udPressHold.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.udPressHold.Name = "udPressHold";
+            this.udPressHold.Size = new System.Drawing.Size(49, 20);
+            this.udPressHold.TabIndex = 11;
+            // 
+            // lblPresHoldDuration
+            // 
+            this.lblPresHoldDuration.AutoSize = true;
+            this.lblPresHoldDuration.Location = new System.Drawing.Point(81, 125);
+            this.lblPresHoldDuration.Name = "lblPresHoldDuration";
+            this.lblPresHoldDuration.Size = new System.Drawing.Size(20, 13);
+            this.lblPresHoldDuration.TabIndex = 10;
+            this.lblPresHoldDuration.Text = "ms";
             // 
             // chkMouseFromCenter
             // 
@@ -363,37 +393,6 @@ namespace ThoNohT.NohBoard.Forms
             this.txtTitle.Size = new System.Drawing.Size(92, 20);
             this.txtTitle.TabIndex = 0;
             // 
-            // lblPresHoldDuration
-            // 
-            this.lblPresHoldDuration.AutoSize = true;
-            this.lblPresHoldDuration.Location = new System.Drawing.Point(81, 125);
-            this.lblPresHoldDuration.Name = "lblPresHoldDuration";
-            this.lblPresHoldDuration.Size = new System.Drawing.Size(20, 13);
-            this.lblPresHoldDuration.TabIndex = 10;
-            this.lblPresHoldDuration.Text = "ms";
-            // 
-            // udPressHold
-            // 
-            this.udPressHold.Enabled = false;
-            this.udPressHold.Location = new System.Drawing.Point(26, 123);
-            this.udPressHold.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.udPressHold.Name = "udPressHold";
-            this.udPressHold.Size = new System.Drawing.Size(49, 20);
-            this.udPressHold.TabIndex = 11;
-            // 
-            // lblPressHold
-            // 
-            this.lblPressHold.AutoSize = true;
-            this.lblPressHold.Location = new System.Drawing.Point(6, 105);
-            this.lblPressHold.Name = "lblPressHold";
-            this.lblPressHold.Size = new System.Drawing.Size(142, 13);
-            this.lblPressHold.TabIndex = 12;
-            this.lblPressHold.Text = "Show keypresses for at least";
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
@@ -417,13 +416,13 @@ namespace ThoNohT.NohBoard.Forms
             this.TrapGroup.PerformLayout();
             this.InputGroup.ResumeLayout(false);
             this.InputGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.udScrollHold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).EndInit();
             this.CapitalizationGroup.ResumeLayout(false);
             this.CapitalizationGroup.PerformLayout();
             this.GeneralGroup.ResumeLayout(false);
             this.GeneralGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).EndInit();
             this.ResumeLayout(false);
 
         }
