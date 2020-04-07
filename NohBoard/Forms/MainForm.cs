@@ -412,6 +412,7 @@ namespace ThoNohT.NohBoard.Forms
                     HookManager.EnableKeyboardHook();
             }
 
+            this.UpdateTimer.Interval = GlobalSettings.Settings.UpdateInterval;
             this.UpdateTimer.Enabled = true;
             this.KeyCheckTimer.Enabled = true;
 

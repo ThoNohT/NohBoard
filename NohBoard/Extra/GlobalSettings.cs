@@ -31,6 +31,11 @@ namespace ThoNohT.NohBoard.Extra
     public partial class GlobalSettings
     {
         /// <summary>
+        /// Field for <see cref="UpdateInterval"/>.
+        /// </summary>
+        private int? updateInterval;
+
+        /// <summary>
         /// Indicates whether there were changes made to the definition since the last save or load action.
         /// Changes are tracked when undo history is pushed, and reset when a keyboard is loaded or saved.
         /// </summary>
@@ -105,6 +110,17 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public int PressHold { get; set; }
+
+        /// <summary>
+        /// The time in milliseconds between which the keyboard is updated and rendered again.
+        /// Minimum: 5ms (200fps), maximum: 60s, default: 33ms (30fps).
+        /// </summary>
+        [DataMember]
+        public int UpdateInterval
+        {
+            get => this.updateInterval ?? 33;
+            set => this.updateInterval = Math.Max(5, Math.Min(60000, value));
+        }
 
         #endregion Input
 
