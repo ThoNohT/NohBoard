@@ -85,7 +85,6 @@ namespace ThoNohT.NohBoard.Hooking
         /// <param name="hold">The minimum time to hold keys.</param>
         public static void CheckKeys(int hold)
         {
-            return;
             lock (pressedKeys)
             {
                 if (!pressedKeys.Any()) return;
