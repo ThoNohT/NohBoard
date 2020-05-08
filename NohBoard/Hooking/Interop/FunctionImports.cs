@@ -55,7 +55,6 @@ namespace ThoNohT.NohBoard.Hooking.Interop
             int wParam,
             IntPtr lParam);
 
-
         /// <summary>
         /// The SetWindowsHookEx function installs an application-defined hook procedure into a hook chain.
         /// You would install a hook procedure to monitor the system for certain types of events. These events

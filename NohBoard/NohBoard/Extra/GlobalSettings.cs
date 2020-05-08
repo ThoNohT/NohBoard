@@ -18,8 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Extra
 {
     using System;
+    using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
     using Hooking;
     using Keyboard;
     using static Hooking.Interop.Defines;
@@ -248,7 +251,9 @@ namespace ThoNohT.NohBoard.Extra
             try
             {
                 Settings = FileHelper.Deserialize<GlobalSettings>(Constants.SettingsFilename);
-                MouseState.SetMouseFromCenter(Settings.MouseFromCenter);
+
+                Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
+                MouseState.SetMouseFromCenter(Settings.MouseFromCenter, Screen.AllScreens.Select(x => (x.Bounds, getCenter(x.Bounds))).ToList());
                 return true;
             }
             catch (Exception ex)
