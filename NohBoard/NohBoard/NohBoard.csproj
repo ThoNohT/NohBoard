@@ -7,6 +7,9 @@
     <RootNamespace>ThoNohT.NohBoard</RootNamespace>
     <StartupObject>ThoNohT.NohBoard.Program</StartupObject>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
