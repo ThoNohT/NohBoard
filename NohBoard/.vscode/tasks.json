@@ -7,9 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/NohBoard.sln",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "${workspaceFolder}/NohBoard.sln"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -26,6 +24,22 @@
                 "../publish",
                 "--no-dependencies",
                 "--no-self-contained"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish-self-contained",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "publish",
+                "NohBoard.sln",
+                "-c",
+                "release",
+                "-o",
+                "../publish-sc",
+                "--self-contained",
+                "true"
             ],
             "problemMatcher": "$msCompile"
         }

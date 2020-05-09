@@ -76,6 +76,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish
+publish-sc
 
 # Publish Web Output
 *.Publish.xml
