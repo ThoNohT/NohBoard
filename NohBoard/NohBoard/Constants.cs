@@ -17,8 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard
 {
-    using System;
+    using System.Diagnostics;
     using System.Drawing;
+    using System.IO;
     using System.Windows.Forms;
 
     /// <summary>
@@ -69,7 +70,7 @@ namespace ThoNohT.NohBoard
         /// <summary>
         /// Returns the path this executable is running in.
         /// </summary>
-        public static string ExePath => AppDomain.CurrentDomain.BaseDirectory;
+        public static string ExePath => Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
         /// <summary>
         /// The brush to use for the background of highlighted elements.
