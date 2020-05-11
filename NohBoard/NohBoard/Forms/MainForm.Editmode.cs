@@ -397,7 +397,7 @@ namespace ThoNohT.NohBoard.Forms
                     {
                         this.ClientSize = new Size(
                           GlobalSettings.CurrentDefinition.Width,
-                          GlobalSettings.CurrentDefinition.Height);
+                          GlobalSettings.CurrentDefinition.Height).CompensateDpiSettings(this.CreateGraphics()); ;
                     }
                     else
                     {
@@ -410,7 +410,7 @@ namespace ThoNohT.NohBoard.Forms
                     {
                         this.ClientSize = new Size(
                           GlobalSettings.CurrentDefinition.Width,
-                          GlobalSettings.CurrentDefinition.Height);
+                          GlobalSettings.CurrentDefinition.Height).CompensateDpiSettings(this.CreateGraphics()); ;
                     }
                     else
                     {
@@ -773,7 +773,7 @@ namespace ThoNohT.NohBoard.Forms
 
                     GlobalSettings.Settings.UpdateDefinition(def, false);
 
-                    this.ClientSize = new Size(def.Width, def.Height);
+                    this.ClientSize = new Size(def.Width, def.Height).CompensateDpiSettings(this.CreateGraphics());
 
                     this.ResetBackBrushes();
                 };

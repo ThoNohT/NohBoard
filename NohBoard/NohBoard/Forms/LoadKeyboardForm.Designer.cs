@@ -111,6 +111,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // DefinitionListMenu
             // 
+            this.DefinitionListMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.DefinitionListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuDeleteDefinition});
             this.DefinitionListMenu.Name = "DefinitionListMenu";
@@ -193,6 +194,7 @@ namespace ThoNohT.NohBoard.Forms
             this.fontsGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.fontsGrid.Name = "fontsGrid";
             this.fontsGrid.RowHeadersVisible = false;
+            this.fontsGrid.RowHeadersWidth = 51;
             this.fontsGrid.ShowCellErrors = false;
             this.fontsGrid.ShowCellToolTips = false;
             this.fontsGrid.ShowEditingIcon = false;
