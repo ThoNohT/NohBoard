@@ -36,7 +36,7 @@ namespace ThoNohT.NohBoard.Extra
         /// <param name="size">The size to compensate.</param>
         /// <param name="graphics">The instance of graphics to get the scale from.</param>
         /// <returns>The compensated size.</returns>
-        public static Size CompensateDpiSettings(this Size size, Graphics graphics)
+        public static Size DpiCompensate(this Size size, Graphics graphics)
         {
             var scaleX = graphics.DpiX / defaultDpi;
             var scaleY = graphics.DpiY / defaultDpi;
@@ -45,25 +45,42 @@ namespace ThoNohT.NohBoard.Extra
         }
 
         /// <summary>
+        /// Uncompensates a size for the DPI settings in the specified graphics instance.
+        /// </summary>
+        /// <param name="size">The size to compensate.</param>
+        /// <param name="graphics">The instance of graphics to get the scale from.</param>
+        /// <returns>The uncompensated size.</returns>
+        public static Size DpiUncompensate(this Size size, Graphics graphics)
+        {
+            var scaleX = graphics.DpiX / defaultDpi;
+            var scaleY = graphics.DpiY / defaultDpi;
+
+            return new Size((int)(size.Width / scaleX), (int)(size.Height / scaleY));
+        }
+
+        /// <summary>
+        /// Uncompensates a point for the DPI settings in the specified graphics instance.
+        /// </summary>
+        /// <param name="point">The point to compensate.</param>
+        /// <param name="graphics">The instance of graphics to get the scale from.</param>
+        /// <returns>The uncompensated point.</returns>
+        public static Point DpiUncompensate(this Point point, Graphics graphics)
+        {
+            var scaleX = graphics.DpiX / defaultDpi;
+            var scaleY = graphics.DpiY / defaultDpi;
+
+            return new Point((int)(point.X / scaleX), (int)(point.Y / scaleY));
+        }
+
+        /// <summary>
         /// Compensates a width for the DPI settings in the specified graphics instance.
         /// </summary>
         /// <param name="size">The width to compensate.</param>
         /// <param name="graphics">The instance of graphics to get the scale from.</param>
         /// <returns>The compensated width.</returns>
-        public static int CompensateDpiSettingsWidth(this int width, Graphics graphics)
+        public static int DpiCompensateWidth(this int width, Graphics graphics)
         {
             return (int)(width * (graphics.DpiX / defaultDpi));
-        }
-
-        /// <summary>
-        /// Compensates a height for the DPI settings in the specified graphics instance.
-        /// </summary>
-        /// <param name="size">The height to compensate.</param>
-        /// <param name="graphics">The instance of graphics to get the scale from.</param>
-        /// <returns>The compensated height.</returns>
-        public static int CompensateDpiSettingsheight(this int height, Graphics graphics)
-        {
-            return (int)(height * (graphics.DpiY / defaultDpi));
         }
     }
 }

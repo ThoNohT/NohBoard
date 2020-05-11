@@ -134,13 +134,13 @@ namespace ThoNohT.NohBoard.Forms
             if (!missingFonts.Any())
             {
                 // Hide the panel.
-                this.Width = this.CloseButton.Left + this.CloseButton.Width + 25.CompensateDpiSettingsWidth(this.CreateGraphics());
+                this.Width = this.CloseButton.Left + this.CloseButton.Width + 25.DpiCompensateWidth(this.CreateGraphics());
                 this.fontsGrid.Enabled = false;
                 this.btnRestart.Enabled = false;
             }
             else
             {
-                this.Width = this.btnRestart.Left + this.btnRestart.Width + 25.CompensateDpiSettingsWidth(this.CreateGraphics());
+                this.Width = this.btnRestart.Left + this.btnRestart.Width + 25.DpiCompensateWidth(this.CreateGraphics());
                 this.fontsGrid.Enabled = true;
                 this.btnRestart.Enabled = true;
 

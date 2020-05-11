@@ -160,7 +160,7 @@ namespace ThoNohT.NohBoard.Forms
             this.highlightedDefinition = null;
             this.selectedDefinition = null;
 
-            this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height).CompensateDpiSettings(this.CreateGraphics());
+            this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height).DpiCompensate(this.CreateGraphics());
 
             this.ResetBackBrushes();
 
@@ -589,6 +589,9 @@ namespace ThoNohT.NohBoard.Forms
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
+
+            var formGraphics = this.CreateGraphics();
+            e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
 
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
