@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Forms
 {
     using System;
+    using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using Extra;
     using Hooking;
@@ -161,7 +163,9 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.FollowShiftForCapsSensitive = this.chkFollowShiftCapsSensitive.Checked;
 
             GlobalSettings.Settings.MouseFromCenter = this.chkMouseFromCenter.Checked;
-            MouseState.SetMouseFromCenter(GlobalSettings.Settings.MouseFromCenter);
+
+            Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
+            MouseState.SetMouseFromCenter(GlobalSettings.Settings.MouseFromCenter, Screen.AllScreens.Select(x => (x.Bounds, getCenter(x.Bounds))).ToList());
 
             GlobalSettings.Settings.WindowTitle = this.txtTitle.Text;
 

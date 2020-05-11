@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ThoNohT.NohBoard</RootNamespace>
+    <StartupObject>ThoNohT.NohBoard.Program</StartupObject>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <Target Name="GenerateVersionedFiles" BeforeTargets="BeforeBuild">
+    <Exec Command="$(SolutionDir)gotri.exe -i &quot;$(ProjectDir)Version.cs.template&quot; -o &quot;$(ProjectDir)Version.cs&quot;&#xD;&#xA;$(SolutionDir)gotri.exe -i &quot;$(ProjectDir)Properties/AssemblyInfo.cs.template&quot; -o &quot;$(ProjectDir)Properties/AssemblyInfo.cs&quot;" />
+    <ItemGroup>
+      <Compile Include="**/*$(DefaultLanguageSourceExtension)"
+               Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(BaseIntermediateOutputPath)**;$(BaseOutputPath)**;@(Compile)" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\clipper_library\clipper_library.csproj" />
+    <ProjectReference Include="..\Hooking\Hooking.csproj" />
+  </ItemGroup>
+
+</Project>

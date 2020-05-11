@@ -29,6 +29,11 @@ namespace ThoNohT.NohBoard
     internal static class CrashHandler
     {
         /// <summary>
+        /// Indicates whether a crash was handled, and shutting down should not be prevented.
+        /// </summary>
+        public static bool Crashed = false;
+
+        /// <summary>
         /// Protects an action, showing an error message if it has failed, and writes a log file.
         /// </summary>
         /// <param name="action">The action to protect.</param>
@@ -55,6 +60,7 @@ namespace ThoNohT.NohBoard
 
             MessageBox.Show($"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
                 $"A crash log was generated: {logFile.FullName}", "NohBoard has crashed");
+            Crashed = true;
             Application.Exit();
         }
 

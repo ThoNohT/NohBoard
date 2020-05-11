@@ -69,18 +69,20 @@ namespace ThoNohT.NohBoard.Forms
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(12, 9);
+            this.lblCategory.Location = new System.Drawing.Point(14, 10);
+            this.lblCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(52, 13);
+            this.lblCategory.Size = new System.Drawing.Size(58, 15);
             this.lblCategory.TabIndex = 0;
             this.lblCategory.Text = "Category:";
             // 
             // lblKeyboardDefinition
             // 
             this.lblKeyboardDefinition.AutoSize = true;
-            this.lblKeyboardDefinition.Location = new System.Drawing.Point(12, 58);
+            this.lblKeyboardDefinition.Location = new System.Drawing.Point(14, 67);
+            this.lblKeyboardDefinition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblKeyboardDefinition.Name = "lblKeyboardDefinition";
-            this.lblKeyboardDefinition.Size = new System.Drawing.Size(102, 13);
+            this.lblKeyboardDefinition.Size = new System.Drawing.Size(115, 15);
             this.lblKeyboardDefinition.TabIndex = 1;
             this.lblKeyboardDefinition.Text = "Keyboard Definition:";
             // 
@@ -88,9 +90,10 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.CategoryCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CategoryCombo.FormattingEnabled = true;
-            this.CategoryCombo.Location = new System.Drawing.Point(15, 25);
+            this.CategoryCombo.Location = new System.Drawing.Point(18, 29);
+            this.CategoryCombo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CategoryCombo.Name = "CategoryCombo";
-            this.CategoryCombo.Size = new System.Drawing.Size(158, 21);
+            this.CategoryCombo.Size = new System.Drawing.Size(184, 23);
             this.CategoryCombo.TabIndex = 2;
             this.CategoryCombo.SelectedIndexChanged += new System.EventHandler(this.CategoryCombo_SelectedIndexChanged);
             // 
@@ -98,9 +101,11 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.DefinitionsList.ContextMenuStrip = this.DefinitionListMenu;
             this.DefinitionsList.FormattingEnabled = true;
-            this.DefinitionsList.Location = new System.Drawing.Point(15, 74);
+            this.DefinitionsList.ItemHeight = 15;
+            this.DefinitionsList.Location = new System.Drawing.Point(18, 85);
+            this.DefinitionsList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.DefinitionsList.Name = "DefinitionsList";
-            this.DefinitionsList.Size = new System.Drawing.Size(158, 173);
+            this.DefinitionsList.Size = new System.Drawing.Size(184, 199);
             this.DefinitionsList.TabIndex = 3;
             this.DefinitionsList.SelectedIndexChanged += new System.EventHandler(this.DefinitionsList_SelectedIndexChanged);
             // 
@@ -121,27 +126,31 @@ namespace ThoNohT.NohBoard.Forms
             // lblKeyboardStyle
             // 
             this.lblKeyboardStyle.AutoSize = true;
-            this.lblKeyboardStyle.Location = new System.Drawing.Point(176, 58);
+            this.lblKeyboardStyle.Location = new System.Drawing.Point(205, 67);
+            this.lblKeyboardStyle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblKeyboardStyle.Name = "lblKeyboardStyle";
-            this.lblKeyboardStyle.Size = new System.Drawing.Size(81, 13);
+            this.lblKeyboardStyle.Size = new System.Drawing.Size(88, 15);
             this.lblKeyboardStyle.TabIndex = 4;
             this.lblKeyboardStyle.Text = "Keyboard Style:";
             // 
             // StyleList
             // 
             this.StyleList.FormattingEnabled = true;
-            this.StyleList.Location = new System.Drawing.Point(179, 74);
+            this.StyleList.ItemHeight = 15;
+            this.StyleList.Location = new System.Drawing.Point(209, 85);
+            this.StyleList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.StyleList.Name = "StyleList";
-            this.StyleList.Size = new System.Drawing.Size(158, 173);
+            this.StyleList.Size = new System.Drawing.Size(184, 199);
             this.StyleList.TabIndex = 5;
             this.StyleList.SelectedIndexChanged += new System.EventHandler(this.StyleList_SelectedIndexChanged);
             // 
             // LoadLegacyButton
             // 
-            this.LoadLegacyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LoadLegacyButton.Location = new System.Drawing.Point(262, 9);
+            this.LoadLegacyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LoadLegacyButton.Location = new System.Drawing.Point(306, 10);
+            this.LoadLegacyButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.LoadLegacyButton.Name = "LoadLegacyButton";
-            this.LoadLegacyButton.Size = new System.Drawing.Size(75, 36);
+            this.LoadLegacyButton.Size = new System.Drawing.Size(88, 42);
             this.LoadLegacyButton.TabIndex = 8;
             this.LoadLegacyButton.Text = "Load Legacy kb file...";
             this.LoadLegacyButton.UseVisualStyleBackColor = true;
@@ -150,9 +159,10 @@ namespace ThoNohT.NohBoard.Forms
             // CloseButton
             // 
             this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CloseButton.Location = new System.Drawing.Point(261, 253);
+            this.CloseButton.Location = new System.Drawing.Point(304, 292);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.Size = new System.Drawing.Size(88, 27);
             this.CloseButton.TabIndex = 9;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -161,9 +171,10 @@ namespace ThoNohT.NohBoard.Forms
             // lblMissingFonts
             // 
             this.lblMissingFonts.AutoSize = true;
-            this.lblMissingFonts.Location = new System.Drawing.Point(356, 13);
+            this.lblMissingFonts.Location = new System.Drawing.Point(415, 15);
+            this.lblMissingFonts.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMissingFonts.Name = "lblMissingFonts";
-            this.lblMissingFonts.Size = new System.Drawing.Size(389, 26);
+            this.lblMissingFonts.Size = new System.Drawing.Size(438, 30);
             this.lblMissingFonts.TabIndex = 10;
             this.lblMissingFonts.Text = "The following fonts are defined in the chosen style but not present on this syste" +
     "m.\r\nIf a link is provided, you may download it by double clicking the link:";
@@ -178,7 +189,8 @@ namespace ThoNohT.NohBoard.Forms
             this.fontsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fontsGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.fontsGrid.Enabled = false;
-            this.fontsGrid.Location = new System.Drawing.Point(359, 42);
+            this.fontsGrid.Location = new System.Drawing.Point(419, 48);
+            this.fontsGrid.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.fontsGrid.Name = "fontsGrid";
             this.fontsGrid.RowHeadersVisible = false;
             this.fontsGrid.ShowCellErrors = false;
@@ -192,9 +204,10 @@ namespace ThoNohT.NohBoard.Forms
             // lblRestart
             // 
             this.lblRestart.AutoSize = true;
-            this.lblRestart.Location = new System.Drawing.Point(356, 258);
+            this.lblRestart.Location = new System.Drawing.Point(415, 298);
+            this.lblRestart.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRestart.Name = "lblRestart";
-            this.lblRestart.Size = new System.Drawing.Size(399, 13);
+            this.lblRestart.Size = new System.Drawing.Size(443, 15);
             this.lblRestart.TabIndex = 12;
             this.lblRestart.Text = "After a new font has been installed, NohBoard needs to be restarted to recognize " +
     "it.";
@@ -202,9 +215,10 @@ namespace ThoNohT.NohBoard.Forms
             // btnRestart
             // 
             this.btnRestart.Enabled = false;
-            this.btnRestart.Location = new System.Drawing.Point(861, 253);
+            this.btnRestart.Location = new System.Drawing.Point(908, 292);
+            this.btnRestart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnRestart.Name = "btnRestart";
-            this.btnRestart.Size = new System.Drawing.Size(75, 23);
+            this.btnRestart.Size = new System.Drawing.Size(88, 27);
             this.btnRestart.TabIndex = 13;
             this.btnRestart.Text = "Restart";
             this.btnRestart.UseVisualStyleBackColor = true;
@@ -213,10 +227,10 @@ namespace ThoNohT.NohBoard.Forms
             // LoadKeyboardForm
             // 
             this.AcceptButton = this.CloseButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
-            this.ClientSize = new System.Drawing.Size(348, 286);
+            this.ClientSize = new System.Drawing.Size(1009, 330);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblRestart);
             this.Controls.Add(this.fontsGrid);
@@ -230,6 +244,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Controls.Add(this.lblKeyboardDefinition);
             this.Controls.Add(this.lblCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "LoadKeyboardForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

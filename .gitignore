@@ -76,6 +76,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish
+publish-sc
 
 # Publish Web Output
 *.Publish.xml
@@ -110,6 +111,6 @@ Backup*/
 UpgradeLog*.XML
 
 # Since using gotri, these files are generated and should not be committed.
-NohBoard/Version.cs
-Hooking/Properties/AssemblyInfo.cs
-NohBoard/Properties/AssemblyInfo.cs
+NohBoard/NohBoard/Version.cs
+NohBoard/Hooking/Properties/AssemblyInfo.cs
+NohBoard/NohBoard/Properties/AssemblyInfo.cs

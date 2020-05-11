@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/NohBoard.sln"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "publish",
+                "NohBoard.sln",
+                "-c",
+                "release",
+                "-o",
+                "../publish",
+                "--no-dependencies",
+                "--no-self-contained"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish-self-contained",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "publish",
+                "NohBoard.sln",
+                "-c",
+                "release",
+                "-o",
+                "../publish-sc",
+                "--self-contained",
+                "true"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

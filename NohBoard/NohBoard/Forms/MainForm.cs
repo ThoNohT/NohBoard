@@ -437,7 +437,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges)
+            if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges && !CrashHandler.Crashed)
             {
                 var result = MessageBox.Show(
                     "You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?",
@@ -544,7 +544,7 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.mnuUpdate.Text = $"New version available: {this.latestVersion.Format()}.";
                 this.mnuUpdate.Visible = true;
-                this.mnuUpdate.Click += (s, ea) => { Process.Start("https://github.com/ThoNohT/NohBoard/releases"); };
+                this.mnuUpdate.Click += (s, ea) => { Process.Start(new ProcessStartInfo { FileName = "https://github.com/ThoNohT/NohBoard/releases", UseShellExecute = true }); };
             }
 
             this.mnuMoveElement.Visible = this.relevantDefinition != null;

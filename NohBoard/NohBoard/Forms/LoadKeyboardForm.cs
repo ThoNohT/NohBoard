@@ -134,13 +134,13 @@ namespace ThoNohT.NohBoard.Forms
             if (!missingFonts.Any())
             {
                 // Hide the panel.
-                this.Width = 364;
+                this.Width = 422;
                 this.fontsGrid.Enabled = false;
                 this.btnRestart.Enabled = false;
             }
             else
             {
-                this.Width = 964;
+                this.Width = 1025;
                 this.fontsGrid.Enabled = true;
                 this.btnRestart.Enabled = true;
 
@@ -149,7 +149,7 @@ namespace ThoNohT.NohBoard.Forms
                     .ToList();
                 this.fontsGrid.DataSource = gridData;
                 this.fontsGrid.Columns[0].Width = 140;
-                this.fontsGrid.Columns[1].Width = 448;
+                this.fontsGrid.Columns[1].Width = 435;
 
                 this.fontsGrid.Update();
 
