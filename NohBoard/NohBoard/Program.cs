@@ -36,7 +36,7 @@ namespace ThoNohT.NohBoard
                 AppDomain.CurrentDomain.UnhandledException += (s, e) => CrashHandler.HandleException((Exception)e.ExceptionObject);
 
                 Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                Application.SetCompatibleTextRenderingDefault(true);
                 Application.Run(new MainForm());
             });
         }

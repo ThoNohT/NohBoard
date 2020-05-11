@@ -10,13 +10,13 @@
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <Target Name="GenerateVersionedFiles" BeforeTargets="BeforeBuild">
     <Exec Command="$(SolutionDir)gotri.exe -i &quot;$(ProjectDir)Version.cs.template&quot; -o &quot;$(ProjectDir)Version.cs&quot;&#xD;&#xA;$(SolutionDir)gotri.exe -i &quot;$(ProjectDir)Properties/AssemblyInfo.cs.template&quot; -o &quot;$(ProjectDir)Properties/AssemblyInfo.cs&quot;" />
     <ItemGroup>
-      <Compile Include="**/*$(DefaultLanguageSourceExtension)"
-               Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(BaseIntermediateOutputPath)**;$(BaseOutputPath)**;@(Compile)" />
+      <Compile Include="**/*$(DefaultLanguageSourceExtension)" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);$(BaseIntermediateOutputPath)**;$(BaseOutputPath)**;@(Compile)" />
     </ItemGroup>
   </Target>
 
