@@ -70,7 +70,12 @@ namespace ThoNohT.NohBoard
         /// <summary>
         /// Returns the path this executable is running in.
         /// </summary>
-        public static string ExePath => Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        public static string ExePath =>
+#if DEBUG
+        Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+#else
+        Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+#endif
 
         /// <summary>
         /// The brush to use for the background of highlighted elements.
