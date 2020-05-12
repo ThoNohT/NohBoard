@@ -84,6 +84,7 @@ namespace ThoNohT.NohBoard.Forms
             this.chkMouseFromCenter.Checked = GlobalSettings.Settings.MouseFromCenter;
 
             this.txtTitle.Text = GlobalSettings.Settings.WindowTitle;
+            this.chkIgnoreScaling.Checked = GlobalSettings.Settings.IgnoreScaling;
 
             this.udPressHold.Value = GlobalSettings.Settings.PressHold;
 
@@ -135,10 +136,19 @@ namespace ThoNohT.NohBoard.Forms
 
             tooltip.SetToolTip(
                 this.txtTitle,
-                "Fill in if you want a custom window title." + nl
-                + "If left empty, the default window title of \"NohBoard + version number\" will be shown.");
+                "Fill in if you want a custom window title." + nl +
+                "If left empty, the default window title of \"NohBoard + version number\" will be shown.");
 
-            tooltip.SetToolTip(this.udPressHold, "TODO: Tooltip about holding presses.");
+            tooltip.SetToolTip(
+                this.chkIgnoreScaling,
+                "Ignores DPI scaling when rendering to the back brushes. This can be used if DPI scaling causes weird " + nl +
+                "glitches in the rendered keyboards. The setting has no effect when the scaling is at 100%.");
+
+            tooltip.SetToolTip(
+                this.udPressHold,
+                "Shows a pressed key for at least this long. This can be used if you want every key to be shown at " + nl +
+                "least for a while. However, if set too high, it may cause keys to appear being pressed continuously " + nl + 
+                "when pressing them rapidly.");
         }
 
         /// <summary>
@@ -211,6 +221,14 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.chkFollowShiftCapsInsensitive.Enabled = !this.rdbFollowKeystate.Checked;
             this.chkFollowShiftCapsSensitive.Enabled = !this.rdbFollowKeystate.Checked;
+        }
+
+        /// <summary>
+        /// Updates the ignore scaling property.
+        /// </summary>
+        private void chkIgnoreScaling_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalSettings.Settings.IgnoreScaling = this.chkIgnoreScaling.Checked;
         }
     }
 }

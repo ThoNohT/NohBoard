@@ -74,6 +74,7 @@ namespace ThoNohT.NohBoard.Forms
             this.GeneralGroup = new System.Windows.Forms.GroupBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
+            this.chkIgnoreScaling = new System.Windows.Forms.CheckBox();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).BeginInit();
@@ -90,21 +91,24 @@ namespace ThoNohT.NohBoard.Forms
             this.TrapGroup.Controls.Add(this.chkTrapKeyboard);
             this.TrapGroup.Controls.Add(this.chkTrapMouse);
             this.TrapGroup.Controls.Add(this.lblTrapping);
-            this.TrapGroup.Location = new System.Drawing.Point(206, 68);
+            this.TrapGroup.Location = new System.Drawing.Point(240, 106);
+            this.TrapGroup.Margin = new System.Windows.Forms.Padding(4);
             this.TrapGroup.Name = "TrapGroup";
-            this.TrapGroup.Size = new System.Drawing.Size(203, 136);
+            this.TrapGroup.Padding = new System.Windows.Forms.Padding(4);
+            this.TrapGroup.Size = new System.Drawing.Size(237, 157);
             this.TrapGroup.TabIndex = 1;
             this.TrapGroup.TabStop = false;
             this.TrapGroup.Text = "Trapping";
             // 
             // txtToggleKey
             // 
-            this.txtToggleKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtToggleKey.Location = new System.Drawing.Point(99, 89);
+            this.txtToggleKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.txtToggleKey.Location = new System.Drawing.Point(116, 109);
+            this.txtToggleKey.Margin = new System.Windows.Forms.Padding(4);
             this.txtToggleKey.Multiline = true;
             this.txtToggleKey.Name = "txtToggleKey";
             this.txtToggleKey.ReadOnly = true;
-            this.txtToggleKey.Size = new System.Drawing.Size(92, 34);
+            this.txtToggleKey.Size = new System.Drawing.Size(107, 39);
             this.txtToggleKey.TabIndex = 5;
             this.txtToggleKey.TabStop = false;
             this.txtToggleKey.Text = "ScrollLock";
@@ -115,18 +119,20 @@ namespace ThoNohT.NohBoard.Forms
             // lblToggleKey
             // 
             this.lblToggleKey.AutoSize = true;
-            this.lblToggleKey.Location = new System.Drawing.Point(9, 97);
+            this.lblToggleKey.Location = new System.Drawing.Point(10, 113);
+            this.lblToggleKey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblToggleKey.Name = "lblToggleKey";
-            this.lblToggleKey.Size = new System.Drawing.Size(84, 13);
+            this.lblToggleKey.Size = new System.Drawing.Size(90, 15);
             this.lblToggleKey.TabIndex = 3;
             this.lblToggleKey.Text = "Trap toggle key:";
             // 
             // chkTrapKeyboard
             // 
             this.chkTrapKeyboard.AutoSize = true;
-            this.chkTrapKeyboard.Location = new System.Drawing.Point(95, 67);
+            this.chkTrapKeyboard.Location = new System.Drawing.Point(111, 78);
+            this.chkTrapKeyboard.Margin = new System.Windows.Forms.Padding(4);
             this.chkTrapKeyboard.Name = "chkTrapKeyboard";
-            this.chkTrapKeyboard.Size = new System.Drawing.Size(96, 17);
+            this.chkTrapKeyboard.Size = new System.Drawing.Size(101, 19);
             this.chkTrapKeyboard.TabIndex = 3;
             this.chkTrapKeyboard.Text = "Trap Keyboard";
             this.chkTrapKeyboard.UseVisualStyleBackColor = true;
@@ -134,18 +140,20 @@ namespace ThoNohT.NohBoard.Forms
             // chkTrapMouse
             // 
             this.chkTrapMouse.AutoSize = true;
-            this.chkTrapMouse.Location = new System.Drawing.Point(6, 67);
+            this.chkTrapMouse.Location = new System.Drawing.Point(7, 78);
+            this.chkTrapMouse.Margin = new System.Windows.Forms.Padding(4);
             this.chkTrapMouse.Name = "chkTrapMouse";
-            this.chkTrapMouse.Size = new System.Drawing.Size(83, 17);
+            this.chkTrapMouse.Size = new System.Drawing.Size(87, 19);
             this.chkTrapMouse.TabIndex = 2;
             this.chkTrapMouse.Text = "Trap Mouse";
             this.chkTrapMouse.UseVisualStyleBackColor = true;
             // 
             // lblTrapping
             // 
-            this.lblTrapping.Location = new System.Drawing.Point(6, 20);
+            this.lblTrapping.Location = new System.Drawing.Point(7, 24);
+            this.lblTrapping.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTrapping.Name = "lblTrapping";
-            this.lblTrapping.Size = new System.Drawing.Size(194, 52);
+            this.lblTrapping.Size = new System.Drawing.Size(226, 60);
             this.lblTrapping.TabIndex = 0;
             this.lblTrapping.Text = "Trapping the mouse or keyboard prevents the respective device\'s input from reachi" +
     "ng any other applications.";
@@ -160,9 +168,11 @@ namespace ThoNohT.NohBoard.Forms
             this.InputGroup.Controls.Add(this.udMouseSensitivity);
             this.InputGroup.Controls.Add(this.lblScrollHold);
             this.InputGroup.Controls.Add(this.lblMouseSensititivy);
-            this.InputGroup.Location = new System.Drawing.Point(13, 13);
+            this.InputGroup.Location = new System.Drawing.Point(15, 15);
+            this.InputGroup.Margin = new System.Windows.Forms.Padding(4);
             this.InputGroup.Name = "InputGroup";
-            this.InputGroup.Size = new System.Drawing.Size(187, 191);
+            this.InputGroup.Padding = new System.Windows.Forms.Padding(4);
+            this.InputGroup.Size = new System.Drawing.Size(218, 248);
             this.InputGroup.TabIndex = 2;
             this.InputGroup.TabStop = false;
             this.InputGroup.Text = "Input";
@@ -170,109 +180,83 @@ namespace ThoNohT.NohBoard.Forms
             // lblPressHold
             // 
             this.lblPressHold.AutoSize = true;
-            this.lblPressHold.Location = new System.Drawing.Point(6, 105);
+            this.lblPressHold.Location = new System.Drawing.Point(7, 121);
+            this.lblPressHold.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPressHold.Name = "lblPressHold";
-            this.lblPressHold.Size = new System.Drawing.Size(142, 13);
+            this.lblPressHold.Size = new System.Drawing.Size(153, 15);
             this.lblPressHold.TabIndex = 12;
             this.lblPressHold.Text = "Show keypresses for at least";
             // 
             // udPressHold
             // 
-            this.udPressHold.Location = new System.Drawing.Point(26, 123);
-            this.udPressHold.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            this.udPressHold.Location = new System.Drawing.Point(30, 142);
+            this.udPressHold.Margin = new System.Windows.Forms.Padding(4);
             this.udPressHold.Name = "udPressHold";
-            this.udPressHold.Size = new System.Drawing.Size(49, 20);
+            this.udPressHold.Size = new System.Drawing.Size(57, 23);
             this.udPressHold.TabIndex = 11;
             // 
             // lblPresHoldDuration
             // 
             this.lblPresHoldDuration.AutoSize = true;
-            this.lblPresHoldDuration.Location = new System.Drawing.Point(81, 125);
+            this.lblPresHoldDuration.Location = new System.Drawing.Point(94, 144);
+            this.lblPresHoldDuration.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPresHoldDuration.Name = "lblPresHoldDuration";
-            this.lblPresHoldDuration.Size = new System.Drawing.Size(20, 13);
+            this.lblPresHoldDuration.Size = new System.Drawing.Size(23, 15);
             this.lblPresHoldDuration.TabIndex = 10;
             this.lblPresHoldDuration.Text = "ms";
             // 
             // chkMouseFromCenter
             // 
-            this.chkMouseFromCenter.Location = new System.Drawing.Point(10, 67);
+            this.chkMouseFromCenter.Location = new System.Drawing.Point(12, 77);
+            this.chkMouseFromCenter.Margin = new System.Windows.Forms.Padding(4);
             this.chkMouseFromCenter.Name = "chkMouseFromCenter";
-            this.chkMouseFromCenter.Size = new System.Drawing.Size(166, 35);
+            this.chkMouseFromCenter.Size = new System.Drawing.Size(194, 40);
             this.chkMouseFromCenter.TabIndex = 9;
             this.chkMouseFromCenter.Text = "Calculate mouse speed from center of screen";
             this.chkMouseFromCenter.UseVisualStyleBackColor = true;
             // 
             // udScrollHold
             // 
-            this.udScrollHold.Location = new System.Drawing.Point(104, 42);
-            this.udScrollHold.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.udScrollHold.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.udScrollHold.Location = new System.Drawing.Point(121, 49);
+            this.udScrollHold.Margin = new System.Windows.Forms.Padding(4);
             this.udScrollHold.Name = "udScrollHold";
-            this.udScrollHold.Size = new System.Drawing.Size(72, 20);
+            this.udScrollHold.Size = new System.Drawing.Size(84, 23);
             this.udScrollHold.TabIndex = 1;
-            this.udScrollHold.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
             // 
             // udMouseSensitivity
             // 
-            this.udMouseSensitivity.Location = new System.Drawing.Point(104, 20);
-            this.udMouseSensitivity.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.udMouseSensitivity.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.udMouseSensitivity.Location = new System.Drawing.Point(121, 23);
+            this.udMouseSensitivity.Margin = new System.Windows.Forms.Padding(4);
             this.udMouseSensitivity.Name = "udMouseSensitivity";
-            this.udMouseSensitivity.Size = new System.Drawing.Size(72, 20);
+            this.udMouseSensitivity.Size = new System.Drawing.Size(84, 23);
             this.udMouseSensitivity.TabIndex = 0;
-            this.udMouseSensitivity.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
             // 
             // lblScrollHold
             // 
             this.lblScrollHold.AutoSize = true;
-            this.lblScrollHold.Location = new System.Drawing.Point(7, 44);
+            this.lblScrollHold.Location = new System.Drawing.Point(8, 51);
+            this.lblScrollHold.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblScrollHold.Name = "lblScrollHold";
-            this.lblScrollHold.Size = new System.Drawing.Size(81, 13);
+            this.lblScrollHold.Size = new System.Drawing.Size(93, 15);
             this.lblScrollHold.TabIndex = 1;
             this.lblScrollHold.Text = "Scroll hold time:";
             // 
             // lblMouseSensititivy
             // 
             this.lblMouseSensititivy.AutoSize = true;
-            this.lblMouseSensititivy.Location = new System.Drawing.Point(7, 20);
+            this.lblMouseSensititivy.Location = new System.Drawing.Point(8, 23);
+            this.lblMouseSensititivy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMouseSensititivy.Name = "lblMouseSensititivy";
-            this.lblMouseSensititivy.Size = new System.Drawing.Size(90, 13);
+            this.lblMouseSensititivy.Size = new System.Drawing.Size(101, 15);
             this.lblMouseSensititivy.TabIndex = 0;
             this.lblMouseSensititivy.Text = "Mouse sensitivity:";
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(334, 306);
+            this.OkButton.Location = new System.Drawing.Point(391, 384);
+            this.OkButton.Margin = new System.Windows.Forms.Padding(4);
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.Size = new System.Drawing.Size(88, 26);
             this.OkButton.TabIndex = 7;
             this.OkButton.Text = "Ok";
             this.OkButton.UseVisualStyleBackColor = true;
@@ -281,9 +265,10 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(253, 306);
+            this.CancelButton2.Location = new System.Drawing.Point(296, 384);
+            this.CancelButton2.Margin = new System.Windows.Forms.Padding(4);
             this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton2.Size = new System.Drawing.Size(88, 26);
             this.CancelButton2.TabIndex = 6;
             this.CancelButton2.Text = "Cancel";
             this.CancelButton2.UseVisualStyleBackColor = true;
@@ -296,9 +281,11 @@ namespace ThoNohT.NohBoard.Forms
             this.CapitalizationGroup.Controls.Add(this.rdbAlwaysLower);
             this.CapitalizationGroup.Controls.Add(this.rdbAlwaysCaps);
             this.CapitalizationGroup.Controls.Add(this.rdbFollowKeystate);
-            this.CapitalizationGroup.Location = new System.Drawing.Point(10, 210);
+            this.CapitalizationGroup.Location = new System.Drawing.Point(11, 271);
+            this.CapitalizationGroup.Margin = new System.Windows.Forms.Padding(4);
             this.CapitalizationGroup.Name = "CapitalizationGroup";
-            this.CapitalizationGroup.Size = new System.Drawing.Size(396, 91);
+            this.CapitalizationGroup.Padding = new System.Windows.Forms.Padding(4);
+            this.CapitalizationGroup.Size = new System.Drawing.Size(462, 105);
             this.CapitalizationGroup.TabIndex = 8;
             this.CapitalizationGroup.TabStop = false;
             this.CapitalizationGroup.Text = "Capitalization of Keys";
@@ -306,9 +293,10 @@ namespace ThoNohT.NohBoard.Forms
             // chkFollowShiftCapsSensitive
             // 
             this.chkFollowShiftCapsSensitive.AutoSize = true;
-            this.chkFollowShiftCapsSensitive.Location = new System.Drawing.Point(199, 65);
+            this.chkFollowShiftCapsSensitive.Location = new System.Drawing.Point(232, 75);
+            this.chkFollowShiftCapsSensitive.Margin = new System.Windows.Forms.Padding(4);
             this.chkFollowShiftCapsSensitive.Name = "chkFollowShiftCapsSensitive";
-            this.chkFollowShiftCapsSensitive.Size = new System.Drawing.Size(146, 17);
+            this.chkFollowShiftCapsSensitive.Size = new System.Drawing.Size(154, 19);
             this.chkFollowShiftCapsSensitive.TabIndex = 5;
             this.chkFollowShiftCapsSensitive.Text = "Caps Lock sensitive keys";
             this.chkFollowShiftCapsSensitive.UseVisualStyleBackColor = true;
@@ -316,18 +304,20 @@ namespace ThoNohT.NohBoard.Forms
             // lblFollowShift
             // 
             this.lblFollowShift.AutoSize = true;
-            this.lblFollowShift.Location = new System.Drawing.Point(199, 19);
+            this.lblFollowShift.Location = new System.Drawing.Point(232, 22);
+            this.lblFollowShift.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFollowShift.Name = "lblFollowShift";
-            this.lblFollowShift.Size = new System.Drawing.Size(93, 13);
+            this.lblFollowShift.Size = new System.Drawing.Size(109, 15);
             this.lblFollowShift.TabIndex = 4;
             this.lblFollowShift.Text = "Still follow shift for:";
             // 
             // chkFollowShiftCapsInsensitive
             // 
             this.chkFollowShiftCapsInsensitive.AutoSize = true;
-            this.chkFollowShiftCapsInsensitive.Location = new System.Drawing.Point(199, 42);
+            this.chkFollowShiftCapsInsensitive.Location = new System.Drawing.Point(232, 49);
+            this.chkFollowShiftCapsInsensitive.Margin = new System.Windows.Forms.Padding(4);
             this.chkFollowShiftCapsInsensitive.Name = "chkFollowShiftCapsInsensitive";
-            this.chkFollowShiftCapsInsensitive.Size = new System.Drawing.Size(154, 17);
+            this.chkFollowShiftCapsInsensitive.Size = new System.Drawing.Size(164, 19);
             this.chkFollowShiftCapsInsensitive.TabIndex = 3;
             this.chkFollowShiftCapsInsensitive.Text = "Caps Lock insensitive keys";
             this.chkFollowShiftCapsInsensitive.UseVisualStyleBackColor = true;
@@ -335,9 +325,10 @@ namespace ThoNohT.NohBoard.Forms
             // rdbAlwaysLower
             // 
             this.rdbAlwaysLower.AutoSize = true;
-            this.rdbAlwaysLower.Location = new System.Drawing.Point(10, 65);
+            this.rdbAlwaysLower.Location = new System.Drawing.Point(12, 75);
+            this.rdbAlwaysLower.Margin = new System.Windows.Forms.Padding(4);
             this.rdbAlwaysLower.Name = "rdbAlwaysLower";
-            this.rdbAlwaysLower.Size = new System.Drawing.Size(157, 17);
+            this.rdbAlwaysLower.Size = new System.Drawing.Size(173, 19);
             this.rdbAlwaysLower.TabIndex = 2;
             this.rdbAlwaysLower.TabStop = true;
             this.rdbAlwaysLower.Text = "Show all buttons lower-case";
@@ -346,9 +337,10 @@ namespace ThoNohT.NohBoard.Forms
             // rdbAlwaysCaps
             // 
             this.rdbAlwaysCaps.AutoSize = true;
-            this.rdbAlwaysCaps.Location = new System.Drawing.Point(10, 42);
+            this.rdbAlwaysCaps.Location = new System.Drawing.Point(12, 49);
+            this.rdbAlwaysCaps.Margin = new System.Windows.Forms.Padding(4);
             this.rdbAlwaysCaps.Name = "rdbAlwaysCaps";
-            this.rdbAlwaysCaps.Size = new System.Drawing.Size(156, 17);
+            this.rdbAlwaysCaps.Size = new System.Drawing.Size(172, 19);
             this.rdbAlwaysCaps.TabIndex = 1;
             this.rdbAlwaysCaps.TabStop = true;
             this.rdbAlwaysCaps.Text = "Show all buttons capitalized";
@@ -357,9 +349,10 @@ namespace ThoNohT.NohBoard.Forms
             // rdbFollowKeystate
             // 
             this.rdbFollowKeystate.AutoSize = true;
-            this.rdbFollowKeystate.Location = new System.Drawing.Point(10, 19);
+            this.rdbFollowKeystate.Location = new System.Drawing.Point(12, 22);
+            this.rdbFollowKeystate.Margin = new System.Windows.Forms.Padding(4);
             this.rdbFollowKeystate.Name = "rdbFollowKeystate";
-            this.rdbFollowKeystate.Size = new System.Drawing.Size(154, 17);
+            this.rdbFollowKeystate.Size = new System.Drawing.Size(169, 19);
             this.rdbFollowKeystate.TabIndex = 0;
             this.rdbFollowKeystate.TabStop = true;
             this.rdbFollowKeystate.Text = "Follow Caps-Lock and Shift";
@@ -370,9 +363,12 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.GeneralGroup.Controls.Add(this.lblTitle);
             this.GeneralGroup.Controls.Add(this.txtTitle);
-            this.GeneralGroup.Location = new System.Drawing.Point(206, 12);
+            this.GeneralGroup.Controls.Add(this.chkIgnoreScaling);
+            this.GeneralGroup.Location = new System.Drawing.Point(240, 14);
+            this.GeneralGroup.Margin = new System.Windows.Forms.Padding(4);
             this.GeneralGroup.Name = "GeneralGroup";
-            this.GeneralGroup.Size = new System.Drawing.Size(203, 50);
+            this.GeneralGroup.Padding = new System.Windows.Forms.Padding(4);
+            this.GeneralGroup.Size = new System.Drawing.Size(237, 84);
             this.GeneralGroup.TabIndex = 9;
             this.GeneralGroup.TabStop = false;
             this.GeneralGroup.Text = "General";
@@ -380,26 +376,39 @@ namespace ThoNohT.NohBoard.Forms
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(7, 22);
+            this.lblTitle.Location = new System.Drawing.Point(8, 25);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(68, 13);
+            this.lblTitle.Size = new System.Drawing.Size(77, 15);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "Window title:";
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(81, 19);
+            this.txtTitle.Location = new System.Drawing.Point(94, 22);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(4);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(92, 20);
+            this.txtTitle.Size = new System.Drawing.Size(107, 23);
             this.txtTitle.TabIndex = 0;
+            // 
+            // chkIgnoreScaling
+            // 
+            this.chkIgnoreScaling.Location = new System.Drawing.Point(10, 47);
+            this.chkIgnoreScaling.Margin = new System.Windows.Forms.Padding(4);
+            this.chkIgnoreScaling.Name = "chkIgnoreScaling";
+            this.chkIgnoreScaling.Size = new System.Drawing.Size(219, 29);
+            this.chkIgnoreScaling.TabIndex = 9;
+            this.chkIgnoreScaling.Text = "Ignore DPI scaling for back brushes";
+            this.chkIgnoreScaling.UseVisualStyleBackColor = true;
+            this.chkIgnoreScaling.CheckedChanged += new System.EventHandler(this.chkIgnoreScaling_CheckedChanged);
             // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(422, 342);
+            this.ClientSize = new System.Drawing.Size(492, 421);
             this.Controls.Add(this.GeneralGroup);
             this.Controls.Add(this.CapitalizationGroup);
             this.Controls.Add(this.CancelButton2);
@@ -407,6 +416,7 @@ namespace ThoNohT.NohBoard.Forms
             this.Controls.Add(this.InputGroup);
             this.Controls.Add(this.TrapGroup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -456,5 +466,6 @@ namespace ThoNohT.NohBoard.Forms
         private Label lblPresHoldDuration;
         private NumericUpDown udPressHold;
         private Label lblPressHold;
+        private CheckBox chkIgnoreScaling;
     }
 }

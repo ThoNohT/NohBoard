@@ -84,6 +84,13 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public string WindowTitle { get; set; } = "";
 
+        /// <summary>
+        /// Whether to ignore DPI scaling when rendering the keyboard. This may be needed when scaled rendering
+        /// introduces unwanted artefacts.
+        /// </summary>
+        [DataMember]
+        public bool IgnoreScaling { get; set; } = true;
+
         #endregion General
 
         #region Input

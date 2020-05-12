@@ -227,9 +227,11 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     var bmp = new Bitmap(
                         (int)(GlobalSettings.CurrentDefinition.Width * scaleX),
-                        (int)(GlobalSettings.CurrentDefinition.Height * scaleY));
+                        (int)(GlobalSettings.CurrentDefinition.Height * scaleY),
+                        formGraphics);
                     var g = Graphics.FromImage(bmp);
-                    g.ScaleTransform(scaleX, scaleY);
+
+                    if (!GlobalSettings.Settings.IgnoreScaling) g.ScaleTransform(scaleX, scaleY);
 
                     // Render the background image if set.
                     var cs = GlobalSettings.CurrentStyle;
@@ -602,13 +604,18 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
 
+            // If scaling is ignored, then scale before the back-brushes, so the back-brushes are expanded.
+            if (GlobalSettings.Settings.IgnoreScaling)
+                e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
+
             // Fill the appropriate back brush.
             e.Graphics.FillRectangle(
                 this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
                 new RectangleF(0, 0, GlobalSettings.CurrentDefinition.Width * scaleX, GlobalSettings.CurrentDefinition.Height * scaleY));
 
             // ScaleTransform after the back-brushes so they aren't scaled twice.
-            e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
+            if (!GlobalSettings.Settings.IgnoreScaling)
+                e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
 
             // Render all keys.
             KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
