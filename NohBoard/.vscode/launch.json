@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/NohBoard/bin/Debug/netcoreapp3.1/NohBoard.dll",
+            "program": "${workspaceFolder}/NohBoard/bin/Debug/netcoreapp3.1/win-x64/NohBoard.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/NohBoard/bin/Debug/netcoreapp3.1/",
+            "cwd": "${workspaceFolder}/NohBoard/bin/Debug/netcoreapp3.1/win-x64/",
             "console": "internalConsole",
             "stopAtEntry": false
         },
