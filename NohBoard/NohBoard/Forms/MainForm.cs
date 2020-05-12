@@ -214,6 +214,10 @@ namespace ThoNohT.NohBoard.Forms
             }
             this.backBrushes.Clear();
 
+            var formGraphics = this.CreateGraphics();
+            var scaleX = formGraphics.DpiX / 96;
+            var scaleY = formGraphics.DpiY / 96;
+
             // Fill the back-brushes.
             foreach (var shift in new[] { false, true })
             {
@@ -222,9 +226,10 @@ namespace ThoNohT.NohBoard.Forms
                 foreach (var caps in new[] { false, true })
                 {
                     var bmp = new Bitmap(
-                        GlobalSettings.CurrentDefinition.Width,
-                        GlobalSettings.CurrentDefinition.Height);
+                        (int)(GlobalSettings.CurrentDefinition.Width * scaleX),
+                        (int)(GlobalSettings.CurrentDefinition.Height * scaleY));
                     var g = Graphics.FromImage(bmp);
+                    g.ScaleTransform(scaleX, scaleY);
 
                     // Render the background image if set.
                     var cs = GlobalSettings.CurrentStyle;
@@ -591,7 +596,8 @@ namespace ThoNohT.NohBoard.Forms
             e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
 
             var formGraphics = this.CreateGraphics();
-            e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
+            var scaleX = formGraphics.DpiX / 96;
+            var scaleY = formGraphics.DpiY / 96;
 
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
@@ -599,7 +605,10 @@ namespace ThoNohT.NohBoard.Forms
             // Fill the appropriate back brush.
             e.Graphics.FillRectangle(
                 this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
-                new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
+                new RectangleF(0, 0, GlobalSettings.CurrentDefinition.Width * scaleX, GlobalSettings.CurrentDefinition.Height * scaleY));
+
+            // ScaleTransform after the back-brushes so they aren't scaled twice.
+            e.Graphics.ScaleTransform(formGraphics.DpiX / 96, formGraphics.DpiY / 96);
 
             // Render all keys.
             KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
