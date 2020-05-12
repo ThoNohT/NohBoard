@@ -67,7 +67,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var subStyle = pressed ? style?.Pressed ?? defaultStyle.Pressed : style?.Loose ?? defaultStyle.Loose;
 
             var text = pressed ? scrollCount.ToString() : this.Text;
-            var txtSize = g.MeasureString(text, subStyle.Font);
+            var txtSize = g.MeasureString(text, subStyle.Font.DpiCompensate(g));
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
@@ -78,7 +78,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             // Draw the text
             g.SetClip(this.GetBoundingBox());
-            g.DrawString(text, subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.DrawString(text, subStyle.Font.DpiCompensate(g), new SolidBrush(subStyle.Text), (Point)txtPoint);
             g.ResetClip();
 
             // Draw the outline.
@@ -120,13 +120,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var subStyle = style?.Loose ?? defaultStyle.Loose;
 
             var text = this.Text;
-            var txtSize = g.MeasureString(text, subStyle.Font);
+            var txtSize = g.MeasureString(text, subStyle.Font.DpiCompensate(g));
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
 
             g.SetClip(this.GetBoundingBox());
-            g.DrawString(text, subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.DrawString(text, subStyle.Font.DpiCompensate(g), new SolidBrush(subStyle.Text), (Point)txtPoint);
             g.ResetClip();
         }
 

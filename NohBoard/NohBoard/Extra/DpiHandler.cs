@@ -82,5 +82,29 @@ namespace ThoNohT.NohBoard.Extra
         {
             return (int)(width * (graphics.DpiX / defaultDpi));
         }
+
+        /// <summary>
+        /// Compensates a width for the DPI settings in the specified graphics instance.
+        /// </summary>
+        /// <param name="size">The width to compensate.</param>
+        /// <param name="graphics">The instance of graphics to get the scale from.</param>
+        /// <returns>The compensated width.</returns>
+        public static float DpiCompensateWidth(this float width, Graphics graphics)
+        {
+            return width  / (graphics.DpiX / defaultDpi);
+        }
+
+        /// <summary>
+        /// Compensates a font for the DPI settings in the specified graphics instance.
+        /// </summary>
+        /// <param name="point">The font to compensate.</param>
+        /// <param name="graphics">The instance of graphics to get the scale from.</param>
+        /// <returns>The compensate font.</returns>
+        public static SerializableFont DpiCompensate(this SerializableFont font, Graphics graphics)
+        {
+            var clone = font.Clone();
+            clone.Size = clone.Size.DpiCompensateWidth(graphics);
+            return clone;
+        }
     }
 }

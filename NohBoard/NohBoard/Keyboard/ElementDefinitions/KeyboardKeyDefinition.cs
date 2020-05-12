@@ -90,7 +90,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
             var subStyle = pressed ? style?.Pressed ?? defaultStyle.Pressed: style?.Loose ?? defaultStyle.Loose;
 
-            var txtSize = g.MeasureString(this.GetText(shift, capsLock), subStyle.Font);
+            var txtSize = g.MeasureString(this.GetText(shift, capsLock), subStyle.Font.DpiCompensate(g));
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
@@ -101,7 +101,7 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             // Draw the text
             g.SetClip(this.GetBoundingBox());
-            g.DrawString(this.GetText(shift, capsLock), subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.DrawString(this.GetText(shift, capsLock), subStyle.Font.DpiCompensate(g), new SolidBrush(subStyle.Text), (Point)txtPoint);
             g.ResetClip();
 
             // Draw the outline.
@@ -165,14 +165,14 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
             var subStyle = style?.Loose ?? defaultStyle.Loose;
 
-            var txtSize = g.MeasureString(this.GetText(false, false), subStyle.Font);
+            var txtSize = g.MeasureString(this.GetText(false, false), subStyle.Font.DpiCompensate(g));
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
 
             // Draw the text
             g.SetClip(this.GetBoundingBox());
-            g.DrawString(this.GetText(false, false), subStyle.Font, new SolidBrush(subStyle.Text), (Point)txtPoint);
+            g.DrawString(this.GetText(false, false), subStyle.Font.DpiCompensate(g), new SolidBrush(subStyle.Text), (Point)txtPoint);
             g.ResetClip();
 
         }
