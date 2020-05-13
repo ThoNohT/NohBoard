@@ -296,7 +296,7 @@ namespace ThoNohT.NohBoard.Forms
             if (string.IsNullOrWhiteSpace(linkText)) return;
             if (!Uri.IsWellFormedUriString(linkText, UriKind.Absolute)) return;
 
-            Process.Start(linkText);
+            Process.Start(new ProcessStartInfo { FileName = linkText, UseShellExecute = true });
         }
 
         #region Helpers
@@ -384,7 +384,8 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void btnRestart_Click(object sender, EventArgs e)
         {
-            Application.Restart();
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+            Application.Exit();
         }
     }
 }
