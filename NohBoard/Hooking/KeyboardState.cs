@@ -17,8 +17,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Hooking
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using static Interop.Defines;
     using static Interop.FunctionImports;
 
@@ -49,6 +51,11 @@ namespace ThoNohT.NohBoard.Hooking
                 if (CheckStateKey(key.Key)) AddPressedElement(key.Value, 0);
             }
         }
+
+        /// <summary>
+        /// An event that is invoked when a key is pressed. Contains the key code and the time at which it was pressed.
+        /// </summary>
+        public static event Action<int, long> KeyPressed;
 
         /// <summary>
         /// Returns a value indicating whether any shift key is currently down.
@@ -125,6 +132,10 @@ namespace ThoNohT.NohBoard.Hooking
                 EnsureStopwatchRunning();
 
                 var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                // Invoke the key pressed event asynchronously, since we don't want any slow subscribers to delay
+                // updating the state.
+                Task.Run(() => KeyPressed?.Invoke(keyCode, time));
 
                 TryToggleStateKey(keyCode, hold);
 

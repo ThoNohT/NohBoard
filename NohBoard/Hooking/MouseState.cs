@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Hooking
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Threading.Tasks;
     using Interop;
     using static Interop.Defines;
     using static Interop.FunctionImports;
@@ -89,6 +90,16 @@ namespace ThoNohT.NohBoard.Hooking
         private static Stopwatch scrollStopwatch;
 
         #endregion State
+
+        #region Events
+
+        /// <summary>
+        /// An event that is invoked when a mouse key is pressed. Contains the key code and the time at which it was
+        /// pressed.
+        /// </summary>
+        public static event Action<MouseKeyCode, long> KeyPressed;
+
+        #endregion Events
 
         #region Properties
 
@@ -233,6 +244,10 @@ namespace ThoNohT.NohBoard.Hooking
                 EnsureStopwatchRunning();
 
                 var time = keyHoldStopwatch.ElapsedMilliseconds;
+
+                // Invoke the key pressed event asynchronously, since we don't want any slow subscribers to delay
+                // updating the state.
+                Task.Run(() => KeyPressed?.Invoke(keyCode, time));
 
                 if (pressedKeys.TryGetValue(keyCode, out var pressed))
                 {
