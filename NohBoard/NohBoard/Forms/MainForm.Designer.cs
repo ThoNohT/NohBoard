@@ -50,6 +50,7 @@ namespace ThoNohT.NohBoard.Forms
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPreventMinimize = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuKeyboards = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuToggleEditMode = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +99,7 @@ namespace ThoNohT.NohBoard.Forms
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuSettings,
+            this.mnuPreventMinimize,
             this.mnuKeyboards,
             this.MainMenuSep2,
             this.mnuToggleEditMode,
@@ -129,6 +131,13 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSettings.Size = new System.Drawing.Size(202, 22);
             this.mnuSettings.Text = "&Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
+            //
+            // mnuPreventMinimize
+            //
+            this.mnuPreventMinimize.Name = "mnuPreventMinimize";
+            this.mnuPreventMinimize.Size = new System.Drawing.Size(202, 22);
+            this.mnuPreventMinimize.Text = "&Prevent NohBoard minimizes";
+            this.mnuPreventMinimize.Click += new System.EventHandler(this.mnuPreventMinimize_Click);
             // 
             // mnuKeyboards
             // 
@@ -422,6 +431,7 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ContextMenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuKeyboards;
         private System.Windows.Forms.ToolStripMenuItem mnuSettings;
+        private System.Windows.Forms.ToolStripMenuItem mnuPreventMinimize;
         private System.Windows.Forms.ToolStripSeparator MainMenuSep1;
         private System.Windows.Forms.ToolStripMenuItem mnuToggleEditMode;
         private System.Windows.Forms.ToolStripMenuItem mnuSaveStyle;
