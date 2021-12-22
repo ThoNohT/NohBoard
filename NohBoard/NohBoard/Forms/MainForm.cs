@@ -584,6 +584,26 @@ namespace ThoNohT.NohBoard.Forms
         #region Rendering
 
         /// <summary>
+        /// Whether the main form can be minimized or not. A minimized form will not call OnPaint upon Refresh.
+        /// This makes sure that OnPaint is always called by Refresh.
+        /// </summary>
+        private bool PreventMinimize;
+
+        private void mnuPreventMinimize_Click(object sender, EventArgs e)
+        {
+            this.PreventMinimize = !this.PreventMinimize;
+            if (this.PreventMinimize)
+            {
+                this.MinimizeBox = false;
+                this.mnuPreventMinimize.Checked = true;
+            }
+            else
+            {
+                this.MinimizeBox = true;
+                this.mnuPreventMinimize.Checked = false;
+            }
+        }
+        /// <summary>
         /// Paints the keyboard on the screen.
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
@@ -685,10 +705,13 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         /// <summary>
-        /// Forces an update if any of the key or mouse states have changed.
+        /// Forces an update if any of the key or mouse states have changed, and makes sure that the form is not
+        /// minimized if PreventMinimize is on.
         /// </summary>
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            if (this.WindowState == FormWindowState.Minimized && this.PreventMinimize)
+                this.WindowState = FormWindowState.Normal;
             if (KeyboardState.Updated || MouseState.Updated)
                 this.Refresh();
         }
