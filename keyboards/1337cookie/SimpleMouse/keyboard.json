@@ -1,0 +1,166 @@
+{
+  "Elements": [
+    {
+      "__type": "MouseKey",
+      "Id": 10,
+      "Boundaries": [
+        {
+          "X": 0,
+          "Y": 0
+        },
+        {
+          "X": 128,
+          "Y": 0
+        },
+        {
+          "X": 128,
+          "Y": 256
+        },
+        {
+          "X": 0,
+          "Y": 256
+        }
+      ],
+      "KeyCodes": [
+        0
+      ],
+      "Text": "",
+      "TextPosition": {
+        "X": 60,
+        "Y": 422
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 12,
+      "Boundaries": [
+        {
+          "X": 96,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 84
+        },
+        {
+          "X": 96,
+          "Y": 84
+        }
+      ],
+      "KeyCodes": [
+        1
+      ],
+      "Text": "",
+      "TextPosition": {
+        "X": 145,
+        "Y": 311
+      }
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 11,
+      "Boundaries": [
+        {
+          "X": 128,
+          "Y": 0
+        },
+        {
+          "X": 256,
+          "Y": 0
+        },
+        {
+          "X": 256,
+          "Y": 256
+        },
+        {
+          "X": 128,
+          "Y": 256
+        }
+      ],
+      "KeyCodes": [
+        1
+      ],
+      "Text": "",
+      "TextPosition": {
+        "X": 171,
+        "Y": 405
+      }
+    },
+    {
+      "__type": "MouseScroll",
+      "Id": 13,
+      "Boundaries": [
+        {
+          "X": 96,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 84
+        },
+        {
+          "X": 96,
+          "Y": 84
+        }
+      ],
+      "KeyCodes": [
+        0
+      ],
+      "Text": "",
+      "TextPosition": {
+        "X": 603,
+        "Y": 378
+      }
+    },
+    {
+      "__type": "MouseKey",
+      "Id": 14,
+      "Boundaries": [
+        {
+          "X": 96,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 20
+        },
+        {
+          "X": 160,
+          "Y": 84
+        },
+        {
+          "X": 96,
+          "Y": 84
+        }
+      ],
+      "KeyCodes": [
+        2
+      ],
+      "Text": "",
+      "TextPosition": {
+        "X": 848,
+        "Y": 667
+      }
+    },
+    {
+      "__type": "MouseSpeedIndicator",
+      "Id": 15,
+      "Location": {
+        "X": 128,
+        "Y": 176
+      },
+      "Radius": 48
+    }
+  ],
+  "Height": 256,
+  "Version": 2,
+  "Width": 256
+}
