@@ -15,6 +15,7 @@ An initial version was made in C++, this originated from the desire to make some
 - Marius "Buttercak3" Becker - Various bugfixes
 - Ivan "YaLTeR" Molodetskikh - Added the scroll counter *(NohBoard classic)*
 - Michal Mitter - Added button outline *(NohBoard classic)*
+- 3Douglas "3D" Pihl - Added New Layout *(G3502 + EldenRing)*
 
 **Keyboard layouts**
 - BaronBargy
@@ -39,6 +40,7 @@ An initial version was made in C++, this originated from the desire to make some
 - flyingmongoose
 - JapanYoshi
 - dchitra
+- Logitech_Hero_3502
 
 If you want to contribute, either with code, with keyboard definitions or keyboard styles, feel free to fork this repository and provide your changes via a pull request, or other means of submitting your changes back to me.
 
