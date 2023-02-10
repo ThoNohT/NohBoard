@@ -10,7 +10,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
          Logitech Hero (G3502) 3D Mouse Map
-          by: 3Douglas "3D" Pihl (feb 2023)
+               by: 3Douglas "3D" Pihl
 ========================================================
 
 
@@ -201,40 +201,3 @@ To Activate G9 in this setup:
  
  
 =============================================================================================================================================================================================
-
-
-Note from mapper:::
-
-          "Thank you for obtaining and using this Logitech Hero G3502 3D Mouse Map. I hope this help up your showing of button clicks for your game play and more." --3Douglas Pihl
-
-
-
-To Contact me or if you are wanting a custom Key Mapping please contact me via one of these methods:
-
-Twitter: @Z0M8I3D
-Twitch: @Z0M8I3D
-Odysee/Lbry: @3D:4 & @DeoblouCorp:e
-(Twitter is best location, contact publicly so I know to check DMs)
-
-Current Rates for known mapping setups:
-
-   Basic Mapping (no images, keyboard + mouse): 25$/BTC
-   Alt Basic Mapping (imaged key presses): 50$/BTC
-   Advanced Mapping (imaged, pressed & un-pressed): 80$/BTC
-   Alt Advanced Mapping (maps to background image or displays images instead of key presses): 135$/BTC
-
-**If you have the images fully ready (cut, edited, resized) you can use this discount menu (these are cost reductions for actions):
-
- 5$ off - Background Image (alt advanced mapping only)
- 10$ off - the key images or display images
- 15$ off - have all images fully ready (alt advanced mapping only)
- 20$ off* - Physical object sponsorship (3-6 shipments of object(s) no more then 30 days apart) (a video and or live stream will come from the sponsorship) 
-                               *20$ off for buisnesses only*
-                              -------------------------------
-***Fiat Not Accepted
-
-******Bitcoin (BTC) & Litecoin (LTC) Accepted
-
-
-
-                         --Feb 2023--
