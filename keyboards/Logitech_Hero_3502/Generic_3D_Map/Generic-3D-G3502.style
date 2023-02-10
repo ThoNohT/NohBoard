@@ -2177,6 +2177,122 @@
           }
         }
       }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson2.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
     }
   ]
 }
