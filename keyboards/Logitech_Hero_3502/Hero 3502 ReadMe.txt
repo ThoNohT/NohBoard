@@ -30,10 +30,13 @@ Notes to consider:
   - Adding buttons to watch for works by all the listed buttons have to be pressed for the activation of that button. So, if you have 2 button keycodes for a single visual button, both of those listed keycodes will have to pressed (together) to activate the visiual click change
 
 
-  - The Left/Right Clicks cannot be triggered in combination with another button
+  - The Left/Right Clicks cannot be triggered in combination with another button that doesn't get confused as other buttons (like scroll up/down)
+   
+   
+  - Left Click is keycode 1, Right Click is keycode 2, Scroll up is keycode 1, Scroll down is keycode 2, M3 (Mouse Wheel Click In) is keycode 3 
 
 
-  - The triggers (Wheel Lock & Thumb-Trigger) cannot be set for trigger by NohBoard but can be for the light up for clicking so some multi-pressed button actions can be relayed through the triggers & lights
+  - The triggers (Wheel Lock & Thumb-Trigger) cannot be set for trigger by NohBoard (These buttons may not have a keycode or traditional keycode) but can be for the light up for clicking so some multi-pressed button actions can be relayed through the triggers & lights
 
 
   - You can adjust what activates and what buttons are used (alternative avaiable in "OG Buttons" folder)
@@ -173,6 +176,13 @@ G4 (non-G button) - Backward (move character)
 
 G4 (G button) - Right Click
 
+L1 (or R1) + Push Right - Strong Attack
+
+R1 + Push Left - Use Skill
+
+************** There is no bound turn left and right for left/right doge/roll **************
+
+
 Lights are set to multi functions::
 
 1 Light on: 
@@ -183,7 +193,7 @@ Lights are set to multi functions::
 2 Lights on:
              a) G + L1 + pushleft - Double Hand Weapon action
              b) G + L1 + G7 - D-Pad Quick Call (right)
-             c) G + R1 + pushright - ???
+             c) G + R1 + pushright - Power Attack
 
 3 Lights on:
              a) G + R1 + M3 - Switch sorcery + R button
