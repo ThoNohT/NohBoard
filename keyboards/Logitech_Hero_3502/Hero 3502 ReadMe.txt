@@ -8,9 +8,7 @@
 +         HH   HH  EEEEEE  RR    RR   0000             +
 +                                                      +
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
          Logitech Hero (G3502) 3D Mouse Map
-               by: 3Douglas "3D" Pihl
 ========================================================
 
 
@@ -76,138 +74,40 @@ Note: This is a simple 3D model button catcher for the Hero (G3502) mouse for st
  
 =============================================================================================================================================================================================
 
-                  :::::::Key Bindings:::::::
+                  :::::::Mapping:::::::
 --------------------------------------------------------------
- Button (extra info) - unclick file name - keyboard/mouse key
+ Button (extra info) - unclick file name
 --------------------------------------------------------------
 
-Left Click (non-G button) - l1.png - Left Click
+Left Click - l1.png 
 
-Right Click (non-G button) - r1.png - Right Click
+Right Click - r1.png 
 
-Left Click (G button) - l1.png - e
+Scroll Button - m3.png 
 
-Right Click (G button) - r1.png - r
+Scroll Up - scrollup.png 
 
-Scroll Button (non-G button) - m3.png - e
+Scroll Down - scrolldown.png 
 
-Scroll Button (G button) - m3.png - Arrow Down
+Push Left - pushleft.png
 
-Scroll Up - scrollup.png - Scroll Wheel Up
+Push Rigth pushright.png 
 
-Scroll Down - scrolldown.png - Scroll Wheel Down
+ScrollWheel Lock - wheellock.png 
 
-Push Left (scrollwheel, non-G button) - pushleft.png - Shift
+G9 - g9.png 
 
-Push Left (scrollwheel, G button) - pushleft.png - Arrow Up
+G8 - g8.png 
 
-Push Right (scrollwheel, non-G button) - pushright.png - q
+G7 - g7.png 
 
-Push Rigth (scrollwheel, G button) - pushright.png - ESC
+G5 - g5.png 
 
-ScrollWheel Lock - wheellock.png - (light only, command unused)
+G4 - g4.png 
 
-G9 (non-G button) - g9.png - Arrow Left (multi {G + L1 + G7})
-
-G9 (G button) - N/A - [Swtich Profiles: in Mouse Program]
-
-G8 (non-G button) - g8.png - Space Bar
-
-G8 (G button) - g8.png - Arrow Left
-
-G7 (non-G button) - g7.png - f
-
-G7 (G button) - g7.png - Arrow Right
-
-G5 (non-G button) - g5.png - w
-
-G5 (G button) - g5.png - g
-
-G4 (non-G button) - g4.png - s
-
-G4 (G button) - g4.png - Left Click
+G4 - g4.png 
 
 Lights are to show multi-button functions [scroll down for more info on light use]
- 
- 
- 
- 
-=============================================================================================================================================================================================
-
-                  :::::::Action Bindings:::::::
-                  For Elden Ring soloPAW Players
---------------------------------------------------------------
-Button (extra info) - Action (extra info) - Menu Action
---------------------------------------------------------------
-
-Left Click (non-G button) - Left Hand
-
-Right Click (non-G button) - Right Hand
-
-Left Click (G button) - Action Button (E) - Accept Action/OKAY
-
-Right Click (G button) - Use Item (belt window)
-
-Scroll Button (non-G button) - Action Button (E) - Accept Action/OKAY
-
-Scroll Button (G button) - Switch Item - Down Button
-
-Push Left (scrollwheel, non-G button) - Camera Reset & Lock On - Up Button
-
-Push Left (scrollwheel, G button) - Switch Sorcery - Back/Exit
-
-Push Right (scrollwheel, non-G button) - Shift Button
-
-Push Rigth (scrollwheel, G button) - Menu
-
-G8 (non-G button) - Doge/Roll
-
-G8 (G button) - Switch Left Hand - Left Arrow
-
-G7 (non-G button) - Jump
-
-G7 (G button) - Switch Right Hand - Right Arrow
-
-G5 (non-G button) - Forward (move character) - Help
-
-G5 (G button) - Map (g)
-
-G4 (non-G button) - Backward (move character)
-
-G4 (G button) - Right Click
-
-L1 (or R1) + Push Right - Strong Attack
-
-R1 + Push Left - Use Skill
-
-************** There is no bound turn left and right for left/right doge/roll **************
-
-
-Lights are set to multi functions::
-
-1 Light on: 
-             a) G + L1 + G8 - D-Pad Quick Call (left)
-             b) G + L1 + pushright - D-Pad Quick Call (up)
-             c) G + G5 + G8 - Forward + Doge
-
-2 Lights on:
-             a) G + L1 + pushleft - Double Hand Weapon action
-             b) G + L1 + G7 - D-Pad Quick Call (right)
-             c) G + R1 + pushright - Power Attack
-
-3 Lights on:
-             a) G + R1 + M3 - Switch sorcery + R button
-             b) G + M3 (mouse wheel click in) - Switch Item (belt)
-
-G icon on:
-             a) G4 - Backward (move character)
-             b) PrintScreen (some devices only)
-             c) F6 (was with FN but should just be F6)
-
---------------------------------------------------------------
-
-To Activate G9 in this setup:
-   G + L1 + G7 - D-Pad Quick Call (right)
  
  
 =============================================================================================================================================================================================
