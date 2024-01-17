@@ -1,0 +1,640 @@
+{
+  "BackgroundColor": {
+    "Blue": 100,
+    "Green": 0,
+    "Red": 0
+  },
+  "BackgroundImageFileName": null,
+  "DefaultKeyStyle": {
+    "Loose": {
+      "Background": {
+        "Blue": 100,
+        "Green": 0,
+        "Red": 0
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "04b",
+        "Size": 11.25,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 56,
+        "Green": 199,
+        "Red": 70
+      },
+      "OutlineWidth": 2,
+      "ShowOutline": true,
+      "Text": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      }
+    },
+    "Pressed": {
+      "Background": {
+        "Blue": 100,
+        "Green": 0,
+        "Red": 0
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "04b",
+        "Size": 12,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      },
+      "OutlineWidth": 5,
+      "ShowOutline": true,
+      "Text": {
+        "Blue": 10,
+        "Green": 175,
+        "Red": 43
+      }
+    }
+  },
+  "DefaultMouseSpeedIndicatorStyle": {
+    "InnerColor": {
+      "Blue": 100,
+      "Green": 100,
+      "Red": 100
+    },
+    "OuterColor": {
+      "Blue": 255,
+      "Green": 255,
+      "Red": 255
+    },
+    "OutlineWidth": 1
+  },
+  "ElementStyles": [
+    {
+      "Key": 20,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 1,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 19,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 24,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 11,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 17,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 1,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 5,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": null,
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 12,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": null,
+        "Pressed": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 12,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 5,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 10,
+            "Green": 175,
+            "Red": 43
+          }
+        }
+      }
+    },
+    {
+      "Key": 8,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 7,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 15,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 2,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          },
+          "BackgroundImageFileName": "",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "04b",
+            "Size": 11.25,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 56,
+            "Green": 199,
+            "Red": 70
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 100,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": null
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "__type": "MouseSpeedIndicatorStyle",
+        "InnerColor": {
+          "Blue": 0,
+          "Green": 221,
+          "Red": 0
+        },
+        "OuterColor": {
+          "Blue": 211,
+          "Green": 211,
+          "Red": 211
+        },
+        "OutlineWidth": 2
+      }
+    }
+  ]
+}

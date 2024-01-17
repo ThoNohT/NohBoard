@@ -1,0 +1,2298 @@
+{
+  "BackgroundColor": {
+    "Blue": 255,
+    "Green": 0,
+    "Red": 255
+  },
+  "BackgroundImageFileName": "3502base.png",
+  "DefaultKeyStyle": {
+    "Loose": {
+      "Background": {
+        "Blue": 255,
+        "Green": 0,
+        "Red": 255
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 10,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 255,
+        "Green": 255,
+        "Red": 255
+      },
+      "OutlineWidth": 2,
+      "ShowOutline": true,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      }
+    },
+    "Pressed": {
+      "Background": {
+        "Blue": 255,
+        "Green": 0,
+        "Red": 255
+      },
+      "BackgroundImageFileName": "",
+      "Font": {
+        "DownloadUrl": null,
+        "FontFamily": "Courier New",
+        "Size": 10,
+        "Style": 0
+      },
+      "Outline": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      },
+      "OutlineWidth": 4,
+      "ShowOutline": true,
+      "Text": {
+        "Blue": 0,
+        "Green": 0,
+        "Red": 0
+      }
+    }
+  },
+  "DefaultMouseSpeedIndicatorStyle": {
+    "InnerColor": {
+      "Blue": 100,
+      "Green": 100,
+      "Red": 100
+    },
+    "OuterColor": {
+      "Blue": 255,
+      "Green": 255,
+      "Red": 255
+    },
+    "OutlineWidth": 1
+  },
+  "ElementStyles": [
+    {
+      "Key": 14,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g4.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G4clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 16,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g5.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G5clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 9,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g5.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G5clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 11,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g4.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G4clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 8,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g8.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G8clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 24,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g8.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G8clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "l1.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "L1clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 15,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g7.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G7clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 17,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g7.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G7clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 10,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "l1.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "L1clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 12,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushright.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushrightclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 28,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m3.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "M3clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 22,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushleft.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushleftclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 18,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "m3.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "M3clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 19,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "scrollup.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "scrollupclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 26,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "r1.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "R1clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          }
+        }
+      }
+    },
+    {
+      "Key": 20,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "scrolldown.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "scrolldownclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 253,
+            "Green": 253,
+            "Red": 253
+          }
+        }
+      }
+    },
+    {
+      "Key": 13,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "r1.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "R1clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 7,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "g9.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G9clicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 4,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "wheellock.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "wheellockclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 6,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 5,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 3,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson3b.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 2,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 0,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson3.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 29,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson2.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 30,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushleft.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushleftclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 31,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 32,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 33,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 34,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushright.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "pushrightclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson3b.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 36,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 37,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "gicon.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "Giconclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 38,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "gicon.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "Giconclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "__type": "MouseSpeedIndicatorStyle",
+        "InnerColor": {
+          "Blue": 11,
+          "Green": 189,
+          "Red": 37
+        },
+        "OuterColor": {
+          "Blue": 255,
+          "Green": 255,
+          "Red": 255
+        },
+        "OutlineWidth": 0
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "trigger.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "triggerclicked.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson2.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "__type": "KeyStyle",
+        "Loose": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightsoffc.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 255,
+            "Green": 255,
+            "Red": 255
+          },
+          "OutlineWidth": 2,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        },
+        "Pressed": {
+          "Background": {
+            "Blue": 255,
+            "Green": 0,
+            "Red": 255
+          },
+          "BackgroundImageFileName": "G502lightson.png",
+          "Font": {
+            "DownloadUrl": null,
+            "FontFamily": "Courier New",
+            "Size": 10,
+            "Style": 0
+          },
+          "Outline": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          },
+          "OutlineWidth": 4,
+          "ShowOutline": false,
+          "Text": {
+            "Blue": 0,
+            "Green": 0,
+            "Red": 0
+          }
+        }
+      }
+    }
+  ]
+}
