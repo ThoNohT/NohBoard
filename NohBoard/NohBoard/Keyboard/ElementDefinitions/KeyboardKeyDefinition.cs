@@ -47,43 +47,53 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         [DataMember]
         public bool ChangeOnCaps { get; private set; }
 
-        #endregion Properties
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardKeyDefinition" /> class.
-        /// </summary>
-        /// <param name="id">The identifier of the key.</param>
-        /// <param name="boundaries">The boundaries.</param>
-        /// <param name="keyCodes">The keycodes.</param>
-        /// <param name="normalText">The normal text.</param>
-        /// <param name="shiftText">The shift text.</param>
-        /// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
-        /// <param name="textPosition">The new text position.
-        /// If not provided, the new position will be recalculated from the bounding box of the key.</param>
-        /// <param name="manipulation">The current manipulation.</param>
-        public KeyboardKeyDefinition(
-            int id,
-            List<TPoint> boundaries,
-            List<int> keyCodes,
-            string normalText,
-            string shiftText,
-            bool changeOnCaps,
-            TPoint textPosition = null,
-            ElementManipulation manipulation = null) : base(id, boundaries, keyCodes, normalText, textPosition, manipulation)
-        {
-            this.ShiftText = shiftText;
-            this.ChangeOnCaps = changeOnCaps;
-        }
+	/// <summary>
+	/// Indicates if all keys codes must be pressed (false) to be pressed or if any (true) can be pressed
+	/// </summary>
+	[DataMember]
+	public bool KeyCodesOrMode { get; private set; }
 
 
-        /// <summary>
-        /// Renders the key in the specified surface.
-        /// </summary>
-        /// <param name="g">The GDI+ surface to render on.</param>
-        /// <param name="pressed">A value indicating whether to render the key in its pressed state or not.</param>
-        /// <param name="shift">A value indicating whether shift is pressed during the render.</param>
-        /// <param name="capsLock">A value indicating whether caps lock is pressed during the render.</param>
-        public void Render(Graphics g, bool pressed, bool shift, bool capsLock)
+	#endregion Properties
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="KeyboardKeyDefinition" /> class.
+	/// </summary>
+	/// <param name="id">The identifier of the key.</param>
+	/// <param name="boundaries">The boundaries.</param>
+	/// <param name="keyCodes">The keycodes.</param>
+	/// <param name="normalText">The normal text.</param>
+	/// <param name="shiftText">The shift text.</param>
+	/// <param name="changeOnCaps">Whether to change to shift text on caps lock.</param>
+	/// <param name="textPosition">The new text position.
+	/// If not provided, the new position will be recalculated from the bounding box of the key.</param>
+	/// <param name="manipulation">The current manipulation.</param>
+        /// <param name="keyCodesOrMode">The key definition should allow any key code to trigger it</param>
+	public KeyboardKeyDefinition(
+		int id,
+		List<TPoint> boundaries,
+		List<int> keyCodes,
+		string normalText,
+		string shiftText,
+		bool changeOnCaps,
+		TPoint textPosition = null,
+		ElementManipulation manipulation = null,
+		bool keyCodesOrMode = true) : base(id, boundaries, keyCodes, normalText, textPosition, manipulation)
+	{
+		this.ShiftText = shiftText;
+		this.ChangeOnCaps = changeOnCaps;
+		this.KeyCodesOrMode = keyCodesOrMode;
+	}
+
+
+	/// <summary>
+	/// Renders the key in the specified surface.
+	/// </summary>
+	/// <param name="g">The GDI+ surface to render on.</param>
+	/// <param name="pressed">A value indicating whether to render the key in its pressed state or not.</param>
+	/// <param name="shift">A value indicating whether shift is pressed during the render.</param>
+	/// <param name="capsLock">A value indicating whether caps lock is pressed during the render.</param>
+	public void Render(Graphics g, bool pressed, bool shift, bool capsLock)
         {
             var style = GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(this.Id)
                             ?? GlobalSettings.CurrentStyle.DefaultKeyStyle;
@@ -320,43 +330,45 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             throw new Exception("Cannot modify  the mouse properties of a keyboard key.");
         }
 
-        /// <summary>
-        /// Returns a new version of this element definition with the specified properties changed.
-        /// </summary>
-        /// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
-        /// <param name="keyCodes">The new key codes, or <c>null</c> if not changed.</param>
-        /// <param name="text">The new text, or <c>null</c> if not changed.</param>
-        /// <param name="shiftText">The new shift text, or <c>null</c> if not changed.</param>
-        /// <param name="changeOnCaps">The new change on caps, or <c>null</c> if not changed.</param>
-        /// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
-        /// <returns>The new element definition.</returns>
-        public KeyboardKeyDefinition Modify(
-            List<TPoint> boundaries = null, List<int> keyCodes = null, string text = null, string shiftText = null,
-            bool? changeOnCaps = null, TPoint textPosition = null)
-        {
-            return new KeyboardKeyDefinition(
-                this.Id,
-                boundaries ?? this.Boundaries.Select(x => x.Clone()).ToList(),
-                keyCodes ?? this.KeyCodes.ToList(),
-                text ?? this.Text,
-                shiftText ?? this.ShiftText,
-                changeOnCaps ?? this.ChangeOnCaps,
-                textPosition ?? this.TextPosition,
-                this.CurrentManipulation);
-        }
+		/// <summary>
+		/// Returns a new version of this element definition with the specified properties changed.
+		/// </summary>
+		/// <param name="boundaries">The new boundaries, or <c>null</c> if not changed.</param>
+		/// <param name="keyCodes">The new key codes, or <c>null</c> if not changed.</param>
+		/// <param name="text">The new text, or <c>null</c> if not changed.</param>
+		/// <param name="shiftText">The new shift text, or <c>null</c> if not changed.</param>
+		/// <param name="changeOnCaps">The new change on caps, or <c>null</c> if not changed.</param>
+		/// <param name="textPosition">The new text position, or <c>null</c> if not changed.</param>
+		/// <param name="keyCodesOrMode">The key definition should allow any key code to trigger it</param>
+		/// <returns>The new element definition.</returns>
+		public KeyboardKeyDefinition Modify(
+			List<TPoint> boundaries = null, List<int> keyCodes = null, string text = null, string shiftText = null,
+			bool? changeOnCaps = null, TPoint textPosition = null, bool? keyCodeOrMode = null)
+		{
+			return new KeyboardKeyDefinition(
+				this.Id,
+				boundaries ?? this.Boundaries.Select(x => x.Clone()).ToList(),
+				keyCodes ?? this.KeyCodes.ToList(),
+				text ?? this.Text,
+				shiftText ?? this.ShiftText,
+				changeOnCaps ?? this.ChangeOnCaps,
+				textPosition ?? this.TextPosition,
+				this.CurrentManipulation,
+				keyCodeOrMode ?? this.KeyCodesOrMode);
+		}
 
-        #endregion Transformations
+		#endregion Transformations
 
-        #region Private methods
+		#region Private methods
 
-        /// <summary>
-        /// Determines whether to use the shift text or the regular text for this key depening on the shift, caps lock
-        /// state and the key's properties. Returns the text that should be displayed for this state.
-        /// </summary>
-        /// <param name="shift">Whether shift is pressed.</param>
-        /// <param name="capsLock">Whether caps lock is active.</param>
-        /// <returns>The text to display for this key.</returns>
-        private string GetText(bool shift, bool capsLock)
+		/// <summary>
+		/// Determines whether to use the shift text or the regular text for this key depening on the shift, caps lock
+		/// state and the key's properties. Returns the text that should be displayed for this state.
+		/// </summary>
+		/// <param name="shift">Whether shift is pressed.</param>
+		/// <param name="capsLock">Whether caps lock is active.</param>
+		/// <returns>The text to display for this key.</returns>
+		private string GetText(bool shift, bool capsLock)
         {
             if (GlobalSettings.Settings.Capitalization != CapitalizationMethod.FollowKeys)
             {
