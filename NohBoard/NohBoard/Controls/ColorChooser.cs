@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -20,35 +20,27 @@ namespace ThoNohT.NohBoard.Controls
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ThoNohT.NohBoard.Extra;
+    using ThoNohT.NohBoard.Forms;
+    using ThoNohT.NohBoard.Hooking.Interop;
 
-    /// <summary>
-    /// A color chooser.
-    /// </summary>
     public partial class ColorChooser : UserControl
     {
         #region Events
 
-        /// <summary>
-        /// The event that is invoked when the color has been changed. Only invoked when the color is changed through
-        /// the user interface, not when it is changed programmatically.
-        /// </summary>
         public event Action<ColorChooser, Color> ColorChanged;
 
         #endregion Events
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ColorChooser" /> class.
-        /// </summary>
         public ColorChooser()
         {
             this.Color = Color.Black;
             this.InitializeComponent();
-            this.DisplayLabel.Text = "Pick a color.";
+            this.DisplayLabel.Text = PropertyDialogsLocalization.StylePickColorFallback;
 
-            this.DisplayLabel.Left = this.Height + 2;
-            this.DisplayLabel.Width = this.Width - this.Height - 2;
+            this.LayoutColorLabel();
 
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
@@ -57,23 +49,14 @@ namespace ThoNohT.NohBoard.Controls
 
         #region Properties
 
-        /// <summary>
-        /// The selected color.
-        /// </summary>
         public Color Color { get; set; }
 
-        /// <summary>
-        /// The text to display.
-        /// </summary>
         public string LabelText
         {
             get { return this.DisplayLabel.Text; }
             set { this.DisplayLabel.Text = value; }
         }
 
-        /// <summary>
-        /// An enumeration listing the possible shapes for the preview.
-        /// </summary>
         public enum Shape
         {
             Square,
@@ -81,22 +64,14 @@ namespace ThoNohT.NohBoard.Controls
             Circle
         }
 
-        /// <summary>
-        /// The shape of the color preview area.
-        /// </summary>
         public Shape PreviewShape { get; set; } = Shape.Square;
 
         #endregion Properties
 
         #region Methods
 
-        /// <summary>
-        /// Draws the preview area when painting the control.
-        /// </summary>
-        /// <param name="e">The event arguments.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Draw the square at the start.
             switch (this.PreviewShape)
             {
                 case Shape.Square:
@@ -110,9 +85,6 @@ namespace ThoNohT.NohBoard.Controls
             base.OnPaint(e);
         }
 
-        /// <summary>
-        /// Handles a double-click, shows a color chooser to set the new color.
-        /// </summary>
         private void ColorChooser_DoubleClick(object sender, System.EventArgs e)
         {
             var picker = new ColorDialog
@@ -120,7 +92,7 @@ namespace ThoNohT.NohBoard.Controls
                 Color = this.Color, FullOpen = true
             };
 
-            if (picker.ShowDialog(this) == DialogResult.OK)
+            if (AppModalUi.ShowCommonDialog(picker, this.FindForm()) == DialogResult.OK)
                 this.Color = picker.Color;
 
             this.Refresh();
@@ -128,13 +100,26 @@ namespace ThoNohT.NohBoard.Controls
             this.ColorChanged?.Invoke(this, picker.Color);
         }
 
-        /// <summary>
-        /// Handles the layouting of the control. The preview area is fit in the left part of the control.
-        /// </summary>
         private void DisplayLabel_Layout(object sender, LayoutEventArgs e)
         {
-            this.DisplayLabel.Left = this.Height + 2;
-            this.DisplayLabel.Width = this.Width - this.Height - 2;
+            this.LayoutColorLabel();
+        }
+
+        private void LayoutColorLabel()
+        {
+            var previewSize = this.Height;
+            this.DisplayLabel.SetBounds(
+                previewSize + 2,
+                0,
+                Math.Max(0, this.Width - previewSize - 2),
+                previewSize,
+                BoundsSpecified.All);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            this.LayoutColorLabel();
         }
 
         #endregion Methods

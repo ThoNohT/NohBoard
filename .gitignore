@@ -1,3 +1,11 @@
+dist/
+_build_test/
+
+# Root-level personal / local notes (e.g. Exe.txt); does not apply to *.txt in subfolders
+/*.txt
+# Root-level zip archives (e.g. packaging drops); subfolders unchanged
+/*.zip
+
 # ---> C Sharp
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/

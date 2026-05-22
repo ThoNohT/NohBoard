@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard
 {
+    using System;
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
@@ -63,9 +64,15 @@ namespace ThoNohT.NohBoard
         public static Graphics G => Graphics.FromHwndInternal(new Form().Handle);
 
         /// <summary>
-        /// The filename of the settings file.
+        /// The filename of the settings file (stored next to the executable).
         /// </summary>
         public static string SettingsFilename => "NohBoard.json";
+
+        /// <summary>
+        /// Full path to the settings JSON file beside the executable (stable; does not depend on current directory).
+        /// </summary>
+        public static string SettingsFilePath =>
+            Path.Combine(string.IsNullOrEmpty(ExePath) ? AppDomain.CurrentDomain.BaseDirectory : ExePath, SettingsFilename);
 
         /// <summary>
         /// Returns the path this executable is running in.

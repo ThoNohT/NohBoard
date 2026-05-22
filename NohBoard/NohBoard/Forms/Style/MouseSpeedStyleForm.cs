@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -20,53 +20,30 @@ namespace ThoNohT.NohBoard.Forms.Style
     using System;
     using System.Windows.Forms;
     using Keyboard.Styles;
+    using ThoNohT.NohBoard.Extra;
 
-    /// <summary>
-    /// The form used to define the style of a mouse speed indicator.
-    /// </summary>
     public partial class MouseSpeedStyleForm : Form
     {
         #region Fields
 
-        /// <summary>
-        /// A backup style to return to if the user presses cancel.
-        /// </summary>
         private readonly MouseSpeedIndicatorStyle initialStyle;
 
-        /// <summary>
-        /// The default style to revert to if the override checkbox is unchecked.
-        /// </summary>
         private readonly MouseSpeedIndicatorStyle defaultStyle;
 
-        /// <summary>
-        /// The currently loaded style.
-        /// </summary>
         private MouseSpeedIndicatorStyle currentStyle;
 
         #endregion Fields
 
         #region Events
 
-        /// <summary>
-        /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
-        /// the user interface, not when it is changed programmatically.
-        /// </summary>
         public new event Action<MouseSpeedIndicatorStyle> StyleChanged;
 
-        /// <summary>
-        /// The event that is invoked when the style is saved.
-        /// </summary>
         public event Action StyleSaved;
 
         #endregion Events
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseSpeedStyleForm" /> class.
-        /// </summary>
-        /// <param name="initialStyle">The initial style.</param>
-        /// <param name="defaultStyle">The default style to revert to when the override checkbox is unchecked.</param>
         public MouseSpeedStyleForm(MouseSpeedIndicatorStyle initialStyle, MouseSpeedIndicatorStyle defaultStyle)
         {
             this.defaultStyle = defaultStyle ?? throw new ArgumentNullException(nameof(defaultStyle));
@@ -80,51 +57,44 @@ namespace ThoNohT.NohBoard.Forms.Style
 
         #region Methods
 
-        /// <summary>
-        /// Loads the form, setting the controls to the initial style.
-        /// </summary>
         private void MouseSpeedStyleForm_Load(object sender, EventArgs e)
         {
-            // Mouse speed indicator
+            this.ApplyLocalizedUiTexts();
+
             this.defaultMouseSpeed.IndicatorStyle = this.currentStyle ?? this.defaultStyle;
             this.chkOverwrite.Checked = this.currentStyle != null;
             this.defaultMouseSpeed.Enabled = this.chkOverwrite.Checked;
 
-            // Only add the event handler after the initial style has been set.
             this.defaultMouseSpeed.IndicatorStyleChanged += this.defaultMouseSpeed_IndicatorStyleChanged;
         }
 
-        /// <summary>
-        /// Accepts the current style.
-        /// </summary>
+        private void ApplyLocalizedUiTexts()
+        {
+            this.Text = PropertyDialogsLocalization.StyleMouseSpeedIndicatorStyleTitle;
+            this.AcceptButton2.Text = PropertyDialogsLocalization.Accept;
+            this.CancelButton2.Text = PropertyDialogsLocalization.Cancel;
+            this.defaultMouseSpeed.Title = PropertyDialogsLocalization.StyleMouseSpeedShort;
+            this.chkOverwrite.Text = PropertyDialogsLocalization.StyleOverwriteDefaultStyle;
+        }
+
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
             this.StyleSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 
-        /// <summary>
-        /// Cancels the current style, reverting to the initial style.
-        /// </summary>
         private void CancelButton2_Click(object sender, EventArgs e)
         {
             this.StyleChanged?.Invoke(this.initialStyle);
             this.DialogResult = DialogResult.Cancel;
         }
 
-        /// <summary>
-        /// Handles change of the style, sets the new style and invokes the changed event.
-        /// </summary>
-        /// <param name="style">The new style.</param>
         private void defaultMouseSpeed_IndicatorStyleChanged(MouseSpeedIndicatorStyle style)
         {
             this.currentStyle = style;
             this.StyleChanged?.Invoke(style);
         }
 
-        /// <summary>
-        /// Toggles the overwriting of the default style.
-        /// </summary>
         private void chkOverwrite_CheckedChanged(object sender, EventArgs e)
         {
             this.defaultMouseSpeed.Enabled = this.chkOverwrite.Checked;

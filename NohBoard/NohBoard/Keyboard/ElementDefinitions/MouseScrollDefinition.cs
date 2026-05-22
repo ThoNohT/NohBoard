@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -64,7 +64,9 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var style = GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(this.Id)
                             ?? GlobalSettings.CurrentStyle.DefaultKeyStyle;
             var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
-            var subStyle = pressed ? style?.Pressed ?? defaultStyle.Pressed : style?.Loose ?? defaultStyle.Loose;
+            var subStyle = pressed ? style?.Pressed ?? defaultStyle?.Pressed : style?.Loose ?? defaultStyle?.Loose;
+            if (subStyle == null)
+                return;
 
             var text = pressed ? scrollCount.ToString() : this.Text;
             var txtSize = g.MeasureString(text, subStyle.Font);
@@ -83,7 +85,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             // Draw the outline.
             if (subStyle.ShowOutline)
-                g.DrawPolygon(new Pen(subStyle.Outline, 1), this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            {
+                using var outlinePen = OverlayTransparency.CreateOutlinePen(
+                    subStyle.Outline,
+                    1,
+                    GlobalSettings.Settings?.OverlayTransparencyPercent ?? 0);
+                g.DrawPolygon(outlinePen, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            }
         }
 
         #region Transformations

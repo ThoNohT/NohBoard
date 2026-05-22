@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2017 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms.Properties
 {
+    using System.Drawing;
+
     partial class KeyboardKeyPropertiesForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (this.components != null))
@@ -39,336 +34,270 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.btnBoundaryDown = new System.Windows.Forms.Button();
-            this.btnBoundaryUp = new System.Windows.Forms.Button();
-            this.btnRemoveBoundary = new System.Windows.Forms.Button();
-            this.btnAddBoundary = new System.Windows.Forms.Button();
-            this.CancelButton2 = new System.Windows.Forms.Button();
-            this.AcceptButton2 = new System.Windows.Forms.Button();
-            this.lblBoundaries = new System.Windows.Forms.Label();
-            this.lstBoundaries = new System.Windows.Forms.ListBox();
-            this.lblText = new System.Windows.Forms.Label();
-            this.txtText = new System.Windows.Forms.TextBox();
-            this.lblTextPosition = new System.Windows.Forms.Label();
-            this.lblShiftText = new System.Windows.Forms.Label();
-            this.txtShiftText = new System.Windows.Forms.TextBox();
-            this.lstKeyCodes = new System.Windows.Forms.ListBox();
-            this.btnRemoveKeyCode = new System.Windows.Forms.Button();
-            this.btnAddKeyCode = new System.Windows.Forms.Button();
-            this.udKeyCode = new System.Windows.Forms.NumericUpDown();
-            this.lblKeyCodes = new System.Windows.Forms.Label();
-            this.chkChangeOnCaps = new System.Windows.Forms.CheckBox();
-            this.btnUpdateBoundary = new System.Windows.Forms.Button();
-            this.btnCenterText = new System.Windows.Forms.Button();
-            this.btnRectangle = new System.Windows.Forms.Button();
-            this.btnDetectKeyCode = new System.Windows.Forms.Button();
-            this.txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
-            this.txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // btnBoundaryDown
-            // 
-            this.btnBoundaryDown.Location = new System.Drawing.Point(4, 232);
-            this.btnBoundaryDown.Name = "btnBoundaryDown";
-            this.btnBoundaryDown.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryDown.TabIndex = 10;
-            this.btnBoundaryDown.Text = "Down";
-            this.btnBoundaryDown.UseVisualStyleBackColor = true;
-            this.btnBoundaryDown.Click += new System.EventHandler(this.btnBoundaryDown_Click);
-            // 
-            // btnBoundaryUp
-            // 
-            this.btnBoundaryUp.Location = new System.Drawing.Point(4, 203);
-            this.btnBoundaryUp.Name = "btnBoundaryUp";
-            this.btnBoundaryUp.Size = new System.Drawing.Size(75, 23);
-            this.btnBoundaryUp.TabIndex = 9;
-            this.btnBoundaryUp.Text = "Up";
-            this.btnBoundaryUp.UseVisualStyleBackColor = true;
-            this.btnBoundaryUp.Click += new System.EventHandler(this.btnBoundaryUp_Click);
-            // 
-            // btnRemoveBoundary
-            // 
-            this.btnRemoveBoundary.Location = new System.Drawing.Point(4, 174);
-            this.btnRemoveBoundary.Name = "btnRemoveBoundary";
-            this.btnRemoveBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveBoundary.TabIndex = 8;
-            this.btnRemoveBoundary.Text = "Remove";
-            this.btnRemoveBoundary.UseVisualStyleBackColor = true;
-            this.btnRemoveBoundary.Click += new System.EventHandler(this.btnRemoveBoundary_Click);
-            // 
-            // btnAddBoundary
-            // 
-            this.btnAddBoundary.Location = new System.Drawing.Point(4, 116);
-            this.btnAddBoundary.Name = "btnAddBoundary";
-            this.btnAddBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnAddBoundary.TabIndex = 6;
-            this.btnAddBoundary.Text = "Add";
-            this.btnAddBoundary.UseVisualStyleBackColor = true;
-            this.btnAddBoundary.Click += new System.EventHandler(this.btnAddBoundary_Click);
-            // 
-            // CancelButton2
-            // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(328, 261);
-            this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 18;
-            this.CancelButton2.Text = "Cancel";
-            this.CancelButton2.UseVisualStyleBackColor = true;
-            this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
-            // 
-            // AcceptButton2
-            // 
-            this.AcceptButton2.Location = new System.Drawing.Point(405, 261);
-            this.AcceptButton2.Name = "AcceptButton2";
-            this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 19;
-            this.AcceptButton2.Text = "Accept";
-            this.AcceptButton2.UseVisualStyleBackColor = true;
-            this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
-            // 
-            // lblBoundaries
-            // 
-            this.lblBoundaries.AutoSize = true;
-            this.lblBoundaries.Location = new System.Drawing.Point(8, 93);
-            this.lblBoundaries.Name = "lblBoundaries";
-            this.lblBoundaries.Size = new System.Drawing.Size(63, 13);
-            this.lblBoundaries.TabIndex = 36;
-            this.lblBoundaries.Text = "Boundaries:";
-            // 
-            // lstBoundaries
-            // 
-            this.lstBoundaries.FormattingEnabled = true;
-            this.lstBoundaries.Location = new System.Drawing.Point(85, 116);
-            this.lstBoundaries.Name = "lstBoundaries";
-            this.lstBoundaries.Size = new System.Drawing.Size(156, 160);
-            this.lstBoundaries.TabIndex = 12;
-            // 
-            // lblText
-            // 
-            this.lblText.AutoSize = true;
-            this.lblText.Location = new System.Drawing.Point(8, 14);
-            this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(31, 13);
-            this.lblText.TabIndex = 34;
-            this.lblText.Text = "Text:";
-            // 
-            // txtText
-            // 
-            this.txtText.Location = new System.Drawing.Point(85, 11);
-            this.txtText.Name = "txtText";
-            this.txtText.Size = new System.Drawing.Size(156, 20);
-            this.txtText.TabIndex = 0;
-            // 
-            // lblTextPosition
-            // 
-            this.lblTextPosition.AutoSize = true;
-            this.lblTextPosition.Location = new System.Drawing.Point(8, 67);
-            this.lblTextPosition.Name = "lblTextPosition";
-            this.lblTextPosition.Size = new System.Drawing.Size(71, 13);
-            this.lblTextPosition.TabIndex = 31;
-            this.lblTextPosition.Text = "Text Position:";
-            // 
-            // lblShiftText
-            // 
-            this.lblShiftText.AutoSize = true;
-            this.lblShiftText.Location = new System.Drawing.Point(8, 40);
-            this.lblShiftText.Name = "lblShiftText";
-            this.lblShiftText.Size = new System.Drawing.Size(55, 13);
-            this.lblShiftText.TabIndex = 45;
-            this.lblShiftText.Text = "Shift Text:";
-            // 
-            // txtShiftText
-            // 
-            this.txtShiftText.Location = new System.Drawing.Point(85, 37);
-            this.txtShiftText.Name = "txtShiftText";
-            this.txtShiftText.Size = new System.Drawing.Size(156, 20);
-            this.txtShiftText.TabIndex = 2;
-            // 
-            // lstKeyCodes
-            // 
-            this.lstKeyCodes.FormattingEnabled = true;
-            this.lstKeyCodes.Location = new System.Drawing.Point(328, 64);
-            this.lstKeyCodes.Name = "lstKeyCodes";
-            this.lstKeyCodes.Size = new System.Drawing.Size(151, 186);
-            this.lstKeyCodes.TabIndex = 17;
-            // 
-            // btnRemoveKeyCode
-            // 
-            this.btnRemoveKeyCode.Location = new System.Drawing.Point(247, 93);
-            this.btnRemoveKeyCode.Name = "btnRemoveKeyCode";
-            this.btnRemoveKeyCode.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveKeyCode.TabIndex = 15;
-            this.btnRemoveKeyCode.Text = "Remove";
-            this.btnRemoveKeyCode.UseVisualStyleBackColor = true;
-            this.btnRemoveKeyCode.Click += new System.EventHandler(this.btnRemoveKeyCode_Click);
-            // 
-            // btnAddKeyCode
-            // 
-            this.btnAddKeyCode.Location = new System.Drawing.Point(247, 64);
-            this.btnAddKeyCode.Name = "btnAddKeyCode";
-            this.btnAddKeyCode.Size = new System.Drawing.Size(75, 23);
-            this.btnAddKeyCode.TabIndex = 14;
-            this.btnAddKeyCode.Text = "Add";
-            this.btnAddKeyCode.UseVisualStyleBackColor = true;
-            this.btnAddKeyCode.Click += new System.EventHandler(this.btnAddKeyCode_Click);
-            // 
-            // udKeyCode
-            // 
-            this.udKeyCode.Location = new System.Drawing.Point(329, 38);
-            this.udKeyCode.Maximum = new decimal(new int[] {
-            1028,
-            0,
-            0,
-            0});
-            this.udKeyCode.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udKeyCode.Name = "udKeyCode";
-            this.udKeyCode.Size = new System.Drawing.Size(151, 20);
-            this.udKeyCode.TabIndex = 13;
-            this.udKeyCode.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lblKeyCodes
-            // 
-            this.lblKeyCodes.AutoSize = true;
-            this.lblKeyCodes.Location = new System.Drawing.Point(247, 40);
-            this.lblKeyCodes.Name = "lblKeyCodes";
-            this.lblKeyCodes.Size = new System.Drawing.Size(60, 13);
-            this.lblKeyCodes.TabIndex = 51;
-            this.lblKeyCodes.Text = "Key codes:";
-            // 
-            // chkChangeOnCaps
-            // 
-            this.chkChangeOnCaps.AutoSize = true;
-            this.chkChangeOnCaps.Location = new System.Drawing.Point(250, 9);
-            this.chkChangeOnCaps.Name = "chkChangeOnCaps";
-            this.chkChangeOnCaps.Size = new System.Drawing.Size(216, 17);
-            this.chkChangeOnCaps.TabIndex = 1;
-            this.chkChangeOnCaps.Text = "Change capitalization on Caps Lock key";
-            this.chkChangeOnCaps.UseVisualStyleBackColor = true;
-            // 
-            // btnUpdateBoundary
-            // 
-            this.btnUpdateBoundary.Location = new System.Drawing.Point(4, 145);
-            this.btnUpdateBoundary.Name = "btnUpdateBoundary";
-            this.btnUpdateBoundary.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateBoundary.TabIndex = 7;
-            this.btnUpdateBoundary.Text = "Update";
-            this.btnUpdateBoundary.UseVisualStyleBackColor = true;
-            this.btnUpdateBoundary.Click += new System.EventHandler(this.btnUpdateBoundary_Click);
-            // 
-            // btnCenterText
-            // 
-            this.btnCenterText.Location = new System.Drawing.Point(168, 62);
-            this.btnCenterText.Name = "btnCenterText";
-            this.btnCenterText.Size = new System.Drawing.Size(73, 23);
-            this.btnCenterText.TabIndex = 4;
-            this.btnCenterText.Text = "Center";
-            this.btnCenterText.UseVisualStyleBackColor = true;
-            this.btnCenterText.Click += new System.EventHandler(this.btnCenterText_Click);
-            // 
-            // btnRectangle
-            // 
-            this.btnRectangle.Location = new System.Drawing.Point(4, 261);
-            this.btnRectangle.Name = "btnRectangle";
-            this.btnRectangle.Size = new System.Drawing.Size(75, 23);
-            this.btnRectangle.TabIndex = 11;
-            this.btnRectangle.Text = "Rectangle";
-            this.btnRectangle.UseVisualStyleBackColor = true;
-            this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
-            // 
-            // btnDetectKeyCode
-            // 
-            this.btnDetectKeyCode.Location = new System.Drawing.Point(247, 122);
-            this.btnDetectKeyCode.Name = "btnDetectKeyCode";
-            this.btnDetectKeyCode.Size = new System.Drawing.Size(75, 23);
-            this.btnDetectKeyCode.TabIndex = 16;
-            this.btnDetectKeyCode.Text = "Detect";
-            this.btnDetectKeyCode.UseVisualStyleBackColor = true;
-            this.btnDetectKeyCode.Click += new System.EventHandler(this.btnDetectKeyCode_Click);
-            // 
-            // txtBoundaries
-            // 
-            this.txtBoundaries.Location = new System.Drawing.Point(85, 90);
-            this.txtBoundaries.MaxVal = 2147483647;
-            this.txtBoundaries.Name = "txtBoundaries";
-            this.txtBoundaries.Separator = ';';
-            this.txtBoundaries.Size = new System.Drawing.Size(156, 20);
-            this.txtBoundaries.SpacesAroundSeparator = true;
-            this.txtBoundaries.TabIndex = 5;
-            this.txtBoundaries.Text = "0 ; 0";
-            this.txtBoundaries.X = 0;
-            this.txtBoundaries.Y = 0;
-            // 
-            // txtTextPosition
-            // 
-            this.txtTextPosition.Location = new System.Drawing.Point(85, 64);
-            this.txtTextPosition.MaxVal = 2147483647;
-            this.txtTextPosition.Name = "txtTextPosition";
-            this.txtTextPosition.Separator = ';';
-            this.txtTextPosition.Size = new System.Drawing.Size(156, 20);
-            this.txtTextPosition.SpacesAroundSeparator = true;
-            this.txtTextPosition.TabIndex = 3;
-            this.txtTextPosition.Text = "0 ; 0";
-            this.txtTextPosition.X = 0;
-            this.txtTextPosition.Y = 0;
-            // 
-            // KeyboardKeyPropertiesForm
-            // 
-            this.AcceptButton = this.AcceptButton2;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(492, 293);
-            this.Controls.Add(this.btnUpdateBoundary);
-            this.Controls.Add(this.btnCenterText);
-            this.Controls.Add(this.btnRectangle);
-            this.Controls.Add(this.btnDetectKeyCode);
-            this.Controls.Add(this.chkChangeOnCaps);
-            this.Controls.Add(this.lblKeyCodes);
-            this.Controls.Add(this.udKeyCode);
-            this.Controls.Add(this.btnRemoveKeyCode);
-            this.Controls.Add(this.btnAddKeyCode);
-            this.Controls.Add(this.lstKeyCodes);
-            this.Controls.Add(this.lblShiftText);
-            this.Controls.Add(this.txtShiftText);
-            this.Controls.Add(this.btnBoundaryDown);
-            this.Controls.Add(this.btnBoundaryUp);
-            this.Controls.Add(this.btnRemoveBoundary);
-            this.Controls.Add(this.btnAddBoundary);
-            this.Controls.Add(this.txtBoundaries);
-            this.Controls.Add(this.CancelButton2);
-            this.Controls.Add(this.AcceptButton2);
-            this.Controls.Add(this.lblBoundaries);
-            this.Controls.Add(this.lstBoundaries);
-            this.Controls.Add(this.lblText);
-            this.Controls.Add(this.txtText);
-            this.Controls.Add(this.txtTextPosition);
-            this.Controls.Add(this.lblTextPosition);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "KeyboardKeyPropertiesForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Keyboard Key Properties";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyboardKeyPropertiesForm_FormClosing);
-            this.Load += new System.EventHandler(this.KeyboardKeyPropertiesForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.udKeyCode)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            btnBoundaryDown = new System.Windows.Forms.Button();
+            btnBoundaryUp = new System.Windows.Forms.Button();
+            btnRemoveBoundary = new System.Windows.Forms.Button();
+            btnAddBoundary = new System.Windows.Forms.Button();
+            CancelButton2 = new System.Windows.Forms.Button();
+            AcceptButton2 = new System.Windows.Forms.Button();
+            lblBoundaries = new System.Windows.Forms.Label();
+            lstBoundaries = new System.Windows.Forms.ListBox();
+            lblText = new System.Windows.Forms.Label();
+            txtText = new System.Windows.Forms.TextBox();
+            lblTextPosition = new System.Windows.Forms.Label();
+            lblShiftText = new System.Windows.Forms.Label();
+            txtShiftText = new System.Windows.Forms.TextBox();
+            lstKeyCodes = new System.Windows.Forms.ListBox();
+            btnRemoveKeyCode = new System.Windows.Forms.Button();
+            btnAddKeyCode = new System.Windows.Forms.Button();
+            udKeyCode = new System.Windows.Forms.NumericUpDown();
+            lblKeyCodes = new System.Windows.Forms.Label();
+            chkChangeOnCaps = new System.Windows.Forms.CheckBox();
+            btnUpdateBoundary = new System.Windows.Forms.Button();
+            btnCenterText = new System.Windows.Forms.Button();
+            btnRectangle = new System.Windows.Forms.Button();
+            btnDetectKeyCode = new System.Windows.Forms.Button();
+            txtBoundaries = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            txtTextPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            ((System.ComponentModel.ISupportInitialize)udKeyCode).BeginInit();
+            SuspendLayout();
+            btnBoundaryDown.Location = new Point(10, 270);
+            btnBoundaryDown.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnBoundaryDown.Name = "btnBoundaryDown";
+            btnBoundaryDown.Size = new Size(80, 23);
+            btnBoundaryDown.TabIndex = 10;
+            btnBoundaryDown.Text = "Down";
+            btnBoundaryDown.UseVisualStyleBackColor = true;
+            btnBoundaryDown.Click += btnBoundaryDown_Click;
+            btnBoundaryUp.Location = new Point(10, 245);
+            btnBoundaryUp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnBoundaryUp.Name = "btnBoundaryUp";
+            btnBoundaryUp.Size = new Size(80, 23);
+            btnBoundaryUp.TabIndex = 9;
+            btnBoundaryUp.Text = "Up";
+            btnBoundaryUp.UseVisualStyleBackColor = true;
+            btnBoundaryUp.Click += btnBoundaryUp_Click;
+            btnRemoveBoundary.Location = new Point(10, 195);
+            btnRemoveBoundary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnRemoveBoundary.Name = "btnRemoveBoundary";
+            btnRemoveBoundary.Size = new Size(80, 23);
+            btnRemoveBoundary.TabIndex = 8;
+            btnRemoveBoundary.Text = "Remove";
+            btnRemoveBoundary.UseVisualStyleBackColor = true;
+            btnRemoveBoundary.Click += btnRemoveBoundary_Click;
+            btnAddBoundary.Location = new Point(10, 130);
+            btnAddBoundary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnAddBoundary.Name = "btnAddBoundary";
+            btnAddBoundary.Size = new Size(80, 23);
+            btnAddBoundary.TabIndex = 6;
+            btnAddBoundary.Text = "Add";
+            btnAddBoundary.UseVisualStyleBackColor = true;
+            btnAddBoundary.Click += btnAddBoundary_Click;
+            CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelButton2.Location = new Point(390, 305);
+            CancelButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CancelButton2.Name = "CancelButton2";
+            CancelButton2.Size = new Size(80, 23);
+            CancelButton2.TabIndex = 18;
+            CancelButton2.Text = "Cancel";
+            CancelButton2.UseVisualStyleBackColor = true;
+            CancelButton2.Click += CancelButton2_Click;
+            AcceptButton2.Location = new Point(475, 305);
+            AcceptButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AcceptButton2.Name = "AcceptButton2";
+            AcceptButton2.Size = new Size(80, 23);
+            AcceptButton2.TabIndex = 19;
+            AcceptButton2.Text = "Accept";
+            AcceptButton2.UseVisualStyleBackColor = true;
+            AcceptButton2.Click += AcceptButton2_Click;
+            lblBoundaries.Location = new Point(10, 100);
+            lblBoundaries.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblBoundaries.Name = "lblBoundaries";
+            lblBoundaries.Size = new Size(80, 23);
+            lblBoundaries.TabIndex = 36;
+            lblBoundaries.Text = "Boundaries:";
+            lblBoundaries.TextAlign = ContentAlignment.MiddleLeft;
+            lstBoundaries.FormattingEnabled = true;
+            lstBoundaries.IntegralHeight = false;
+            lstBoundaries.ItemHeight = 15;
+            lstBoundaries.Location = new Point(95, 130);
+            lstBoundaries.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstBoundaries.Name = "lstBoundaries";
+            lstBoundaries.Size = new Size(180, 200);
+            lstBoundaries.TabIndex = 12;
+            lblText.Location = new Point(10, 10);
+            lblText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblText.Name = "lblText";
+            lblText.Size = new Size(80, 23);
+            lblText.TabIndex = 34;
+            lblText.Text = "Text:";
+            lblText.TextAlign = ContentAlignment.MiddleLeft;
+            txtText.Location = new Point(95, 10);
+            txtText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtText.Name = "txtText";
+            txtText.Size = new Size(180, 23);
+            txtText.TabIndex = 0;
+            lblTextPosition.Location = new Point(10, 70);
+            lblTextPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTextPosition.Name = "lblTextPosition";
+            lblTextPosition.Size = new Size(80, 23);
+            lblTextPosition.TabIndex = 31;
+            lblTextPosition.Text = "Text Position:";
+            lblTextPosition.TextAlign = ContentAlignment.MiddleLeft;
+            lblShiftText.Location = new Point(10, 40);
+            lblShiftText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblShiftText.Name = "lblShiftText";
+            lblShiftText.Size = new Size(80, 23);
+            lblShiftText.TabIndex = 45;
+            lblShiftText.Text = "Shift Text:";
+            lblShiftText.TextAlign = ContentAlignment.MiddleLeft;
+            txtShiftText.Location = new Point(95, 40);
+            txtShiftText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtShiftText.Name = "txtShiftText";
+            txtShiftText.Size = new Size(180, 23);
+            txtShiftText.TabIndex = 2;
+            lstKeyCodes.FormattingEnabled = true;
+            lstKeyCodes.IntegralHeight = false;
+            lstKeyCodes.ItemHeight = 15;
+            lstKeyCodes.Location = new Point(375, 70);
+            lstKeyCodes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstKeyCodes.Name = "lstKeyCodes";
+            lstKeyCodes.Size = new Size(180, 230);
+            lstKeyCodes.TabIndex = 17;
+            btnRemoveKeyCode.Location = new Point(286, 100);
+            btnRemoveKeyCode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnRemoveKeyCode.Name = "btnRemoveKeyCode";
+            btnRemoveKeyCode.Size = new Size(80, 23);
+            btnRemoveKeyCode.TabIndex = 15;
+            btnRemoveKeyCode.Text = "Remove";
+            btnRemoveKeyCode.UseVisualStyleBackColor = true;
+            btnRemoveKeyCode.Click += btnRemoveKeyCode_Click;
+            btnAddKeyCode.Location = new Point(286, 70);
+            btnAddKeyCode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnAddKeyCode.Name = "btnAddKeyCode";
+            btnAddKeyCode.Size = new Size(80, 23);
+            btnAddKeyCode.TabIndex = 14;
+            btnAddKeyCode.Text = "Add";
+            btnAddKeyCode.UseVisualStyleBackColor = true;
+            btnAddKeyCode.Click += btnAddKeyCode_Click;
+            udKeyCode.Location = new Point(375, 40);
+            udKeyCode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            udKeyCode.Maximum = new decimal(new int[] { 1028, 0, 0, 0 });
+            udKeyCode.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            udKeyCode.Name = "udKeyCode";
+            udKeyCode.Size = new Size(180, 23);
+            udKeyCode.TabIndex = 13;
+            udKeyCode.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            lblKeyCodes.Location = new Point(290, 40);
+            lblKeyCodes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblKeyCodes.Name = "lblKeyCodes";
+            lblKeyCodes.Size = new Size(80, 23);
+            lblKeyCodes.TabIndex = 51;
+            lblKeyCodes.Text = "Key codes:";
+            lblKeyCodes.TextAlign = ContentAlignment.MiddleLeft;
+            chkChangeOnCaps.Location = new Point(290, 10);
+            chkChangeOnCaps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            chkChangeOnCaps.Name = "chkChangeOnCaps";
+            chkChangeOnCaps.Size = new Size(265, 23);
+            chkChangeOnCaps.TabIndex = 1;
+            chkChangeOnCaps.Text = "Change capitalization on Caps Lock key";
+            chkChangeOnCaps.UseVisualStyleBackColor = true;
+            btnUpdateBoundary.Location = new Point(10, 170);
+            btnUpdateBoundary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnUpdateBoundary.Name = "btnUpdateBoundary";
+            btnUpdateBoundary.Size = new Size(80, 23);
+            btnUpdateBoundary.TabIndex = 7;
+            btnUpdateBoundary.Text = "Update";
+            btnUpdateBoundary.UseVisualStyleBackColor = true;
+            btnUpdateBoundary.Click += btnUpdateBoundary_Click;
+            btnCenterText.Location = new Point(195, 70);
+            btnCenterText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnCenterText.Name = "btnCenterText";
+            btnCenterText.Size = new Size(80, 23);
+            btnCenterText.TabIndex = 4;
+            btnCenterText.Text = "Center";
+            btnCenterText.UseVisualStyleBackColor = true;
+            btnCenterText.Click += btnCenterText_Click;
+            btnRectangle.Location = new Point(10, 305);
+            btnRectangle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnRectangle.Name = "btnRectangle";
+            btnRectangle.Size = new Size(80, 23);
+            btnRectangle.TabIndex = 11;
+            btnRectangle.Text = "Rectangle";
+            btnRectangle.UseVisualStyleBackColor = true;
+            btnRectangle.Click += btnRectangle_Click;
+            btnDetectKeyCode.Location = new Point(286, 130);
+            btnDetectKeyCode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnDetectKeyCode.Name = "btnDetectKeyCode";
+            btnDetectKeyCode.Size = new Size(80, 23);
+            btnDetectKeyCode.TabIndex = 16;
+            btnDetectKeyCode.Text = "Detect";
+            btnDetectKeyCode.UseVisualStyleBackColor = true;
+            btnDetectKeyCode.Click += btnDetectKeyCode_Click;
+            txtBoundaries.Location = new Point(95, 100);
+            txtBoundaries.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtBoundaries.MaxVal = int.MaxValue;
+            txtBoundaries.Name = "txtBoundaries";
+            txtBoundaries.Separator = ';';
+            txtBoundaries.Size = new Size(180, 23);
+            txtBoundaries.SpacesAroundSeparator = true;
+            txtBoundaries.TabIndex = 5;
+            txtBoundaries.Text = "0 ; 0";
+            txtBoundaries.X = 0;
+            txtBoundaries.Y = 0;
+            txtTextPosition.Location = new Point(95, 70);
+            txtTextPosition.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtTextPosition.MaxVal = int.MaxValue;
+            txtTextPosition.Name = "txtTextPosition";
+            txtTextPosition.Separator = ';';
+            txtTextPosition.Size = new Size(90, 23);
+            txtTextPosition.SpacesAroundSeparator = true;
+            txtTextPosition.TabIndex = 3;
+            txtTextPosition.Text = "0 ; 0";
+            txtTextPosition.X = 0;
+            txtTextPosition.Y = 0;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = CancelButton2;
+            ClientSize = new Size(564, 336);
+            Controls.Add(btnUpdateBoundary);
+            Controls.Add(btnCenterText);
+            Controls.Add(btnRectangle);
+            Controls.Add(btnDetectKeyCode);
+            Controls.Add(chkChangeOnCaps);
+            Controls.Add(lblKeyCodes);
+            Controls.Add(udKeyCode);
+            Controls.Add(btnRemoveKeyCode);
+            Controls.Add(btnAddKeyCode);
+            Controls.Add(lstKeyCodes);
+            Controls.Add(lblShiftText);
+            Controls.Add(txtShiftText);
+            Controls.Add(btnBoundaryDown);
+            Controls.Add(btnBoundaryUp);
+            Controls.Add(btnRemoveBoundary);
+            Controls.Add(btnAddBoundary);
+            Controls.Add(txtBoundaries);
+            Controls.Add(CancelButton2);
+            Controls.Add(AcceptButton2);
+            Controls.Add(lblBoundaries);
+            Controls.Add(lstBoundaries);
+            Controls.Add(lblText);
+            Controls.Add(txtText);
+            Controls.Add(txtTextPosition);
+            Controls.Add(lblTextPosition);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "KeyboardKeyPropertiesForm";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Keyboard Key Properties";
+            FormClosing += KeyboardKeyPropertiesForm_FormClosing;
+            Load += KeyboardKeyPropertiesForm_Load;
+            ((System.ComponentModel.ISupportInitialize)udKeyCode).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

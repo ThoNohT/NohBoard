@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,11 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// The background brushes used for the key's pressed and unpressed state.
         /// </summary>
         private Dictionary<bool, Brush> backgroundBrushes;
+
+        /// <summary>
+        /// Last overlay transparency used when caching background brushes.
+        /// </summary>
+        private int cachedOverlayTransparency = -1;
 
         #endregion Fields
 
@@ -393,17 +398,29 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
         /// <returns>A brush to use when rendering the background for the key.</returns>
         protected Brush GetBackgroundBrush(KeySubStyle subStyle, bool pressed)
         {
+            var transparency = GlobalSettings.Settings?.OverlayTransparencyPercent ?? 0;
+
             if (this.backgroundBrushes == null) this.backgroundBrushes = new Dictionary<bool, Brush>();
-            if (this.StyleVersion != GlobalSettings.StyleDependencyCounter)
+            if (this.StyleVersion != GlobalSettings.StyleDependencyCounter
+                || this.cachedOverlayTransparency != transparency)
             {
+                foreach (var b in this.backgroundBrushes.Values)
+                    b.Dispose();
+
                 this.backgroundBrushes.Clear();
                 this.StyleVersion = GlobalSettings.StyleDependencyCounter;
+                this.cachedOverlayTransparency = transparency;
             }
 
             if (this.backgroundBrushes.ContainsKey(pressed))
                 return this.backgroundBrushes[pressed];
 
-            var brush = subStyle.GetBackgroundBrush(this.GetBoundingBox());
+            if (subStyle == null || OverlayTransparency.HidesFrameAndFill(transparency))
+                return Brushes.Transparent;
+
+            var brush = OverlayTransparency.ApplyToBrush(
+                subStyle.GetBackgroundBrush(this.GetBoundingBox()),
+                transparency);
 
             this.backgroundBrushes.Add(pressed, brush);
             return brush;

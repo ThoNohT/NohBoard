@@ -1,4 +1,4 @@
-﻿namespace ThoNohT.NohBoard.Forms
+namespace ThoNohT.NohBoard.Forms
 {
     partial class ColorChooser
     {
@@ -36,11 +36,12 @@
             this.DisplayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.DisplayLabel.AutoSize = false;
             this.DisplayLabel.AutoEllipsis = true;
             this.DisplayLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.DisplayLabel.Location = new System.Drawing.Point(38, 0);
+            this.DisplayLabel.Location = new System.Drawing.Point(40, 0);
             this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(182, 26);
+            this.DisplayLabel.Size = new System.Drawing.Size(180, 23);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "Pick a color";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -54,7 +55,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.DisplayLabel);
             this.Name = "ColorChooser";
-            this.Size = new System.Drawing.Size(220, 26);
+            this.Size = new System.Drawing.Size(220, 23);
             this.DoubleClick += new System.EventHandler(this.ColorChooser_DoubleClick);
             this.ResumeLayout(false);
 

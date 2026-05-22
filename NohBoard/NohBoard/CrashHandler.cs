@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2018 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -22,21 +22,12 @@ namespace ThoNohT.NohBoard
     using System.Text;
     using System.Windows.Forms;
     using ThoNohT.NohBoard.Extra;
+    using ThoNohT.NohBoard.Forms;
 
-    /// <summary>
-    /// Helper class for handling crashes.
-    /// </summary>
     internal static class CrashHandler
     {
-        /// <summary>
-        /// Indicates whether a crash was handled, and shutting down should not be prevented.
-        /// </summary>
         public static bool Crashed = false;
 
-        /// <summary>
-        /// Protects an action, showing an error message if it has failed, and writes a log file.
-        /// </summary>
-        /// <param name="action">The action to protect.</param>
         public static void Protect(Action action)
         {
             try
@@ -49,25 +40,81 @@ namespace ThoNohT.NohBoard
             }
         }
 
-        /// <summary>
-        /// Handles an exception.
-        /// </summary>
         public static void HandleException(Exception ex)
         {
             var logFile = GetLogFile();
 
             File.WriteAllText(logFile.FullName, $"{ShowException(ex)}{CollectState()}");
 
-            MessageBox.Show($"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
-                $"A crash log was generated: {logFile.FullName}", "NohBoard has crashed");
             Crashed = true;
-            Application.Exit();
+
+            var message =
+                $"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
+                $"A crash log was generated: {logFile.FullName}";
+
+            ShowCrashDialog(message);
+
+            try
+            {
+                Application.Exit();
+            }
+            catch
+            {
+                Environment.Exit(1);
+            }
         }
 
-        /// <summary>
-        /// Collects the current state of the program.
-        /// </summary>
-        /// <returns>The state of the program.</returns>
+        private static void ShowCrashDialog(string message)
+        {
+            var main = AppModalUi.TryGetMainForm();
+
+            void show(IWin32Window owner)
+            {
+                MessageBox.Show(
+                    owner,
+                    message,
+                    "NohBoard has crashed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+            if (main == null || main.IsDisposed)
+            {
+                MessageBox.Show(message, "NohBoard has crashed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                if (main.IsHandleCreated)
+                {
+                    if (main.InvokeRequired)
+                    {
+                        main.Invoke(
+                            new Action(
+                                () =>
+                                {
+                                    main.PrepareForCrashDialog();
+                                    show(main);
+                                }));
+                    }
+                    else
+                    {
+                        main.PrepareForCrashDialog();
+                        show(main);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(message, "NohBoard has crashed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                MessageBox.Show(message, "NohBoard has crashed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private static string CollectState()
         {
             var sb = new StringBuilder();
@@ -93,9 +140,6 @@ namespace ThoNohT.NohBoard
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Returns a string describing the exception.
-        /// </summary>
         private static string ShowException(Exception ex, int depth = 0)
         {
             var sb = new StringBuilder();
@@ -115,25 +159,16 @@ namespace ThoNohT.NohBoard
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Adds a line to the provided string builder, after prepending it with a timestamp.
-        /// </summary>
         private static void AddLine(this StringBuilder sb, string line)
         {
             sb.AppendLine(DateTimeFormat(line));
         }
 
-        /// <summary>
-        /// Formats a string with date and time prepended.
-        /// </summary>
         private static string DateTimeFormat(string input)
         {
             return $"[{DateTime.Now:yyyy-MM-dd hh:mm:ss}] {input}";
         }
 
-        /// <summary>
-        /// Returns a unique filename to store the log in.
-        /// </summary>
         private static FileInfo GetLogFile()
         {
             var counter = 1;

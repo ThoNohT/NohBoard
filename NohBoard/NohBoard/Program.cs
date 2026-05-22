@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@ namespace ThoNohT.NohBoard
 {
     using System;
     using System.Windows.Forms;
+    using Extra;
     using Forms;
 
     static class Program
@@ -29,16 +30,38 @@ namespace ThoNohT.NohBoard
         [STAThread]
         static void Main()
         {
-            CrashHandler.Protect(() =>
-            {
-                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-                Application.ThreadException += (s, e) => CrashHandler.HandleException(e.Exception);
-                AppDomain.CurrentDomain.UnhandledException += (s, e) => CrashHandler.HandleException((Exception)e.ExceptionObject);
+            if (!SingleInstanceGuard.TryAcquireOrHandshake())
+                return;
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
-            });
+            try
+            {
+                CrashHandler.Protect(() =>
+                {
+                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                    Application.ThreadException += (s, e) => CrashHandler.HandleException(e.Exception);
+                    AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                        CrashHandler.HandleException((Exception)e.ExceptionObject);
+
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+
+                    MainForm mainForm = null;
+                    SingleInstanceGuard.StartPipeServer(() =>
+                    {
+                        if (mainForm != null && !mainForm.IsDisposed)
+                            mainForm.RequestQuitFromPeer();
+                        else
+                            Application.Exit();
+                    });
+
+                    mainForm = new MainForm();
+                    Application.Run(mainForm);
+                });
+            }
+            finally
+            {
+                SingleInstanceGuard.Release();
+            }
         }
     }
 }

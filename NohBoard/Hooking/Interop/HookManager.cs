@@ -183,7 +183,7 @@ namespace ThoNohT.NohBoard.Hooking.Interop
                     break;
             }
 
-            if (trapEnabled && TrapMouse)
+            if (modalUiNestCount == 0 && trapEnabled && TrapMouse)
                 return 1;
 
             return CallNextHookEx(mouseHookHandle, nCode, wParam, lParam);
@@ -252,7 +252,8 @@ namespace ThoNohT.NohBoard.Hooking.Interop
                     break;
             }
 
-            if (KeyboardInsert?.Invoke(code) ?? false || (trapEnabled && TrapKeyboard))
+            if (KeyboardInsert?.Invoke(code) ?? false
+                || (modalUiNestCount == 0 && trapEnabled && TrapKeyboard))
                 return 1;
 
             return CallNextHookEx(keyboardHookHandle, nCode, wParam, lParam);

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -15,51 +15,43 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 namespace ThoNohT.NohBoard.Controls
 {
     using System;
     using System.Windows.Forms;
     using Keyboard.Styles;
+    using ThoNohT.NohBoard.Extra;
 
-
-    /// <summary>
-    /// A panel containin all the controls for defining a <see cref="MouseSpeedIndicatorStyle"/>.
-    /// </summary>
     public partial class MouseSpeedStylePanel : UserControl
     {
-        /// <summary>
-        /// Indicates whether the style is currently being programmatically set, this should not raise events.
-        /// </summary>
         private bool setting;
 
         #region Events
 
-        /// <summary>
-        /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
-        /// the user interface, not when it is changed programmatically.
-        /// </summary>
         public event Action<MouseSpeedIndicatorStyle> IndicatorStyleChanged;
 
         #endregion Events
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseSpeedStylePanel" /> class.
-        /// </summary>
         public MouseSpeedStylePanel()
         {
             this.InitializeComponent();
+            this.ApplyLocalizedChrome();
         }
 
         #endregion Constructors
 
+        private void ApplyLocalizedChrome()
+        {
+            this.grpOutline.Text = PropertyDialogsLocalization.StyleMouseSpeedGeneralGroup;
+            this.lblOutlineWidth.Text = PropertyDialogsLocalization.StyleOutlineWidthLabel;
+            this.clrInner.LabelText = PropertyDialogsLocalization.StyleMouseSpeedColor1Low;
+            this.clrOuter.LabelText = PropertyDialogsLocalization.StyleMouseSpeedColor2High;
+        }
+
         #region Properties
 
-        /// <summary>
-        /// The currently defined indicator style.
-        /// </summary>
         public MouseSpeedIndicatorStyle IndicatorStyle
         {
             get
@@ -83,9 +75,6 @@ namespace ThoNohT.NohBoard.Controls
             }
         }
 
-        /// <summary>
-        /// The title of the mouse speed indicator panel.
-        /// </summary>
         public string Title
         {
             get { return this.lblTitle.Text; }
@@ -96,22 +85,21 @@ namespace ThoNohT.NohBoard.Controls
 
         #region Methods
 
-        /// <summary>
-        /// Handles the color changed event of any color chooser.
-        /// </summary>
         private void clr_ColorChanged(ColorChooser sender, System.Drawing.Color color)
         {
             if (!this.setting) this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
         }
 
-        /// <summary>
-        /// Handles the value changed event of the outline width updown.
-        /// </summary>
         private void udOutlineWidth_ValueChanged(object sender, System.EventArgs e)
         {
             if (!this.setting) this.IndicatorStyleChanged?.Invoke(this.IndicatorStyle);
         }
 
         #endregion Methods
+
+        private void grpOutline_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

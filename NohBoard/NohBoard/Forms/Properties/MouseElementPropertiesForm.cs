@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2017 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -15,51 +15,35 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 namespace ThoNohT.NohBoard.Forms.Properties
 {
     using System;
     using System.Linq;
     using System.Windows.Forms;
-    using Extra;
+    using ThoNohT.NohBoard.Forms;
+    using ThoNohT.NohBoard.Extra;
     using Hooking;
+    using ThoNohT.NohBoard.Hooking.Interop;
     using Keyboard.ElementDefinitions;
 
     public partial class MouseElementPropertiesForm : Form
     {
         #region Fields
 
-        /// <summary>
-        /// A backup definition to return to if the user pressed cancel.
-        /// </summary>
         private readonly KeyDefinition initialDefinition;
 
-        /// <summary>
-        /// The currently loaded definition.
-        /// </summary>
         private KeyDefinition currentDefinition;
 
         #endregion Fields
 
         #region Events
 
-        /// <summary>
-        /// The event that is invoked when the definition has been changed. Only invoked when the definition is changed
-        /// through the user interface, not when it is changed programmatically.
-        /// </summary>
         public event Action<KeyDefinition> DefinitionChanged;
 
-        /// <summary>
-        /// The event that is invoked when the definition is saved.
-        /// </summary>
         public event Action DefinitionSaved;
 
         #endregion Events
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseElementPropertiesForm" /> class.
-        /// </summary>
-        /// <param name="initialDefinition">The definition to show the properties for.</param>
         public MouseElementPropertiesForm(KeyDefinition initialDefinition)
         {
             if (initialDefinition is KeyboardKeyDefinition)
@@ -72,8 +56,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
             if (initialDefinition is MouseKeyDefinition)
             {
-                this.Text = "Mouse Key Properties";
-
                 this.cmbKeyCode.Items.Clear();
                 this.cmbKeyCode.Items.Add(MouseKeyCode.LeftButton);
                 this.cmbKeyCode.Items.Add(MouseKeyCode.MiddleButton);
@@ -84,8 +66,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
             if (initialDefinition is MouseScrollDefinition)
             {
-                this.Text = "Mouse Scroll Properties";
-
                 this.cmbKeyCode.Items.Clear();
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollUp);
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollRight);
@@ -94,11 +74,10 @@ namespace ThoNohT.NohBoard.Forms.Properties
             }
         }
 
-        /// <summary>
-        /// Loads the form, setting the controls to the initial style.
-        /// </summary>
         private void MouseElementPropertiesForm_Load(object sender, EventArgs e)
         {
+            this.ApplyLocalizedUiTexts();
+
             if (this.initialDefinition is MouseKeyDefinition)
                 this.cmbKeyCode.SelectedItem = (MouseKeyCode) this.initialDefinition.KeyCodes.Single();
             if (this.initialDefinition is MouseScrollDefinition)
@@ -109,7 +88,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtTextPosition.Y = this.initialDefinition.TextPosition.Y;
             this.lstBoundaries.Items.AddRange(this.initialDefinition.Boundaries.Cast<object>().ToArray());
 
-            // Only add the event handlers after the initial propererties have been set.
             this.txtTextPosition.ValueChanged += this.txtTextPosition_ValueChanged;
             this.txtText.TextChanged += this.txtText_TextChanged;
             this.cmbKeyCode.SelectedIndexChanged += this.cmbKeyCode_SelectedIndexChanged;
@@ -119,9 +97,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
         #region Boundaries
 
-        /// <summary>
-        /// Handles selecting an item in the boundaries list.
-        /// </summary>
         private void lstBoundaries_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.lstBoundaries.SelectedItem == null) return;
@@ -130,9 +105,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.txtBoundaries.Y = ((TPoint)this.lstBoundaries.SelectedItem).Y;
         }
 
-        /// <summary>
-        /// Handles adding a boundary, sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void btnAddBoundary_Click(object sender, EventArgs e)
         {
             var newBoundary = new TPoint(this.txtBoundaries.X, this.txtBoundaries.Y);
@@ -147,9 +119,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles updating a boundary, sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void btnUpdateBoundary_Click(object sender, EventArgs e)
         {
             if (this.lstBoundaries.SelectedItem == null) return;
@@ -168,9 +137,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles removing a boundary, sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void btnRemoveBoundary_Click(object sender, EventArgs e)
         {
             if (this.lstBoundaries.SelectedItem == null) return;
@@ -185,9 +151,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles moving a boundary up in the list, sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void btnBoundaryUp_Click(object sender, EventArgs e)
         {
             var item = this.lstBoundaries.SelectedItem;
@@ -204,9 +167,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles moving a boundary down in the list, sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void btnBoundaryDown_Click(object sender, EventArgs e)
         {
             var item = this.lstBoundaries.SelectedItem;
@@ -225,9 +185,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
         #endregion Boundaries
 
-        /// <summary>
-        /// Handles changing the key-code, sets the new text and invokes the changed event.
-        /// </summary>
         private void cmbKeyCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.initialDefinition is MouseKeyDefinition)
@@ -240,26 +197,17 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles changing the text, sets the new text and invokes the changed event.
-        /// </summary>
         private void txtText_TextChanged(object sender, EventArgs e)
         {
             this.currentDefinition = this.currentDefinition.ModifyMouse(text: this.txtText.Text);
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Handles changing the text position, sets the new text position and invokes the changed event.
-        /// </summary>
         private void txtTextPosition_ValueChanged(Controls.VectorTextBox sender, TPoint newValue)
         {
             this.UpdateTextPosition();
         }
 
-        /// <summary>
-        /// Handles clicking of the "Center" button for the text location. Sets the input's value to the center of the button and updates the text.
-        /// </summary>
         private void btnCenterText_Click(object sender, EventArgs e)
         {
             var bBox = this.currentDefinition.GetBoundingBox();
@@ -271,9 +219,6 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.UpdateTextPosition();
         }
 
-        /// <summary>
-        /// Takes the current text position input value, updates the current defifinition with it and invokes the change events.
-        /// </summary>
         private void UpdateTextPosition()
         {
             var newPos = new TPoint(this.txtTextPosition.X, this.txtTextPosition.Y);
@@ -282,40 +227,29 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.DefinitionChanged?.Invoke(this.currentDefinition);
         }
 
-        /// <summary>
-        /// Accepts the current definition.
-        /// </summary>
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
             this.DefinitionSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 
-        /// <summary>
-        /// Cancels the current definition, reverting to the initial definition.
-        /// </summary>
         private void CancelButton2_Click(object sender, EventArgs e)
         {
             this.DefinitionChanged?.Invoke(this.initialDefinition);
             this.DialogResult = DialogResult.Cancel;
         }
 
-        /// <summary>
-        /// Handles the click event of the "Rectangle" button, opens the dialog.
-        /// </summary>
         private void btnRectangle_Click(object sender, EventArgs e)
         {
             var rectangle = TRectangle.FromPointList(this.lstBoundaries.Items.Cast<TPoint>().ToArray());
             using (var rectangleForm = new RectangleBoundaryForm(rectangle))
             {
                 rectangleForm.DimensionsSet += this.OnRectangleDimensionsSet;
-                rectangleForm.ShowDialog(this);
+                FormPlacement.AlignDialogBesideMainKeyboard(rectangleForm);
+                AppModalUi.ShowDialog(rectangleForm, this);
             }
         }
 
-        /// <summary>
-        /// Called when the user clicks "Apply" in the rectangle dialog. Sets the new boundaries and invokes the changed event.
-        /// </summary>
         private void OnRectangleDimensionsSet(TRectangle rectangle)
         {
             this.lstBoundaries.Items.Clear();
@@ -327,6 +261,30 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.currentDefinition =
                 this.currentDefinition.ModifyMouse(boundaries: this.lstBoundaries.Items.Cast<TPoint>().ToList());
             this.DefinitionChanged?.Invoke(this.currentDefinition);
+        }
+
+        private void ApplyLocalizedUiTexts()
+        {
+            if (this.initialDefinition is MouseKeyDefinition)
+                this.Text = PropertyDialogsLocalization.MouseKeyPropertiesTitle;
+            else if (this.initialDefinition is MouseScrollDefinition)
+                this.Text = PropertyDialogsLocalization.MouseScrollPropertiesTitle;
+            else
+                this.Text = PropertyDialogsLocalization.MouseElementFallbackTitle;
+
+            this.CancelButton2.Text = PropertyDialogsLocalization.Cancel;
+            this.AcceptButton2.Text = PropertyDialogsLocalization.Accept;
+            this.lblBoundaries.Text = PropertyDialogsLocalization.BoundariesLabel;
+            this.lblText.Text = PropertyDialogsLocalization.TextLabel;
+            this.lblTextPosition.Text = PropertyDialogsLocalization.TextPositionLabel;
+            this.lblKeyCode.Text = PropertyDialogsLocalization.KeyCodeLabel;
+            this.btnAddBoundary.Text = PropertyDialogsLocalization.Add;
+            this.btnRemoveBoundary.Text = PropertyDialogsLocalization.Remove;
+            this.btnBoundaryUp.Text = PropertyDialogsLocalization.Up;
+            this.btnBoundaryDown.Text = PropertyDialogsLocalization.Down;
+            this.btnUpdateBoundary.Text = PropertyDialogsLocalization.Update;
+            this.btnCenterText.Text = PropertyDialogsLocalization.Center;
+            this.btnRectangle.Text = PropertyDialogsLocalization.Rectangle;
         }
     }
 }

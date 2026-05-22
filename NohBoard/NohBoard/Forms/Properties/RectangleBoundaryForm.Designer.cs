@@ -1,16 +1,11 @@
-﻿namespace ThoNohT.NohBoard.Forms.Properties
+namespace ThoNohT.NohBoard.Forms.Properties
 {
+    using System.Drawing;
+
     partial class RectangleBoundaryForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,105 +17,86 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.lblPosition = new System.Windows.Forms.Label();
-            this.lblSize = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
-            this.txtSize = new ThoNohT.NohBoard.Controls.VectorTextBox();
-            this.txtPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
-            this.SuspendLayout();
-            // 
-            // lblPosition
-            // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.Location = new System.Drawing.Point(8, 14);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(44, 13);
-            this.lblPosition.TabIndex = 0;
-            this.lblPosition.Text = "Position";
-            // 
-            // lblSize
-            // 
-            this.lblSize.AutoSize = true;
-            this.lblSize.Location = new System.Drawing.Point(8, 40);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(27, 13);
-            this.lblSize.TabIndex = 1;
-            this.lblSize.Text = "Size";
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(35, 63);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnApply
-            // 
-            this.btnApply.Location = new System.Drawing.Point(116, 63);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 5;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
-            // 
-            // txtSize
-            // 
-            this.txtSize.Location = new System.Drawing.Point(85, 37);
-            this.txtSize.MaxVal = 2147483647;
-            this.txtSize.Name = "txtSize";
-            this.txtSize.Separator = ';';
-            this.txtSize.Size = new System.Drawing.Size(100, 20);
-            this.txtSize.SpacesAroundSeparator = true;
-            this.txtSize.TabIndex = 3;
-            this.txtSize.Text = "0 ; 0";
-            this.txtSize.X = 0;
-            this.txtSize.Y = 0;
-            // 
-            // txtPosition
-            // 
-            this.txtPosition.Location = new System.Drawing.Point(85, 11);
-            this.txtPosition.MaxVal = 2147483647;
-            this.txtPosition.Name = "txtPosition";
-            this.txtPosition.Separator = ';';
-            this.txtPosition.Size = new System.Drawing.Size(100, 20);
-            this.txtPosition.SpacesAroundSeparator = true;
-            this.txtPosition.TabIndex = 2;
-            this.txtPosition.Text = "0 ; 0";
-            this.txtPosition.X = 0;
-            this.txtPosition.Y = 0;
-            // 
-            // RectangleBoundaryForm
-            // 
-            this.AcceptButton = this.btnApply;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(203, 96);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.txtSize);
-            this.Controls.Add(this.txtPosition);
-            this.Controls.Add(this.lblSize);
-            this.Controls.Add(this.lblPosition);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "RectangleBoundaryForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Rectangle";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            lblPosition = new System.Windows.Forms.Label();
+            lblSize = new System.Windows.Forms.Label();
+            btnCancel = new System.Windows.Forms.Button();
+            btnApply = new System.Windows.Forms.Button();
+            txtSize = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            txtPosition = new ThoNohT.NohBoard.Controls.VectorTextBox();
+            SuspendLayout();
+            lblPosition.Location = new Point(10, 10);
+            lblPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblPosition.Name = "lblPosition";
+            lblPosition.Size = new Size(80, 23);
+            lblPosition.TabIndex = 0;
+            lblPosition.Text = "Position";
+            lblPosition.TextAlign = ContentAlignment.MiddleLeft;
+            lblSize.Location = new Point(10, 40);
+            lblSize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblSize.Name = "lblSize";
+            lblSize.Size = new Size(80, 23);
+            lblSize.TabIndex = 1;
+            lblSize.Text = "Size";
+            lblSize.TextAlign = ContentAlignment.MiddleLeft;
+            btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            btnCancel.Location = new Point(110, 70);
+            btnCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(80, 23);
+            btnCancel.TabIndex = 4;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            btnApply.Location = new Point(195, 70);
+            btnApply.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnApply.Name = "btnApply";
+            btnApply.Size = new Size(80, 23);
+            btnApply.TabIndex = 5;
+            btnApply.Text = "Apply";
+            btnApply.UseVisualStyleBackColor = true;
+            btnApply.Click += btnApply_Click;
+            txtSize.Location = new Point(95, 40);
+            txtSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtSize.MaxVal = int.MaxValue;
+            txtSize.Name = "txtSize";
+            txtSize.Separator = ';';
+            txtSize.Size = new Size(180, 23);
+            txtSize.SpacesAroundSeparator = true;
+            txtSize.TabIndex = 3;
+            txtSize.Text = "0 ; 0";
+            txtSize.X = 0;
+            txtSize.Y = 0;
+            txtPosition.Location = new Point(95, 10);
+            txtPosition.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtPosition.MaxVal = int.MaxValue;
+            txtPosition.Name = "txtPosition";
+            txtPosition.Separator = ';';
+            txtPosition.Size = new Size(180, 23);
+            txtPosition.SpacesAroundSeparator = true;
+            txtPosition.TabIndex = 2;
+            txtPosition.Text = "0 ; 0";
+            txtPosition.X = 0;
+            txtPosition.Y = 0;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(284, 101);
+            Controls.Add(btnApply);
+            Controls.Add(btnCancel);
+            Controls.Add(txtSize);
+            Controls.Add(txtPosition);
+            Controls.Add(lblSize);
+            Controls.Add(lblPosition);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "RectangleBoundaryForm";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Rectangle";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

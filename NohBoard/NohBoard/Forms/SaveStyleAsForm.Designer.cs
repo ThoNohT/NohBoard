@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,17 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System.Drawing;
+
     partial class SaveStyleAsForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -39,86 +34,67 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.CancelButton2 = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.StyleCombo = new System.Windows.Forms.ComboBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.chkGlobal = new System.Windows.Forms.CheckBox();
-            this.SuspendLayout();
-            // 
-            // CancelButton2
-            // 
-            this.CancelButton2.Location = new System.Drawing.Point(87, 62);
-            this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 9;
-            this.CancelButton2.Text = "Cancel";
-            this.CancelButton2.UseVisualStyleBackColor = true;
-            // 
-            // SaveButton
-            // 
-            this.SaveButton.Location = new System.Drawing.Point(168, 62);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveButton.TabIndex = 8;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
-            // 
-            // StyleCombo
-            // 
-            this.StyleCombo.FormattingEnabled = true;
-            this.StyleCombo.Location = new System.Drawing.Point(73, 12);
-            this.StyleCombo.Name = "StyleCombo";
-            this.StyleCombo.Size = new System.Drawing.Size(170, 21);
-            this.StyleCombo.TabIndex = 7;
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(9, 15);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(38, 13);
-            this.lblName.TabIndex = 6;
-            this.lblName.Text = "Name:";
-            // 
-            // chkGlobal
-            // 
-            this.chkGlobal.AutoSize = true;
-            this.chkGlobal.Location = new System.Drawing.Point(12, 39);
-            this.chkGlobal.Name = "chkGlobal";
-            this.chkGlobal.Size = new System.Drawing.Size(120, 17);
-            this.chkGlobal.TabIndex = 10;
-            this.chkGlobal.Text = "Save as global style";
-            this.chkGlobal.UseVisualStyleBackColor = true;
-            this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);
-            // 
-            // SaveStyleAsForm
-            // 
-            this.AcceptButton = this.SaveButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(255, 94);
-            this.Controls.Add(this.chkGlobal);
-            this.Controls.Add(this.CancelButton2);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.StyleCombo);
-            this.Controls.Add(this.lblName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "SaveStyleAsForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Save Keyboard Style";
-            this.Load += new System.EventHandler(this.SaveStyleAsForm_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            CancelButton2 = new System.Windows.Forms.Button();
+            SaveButton = new System.Windows.Forms.Button();
+            StyleCombo = new System.Windows.Forms.ComboBox();
+            lblName = new System.Windows.Forms.Label();
+            chkGlobal = new System.Windows.Forms.CheckBox();
+            SuspendLayout();
+            CancelButton2.Location = new Point(95, 70);
+            CancelButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CancelButton2.Name = "CancelButton2";
+            CancelButton2.Size = new Size(80, 23);
+            CancelButton2.TabIndex = 9;
+            CancelButton2.Text = "Cancel";
+            CancelButton2.UseVisualStyleBackColor = true;
+            SaveButton.Location = new Point(185, 70);
+            SaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(80, 23);
+            SaveButton.TabIndex = 8;
+            SaveButton.Text = "Save";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += SaveButton_Click;
+            StyleCombo.FormattingEnabled = true;
+            StyleCombo.Location = new Point(85, 10);
+            StyleCombo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            StyleCombo.Name = "StyleCombo";
+            StyleCombo.Size = new Size(180, 23);
+            StyleCombo.TabIndex = 7;
+            lblName.Location = new Point(10, 10);
+            lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(70, 23);
+            lblName.TabIndex = 6;
+            lblName.Text = "Name:";
+            lblName.TextAlign = ContentAlignment.MiddleLeft;
+            chkGlobal.Location = new Point(10, 40);
+            chkGlobal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            chkGlobal.Name = "chkGlobal";
+            chkGlobal.Size = new Size(255, 23);
+            chkGlobal.TabIndex = 10;
+            chkGlobal.Text = "Save as global style";
+            chkGlobal.UseVisualStyleBackColor = true;
+            chkGlobal.CheckedChanged += chkGlobal_CheckedChanged;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = CancelButton2;
+            ClientSize = new Size(274, 101);
+            Controls.Add(chkGlobal);
+            Controls.Add(CancelButton2);
+            Controls.Add(SaveButton);
+            Controls.Add(StyleCombo);
+            Controls.Add(lblName);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "SaveStyleAsForm";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Save Keyboard Style";
+            Load += SaveStyleAsForm_Load;
+            ResumeLayout(false);
 
         }
 

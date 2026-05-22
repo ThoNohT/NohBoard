@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@ namespace ThoNohT.NohBoard.Keyboard
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Text.RegularExpressions;
     using ElementDefinitions;
     using Extra;
 
@@ -270,7 +271,17 @@ namespace ThoNohT.NohBoard.Keyboard
         /// <param name="category">The category to load the keyboard from.</param>
         /// <param name="name">The name of the keyboard to load.</param>
         /// <returns>The loaded <see cref="KeyboardDefinition"/>.</returns>
-        public static KeyboardDefinition Load(string category, string name)
+        public static KeyboardDefinition Load(string category, string name) => Load(category, name, null);
+
+        /// <summary>
+        /// Loads a keyboard definition, optionally selecting a layout variant for the active style
+        /// (e.g. <c>keyboard.v3.json</c> when <paramref name="styleName"/> ends with <c>v3</c>).
+        /// </summary>
+        /// <param name="category">The category to load the keyboard from.</param>
+        /// <param name="name">The name of the keyboard to load.</param>
+        /// <param name="styleName">The selected style name, or null for the default layout file.</param>
+        /// <returns>The loaded <see cref="KeyboardDefinition"/>.</returns>
+        public static KeyboardDefinition Load(string category, string name, string styleName)
         {
             var categoryPath = FileHelper.FromKbs(category);
             if (!categoryPath.Exists)
@@ -280,7 +291,7 @@ namespace ThoNohT.NohBoard.Keyboard
             if (!Directory.Exists(keyboardPath))
                 throw new ArgumentException($"Keyboard {name} does not exist.");
 
-            var filePath = Path.Combine(keyboardPath, Constants.DefinitionFilename);
+            var filePath = ResolveDefinitionFilePath(keyboardPath, styleName);
             if (!File.Exists(filePath))
                 throw new Exception($"Keyboard definition file not found for {category}/{name}.");
 
@@ -316,6 +327,21 @@ namespace ThoNohT.NohBoard.Keyboard
             kbDef.Category = category;
             kbDef.Name = name;
             return kbDef;
+        }
+
+        private static string ResolveDefinitionFilePath(string keyboardPath, string styleName)
+        {
+            var defaultPath = Path.Combine(keyboardPath, Constants.DefinitionFilename);
+            if (string.IsNullOrWhiteSpace(styleName))
+                return defaultPath;
+
+            var trimmed = styleName.Trim();
+            var match = Regex.Match(trimmed, @"\bv(\d+)$", RegexOptions.IgnoreCase);
+            if (!match.Success)
+                return defaultPath;
+
+            var variantPath = Path.Combine(keyboardPath, $"keyboard.v{match.Groups[1].Value}.json");
+            return File.Exists(variantPath) ? variantPath : defaultPath;
         }
     }
 }

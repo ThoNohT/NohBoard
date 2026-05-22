@@ -49,6 +49,7 @@ namespace ThoNohT.NohBoard.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuToggleOverlayLock = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuKeyboards = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
@@ -85,6 +86,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGenerateLog = new System.Windows.Forms.ToolStripMenuItem();
             this.KeyCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this._keyboardSurface = new KeyboardSurfacePanel();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,6 +99,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuToggleOverlayLock,
             this.mnuSettings,
             this.mnuKeyboards,
             this.MainMenuSep2,
@@ -120,33 +123,40 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuUpdate,
             this.mnuGenerateLog});
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(203, 424);
+            this.MainMenu.Size = new System.Drawing.Size(205, 425);
             this.MainMenu.Opening += new System.ComponentModel.CancelEventHandler(this.MainMenu_Opening);
+            // 
+            // mnuToggleOverlayLock
+            // 
+            this.mnuToggleOverlayLock.Name = "mnuToggleOverlayLock";
+            this.mnuToggleOverlayLock.Size = new System.Drawing.Size(200, 23);
+            this.mnuToggleOverlayLock.Text = "&Lock";
+            this.mnuToggleOverlayLock.Click += new System.EventHandler(this.mnuToggleOverlayLock_Click);
             // 
             // mnuSettings
             // 
             this.mnuSettings.Name = "mnuSettings";
-            this.mnuSettings.Size = new System.Drawing.Size(202, 22);
+            this.mnuSettings.Size = new System.Drawing.Size(200, 23);
             this.mnuSettings.Text = "&Settings";
             this.mnuSettings.Click += new System.EventHandler(this.mnuSettings_Click);
             // 
             // mnuKeyboards
             // 
             this.mnuKeyboards.Name = "mnuKeyboards";
-            this.mnuKeyboards.Size = new System.Drawing.Size(202, 22);
+            this.mnuKeyboards.Size = new System.Drawing.Size(200, 23);
             this.mnuKeyboards.Text = "&Load Keyboard";
             this.mnuKeyboards.Click += new System.EventHandler(this.mnuLoadKeyboard_Click);
             // 
             // MainMenuSep2
             // 
             this.MainMenuSep2.Name = "MainMenuSep2";
-            this.MainMenuSep2.Size = new System.Drawing.Size(199, 6);
+            this.MainMenuSep2.Size = new System.Drawing.Size(200, 5);
             // 
             // mnuToggleEditMode
             // 
             this.mnuToggleEditMode.CheckOnClick = true;
             this.mnuToggleEditMode.Name = "mnuToggleEditMode";
-            this.mnuToggleEditMode.Size = new System.Drawing.Size(202, 22);
+            this.mnuToggleEditMode.Size = new System.Drawing.Size(200, 23);
             this.mnuToggleEditMode.Text = "Start &Editing";
             this.mnuToggleEditMode.Click += new System.EventHandler(this.mnuToggleEditMode_Click);
             // 
@@ -156,7 +166,7 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuUpdateTextPosition.CheckOnClick = true;
             this.mnuUpdateTextPosition.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuUpdateTextPosition.Name = "mnuUpdateTextPosition";
-            this.mnuUpdateTextPosition.Size = new System.Drawing.Size(202, 22);
+            this.mnuUpdateTextPosition.Size = new System.Drawing.Size(200, 23);
             this.mnuUpdateTextPosition.Text = "&Update Text Position";
             this.mnuUpdateTextPosition.Click += new System.EventHandler(this.mnuUpdateTextPosition_Click);
             // 
@@ -168,34 +178,34 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuMoveDown,
             this.mnuMoveToBottom});
             this.mnuMoveElement.Name = "mnuMoveElement";
-            this.mnuMoveElement.Size = new System.Drawing.Size(202, 22);
+            this.mnuMoveElement.Size = new System.Drawing.Size(200, 23);
             this.mnuMoveElement.Text = "&Move";
             // 
             // mnuMoveToTop
             // 
             this.mnuMoveToTop.Name = "mnuMoveToTop";
-            this.mnuMoveToTop.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveToTop.Size = new System.Drawing.Size(160, 23);
             this.mnuMoveToTop.Text = "Move to &top";
             this.mnuMoveToTop.Click += new System.EventHandler(this.mnuMoveToTop_Click);
             // 
             // mnuMoveUp
             // 
             this.mnuMoveUp.Name = "mnuMoveUp";
-            this.mnuMoveUp.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveUp.Size = new System.Drawing.Size(160, 23);
             this.mnuMoveUp.Text = "Move &up";
             this.mnuMoveUp.Click += new System.EventHandler(this.mnuMoveUp_Click);
             // 
             // mnuMoveDown
             // 
             this.mnuMoveDown.Name = "mnuMoveDown";
-            this.mnuMoveDown.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveDown.Size = new System.Drawing.Size(160, 23);
             this.mnuMoveDown.Text = "Move &down";
             this.mnuMoveDown.Click += new System.EventHandler(this.mnuMoveDown_Click);
             // 
             // mnuMoveToBottom
             // 
             this.mnuMoveToBottom.Name = "mnuMoveToBottom";
-            this.mnuMoveToBottom.Size = new System.Drawing.Size(161, 22);
+            this.mnuMoveToBottom.Size = new System.Drawing.Size(160, 23);
             this.mnuMoveToBottom.Text = "Move to &bottom";
             this.mnuMoveToBottom.Click += new System.EventHandler(this.mnuMoveToBottom_Click);
             // 
@@ -207,42 +217,42 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuAddMouseScrollDefinition,
             this.mnuAddMouseSpeedIndicatorDefinition});
             this.mnuAddElement.Name = "mnuAddElement";
-            this.mnuAddElement.Size = new System.Drawing.Size(202, 22);
+            this.mnuAddElement.Size = new System.Drawing.Size(200, 23);
             this.mnuAddElement.Text = "&Add Element";
             this.mnuAddElement.Visible = false;
             // 
             // mnuAddKeyboardKeyDefinition
             // 
             this.mnuAddKeyboardKeyDefinition.Name = "mnuAddKeyboardKeyDefinition";
-            this.mnuAddKeyboardKeyDefinition.Size = new System.Drawing.Size(220, 22);
+            this.mnuAddKeyboardKeyDefinition.Size = new System.Drawing.Size(220, 23);
             this.mnuAddKeyboardKeyDefinition.Text = "Add &Keyboard Key";
             this.mnuAddKeyboardKeyDefinition.Click += new System.EventHandler(this.mnuAddKeyboardKeyDefinition_Click);
             // 
             // mnuAddMouseKeyDefinition
             // 
             this.mnuAddMouseKeyDefinition.Name = "mnuAddMouseKeyDefinition";
-            this.mnuAddMouseKeyDefinition.Size = new System.Drawing.Size(220, 22);
+            this.mnuAddMouseKeyDefinition.Size = new System.Drawing.Size(220, 23);
             this.mnuAddMouseKeyDefinition.Text = "Add &Mouse Key";
             this.mnuAddMouseKeyDefinition.Click += new System.EventHandler(this.mnuAddMouseKeyDefinition_Click);
             // 
             // mnuAddMouseScrollDefinition
             // 
             this.mnuAddMouseScrollDefinition.Name = "mnuAddMouseScrollDefinition";
-            this.mnuAddMouseScrollDefinition.Size = new System.Drawing.Size(220, 22);
+            this.mnuAddMouseScrollDefinition.Size = new System.Drawing.Size(220, 23);
             this.mnuAddMouseScrollDefinition.Text = "Add Mouse &Scroll";
             this.mnuAddMouseScrollDefinition.Click += new System.EventHandler(this.mnuAddMouseScrollDefinition_Click);
             // 
             // mnuAddMouseSpeedIndicatorDefinition
             // 
             this.mnuAddMouseSpeedIndicatorDefinition.Name = "mnuAddMouseSpeedIndicatorDefinition";
-            this.mnuAddMouseSpeedIndicatorDefinition.Size = new System.Drawing.Size(220, 22);
+            this.mnuAddMouseSpeedIndicatorDefinition.Size = new System.Drawing.Size(220, 23);
             this.mnuAddMouseSpeedIndicatorDefinition.Text = "Add Mouse Speed &Indicator";
             this.mnuAddMouseSpeedIndicatorDefinition.Click += new System.EventHandler(this.mnuAddMouseSpeedIndicatorDefinition_Click);
             // 
             // mnuRemoveElement
             // 
             this.mnuRemoveElement.Name = "mnuRemoveElement";
-            this.mnuRemoveElement.Size = new System.Drawing.Size(202, 22);
+            this.mnuRemoveElement.Size = new System.Drawing.Size(200, 23);
             this.mnuRemoveElement.Text = "&Remove Element";
             this.mnuRemoveElement.Visible = false;
             this.mnuRemoveElement.Click += new System.EventHandler(this.mnuRemoveElement_Click);
@@ -250,7 +260,7 @@ namespace ThoNohT.NohBoard.Forms
             // mnuAddBoundaryPoint
             // 
             this.mnuAddBoundaryPoint.Name = "mnuAddBoundaryPoint";
-            this.mnuAddBoundaryPoint.Size = new System.Drawing.Size(202, 22);
+            this.mnuAddBoundaryPoint.Size = new System.Drawing.Size(200, 23);
             this.mnuAddBoundaryPoint.Text = "Add Boundary Point";
             this.mnuAddBoundaryPoint.Visible = false;
             this.mnuAddBoundaryPoint.Click += new System.EventHandler(this.mnuAddBoundaryPoint_Click);
@@ -258,7 +268,7 @@ namespace ThoNohT.NohBoard.Forms
             // mnuRemoveBoundaryPoint
             // 
             this.mnuRemoveBoundaryPoint.Name = "mnuRemoveBoundaryPoint";
-            this.mnuRemoveBoundaryPoint.Size = new System.Drawing.Size(202, 22);
+            this.mnuRemoveBoundaryPoint.Size = new System.Drawing.Size(200, 23);
             this.mnuRemoveBoundaryPoint.Text = "Remove Boundary Point";
             this.mnuRemoveBoundaryPoint.Visible = false;
             this.mnuRemoveBoundaryPoint.Click += new System.EventHandler(this.mnuRemoveBoundaryPoint_Click);
@@ -266,12 +276,12 @@ namespace ThoNohT.NohBoard.Forms
             // MainMenuSep1
             // 
             this.MainMenuSep1.Name = "MainMenuSep1";
-            this.MainMenuSep1.Size = new System.Drawing.Size(199, 6);
+            this.MainMenuSep1.Size = new System.Drawing.Size(200, 5);
             // 
             // mnuKeyboardProperties
             // 
             this.mnuKeyboardProperties.Name = "mnuKeyboardProperties";
-            this.mnuKeyboardProperties.Size = new System.Drawing.Size(202, 22);
+            this.mnuKeyboardProperties.Size = new System.Drawing.Size(200, 23);
             this.mnuKeyboardProperties.Text = "Keyboard &Properties";
             this.mnuKeyboardProperties.Click += new System.EventHandler(this.mnuKeyboardProperties_Click);
             // 
@@ -279,14 +289,14 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.mnuElementProperties.Enabled = false;
             this.mnuElementProperties.Name = "mnuElementProperties";
-            this.mnuElementProperties.Size = new System.Drawing.Size(202, 22);
+            this.mnuElementProperties.Size = new System.Drawing.Size(200, 23);
             this.mnuElementProperties.Text = "Element &Properties";
             this.mnuElementProperties.Click += new System.EventHandler(this.mnuElementProperties_Click);
             // 
             // mnuEditKeyboardStyle
             // 
             this.mnuEditKeyboardStyle.Name = "mnuEditKeyboardStyle";
-            this.mnuEditKeyboardStyle.Size = new System.Drawing.Size(202, 22);
+            this.mnuEditKeyboardStyle.Size = new System.Drawing.Size(200, 23);
             this.mnuEditKeyboardStyle.Text = "Keyboard &Style";
             this.mnuEditKeyboardStyle.Click += new System.EventHandler(this.mnuEditKeyboardStyle_Click);
             // 
@@ -294,7 +304,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             this.mnuEditElementStyle.Enabled = false;
             this.mnuEditElementStyle.Name = "mnuEditElementStyle";
-            this.mnuEditElementStyle.Size = new System.Drawing.Size(202, 22);
+            this.mnuEditElementStyle.Size = new System.Drawing.Size(200, 23);
             this.mnuEditElementStyle.Text = "Element &Style";
             this.mnuEditElementStyle.Visible = false;
             this.mnuEditElementStyle.Click += new System.EventHandler(this.mnuEditElementStyle_Click);
@@ -302,7 +312,7 @@ namespace ThoNohT.NohBoard.Forms
             // MainMenuSep4
             // 
             this.MainMenuSep4.Name = "MainMenuSep4";
-            this.MainMenuSep4.Size = new System.Drawing.Size(199, 6);
+            this.MainMenuSep4.Size = new System.Drawing.Size(200, 5);
             // 
             // mnuSaveDefinition
             // 
@@ -310,20 +320,20 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveDefinitionAsName,
             this.mnuSaveDefinitionAs});
             this.mnuSaveDefinition.Name = "mnuSaveDefinition";
-            this.mnuSaveDefinition.Size = new System.Drawing.Size(202, 22);
+            this.mnuSaveDefinition.Size = new System.Drawing.Size(200, 23);
             this.mnuSaveDefinition.Text = "Save &Definition";
             // 
             // mnuSaveDefinitionAsName
             // 
             this.mnuSaveDefinitionAsName.Name = "mnuSaveDefinitionAsName";
-            this.mnuSaveDefinitionAsName.Size = new System.Drawing.Size(217, 22);
+            this.mnuSaveDefinitionAsName.Size = new System.Drawing.Size(215, 23);
             this.mnuSaveDefinitionAsName.Text = "&Save &To <DefinitionName>";
             this.mnuSaveDefinitionAsName.Click += new System.EventHandler(this.mnuSaveDefinitionAsName_Click);
             // 
             // mnuSaveDefinitionAs
             // 
             this.mnuSaveDefinitionAs.Name = "mnuSaveDefinitionAs";
-            this.mnuSaveDefinitionAs.Size = new System.Drawing.Size(217, 22);
+            this.mnuSaveDefinitionAs.Size = new System.Drawing.Size(215, 23);
             this.mnuSaveDefinitionAs.Text = "Save &As";
             this.mnuSaveDefinitionAs.Click += new System.EventHandler(this.mnuSaveDefinitionAs_Click);
             // 
@@ -334,53 +344,53 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuSaveToGlobalStyleName,
             this.mnuSaveStyleAs});
             this.mnuSaveStyle.Name = "mnuSaveStyle";
-            this.mnuSaveStyle.Size = new System.Drawing.Size(202, 22);
+            this.mnuSaveStyle.Size = new System.Drawing.Size(200, 23);
             this.mnuSaveStyle.Text = "Save St&yle";
             // 
             // mnuSaveStyleToName
             // 
             this.mnuSaveStyleToName.Name = "mnuSaveStyleToName";
-            this.mnuSaveStyleToName.Size = new System.Drawing.Size(227, 22);
+            this.mnuSaveStyleToName.Size = new System.Drawing.Size(225, 23);
             this.mnuSaveStyleToName.Text = "&Save To <StyleName>";
             this.mnuSaveStyleToName.Click += new System.EventHandler(this.mnuSaveStyleToName_Click);
             // 
             // mnuSaveToGlobalStyleName
             // 
             this.mnuSaveToGlobalStyleName.Name = "mnuSaveToGlobalStyleName";
-            this.mnuSaveToGlobalStyleName.Size = new System.Drawing.Size(227, 22);
+            this.mnuSaveToGlobalStyleName.Size = new System.Drawing.Size(225, 23);
             this.mnuSaveToGlobalStyleName.Text = "Save To &Global <StyleName>";
             this.mnuSaveToGlobalStyleName.Click += new System.EventHandler(this.mnuSaveToGlobalStyleName_Click);
             // 
             // mnuSaveStyleAs
             // 
             this.mnuSaveStyleAs.Name = "mnuSaveStyleAs";
-            this.mnuSaveStyleAs.Size = new System.Drawing.Size(227, 22);
+            this.mnuSaveStyleAs.Size = new System.Drawing.Size(225, 23);
             this.mnuSaveStyleAs.Text = "Save &As";
             this.mnuSaveStyleAs.Click += new System.EventHandler(this.mnuSaveStyleAs_Click);
             // 
             // MainMenuSep3
             // 
             this.MainMenuSep3.Name = "MainMenuSep3";
-            this.MainMenuSep3.Size = new System.Drawing.Size(199, 6);
+            this.MainMenuSep3.Size = new System.Drawing.Size(200, 5);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(202, 22);
+            this.mnuExit.Size = new System.Drawing.Size(200, 23);
             this.mnuExit.Text = "E&xit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // mnuUpdate
             // 
             this.mnuUpdate.Name = "mnuUpdate";
-            this.mnuUpdate.Size = new System.Drawing.Size(202, 22);
+            this.mnuUpdate.Size = new System.Drawing.Size(200, 23);
             this.mnuUpdate.Text = "Update available";
             this.mnuUpdate.Visible = false;
             // 
             // mnuGenerateLog
             // 
             this.mnuGenerateLog.Name = "mnuGenerateLog";
-            this.mnuGenerateLog.Size = new System.Drawing.Size(202, 22);
+            this.mnuGenerateLog.Size = new System.Drawing.Size(200, 23);
             this.mnuGenerateLog.Text = "Generate crash log";
             this.mnuGenerateLog.Click += new System.EventHandler(this.mnuGenerateLog_Click);
             // 
@@ -389,16 +399,31 @@ namespace ThoNohT.NohBoard.Forms
             this.KeyCheckTimer.Interval = 1000;
             this.KeyCheckTimer.Tick += new System.EventHandler(this.KeyCheckTimer_Tick);
             // 
+            // _keyboardSurface
+            // 
+            this._keyboardSurface.ContextMenuStrip = this.MainMenu;
+            this._keyboardSurface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._keyboardSurface.Location = new System.Drawing.Point(0, 0);
+            this._keyboardSurface.Name = "_keyboardSurface";
+            this._keyboardSurface.Size = new System.Drawing.Size(285, 260);
+            this._keyboardSurface.TabIndex = 0;
+            this._keyboardSurface.Paint += new System.Windows.Forms.PaintEventHandler(this.KeyboardSurface_Paint);
+            this._keyboardSurface.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            this._keyboardSurface.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            this._keyboardSurface.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(285, 260);
             this.ContextMenuStrip = this.MainMenu;
+            this.Controls.Add(this._keyboardSurface);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = true;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "NohBoard";
@@ -407,10 +432,6 @@ namespace ThoNohT.NohBoard.Forms
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
-            this.Move += new System.EventHandler(this.MainForm_Move);
             this.MainMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -421,6 +442,7 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.Timer UpdateTimer;
         private System.Windows.Forms.ContextMenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuKeyboards;
+        private System.Windows.Forms.ToolStripMenuItem mnuToggleOverlayLock;
         private System.Windows.Forms.ToolStripMenuItem mnuSettings;
         private System.Windows.Forms.ToolStripSeparator MainMenuSep1;
         private System.Windows.Forms.ToolStripMenuItem mnuToggleEditMode;
@@ -456,6 +478,7 @@ namespace ThoNohT.NohBoard.Forms
         private System.Windows.Forms.ToolStripMenuItem mnuKeyboardProperties;
         private System.Windows.Forms.ToolStripMenuItem mnuUpdateTextPosition;
         private System.Windows.Forms.ToolStripMenuItem mnuGenerateLog;
+        private KeyboardSurfacePanel _keyboardSurface;
     }
 }
 

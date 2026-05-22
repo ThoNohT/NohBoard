@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 namespace ThoNohT.NohBoard.Controls
 {
     using System;
@@ -23,43 +22,42 @@ namespace ThoNohT.NohBoard.Controls
     using ThoNohT.NohBoard.Extra;
     using ThoNohT.NohBoard.Keyboard.Styles;
 
-    /// <summary>
-    /// A panel containin all the controls for defining a <see cref="KeySubStyle"/>.
-    /// </summary>
     public partial class KeySubStylePanel : UserControl
     {
-        /// <summary>
-        /// Indicates whether the style is being programatically set, this should not raise events.
-        /// </summary>
         private bool setting;
 
         #region Events
-        
-        /// <summary>
-        /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
-        /// the user interface, not when it is changed programmatically.
-        /// </summary>
+
         public new event Action<KeySubStyle> StyleChanged;
 
         #endregion Events
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeySubStylePanel" /> class.
-        /// </summary>
         public KeySubStylePanel()
         {
             this.InitializeComponent();
+            this.ApplyLocalizedChrome();
         }
 
         #endregion Constructors
 
+        private void ApplyLocalizedChrome()
+        {
+            this.grpBackground.Text = PropertyDialogsLocalization.StyleBackgroundGroup;
+            this.lblBackgroundImage.Text = PropertyDialogsLocalization.StyleImageLabel;
+            this.grpText.Text = PropertyDialogsLocalization.StylePanelTextGroup;
+            this.grpOutline.Text = PropertyDialogsLocalization.StylePanelOutlineGroup;
+            this.lblOutlineWidth.Text = PropertyDialogsLocalization.StyleOutlineWidthLabel;
+            this.chkShowOutline.Text = PropertyDialogsLocalization.StyleShowOutline;
+            this.clrText.LabelText = PropertyDialogsLocalization.StyleTextColorLabel;
+            this.clrBackground.LabelText = PropertyDialogsLocalization.StyleBackgroundColorLabel;
+            this.clrOutline.LabelText = PropertyDialogsLocalization.StyleOutlineColorLabel;
+            this.fntText.LabelText = PropertyDialogsLocalization.StylePickFontLabel;
+        }
+
         #region Properties
 
-        /// <summary>
-        /// The currently defined substyle.
-        /// </summary>
         public KeySubStyle SubStyle
         {
             get
@@ -96,9 +94,6 @@ namespace ThoNohT.NohBoard.Controls
             }
         }
 
-        /// <summary>
-        /// The title of the substyle panel.
-        /// </summary>
         public string Title
         {
             get { return this.lblTitle.Text; }
@@ -109,46 +104,41 @@ namespace ThoNohT.NohBoard.Controls
 
         #region Control event handlers
 
-        /// <summary>
-        /// Handles the color changed event of any color chooser.
-        /// </summary>
         private void clr_ColorChanged(ColorChooser sender, System.Drawing.Color color)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
-        /// <summary>
-        /// Handles the font changed event of the text font chooser.
-        /// </summary>
         private void fntText_FontChanged(FontChooser sender, System.Drawing.Font font, string link)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
-        /// <summary>
-        /// Handles the checked changed event of the show outline checkbox.
-        /// </summary>
         private void chkShowOutline_CheckedChanged(object sender, System.EventArgs e)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
-        /// <summary>
-        /// Handles the value changed event of the outline width updown.
-        /// </summary>
         private void udOutlineWidth_ValueChanged(object sender, System.EventArgs e)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
-        /// <summary>
-        /// Handles the text changed event of the background image textbox.
-        /// </summary>
         private void txtBackgoundImage_TextChanged(object sender, System.EventArgs e)
         {
             if (!this.setting) this.StyleChanged?.Invoke(this.SubStyle);
         }
 
         #endregion Control event handlers
+
+        private void fntText_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clrBackground_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

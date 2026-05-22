@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,17 @@ namespace ThoNohT.NohBoard.Extra
         /// A dictionary containing the cached images.
         /// </summary>
         private static Dictionary<string, Image> Buffer { get; } = new Dictionary<string, Image>();
+
+        /// <summary>
+        /// Clears cached images (call when the loaded style or keyboard category changes).
+        /// </summary>
+        public static void Clear()
+        {
+            foreach (var image in Buffer.Values)
+                image.Dispose();
+
+            Buffer.Clear();
+        }
 
         /// <summary>
         /// Loads the image for the specified filename, in the currently loaded style. If the image exists in cache,

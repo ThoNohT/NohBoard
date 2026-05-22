@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2017 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,8 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void MouseSpeedPropertiesForm_Load(object sender, EventArgs e)
         {
+            this.ApplyLocalizedUiTexts();
+
             // Mouse speed indicator
             this.txtLocation.X = this.initialDefinition.Location.X;
             this.txtLocation.Y = this.initialDefinition.Location.Y;
@@ -117,6 +119,15 @@ namespace ThoNohT.NohBoard.Forms.Properties
         {
             this.DefinitionChanged?.Invoke(this.initialDefinition);
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void ApplyLocalizedUiTexts()
+        {
+            this.Text = PropertyDialogsLocalization.MouseSpeedIndicatorPropertiesTitle;
+            this.lblLocation.Text = PropertyDialogsLocalization.LocationLabel;
+            this.lblRadius.Text = PropertyDialogsLocalization.RadiusLabel;
+            this.CancelButton2.Text = PropertyDialogsLocalization.Cancel;
+            this.AcceptButton2.Text = PropertyDialogsLocalization.Accept;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -30,83 +30,39 @@ namespace ThoNohT.NohBoard.Forms
     using System.Linq;
     using System.Windows.Forms;
 
-    /// <summary>
-    /// Edit mode part of the main form.
-    /// </summary>
     public partial class MainForm
     {
         #region Manipulations
 
-        /// <summary>
-        /// The keyboard element that is currently being manipulated.
-        /// </summary>
         private (int id, ElementDefinition definition)? currentlyManipulating = null;
 
-        /// <summary>
-        /// The currently manipulated element, at the point where the manipulation started.
-        /// </summary>
         private ElementDefinition manipulationStart = null;
 
-        /// <summary>
-        /// The cumulative distance the current element has been manipulated.
-        /// </summary>
         private Size cumulManipulation;
 
-        /// <summary>
-        /// The point inside <see cref="currentlyManipulating"/> that is being manipulated. This determines the type of
-        /// manipulation that will be performed on the currently manipulating element.
-        /// </summary>
         private Point currentManipulationPoint;
 
-        /// <summary>
-        /// The position to translate every element in the keyboard from. <c>null</c> if not moving everything.
-        /// </summary>
         private TPoint movingEverythingFrom;
 
-        /// <summary>
-        /// The starting point form which everything was being moved.
-        /// </summary>
         private KeyboardDefinition movingEverythingStart;
 
         #endregion Manipulations
 
-        /// <summary>
-        /// The element that is currently highlighted by the mouse, but not being manipulated yet.
-        /// </summary>
         private ElementDefinition highlightedDefinition = null;
 
-        /// <summary>
-        /// The element that is currently selected and can be modified using the keyboard.
-        /// </summary>
         private ElementDefinition selectedDefinition = null;
 
-        /// <summary>
-        /// The element that is currently most relevant for manipulation. If a definition is selected, that is always
-        /// the most relevant, otherwise, a highlighted definition can be manipulated.
-        /// </summary>
         private ElementDefinition relevantDefinition => this.selectedDefinition ?? this.highlightedDefinition;
 
-        /// <summary>
-        /// The element that was last copied.
-        /// </summary>
         private ElementDefinition clipboard;
 
-        /// <summary>
-        /// Whether the main menu is open. This variable is set to true when the main menu is opened. The next
-        /// keyboard/mouse hook events will only arrive after the menu is closed again. This causes strange jumps
-        /// in the selected element, the element under the cursor will be selected if none was before.
-        /// This variable is set to false when the left button goes up, so the first mouse down / move and up are ignored.
-        /// </summary>
         private bool menuOpen;
 
-        /// <summary>
-        /// Turns edit-mode on or off.
-        /// </summary>
         private void mnuToggleEditMode_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
 
-            this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
+            this.ApplyLocalizedEditModeToggleText();
             this.FormBorderStyle =
                 this.mnuToggleEditMode.Checked ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle;
 
@@ -118,9 +74,6 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
-        /// <summary>
-        /// Toggles updating the text position of an element when a boundary or edge is updated.
-        /// </summary>
         private void mnuUpdateTextPosition_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -131,27 +84,23 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Mouse manipulations
 
-        /// <summary>
-        /// Handles the MouseDown event for the main form, which can start editing an element, the mouse is pointing
-        /// at one.
-        /// </summary>
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (this._overlayLocked) return;
             if (e.Button != MouseButtons.Left) return;
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
+            var location = this.ScalePointToKeyboardPoint(e.Location);
             ElementDefinition toManipulate;
             if (this.selectedDefinition != null)
             {
-                // Try to manipulate the selected definition, if one is selected.
-                this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown);
+                this.selectedDefinition.StartManipulating(location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown);
                 toManipulate = this.selectedDefinition;
             }
             else
             {
-                // If none is selected, allow any key to become the element to manipulate.
                 toManipulate = GlobalSettings.CurrentDefinition.Elements
-                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
+                    .LastOrDefault(x => x.StartManipulating(location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
             }
 
             if (toManipulate == null)
@@ -159,11 +108,10 @@ namespace ThoNohT.NohBoard.Forms
                 this.currentlyManipulating = null;
                 this.selectedDefinition = null;
 
-                // Moving everything at once.
                 if (KeyboardState.AltDown)
                 {
                     this.movingEverythingStart = GlobalSettings.CurrentDefinition.Clone();
-                    this.movingEverythingFrom = e.Location;
+                    this.movingEverythingFrom = location;
                 }
 
                 return;
@@ -175,71 +123,63 @@ namespace ThoNohT.NohBoard.Forms
             this.manipulationStart = toManipulate;
             this.cumulManipulation = new Size();
 
-            // Don't save history, we're in the middle of a transformation.
             GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition.RemoveElement(toManipulate), false);
 
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Handles the MouseMove event for the main form, which performs all transformations that need to be done
-        /// when editing an element.
-        /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            if (this._overlayLocked) return;
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
-            // Moving everything at once.
+            var location = this.ScalePointToKeyboardPoint(e.Location);
+
             if (this.movingEverythingFrom != null)
             {
                 var newDef = this.movingEverythingStart.Clone();
                 newDef.Elements.Clear();
                 foreach (var element in this.movingEverythingStart.Elements)
                 {
-                    var diff = e.Location - this.movingEverythingFrom;
+                    var diff = location - this.movingEverythingFrom;
                     newDef.Elements.Add(element.Translate(diff.Width, diff.Height));
                 }
 
-                // Don't push history, we're in the middle of a transformation.
                 GlobalSettings.Settings.UpdateDefinition(newDef, false);
                 this.ResetBackBrushes();
             }
 
             if (this.currentlyManipulating != null)
             {
-                var diff = (TPoint)e.Location - this.currentManipulationPoint;
+                var diff = (TPoint)location - this.currentManipulationPoint;
                 this.cumulManipulation += diff;
 
                 this.currentlyManipulating = (this.currentlyManipulating.Value.id, this.manipulationStart.Manipulate(this.cumulManipulation));
-                this.currentManipulationPoint = e.Location;
+                this.currentManipulationPoint = location;
             }
             else
             {
-                this.currentManipulationPoint = e.Location;
+                this.currentManipulationPoint = location;
 
-                // If a definition is selected, don't highlight others.
                 if (this.selectedDefinition != null)
                 {
-                    // Preview the manipulation.
-                    this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, true, KeyboardState.CtrlDown);
+                    this.selectedDefinition.StartManipulating(location, KeyboardState.AltDown, true, KeyboardState.CtrlDown);
                 }
                 else
                 {
                     this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
-                        .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
+                        .LastOrDefault(x => x.StartManipulating(location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
                 }
             }
         }
 
-        /// <summary>
-        /// Handles the MouseUp event for the main form, which will stop editing an element.
-        /// </summary>
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
-            // Always reset this value when releasing the mouse.
+            if (this._overlayLocked) return;
+            var location = this.ScalePointToKeyboardPoint(e.Location);
+
             if (this.movingEverythingFrom != null)
             {
-                // Store the current state in undo history.
                 GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition, true);
                 this.movingEverythingFrom = null;
                 this.ResetBackBrushes();
@@ -259,7 +199,7 @@ namespace ThoNohT.NohBoard.Forms
             if (this.cumulManipulation.Length() == 0 && this.selectedDefinition != null)
             {
                 var elementsUnderCursor = GlobalSettings.CurrentDefinition.Elements
-                  .Where(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
+                  .Where(x => x.StartManipulating(location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
                   .Reverse();
 
                 var nextelementUnderCursor = elementsUnderCursor
@@ -269,7 +209,6 @@ namespace ThoNohT.NohBoard.Forms
             }
             else
             {
-                // Whatever was being manipulated (or not yet, but at least pressed down on) will now be selected.
                 this.selectedDefinition = this.currentlyManipulating.Value.definition;
             }
             this.currentlyManipulating = null;
@@ -282,9 +221,6 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Element z-order moving
 
-        /// <summary>
-        /// Moves the currently highlighted element to the top of the z-order. Placing it above every other element.
-        /// </summary>
         private void mnuMoveToTop_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -294,9 +230,6 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Moves the currently highlighted element up in the z-order.
-        /// </summary>
         private void mnuMoveUp_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -306,9 +239,6 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Moves the currently highlighted element down in the z-order.
-        /// </summary>
         private void mnuMoveDown_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -318,9 +248,6 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Moves the currently highlighted element to the bottom of the z-order. Placing it below every other element.
-        /// </summary>
         private void mnuMoveToBottom_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -334,19 +261,12 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Keyboard input handling
 
-        /// <summary>
-        /// Handles the key press event. Allows undo/redo, selection cancellation and manipulations using the arrow keys.
-        /// </summary>
-        /// <param name="msg">A <see cref="Message"/>, passed by reference, that represents the window message to process.</param>
-        /// <param name="keyData">One of the <see cref="Keys"/> values that represents the key to process.</param>
-        /// <returns><c>true</c> if the character was processed by the control; otherwise, <c>false</c>.</returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (!this.mnuToggleEditMode.Checked) return base.ProcessCmdKey(ref msg, keyData);
 
             var keyCode = keyData & Keys.KeyCode;
 
-            // Manipulations by keyboard keys.
             if (this.selectedDefinition != null && new[] { Keys.Up, Keys.Right, Keys.Down, Keys.Left }.Contains(keyCode))
             {
                 ElementDefinition newDefinition;
@@ -376,19 +296,16 @@ namespace ThoNohT.NohBoard.Forms
 
                 this.selectedDefinition = newDefinition;
                 this.ResetBackBrushes();
-                this.Refresh();
+                this.InvalidateKeyboardSurface();
                 return base.ProcessCmdKey(ref msg, keyData);
             }
 
-
-            // Cancelling selection.
             if (keyCode == Keys.Escape || keyCode == Keys.Enter)
             {
                 this.selectedDefinition = null;
                 return base.ProcessCmdKey(ref msg, keyData);
             }
 
-            // Undo-redo
             if ((keyData & Keys.Control) != 0 && keyCode == Keys.Z)
             {
                 if ((keyData & Keys.Shift) == 0)
@@ -421,7 +338,7 @@ namespace ThoNohT.NohBoard.Forms
                 this.selectedDefinition = null;
                 this.highlightedDefinition = null;
                 this.ResetBackBrushes();
-                this.Refresh();
+                this.InvalidateKeyboardSurface();
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -431,23 +348,17 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Element management
 
-        /// <summary>
-        /// Handles setting the menu open variable to false when esc is pressed.
-        /// </summary>
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
-            // Esc closes the menu too.
             if (e.KeyCode == Keys.Escape)
                 this.menuOpen = false;
 
-            // Copy the selected element.
             if (e.KeyCode == Keys.C && e.Control && this.mnuToggleEditMode.Checked)
             {
                 if (this.selectedDefinition == null) return;
                 this.clipboard = this.selectedDefinition;
             }
 
-            // Paste whatever element is in the clipboard, at the cursor position.
             if (e.KeyCode == Keys.V && e.Control && this.mnuToggleEditMode.Checked)
             {
                 if (this.clipboard == null) return;
@@ -460,14 +371,12 @@ namespace ThoNohT.NohBoard.Forms
                 var oldPos = this.clipboard.GetBoundingBox().GetCenter();
                 var dist = newPos - oldPos;
 
-                // Copy the element with a new id, this also clones the element to facilitate multiple pastes.
                 var elementToAdd = this.clipboard
                     .SetId(GlobalSettings.CurrentDefinition.GetNextId())
                     .Translate(dist.Width, dist.Height);
 
                 var newDefinition = GlobalSettings.CurrentDefinition.AddElement(elementToAdd);
 
-                // Set the style if the original one had a custom style.
                 if (GlobalSettings.CurrentStyle.ElementIsStyled(this.clipboard.Id))
                 {
                     var newStyle = GlobalSettings.CurrentStyle
@@ -485,10 +394,6 @@ namespace ThoNohT.NohBoard.Forms
             }
         }
 
-        /// <summary>
-        /// Adds a new element definition to the current keyboard.
-        /// </summary>
-        /// <param name="definition">The definition to add.</param>
         private void AddElement(ElementDefinition definition)
         {
             if (!this.mnuToggleEditMode.Checked) return;
@@ -499,9 +404,6 @@ namespace ThoNohT.NohBoard.Forms
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Creates a new keyboard key definition and adds it to the keyboard definition.
-        /// </summary>
         private void mnuAddKeyboardKeyDefinition_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -510,10 +412,10 @@ namespace ThoNohT.NohBoard.Forms
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
             {
-                new TPoint(c.X - w, c.Y - w), // Top left
-                new TPoint(c.X + w, c.Y - w), // Top right
-                new TPoint(c.X + w, c.Y + w), // Bottom right
-                new TPoint(c.X - w, c.Y + w), // Bottom left
+                new TPoint(c.X - w, c.Y - w),
+                new TPoint(c.X + w, c.Y - w),
+                new TPoint(c.X + w, c.Y + w),
+                new TPoint(c.X - w, c.Y + w),
             };
 
             this.AddElement(
@@ -526,9 +428,6 @@ namespace ThoNohT.NohBoard.Forms
                     true));
         }
 
-        /// <summary>
-        /// Creates a new mouse key definition and adds it to the keyboard definition.
-        /// </summary>
         private void mnuAddMouseKeyDefinition_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -537,10 +436,10 @@ namespace ThoNohT.NohBoard.Forms
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
             {
-                new TPoint(c.X - w, c.Y - w), // Top left
-                new TPoint(c.X + w, c.Y - w), // Top right
-                new TPoint(c.X + w, c.Y + w), // Bottom right
-                new TPoint(c.X - w, c.Y + w), // Bottom left
+                new TPoint(c.X - w, c.Y - w),
+                new TPoint(c.X + w, c.Y - w),
+                new TPoint(c.X + w, c.Y + w),
+                new TPoint(c.X - w, c.Y + w),
             };
 
             this.AddElement(
@@ -551,9 +450,6 @@ namespace ThoNohT.NohBoard.Forms
                     ""));
         }
 
-        /// <summary>
-        /// Creates a new mouse scroll definition and adds it to the keyboard definition.
-        /// </summary>
         private void mnuAddMouseScrollDefinition_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -562,10 +458,10 @@ namespace ThoNohT.NohBoard.Forms
             var w = Constants.DefaultElementSize / 2;
             var boundaries = new List<TPoint>
             {
-                new TPoint(c.X - w, c.Y - w), // Top left
-                new TPoint(c.X + w, c.Y - w), // Top right
-                new TPoint(c.X + w, c.Y + w), // Bottom right
-                new TPoint(c.X - w, c.Y + w), // Bottom left
+                new TPoint(c.X - w, c.Y - w),
+                new TPoint(c.X + w, c.Y - w),
+                new TPoint(c.X + w, c.Y + w),
+                new TPoint(c.X - w, c.Y + w),
             };
 
             this.AddElement(
@@ -576,9 +472,6 @@ namespace ThoNohT.NohBoard.Forms
                     ""));
         }
 
-        /// <summary>
-        /// Creates a new mouse speed indicator definition and adds it to the keyboard definition.
-        /// </summary>
         private void mnuAddMouseSpeedIndicatorDefinition_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -590,9 +483,6 @@ namespace ThoNohT.NohBoard.Forms
                     Constants.DefaultElementSize / 2));
         }
 
-        /// <summary>
-        /// Removes an element from the current keyboard.
-        /// </summary>
         private void mnuRemoveElement_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -603,7 +493,6 @@ namespace ThoNohT.NohBoard.Forms
             var definitionToRemove = this.highlightedDefinition ?? this.selectedDefinition;
             var newDefinition = GlobalSettings.CurrentDefinition.RemoveElement(definitionToRemove);
 
-            // Remove the style if the element had a style.
             if (GlobalSettings.CurrentStyle.ElementIsStyled(definitionToRemove.Id))
             {
                 var newStyle = GlobalSettings.CurrentStyle.RemoveElementStyle(definitionToRemove.Id);
@@ -614,7 +503,6 @@ namespace ThoNohT.NohBoard.Forms
                 GlobalSettings.Settings.UpdateDefinition(newDefinition, true);
             }
 
-            // Unset the definition everywhere because it no longer exists.
             this.highlightedDefinition = null;
             this.currentlyManipulating = null;
             this.manipulationStart = null;
@@ -627,9 +515,6 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Boundary management
 
-        /// <summary>
-        /// Adds a boundary point to the highlighted element.
-        /// </summary>
         private void mnuAddBoundaryPoint_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -643,15 +528,11 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.UpdateDefinition(
                 GlobalSettings.CurrentDefinition.RemoveElement(def).AddElement(newDef, index), true);
 
-            // If we had a definition selected, the new one should now be selected.
             if (this.selectedDefinition != null) this.selectedDefinition = newDef;
 
             this.ResetBackBrushes();
         }
 
-        /// <summary>
-        /// Removes a boundary point from the highighted element.
-        /// </summary>
         private void mnuRemoveBoundaryPoint_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -662,9 +543,13 @@ namespace ThoNohT.NohBoard.Forms
             var def = (KeyDefinition)this.relevantDefinition;
             if (def.Boundaries.Count < 4)
             {
-                MessageBox.Show(
-                    "You cannot remove another boundary, there must be at least 3.",
-                    "Error removing boundary",
+                this.ShowAppMessageBox(
+                    UiTranslate.T(
+                        "You cannot remove another boundary, there must be at least 3.",
+                        "無法再移除邊界點，至少需要保留三個。",
+                        "无法再移除边界点，至少需要保留三个。",
+                        "境界点をこれ以上削除できません。最低 3 つ必要です。"),
+                    UiTranslate.T("Error removing boundary", "移除邊界錯誤", "移除边界错误", "境界削除エラー"),
                     MessageBoxButtons.OK);
                 return;
             }
@@ -674,7 +559,6 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.UpdateDefinition(
                 GlobalSettings.CurrentDefinition.RemoveElement(def).AddElement(newDef, index), true);
 
-            // If we had a definition selected, the new one should now be selected.
             if (this.selectedDefinition != null) this.selectedDefinition = newDef;
 
             this.ResetBackBrushes();
@@ -684,35 +568,28 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Properties
 
-        /// <summary>
-        /// Opens the element properties window for the element under the cursor.
-        /// </summary>
         private void mnuElementProperties_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
 
-            // Sanity check, don't try anything if there's no selected element.
             var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
             if (relevantElement == null) return;
 
-            // Local function to handle definition changed.
             void OnDefinitionChanged(ElementDefinition def)
             {
                 this.elementUnderCursor = null;
                 this.currentlyManipulating = null;
                 if (def.Equals(this.selectedDefinition))
-                {
                     this.selectedDefinition = def;
-                }
 
                 var index = GlobalSettings.CurrentDefinition.Elements.IndexOf(def);
                 GlobalSettings.Settings.UpdateDefinition(
-                    GlobalSettings.CurrentDefinition.RemoveElement(def).AddElement(def, index), false);
+                    GlobalSettings.CurrentDefinition.RemoveElement(def).AddElement(def, index),
+                    false);
 
                 this.ResetBackBrushes();
             }
 
-            // Local function to handle saving of the changed definition.
             void OnDefinitionSaved()
             {
                 GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition, true);
@@ -725,7 +602,7 @@ namespace ThoNohT.NohBoard.Forms
                     propertiesForm.DefinitionChanged += OnDefinitionChanged;
                     propertiesForm.DefinitionSaved += OnDefinitionSaved;
 
-                    propertiesForm.ShowDialog(this);
+                    this.ShowAppModalDialog(propertiesForm);
                     return;
                 }
             }
@@ -737,7 +614,7 @@ namespace ThoNohT.NohBoard.Forms
                     propertiesForm.DefinitionChanged += OnDefinitionChanged;
                     propertiesForm.DefinitionSaved += OnDefinitionSaved;
 
-                    propertiesForm.ShowDialog(this);
+                    this.ShowAppModalDialog(propertiesForm);
                     return;
                 }
             }
@@ -749,7 +626,7 @@ namespace ThoNohT.NohBoard.Forms
                     propertiesForm.DefinitionChanged += OnDefinitionChanged;
                     propertiesForm.DefinitionSaved += OnDefinitionSaved;
 
-                    propertiesForm.ShowDialog(this);
+                    this.ShowAppModalDialog(propertiesForm);
                     return;
                 }
             }
@@ -757,9 +634,6 @@ namespace ThoNohT.NohBoard.Forms
             throw new Exception("Unknown element, cannot open properties form.");
         }
 
-        /// <summary>
-        /// Opens the keyboard properties form.
-        /// </summary>
         private void mnuKeyboardProperties_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -783,18 +657,30 @@ namespace ThoNohT.NohBoard.Forms
                     GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition, true);
                 };
 
-                propertiesForm.ShowDialog(this);
+                this.ShowAppModalDialog(propertiesForm);
             }
         }
 
-        /// <summary>
-        /// Handles resizing the form. This changes the size of the keyboard.
-        /// </summary>
         private void MainForm_ResizeEnd(object sender, EventArgs e)
         {
-            if (!this.mnuToggleEditMode.Checked) return;
+            if (!this.mnuToggleEditMode.Checked)
+                return;
 
-            GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition.Resize(this.ClientSize), true);
+            if (this.IsLayeredOverlayActive)
+            {
+                this.SyncLayeredOverlayBounds();
+                this.InvalidateKeyboardSurface();
+                return;
+            }
+
+            if (GlobalSettings.CurrentDefinition == null)
+                return;
+
+            var client = this.ClientSize;
+            if (client.Width <= 0 || client.Height <= 0)
+                return;
+
+            GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition.Resize(client), true);
 
             this.ResetBackBrushes();
         }
@@ -803,20 +689,24 @@ namespace ThoNohT.NohBoard.Forms
 
         #region Styles
 
-        /// <summary>
-        /// Opens the edit element style form for the element currently under the cursor.
-        /// </summary>
         private void mnuEditElementStyle_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
 
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
-                MessageBox.Show("Please load or save a style before editing element styles.");
+                this.ShowAppMessageBox(
+                    UiTranslate.T(
+                        "Please load or save a style before editing element styles.",
+                        "請先載入或儲存樣式，再編輯元素樣式。",
+                        "请先加载或保存样式，再编辑元素样式。",
+                        "要素スタイルを編集する前に、スタイルを読み込むか保存してください。"),
+                    UiTranslate.T("Style", "樣式", "样式", "スタイル"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
-            // Sanity check, don't try anything if there's no selected element.
             var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
             if (relevantElement == null) return;
             var id = relevantElement.Id;
@@ -833,16 +723,16 @@ namespace ThoNohT.NohBoard.Forms
                         {
                             if (GlobalSettings.CurrentStyle.ElementIsStyled(id))
                             {
-                                // Remove existing style.
-                                GlobalSettings.Settings
-                                    .UpdateStyle(GlobalSettings.CurrentStyle.RemoveElementStyle(id), false);
+                                GlobalSettings.Settings.UpdateStyle(
+                                    GlobalSettings.CurrentStyle.RemoveElementStyle(id),
+                                    false);
                             }
                         }
                         else
                         {
-                            // Set style.
-                            GlobalSettings.Settings
-                                .UpdateStyle(GlobalSettings.CurrentStyle.SetElementStyle(id, style), false);
+                            GlobalSettings.Settings.UpdateStyle(
+                                GlobalSettings.CurrentStyle.SetElementStyle(id, style),
+                                false);
                         }
 
                         this.ResetBackBrushes();
@@ -853,7 +743,7 @@ namespace ThoNohT.NohBoard.Forms
                         GlobalSettings.Settings.UpdateStyle(GlobalSettings.CurrentStyle, true);
                     };
 
-                    styleForm.ShowDialog(this);
+                    this.ShowAppModalDialog(styleForm);
                 }
             }
 
@@ -869,16 +759,16 @@ namespace ThoNohT.NohBoard.Forms
                         {
                             if (GlobalSettings.CurrentStyle.ElementIsStyled(id))
                             {
-                                // Remove existing style.
-                                GlobalSettings.Settings
-                                    .UpdateStyle(GlobalSettings.CurrentStyle.RemoveElementStyle(id), false);
+                                GlobalSettings.Settings.UpdateStyle(
+                                    GlobalSettings.CurrentStyle.RemoveElementStyle(id),
+                                    false);
                             }
                         }
                         else
                         {
-                            // Set style.
-                            GlobalSettings.Settings
-                                .UpdateStyle(GlobalSettings.CurrentStyle.SetElementStyle(id, style), false);
+                            GlobalSettings.Settings.UpdateStyle(
+                                GlobalSettings.CurrentStyle.SetElementStyle(id, style),
+                                false);
                         }
 
                         this.ResetBackBrushes();
@@ -889,21 +779,26 @@ namespace ThoNohT.NohBoard.Forms
                         GlobalSettings.Settings.UpdateStyle(GlobalSettings.CurrentStyle, true);
                     };
 
-                    styleForm.ShowDialog(this);
+                    this.ShowAppModalDialog(styleForm);
                 }
             }
         }
 
-        /// <summary>
-        /// Opens the edit keyboard style form.
-        /// </summary>
         private void mnuEditKeyboardStyle_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
 
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
-                MessageBox.Show("Please load or save a style before editing the keyboard style.");
+                this.ShowAppMessageBox(
+                    UiTranslate.T(
+                        "Please load or save a style before editing the keyboard style.",
+                        "請先載入或儲存樣式，再編輯鍵盤樣式。",
+                        "请先加载或保存样式，再编辑键盘样式。",
+                        "キーボードスタイルを編集する前に、スタイルを読み込むか保存してください。"),
+                    UiTranslate.T("Style", "樣式", "样式", "スタイル"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 return;
             }
 
@@ -918,13 +813,10 @@ namespace ThoNohT.NohBoard.Forms
                 styleForm.StyleSaved += () => {
                     GlobalSettings.Settings.UpdateStyle(GlobalSettings.CurrentStyle, true);
                 };
-                styleForm.ShowDialog(this);
+                this.ShowAppModalDialog(styleForm);
             }
         }
 
-        /// <summary>
-        /// Saves the current style to its default name.
-        /// </summary>
         private void mnuSaveStyleToName_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -934,9 +826,6 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.LoadedGlobalStyle = false;
         }
 
-        /// <summary>
-        /// Saves the current style as a global style to its default name.
-        /// </summary>
         private void mnuSaveToGlobalStyleName_Click(object sender, EventArgs e)
         {
             this.menuOpen = false;
@@ -946,14 +835,11 @@ namespace ThoNohT.NohBoard.Forms
             GlobalSettings.Settings.LoadedGlobalStyle = true;
         }
 
-        /// <summary>
-        /// Opens the save style as form to save the style under a custom name.
-        /// </summary>
         private void mnuSaveStyleAs_Click(object sender, EventArgs e)
         {
             using (var saveForm = new SaveStyleAsForm())
             {
-                saveForm.ShowDialog(this);
+                this.ShowAppModalDialog(saveForm);
                 saveForm.Dispose();
             }
         }

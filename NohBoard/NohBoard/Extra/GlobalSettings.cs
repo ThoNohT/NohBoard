@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,12 @@ namespace ThoNohT.NohBoard.Extra
     public partial class GlobalSettings
     {
         /// <summary>
+        /// Current <see cref="SettingsVersion"/> written to <c>NohBoard.json</c>.
+        /// Version 3 removes persisted window X/Y (use default placement only).
+        /// </summary>
+        public const int CurrentSettingsVersion = 3;
+
+        /// <summary>
         /// Field for <see cref="UpdateInterval"/>.
         /// </summary>
         private int? updateInterval;
@@ -53,7 +59,7 @@ namespace ThoNohT.NohBoard.Extra
         /// <summary>
         /// Retrieves the global settings.
         /// </summary>
-        public static GlobalSettings Settings { get; private set; }
+        public static GlobalSettings Settings { get; private set; } = new GlobalSettings();
 
         /// <summary>
         /// The currently loaded keyboard definition.
@@ -79,10 +85,22 @@ namespace ThoNohT.NohBoard.Extra
         #region General
 
         /// <summary>
+        /// Settings file schema version (used to migrate older <c>NohBoard.json</c> files).
+        /// </summary>
+        [DataMember]
+        public int SettingsVersion { get; set; } = CurrentSettingsVersion;
+
+        /// <summary>
         /// The window title. If empty, NohBoard with the version number will be shown.
         /// </summary>
         [DataMember]
         public string WindowTitle { get; set; } = "";
+
+        /// <summary>
+        /// UI language for the settings dialog (stored for next launch). Canonical values: en_US, zh_TW, zh_CN, ja_JP.
+        /// </summary>
+        [DataMember]
+        public string UiLanguage { get; set; } = UiLanguageCode.EnUs;
 
         #endregion General
 
@@ -147,6 +165,18 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public int TrapToggleKeyCode { get; set; } = VK_SCROLL;
 
+        /// <summary>
+        /// Transparency of overlay frame and key fill (0 = opaque, 99 = almost transparent). Default 0%.
+        /// </summary>
+        [DataMember]
+        public int OverlayTransparencyPercent { get; set; } = 0;
+
+        /// <summary>
+        /// Visual scale of the keyboard UI. 100% is the keyboard definition's original size.
+        /// </summary>
+        [DataMember]
+        public int KeyboardScalePercent { get; set; } = 100;
+
         #endregion Trapping
 
         #region Capitalization
@@ -202,18 +232,6 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public bool LoadedGlobalStyle { get; set; }
 
-        /// <summary>
-        /// The X position of the NohBoard window.
-        /// </summary>
-        [DataMember]
-        public int X { get; set; } = 25;
-
-        /// <summary>
-        /// The Y position of the NohBoard window.
-        /// </summary>
-        [DataMember]
-        public int Y { get; set; } = 25;
-
         #endregion State
 
         #region Editing
@@ -229,38 +247,126 @@ namespace ThoNohT.NohBoard.Extra
         #region Methods
 
         /// <summary>
-        /// Saves the settings.
+        /// Saves the settings beside the executable.
         /// </summary>
         public static void Save()
         {
-            FileHelper.Serialize(Constants.SettingsFilename, Settings);
+            var path = Constants.SettingsFilePath;
+            FileHelper.EnsurePathExists(path);
+            FileHelper.Serialize(path, Settings);
         }
 
         /// <summary>
-        /// Loads the settings.
+        /// Resolves which settings file to load: primary path next to the exe, then legacy relative/current-directory file.
+        /// </summary>
+        private static string ResolveSettingsPathForLoad()
+        {
+            var primary = Constants.SettingsFilePath;
+            if (File.Exists(primary))
+                return primary;
+
+            var cwdLegacy = Path.Combine(Environment.CurrentDirectory, Constants.SettingsFilename);
+            if (File.Exists(cwdLegacy))
+                return cwdLegacy;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Loads the settings. Creates <c>NohBoard.json</c> beside the exe on first run (same pattern as other BM tools).
         /// </summary>
         public static bool Load()
         {
-            // Only load if the file exists.
-            if (!File.Exists(Constants.SettingsFilename))
+            var path = ResolveSettingsPathForLoad();
+            var createdNew = path == null;
+
+            if (createdNew)
             {
                 Settings = new GlobalSettings();
-                return true;
+            }
+            else
+            {
+                try
+                {
+                    Settings = FileHelper.Deserialize<GlobalSettings>(path);
+                }
+                catch (Exception ex)
+                {
+                    Errors = ex.Message;
+                    Settings = new GlobalSettings();
+                    createdNew = true;
+                }
             }
 
+            var needsSave = Settings.NormalizeAfterLoad() || createdNew;
+            ApplyLoadedSettingsSideEffects();
+
+            if (needsSave)
+                TryPersistSettings();
+
+            return string.IsNullOrEmpty(Errors);
+        }
+
+        /// <summary>
+        /// Applies defaults, clamps values, and migrates older settings files.
+        /// </summary>
+        /// <returns><c>true</c> if the on-disk file should be rewritten.</returns>
+        public bool NormalizeAfterLoad()
+        {
+            var changed = false;
+
+            if (this.SettingsVersion < CurrentSettingsVersion)
+            {
+                if (this.SettingsVersion < 2)
+                    this.OverlayTransparencyPercent = 0;
+
+                this.SettingsVersion = CurrentSettingsVersion;
+                changed = true;
+            }
+
+            var overlay = OverlayTransparency.ClampPercent(this.OverlayTransparencyPercent);
+            if (overlay != this.OverlayTransparencyPercent)
+            {
+                this.OverlayTransparencyPercent = overlay;
+                changed = true;
+            }
+
+            var scale = Math.Max(25, Math.Min(300, this.KeyboardScalePercent));
+            if (scale != this.KeyboardScalePercent)
+            {
+                this.KeyboardScalePercent = this.KeyboardScalePercent <= 0 ? 100 : scale;
+                changed = true;
+            }
+
+            var lang = UiLanguageCode.Normalize(this.UiLanguage);
+            if (lang != this.UiLanguage)
+            {
+                this.UiLanguage = lang;
+                changed = true;
+            }
+
+            return changed;
+        }
+
+        private static void ApplyLoadedSettingsSideEffects()
+        {
+            Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
+            MouseState.SetMouseFromCenter(
+                Settings.MouseFromCenter,
+                Screen.AllScreens.Select(x => (x.Bounds, getCenter(x.Bounds))).ToList());
+        }
+
+        /// <summary>
+        /// Writes settings without surfacing errors (startup / migration).
+        /// </summary>
+        internal static void TryPersistSettings()
+        {
             try
             {
-                Settings = FileHelper.Deserialize<GlobalSettings>(Constants.SettingsFilename);
-
-                Func<Rectangle, Point> getCenter = r => r.Location + new Size(r.Width / 2, r.Height / 2);
-                MouseState.SetMouseFromCenter(Settings.MouseFromCenter, Screen.AllScreens.Select(x => (x.Bounds, getCenter(x.Bounds))).ToList());
-                return true;
+                Save();
             }
-            catch (Exception ex)
+            catch
             {
-                Errors = ex.Message;
-                Settings = new GlobalSettings();
-                return false;
             }
         }
 

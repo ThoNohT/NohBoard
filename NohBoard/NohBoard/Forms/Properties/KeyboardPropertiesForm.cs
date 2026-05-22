@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2017 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -72,9 +72,11 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// <summary>
         /// Loads the form, setting the controls to the initial style.
         /// </summary>
-        private void MouseSpeedPropertiesForm_Load(object sender, EventArgs e)
+        private void KeyboardPropertiesForm_Load(object sender, EventArgs e)
         {
-            // Mouse speed indicator
+            this.ApplyLocalizedUiTexts();
+
+            // Keyboard canvas size
             this.txtSize.X = this.initialDefinition.Width;
             this.txtSize.Y = this.initialDefinition.Height;
 
@@ -110,6 +112,14 @@ namespace ThoNohT.NohBoard.Forms.Properties
         {
             this.DefinitionChanged?.Invoke(this.initialDefinition);
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void ApplyLocalizedUiTexts()
+        {
+            this.Text = PropertyDialogsLocalization.KeyboardPropertiesTitle;
+            this.lblSize.Text = PropertyDialogsLocalization.SizeLabel;
+            this.CancelButton2.Text = PropertyDialogsLocalization.Cancel;
+            this.AcceptButton2.Text = PropertyDialogsLocalization.Accept;
         }
     }
 }

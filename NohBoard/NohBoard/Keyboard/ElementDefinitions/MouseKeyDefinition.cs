@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -65,16 +65,21 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
             var style = GlobalSettings.CurrentStyle.TryGetElementStyle<KeyStyle>(this.Id)
                             ?? GlobalSettings.CurrentStyle.DefaultKeyStyle;
             var defaultStyle = GlobalSettings.CurrentStyle.DefaultKeyStyle;
-            var subStyle = pressed ? style?.Pressed ?? defaultStyle.Pressed : style?.Loose ?? defaultStyle.Loose;
+            var subStyle = pressed ? style?.Pressed ?? defaultStyle?.Pressed : style?.Loose ?? defaultStyle?.Loose;
+            if (subStyle == null)
+                return;
 
             var txtSize = g.MeasureString(this.Text, subStyle.Font);
             var txtPoint = new TPoint(
                 this.TextPosition.X - (int)(txtSize.Width / 2),
                 this.TextPosition.Y - (int)(txtSize.Height / 2));
 
-            // Draw the background
-            var backgroundBrush = this.GetBackgroundBrush(subStyle, pressed);
-            g.FillPolygon(backgroundBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            if (!OverlayTransparency.HidesFrameAndFill(
+                    GlobalSettings.Settings?.OverlayTransparencyPercent ?? 0))
+            {
+                var backgroundBrush = this.GetBackgroundBrush(subStyle, pressed);
+                g.FillPolygon(backgroundBrush, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            }
 
             // Draw the text
             g.SetClip(this.GetBoundingBox());
@@ -83,9 +88,13 @@ namespace ThoNohT.NohBoard.Keyboard.ElementDefinitions
 
             // Draw the outline.
             if (subStyle.ShowOutline)
-                g.DrawPolygon(
-                    new Pen(subStyle.Outline, subStyle.OutlineWidth),
-                    this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            {
+                using var outlinePen = OverlayTransparency.CreateOutlinePen(
+                    subStyle.Outline,
+                    subStyle.OutlineWidth,
+                    GlobalSettings.Settings?.OverlayTransparencyPercent ?? 0);
+                g.DrawPolygon(outlinePen, this.Boundaries.ConvertAll<Point>(x => x).ToArray());
+            }
         }
 
         /// <summary>

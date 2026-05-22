@@ -93,6 +93,39 @@ namespace ThoNohT.NohBoard.Keyboard.Styles
         }
 
         /// <summary>
+        /// Draws the key background (solid fill or image) with overlay transparency applied.
+        /// </summary>
+        public void DrawBackground(Graphics g, Point[] polygon, Rectangle boundingBox, int transparencyPercent)
+        {
+            var p = OverlayTransparency.ClampPercent(transparencyPercent);
+            if (p >= 100)
+                return;
+
+            if (this.BackgroundImageFileName == null || !FileHelper.StyleImageExists(this.BackgroundImageFileName))
+            {
+                using var brush = new SolidBrush(OverlayTransparency.Apply(this.Background, transparencyPercent));
+                g.FillPolygon(brush, polygon);
+                return;
+            }
+
+            var img = ImageCache.Get(this.BackgroundImageFileName);
+            var state = g.Save();
+            try
+            {
+                using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                {
+                    path.AddPolygon(polygon);
+                    g.SetClip(path);
+                    OverlayTransparency.DrawImage(g, img, boundingBox, transparencyPercent);
+                }
+            }
+            finally
+            {
+                g.Restore(state);
+            }
+        }
+
+        /// <summary>
         /// Returns the appropriate background brush to use for a key, given its dimensions.
         /// </summary>
         /// <param name="boundingBox">The bounding box of the key.</param>

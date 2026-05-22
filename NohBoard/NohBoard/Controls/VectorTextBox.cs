@@ -133,9 +133,16 @@ namespace ThoNohT.NohBoard.Controls
         /// </summary>
         public VectorTextBox()
         {
+            this.TextAlign = HorizontalAlignment.Left;
             this.KeyPress += this.IgnoreKey;
             this.KeyDown += this.HandleKeyDown;
             this.GotFocus += this.HandleFocus;
+        }
+
+        /// <inheritdoc />
+        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+        {
+            base.SetBoundsCore(x, y, width, FixedHeightTextBox.FixedUiHeight, specified | BoundsSpecified.Height);
         }
 
         #endregion Constructors
@@ -356,5 +363,11 @@ namespace ThoNohT.NohBoard.Controls
         }
 
         #endregion Methods
+    }
+
+    /// <summary>Unified UI height for single-line text inputs (<see cref="VectorTextBox" />).</summary>
+    internal static class FixedHeightTextBox
+    {
+        public const int FixedUiHeight = 23;
     }
 }

@@ -222,6 +222,90 @@ namespace ThoNohT.NohBoard.Keyboard
         }
 
         /// <summary>
+        /// Overwrites a global style file with a deep clone of a definition-local style (same appearance).
+        /// Referenced images are copied from <c>keyboards/&lt;category&gt;/images</c> into <c>keyboards/global/images</c>.
+        /// Does not use <see cref="Save(bool)"/> because definition-local styles may contain per-element overrides.
+        /// </summary>
+        public static void CopyDefinitionStyleToGlobal(
+            string category,
+            string definitionName,
+            string sourceStyleName,
+            string targetGlobalStyleName)
+        {
+            if (string.IsNullOrWhiteSpace(category)) throw new ArgumentException(nameof(category));
+            if (string.IsNullOrWhiteSpace(definitionName)) throw new ArgumentException(nameof(definitionName));
+            if (string.IsNullOrWhiteSpace(sourceStyleName)) throw new ArgumentException(nameof(sourceStyleName));
+            if (string.IsNullOrWhiteSpace(targetGlobalStyleName)) throw new ArgumentException(nameof(targetGlobalStyleName));
+
+            var targetName = targetGlobalStyleName.Trim();
+
+            var srcPath = FileHelper.FromKbs(category, definitionName, $"{sourceStyleName}{StyleExtension}").FullName;
+            if (!File.Exists(srcPath))
+                throw new FileNotFoundException($"Style file not found: {srcPath}");
+
+            var loaded = FileHelper.Deserialize<KeyboardStyle>(srcPath);
+            if (loaded == null)
+                throw new InvalidOperationException("Could not read the style file.");
+
+            var copy = loaded.Clone();
+            copy.Name = targetName;
+
+            var dstPath = FileHelper.FromKbs(Constants.GlobalStylesFolder, $"{targetName}{StyleExtension}").FullName;
+            FileHelper.EnsurePathExists(dstPath);
+            FileHelper.Serialize(dstPath, copy);
+
+            CopyReferencedStyleImagesFromCategoryToGlobal(category, copy);
+        }
+
+        private static void CollectImageFileNames(KeySubStyle sub, ISet<string> into)
+        {
+            if (sub == null || string.IsNullOrWhiteSpace(sub.BackgroundImageFileName)) return;
+            into.Add(sub.BackgroundImageFileName.Trim());
+        }
+
+        private static void CollectImageFileNames(KeyStyle keyStyle, ISet<string> into)
+        {
+            if (keyStyle == null) return;
+            CollectImageFileNames(keyStyle.Loose, into);
+            CollectImageFileNames(keyStyle.Pressed, into);
+        }
+
+        private static void CollectReferencedStyleImages(KeyboardStyle style, ISet<string> into)
+        {
+            if (!string.IsNullOrWhiteSpace(style.BackgroundImageFileName))
+                into.Add(style.BackgroundImageFileName.Trim());
+
+            CollectImageFileNames(style.DefaultKeyStyle, into);
+
+            foreach (var pair in style.ElementStyles)
+            {
+                if (pair.Value is KeyStyle ks)
+                    CollectImageFileNames(ks, into);
+            }
+        }
+
+        private static void CopyReferencedStyleImagesFromCategoryToGlobal(string category, KeyboardStyle style)
+        {
+            var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            CollectReferencedStyleImages(style, names);
+            if (names.Count == 0) return;
+
+            var srcRoot = FileHelper.FromKbs(category, Constants.ImagesFolder).FullName;
+            var dstRoot = FileHelper.FromKbs(Constants.GlobalStylesFolder, Constants.ImagesFolder).FullName;
+            if (!Directory.Exists(srcRoot)) return;
+
+            foreach (var name in names)
+            {
+                var src = Path.Combine(srcRoot, name);
+                var dst = Path.Combine(dstRoot, name);
+                if (!File.Exists(src)) continue;
+
+                FileHelper.EnsurePathExists(dst);
+                File.Copy(src, dst, overwrite: true);
+            }
+        }
+
+        /// <summary>
         /// Tries to get the element style for the key with the specified identifier.
         /// </summary>
         /// <param name="id">The identifier of the key.</param>

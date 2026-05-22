@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,56 +17,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ThoNohT.NohBoard.Forms
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
     using Extra;
     using Keyboard;
 
-    /// <summary>
-    /// The form used to save a style under a new name.
-    /// </summary>
     public partial class SaveStyleAsForm : Form
     {
-        /// <summary>
-        /// The root path for the folder where styles should be saved.
-        /// </summary>
         private string rootPath;
 
-        /// <summary>
-        /// The name of the currently selected style.
-        /// </summary>
         private string SelectedStyle => this.StyleCombo.Text.SanitizeFilename();
 
-        /// <summary>
-        /// Indicates whether the style should be saved as a global style.
-        /// </summary>
         private bool SelectedGlobal => this.chkGlobal.Checked;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SaveStyleAsForm" /> class.
-        /// </summary>
         public SaveStyleAsForm()
         {
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Initializes the form, decides whether or not global styles can be used and prefills the list of already
-        /// known styles.
-        /// </summary>
         private void SaveStyleAsForm_Load(object sender, System.EventArgs e)
         {
-            // Determine whether we can save globally.
+            this.ApplyLocalizedSaveStyleTexts();
+
             this.chkGlobal.Enabled = GlobalSettings.CurrentStyle.IsGlobal;
             this.chkGlobal.Checked = GlobalSettings.Settings.LoadedGlobalStyle && GlobalSettings.CurrentStyle.IsGlobal;
 
             this.FillStyles();
         }
 
-        /// <summary>
-        /// Fills the list of known styles.
-        /// </summary>
+        private void ApplyLocalizedSaveStyleTexts()
+        {
+            var L = UiTranslate.Lang;
+
+            this.Text = UiTranslate.T(L, "Save Keyboard Style", "儲存鍵盤樣式", "保存键盘样式", "キーボードスタイルを保存");
+            this.lblName.Text = UiTranslate.T(L, "Name:", "名稱：", "名称：", "名前：");
+            this.SaveButton.Text = UiTranslate.T(L, "Save", "儲存", "保存", "保存");
+            this.CancelButton2.Text = UiTranslate.T(L, "Cancel", "取消", "取消", "キャンセル");
+            this.chkGlobal.Text = UiTranslate.T(L, "Save as global style", "儲存為全域樣式", "保存为全局样式", "グローバルスタイルとして保存");
+        }
+
         private void FillStyles()
         {
             var sRoot = FileHelper.FromKbs().FullName;
@@ -77,7 +68,6 @@ namespace ThoNohT.NohBoard.Forms
 
             var root = new DirectoryInfo(this.rootPath);
 
-            // If there are no style files, no initialization is required.
             if (!root.Exists) return;
 
             this.StyleCombo.Items.AddRange(
@@ -88,28 +78,28 @@ namespace ThoNohT.NohBoard.Forms
             this.StyleCombo.Text = GlobalSettings.Settings.LoadedStyle;
         }
 
-        /// <summary>
-        /// Handles the switch between global and definition specific styles. Re-fills the list of known styles.
-        /// </summary>
         private void chkGlobal_CheckedChanged(object sender, System.EventArgs e)
         {
             this.FillStyles();
         }
 
-        /// <summary>
-        /// Saves the style to the chosen location and name.
-        /// </summary>
         private void SaveButton_Click(object sender, System.EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.SelectedStyle))
                 return;
 
-            // Check if the name already exists.
             if (File.Exists(Path.Combine(this.rootPath, $"{this.SelectedStyle}{KeyboardStyle.StyleExtension}")))
             {
-                var result = MessageBox.Show(
-                    $"Style {this.SelectedStyle} already exists, do you want to overwrite it?",
-                    "Already exists",
+                var result = AppModalUi.ShowMessageBox(
+                    this,
+                    string.Format(
+                        UiTranslate.T(
+                            "Style {0} already exists, do you want to overwrite it?",
+                            "樣式 {0} 已存在，要覆寫嗎？",
+                            "样式 {0} 已存在，要覆盖吗？",
+                            "スタイル {0} は既にあります。上書きしますか？"),
+                        this.SelectedStyle),
+                    UiTranslate.T("Already exists", "已存在", "已存在", "既に存在します"),
                     MessageBoxButtons.YesNoCancel);
 
                 if (result == DialogResult.No) return;
@@ -120,7 +110,6 @@ namespace ThoNohT.NohBoard.Forms
                 }
             }
 
-            // Save the style.
             GlobalSettings.CurrentStyle.Name = this.SelectedStyle;
             GlobalSettings.CurrentStyle.Save(this.SelectedGlobal);
             GlobalSettings.Settings.LoadedStyle = this.SelectedStyle;

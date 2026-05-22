@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -22,52 +22,28 @@ namespace ThoNohT.NohBoard.Forms.Style
     using Keyboard.Styles;
     using ThoNohT.NohBoard.Extra;
 
-    /// <summary>
-    /// The form used to update the style of a key.
-    /// </summary>
     public partial class KeyStyleForm : Form
     {
         #region Fields
 
-        /// <summary>
-        /// A backup style to return to if the user presses cancel.
-        /// </summary>
         private readonly KeyStyle initialStyle;
 
-        /// <summary>
-        /// The style to revert to if the overwrite checkbox is unchecked.
-        /// </summary>
         private readonly KeyStyle defaultStyle;
 
-        /// <summary>
-        /// The currently loaded style.
-        /// </summary>
         private readonly KeyStyle currentStyle;
 
         #endregion Fields
 
         #region Events
 
-        /// <summary>
-        /// The event that is invoked when the style has been changed. Only invoked when the style is changed through
-        /// the user interface, not when it is changed programmatically.
-        /// </summary>
         public new event Action<KeyStyle> StyleChanged;
 
-        /// <summary>
-        /// The event that is invoked when the style is saved.
-        /// </summary>
         public event Action StyleSaved;
 
         #endregion Events
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyStyleForm" /> class.
-        /// </summary>
-        /// <param name="initialStyle">The initial style.</param>
-        /// <param name="defaultStyle">The default style to revert to when the override checkbox is unchecked.</param>
         public KeyStyleForm(KeyStyle initialStyle, KeyStyle defaultStyle)
         {
             if (defaultStyle == null) throw new ArgumentNullException(nameof(defaultStyle));
@@ -88,12 +64,10 @@ namespace ThoNohT.NohBoard.Forms.Style
 
         #region Methods
 
-        /// <summary>
-        /// Loads the form, setting the controls to the initial style.
-        /// </summary>
         private void KeyStyleForm_Load(object sender, EventArgs e)
         {
-            // Default key styles.
+            this.ApplyLocalizedUiTexts();
+
             this.loose.SubStyle = this.initialStyle?.Loose ?? this.defaultStyle.Loose;
             this.pressed.SubStyle = this.initialStyle?.Pressed ?? this.defaultStyle.Pressed;
             this.chkOverwriteLoose.Checked = this.currentStyle?.Loose != null;
@@ -103,33 +77,34 @@ namespace ThoNohT.NohBoard.Forms.Style
 
             this.UpdateOutlineWarning();
 
-            // Only add the event handlers after the initial style has been set.
             this.pressed.StyleChanged += this.pressedKeys_SubStyleChanged;
             this.loose.StyleChanged += this.looseKeys_SubStyleChanged;
         }
 
-        /// <summary>
-        /// Accepts the current style.
-        /// </summary>
+        private void ApplyLocalizedUiTexts()
+        {
+            this.Text = PropertyDialogsLocalization.StyleKeyStyleTitle;
+            this.AcceptButton2.Text = PropertyDialogsLocalization.Accept;
+            this.CancelButton2.Text = PropertyDialogsLocalization.Cancel;
+            this.loose.Title = PropertyDialogsLocalization.StyleLooseShort;
+            this.pressed.Title = PropertyDialogsLocalization.StylePressedShort;
+            this.chkOverwriteLoose.Text = PropertyDialogsLocalization.StyleOverwriteDefaultStyle;
+            this.chkOverwritePressed.Text = PropertyDialogsLocalization.StyleOverwriteDefaultStyle;
+            this.lblOutlineWarning.Text = PropertyDialogsLocalization.StyleOutlineWidthWarning;
+        }
+
         private void AcceptButton2_Click(object sender, EventArgs e)
         {
             this.StyleSaved?.Invoke();
             this.DialogResult = DialogResult.OK;
         }
 
-        /// <summary>
-        /// Cancels the current style, reverting to the initial style.
-        /// </summary>
         private void CancelButton2_Click(object sender, EventArgs e)
         {
             this.StyleChanged?.Invoke(this.initialStyle);
             this.DialogResult = DialogResult.Cancel;
         }
 
-        /// <summary>
-        /// Handles change of the loose style, sets the new style and invokes the changed event.
-        /// </summary>
-        /// <param name="style">The new style.</param>
         private void looseKeys_SubStyleChanged(KeySubStyle style)
         {
             this.currentStyle.Loose = style;
@@ -137,10 +112,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.UpdateOutlineWarning();
         }
 
-        /// <summary>
-        /// Handles change of the pressed style, sets the new style and invokes the changed event.
-        /// </summary>
-        /// <param name="style">The new style.</param>
         private void pressedKeys_SubStyleChanged(Keyboard.Styles.KeySubStyle style)
         {
             this.currentStyle.Pressed = style;
@@ -148,9 +119,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.UpdateOutlineWarning();
         }
 
-        /// <summary>
-        /// Toggles the overwriting of the default style for loose keys.
-        /// </summary>
         private void chkOverwriteLoose_CheckedChanged(object sender, EventArgs e)
         {
             this.loose.Enabled = this.chkOverwriteLoose.Checked;
@@ -169,9 +137,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.UpdateOutlineWarning();
         }
 
-        /// <summary>
-        /// Toggles the overwriting of the default style for pressed keys.
-        /// </summary>
         private void chkOverwritePressed_CheckedChanged(object sender, EventArgs e)
         {
             this.pressed.Enabled = this.chkOverwritePressed.Checked;
@@ -191,9 +156,6 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.UpdateOutlineWarning();
         }
 
-        /// <summary>
-        /// Updates the visibility of the outline warning.
-        /// </summary>
         private void UpdateOutlineWarning()
         {
             int OutlineWidth(KeySubStyle subStyle, KeySubStyle globalSubStyle) =>

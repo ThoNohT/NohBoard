@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,8 @@ namespace ThoNohT.NohBoard.Forms.Style
 
     partial class KeyboardStyleForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (this.components != null))
@@ -41,224 +34,193 @@ namespace ThoNohT.NohBoard.Forms.Style
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor1 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont1 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor2 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor3 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor4 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont2 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor5 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle mouseSpeedIndicatorStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.MouseSpeedIndicatorStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor7 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor8 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            this.KeyboardGroup = new System.Windows.Forms.GroupBox();
-            this.txtBackgoundImage = new System.Windows.Forms.TextBox();
-            this.lblBackgroundImage = new System.Windows.Forms.Label();
-            this.clrKeyboardBackground = new ThoNohT.NohBoard.Controls.ColorChooser();
-            this.AcceptButton2 = new System.Windows.Forms.Button();
-            this.CancelButton2 = new System.Windows.Forms.Button();
-            this.pressedKeys = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
-            this.looseKeys = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
-            this.lblKeyboard = new System.Windows.Forms.Label();
-            this.defaultMouseSpeed = new ThoNohT.NohBoard.Controls.MouseSpeedStylePanel();
-            this.lblOutlineWarning = new System.Windows.Forms.Label();
-            this.KeyboardGroup.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // KeyboardGroup
-            // 
-            this.KeyboardGroup.Controls.Add(this.txtBackgoundImage);
-            this.KeyboardGroup.Controls.Add(this.lblBackgroundImage);
-            this.KeyboardGroup.Controls.Add(this.clrKeyboardBackground);
-            this.KeyboardGroup.Location = new System.Drawing.Point(12, 34);
-            this.KeyboardGroup.Name = "KeyboardGroup";
-            this.KeyboardGroup.Size = new System.Drawing.Size(171, 80);
-            this.KeyboardGroup.TabIndex = 9;
-            this.KeyboardGroup.TabStop = false;
-            this.KeyboardGroup.Text = "Background";
-            // 
-            // txtBackgoundImage
-            // 
-            this.txtBackgoundImage.Location = new System.Drawing.Point(54, 52);
-            this.txtBackgoundImage.Name = "txtBackgoundImage";
-            this.txtBackgoundImage.Size = new System.Drawing.Size(100, 20);
-            this.txtBackgoundImage.TabIndex = 4;
-            // 
-            // lblBackgroundImage
-            // 
-            this.lblBackgroundImage.Location = new System.Drawing.Point(6, 48);
-            this.lblBackgroundImage.Name = "lblBackgroundImage";
-            this.lblBackgroundImage.Size = new System.Drawing.Size(41, 23);
-            this.lblBackgroundImage.TabIndex = 3;
-            this.lblBackgroundImage.Text = "Image:";
-            this.lblBackgroundImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // clrKeyboardBackground
-            // 
-            this.clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
-            this.clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
-            this.clrKeyboardBackground.LabelText = "Background Color";
-            this.clrKeyboardBackground.Location = new System.Drawing.Point(7, 19);
-            this.clrKeyboardBackground.Name = "clrKeyboardBackground";
-            this.clrKeyboardBackground.PreviewShape = ThoNohT.NohBoard.Controls.ColorChooser.Shape.Square;
-            this.clrKeyboardBackground.Size = new System.Drawing.Size(158, 26);
-            this.clrKeyboardBackground.TabIndex = 2;
-            // 
-            // AcceptButton2
-            // 
-            this.AcceptButton2.Location = new System.Drawing.Point(461, 343);
-            this.AcceptButton2.Name = "AcceptButton2";
-            this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 10;
-            this.AcceptButton2.Text = "Accept";
-            this.AcceptButton2.UseVisualStyleBackColor = true;
-            this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
-            // 
-            // CancelButton2
-            // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(380, 343);
-            this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 11;
-            this.CancelButton2.Text = "Cancel";
-            this.CancelButton2.UseVisualStyleBackColor = true;
-            this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
-            // 
-            // pressedKeys
-            // 
-            this.pressedKeys.Location = new System.Drawing.Point(366, 13);
-            this.pressedKeys.Name = "pressedKeys";
-            this.pressedKeys.Size = new System.Drawing.Size(171, 331);
-            serializableColor1.Blue = ((byte)(0));
-            serializableColor1.Green = ((byte)(0));
-            serializableColor1.Red = ((byte)(0));
+            Keyboard.Styles.KeySubStyle keySubStyle1 = new Keyboard.Styles.KeySubStyle();
+            Extra.SerializableColor serializableColor1 = new Extra.SerializableColor();
+            Extra.SerializableFont serializableFont1 = new Extra.SerializableFont();
+            Extra.SerializableColor serializableColor2 = new Extra.SerializableColor();
+            Extra.SerializableColor serializableColor3 = new Extra.SerializableColor();
+            Keyboard.Styles.KeySubStyle keySubStyle2 = new Keyboard.Styles.KeySubStyle();
+            Extra.SerializableColor serializableColor4 = new Extra.SerializableColor();
+            Extra.SerializableFont serializableFont2 = new Extra.SerializableFont();
+            Extra.SerializableColor serializableColor5 = new Extra.SerializableColor();
+            Extra.SerializableColor serializableColor6 = new Extra.SerializableColor();
+            Keyboard.Styles.MouseSpeedIndicatorStyle mouseSpeedIndicatorStyle1 = new Keyboard.Styles.MouseSpeedIndicatorStyle();
+            Extra.SerializableColor serializableColor7 = new Extra.SerializableColor();
+            Extra.SerializableColor serializableColor8 = new Extra.SerializableColor();
+            KeyboardGroup = new System.Windows.Forms.GroupBox();
+            txtBackgoundImage = new System.Windows.Forms.TextBox();
+            lblBackgroundImage = new System.Windows.Forms.Label();
+            clrKeyboardBackground = new ColorChooser();
+            AcceptButton2 = new System.Windows.Forms.Button();
+            CancelButton2 = new System.Windows.Forms.Button();
+            pressedKeys = new KeySubStylePanel();
+            looseKeys = new KeySubStylePanel();
+            lblKeyboard = new System.Windows.Forms.Label();
+            defaultMouseSpeed = new MouseSpeedStylePanel();
+            lblOutlineWarning = new System.Windows.Forms.Label();
+            KeyboardGroup.SuspendLayout();
+            SuspendLayout();
+            KeyboardGroup.Controls.Add(txtBackgoundImage);
+            KeyboardGroup.Controls.Add(lblBackgroundImage);
+            KeyboardGroup.Controls.Add(clrKeyboardBackground);
+            KeyboardGroup.Location = new System.Drawing.Point(10, 35);
+            KeyboardGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            KeyboardGroup.Name = "KeyboardGroup";
+            KeyboardGroup.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            KeyboardGroup.Size = new System.Drawing.Size(200, 90);
+            KeyboardGroup.TabIndex = 9;
+            KeyboardGroup.TabStop = false;
+            KeyboardGroup.Text = "Background";
+            txtBackgoundImage.Location = new System.Drawing.Point(70, 55);
+            txtBackgoundImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtBackgoundImage.Name = "txtBackgoundImage";
+            txtBackgoundImage.Size = new System.Drawing.Size(125, 23);
+            txtBackgoundImage.TabIndex = 4;
+            lblBackgroundImage.Location = new System.Drawing.Point(5, 55);
+            lblBackgroundImage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblBackgroundImage.Name = "lblBackgroundImage";
+            lblBackgroundImage.Size = new System.Drawing.Size(60, 23);
+            lblBackgroundImage.TabIndex = 3;
+            lblBackgroundImage.Text = "Image:";
+            lblBackgroundImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            clrKeyboardBackground.BackColor = System.Drawing.SystemColors.Control;
+            clrKeyboardBackground.Color = System.Drawing.Color.FromArgb(0, 0, 100);
+            clrKeyboardBackground.LabelText = "Background Color";
+            clrKeyboardBackground.Location = new System.Drawing.Point(10, 23);
+            clrKeyboardBackground.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            clrKeyboardBackground.Name = "clrKeyboardBackground";
+            clrKeyboardBackground.PreviewShape = ColorChooser.Shape.Square;
+            clrKeyboardBackground.Size = new System.Drawing.Size(185, 23);
+            clrKeyboardBackground.TabIndex = 2;
+            AcceptButton2.Location = new System.Drawing.Point(550, 410);
+            AcceptButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AcceptButton2.Name = "AcceptButton2";
+            AcceptButton2.Size = new System.Drawing.Size(80, 23);
+            AcceptButton2.TabIndex = 10;
+            AcceptButton2.Text = "Accept";
+            AcceptButton2.UseVisualStyleBackColor = true;
+            AcceptButton2.Click += AcceptButton2_Click;
+            CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelButton2.Location = new System.Drawing.Point(465, 410);
+            CancelButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CancelButton2.Name = "CancelButton2";
+            CancelButton2.Size = new System.Drawing.Size(80, 23);
+            CancelButton2.TabIndex = 11;
+            CancelButton2.Text = "Cancel";
+            CancelButton2.UseVisualStyleBackColor = true;
+            CancelButton2.Click += CancelButton2_Click;
+            pressedKeys.Location = new System.Drawing.Point(430, 10);
+            pressedKeys.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            pressedKeys.Name = "pressedKeys";
+            pressedKeys.Size = new System.Drawing.Size(200, 395);
+            serializableColor1.Blue = 0;
+            serializableColor1.Green = 0;
+            serializableColor1.Red = 0;
             keySubStyle1.Background = serializableColor1;
             keySubStyle1.BackgroundImageFileName = "";
             serializableFont1.AlternateFontFamily = null;
             serializableFont1.DownloadUrl = null;
             serializableFont1.FontFamily = "Microsoft Sans Serif";
             serializableFont1.Size = 8.25F;
-            serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            serializableFont1.Style = Extra.SerializableFontStyle.Regular;
             keySubStyle1.Font = serializableFont1;
-            serializableColor2.Blue = ((byte)(0));
-            serializableColor2.Green = ((byte)(0));
-            serializableColor2.Red = ((byte)(0));
+            serializableColor2.Blue = 0;
+            serializableColor2.Green = 0;
+            serializableColor2.Red = 0;
             keySubStyle1.Outline = serializableColor2;
             keySubStyle1.OutlineWidth = 1;
             keySubStyle1.ShowOutline = false;
-            serializableColor3.Blue = ((byte)(0));
-            serializableColor3.Green = ((byte)(0));
-            serializableColor3.Red = ((byte)(0));
+            serializableColor3.Blue = 0;
+            serializableColor3.Green = 0;
+            serializableColor3.Red = 0;
             keySubStyle1.Text = serializableColor3;
-            this.pressedKeys.SubStyle = keySubStyle1;
-            this.pressedKeys.TabIndex = 13;
-            this.pressedKeys.Title = "Pressed Keys";
-            // 
-            // looseKeys
-            // 
-            this.looseKeys.Location = new System.Drawing.Point(189, 13);
-            this.looseKeys.Name = "looseKeys";
-            this.looseKeys.Size = new System.Drawing.Size(171, 331);
-            serializableColor4.Blue = ((byte)(0));
-            serializableColor4.Green = ((byte)(0));
-            serializableColor4.Red = ((byte)(0));
+            pressedKeys.SubStyle = keySubStyle1;
+            pressedKeys.TabIndex = 13;
+            pressedKeys.Title = "Pressed Keys";
+            looseKeys.Location = new System.Drawing.Point(220, 10);
+            looseKeys.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            looseKeys.Name = "looseKeys";
+            looseKeys.Size = new System.Drawing.Size(200, 395);
+            serializableColor4.Blue = 0;
+            serializableColor4.Green = 0;
+            serializableColor4.Red = 0;
             keySubStyle2.Background = serializableColor4;
             keySubStyle2.BackgroundImageFileName = "";
             serializableFont2.AlternateFontFamily = null;
             serializableFont2.DownloadUrl = null;
             serializableFont2.FontFamily = "Microsoft Sans Serif";
             serializableFont2.Size = 8.25F;
-            serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
+            serializableFont2.Style = Extra.SerializableFontStyle.Regular;
             keySubStyle2.Font = serializableFont2;
-            serializableColor5.Blue = ((byte)(0));
-            serializableColor5.Green = ((byte)(0));
-            serializableColor5.Red = ((byte)(0));
+            serializableColor5.Blue = 0;
+            serializableColor5.Green = 0;
+            serializableColor5.Red = 0;
             keySubStyle2.Outline = serializableColor5;
             keySubStyle2.OutlineWidth = 1;
             keySubStyle2.ShowOutline = false;
-            serializableColor6.Blue = ((byte)(0));
-            serializableColor6.Green = ((byte)(0));
-            serializableColor6.Red = ((byte)(0));
+            serializableColor6.Blue = 0;
+            serializableColor6.Green = 0;
+            serializableColor6.Red = 0;
             keySubStyle2.Text = serializableColor6;
-            this.looseKeys.SubStyle = keySubStyle2;
-            this.looseKeys.TabIndex = 12;
-            this.looseKeys.Title = "Loose Keys";
-            // 
-            // lblKeyboard
-            // 
-            this.lblKeyboard.AutoEllipsis = true;
-            this.lblKeyboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblKeyboard.Location = new System.Drawing.Point(9, 14);
-            this.lblKeyboard.Name = "lblKeyboard";
-            this.lblKeyboard.Size = new System.Drawing.Size(174, 18);
-            this.lblKeyboard.TabIndex = 15;
-            this.lblKeyboard.Text = "Keyboard";
-            this.lblKeyboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // defaultMouseSpeed
-            // 
-            serializableColor7.Blue = ((byte)(0));
-            serializableColor7.Green = ((byte)(0));
-            serializableColor7.Red = ((byte)(0));
+            looseKeys.SubStyle = keySubStyle2;
+            looseKeys.TabIndex = 12;
+            looseKeys.Title = "Loose Keys";
+            lblKeyboard.AutoEllipsis = true;
+            lblKeyboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblKeyboard.Location = new System.Drawing.Point(10, 10);
+            lblKeyboard.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblKeyboard.Name = "lblKeyboard";
+            lblKeyboard.Size = new System.Drawing.Size(200, 23);
+            lblKeyboard.TabIndex = 15;
+            lblKeyboard.Text = "Keyboard";
+            lblKeyboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            serializableColor7.Blue = 0;
+            serializableColor7.Green = 0;
+            serializableColor7.Red = 0;
             mouseSpeedIndicatorStyle1.InnerColor = serializableColor7;
-            serializableColor8.Blue = ((byte)(0));
-            serializableColor8.Green = ((byte)(0));
-            serializableColor8.Red = ((byte)(0));
+            serializableColor8.Blue = 0;
+            serializableColor8.Green = 0;
+            serializableColor8.Red = 0;
             mouseSpeedIndicatorStyle1.OuterColor = serializableColor8;
             mouseSpeedIndicatorStyle1.OutlineWidth = 1;
-            this.defaultMouseSpeed.IndicatorStyle = mouseSpeedIndicatorStyle1;
-            this.defaultMouseSpeed.Location = new System.Drawing.Point(12, 120);
-            this.defaultMouseSpeed.Name = "defaultMouseSpeed";
-            this.defaultMouseSpeed.Size = new System.Drawing.Size(171, 144);
-            this.defaultMouseSpeed.TabIndex = 16;
-            this.defaultMouseSpeed.Title = "MouseSpeedIndicator";
-            // 
-            // lblOutlineWarning
-            // 
-            this.lblOutlineWarning.AutoSize = true;
-            this.lblOutlineWarning.Location = new System.Drawing.Point(12, 267);
-            this.lblOutlineWarning.Name = "lblOutlineWarning";
-            this.lblOutlineWarning.Size = new System.Drawing.Size(173, 39);
-            this.lblOutlineWarning.TabIndex = 21;
-            this.lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutli" +
-    "ne behind the pressed key.";
-            this.lblOutlineWarning.Visible = false;
-            // 
-            // KeyboardStyleForm
-            // 
-            this.AcceptButton = this.AcceptButton2;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(542, 372);
-            this.Controls.Add(this.lblOutlineWarning);
-            this.Controls.Add(this.defaultMouseSpeed);
-            this.Controls.Add(this.lblKeyboard);
-            this.Controls.Add(this.pressedKeys);
-            this.Controls.Add(this.looseKeys);
-            this.Controls.Add(this.CancelButton2);
-            this.Controls.Add(this.AcceptButton2);
-            this.Controls.Add(this.KeyboardGroup);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "KeyboardStyleForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Keyboard Style";
-            this.Load += new System.EventHandler(this.KeyboardStyleForm_Load);
-            this.KeyboardGroup.ResumeLayout(false);
-            this.KeyboardGroup.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            defaultMouseSpeed.IndicatorStyle = mouseSpeedIndicatorStyle1;
+            defaultMouseSpeed.Location = new System.Drawing.Point(10, 135);
+            defaultMouseSpeed.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            defaultMouseSpeed.Name = "defaultMouseSpeed";
+            defaultMouseSpeed.Size = new System.Drawing.Size(200, 145);
+            defaultMouseSpeed.TabIndex = 16;
+            defaultMouseSpeed.Title = "MouseSpeedIndicator";
+            lblOutlineWarning.Location = new System.Drawing.Point(10, 290);
+            lblOutlineWarning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblOutlineWarning.Name = "lblOutlineWarning";
+            lblOutlineWarning.Size = new System.Drawing.Size(200, 50);
+            lblOutlineWarning.TabIndex = 21;
+            lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutline behind the pressed key.";
+            lblOutlineWarning.Visible = false;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = CancelButton2;
+            ClientSize = new System.Drawing.Size(639, 441);
+            Controls.Add(lblOutlineWarning);
+            Controls.Add(defaultMouseSpeed);
+            Controls.Add(lblKeyboard);
+            Controls.Add(pressedKeys);
+            Controls.Add(looseKeys);
+            Controls.Add(CancelButton2);
+            Controls.Add(AcceptButton2);
+            Controls.Add(KeyboardGroup);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "KeyboardStyleForm";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Keyboard Style";
+            Load += KeyboardStyleForm_Load;
+            KeyboardGroup.ResumeLayout(false);
+            KeyboardGroup.PerformLayout();
+            ResumeLayout(false);
 
         }
 

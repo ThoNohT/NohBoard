@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,8 @@ namespace ThoNohT.NohBoard.Forms.Style
 
     partial class KeyStyleForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (this.components != null))
@@ -41,167 +34,141 @@ namespace ThoNohT.NohBoard.Forms.Style
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle1 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor1 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont1 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor2 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor3 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle keySubStyle2 = new ThoNohT.NohBoard.Keyboard.Styles.KeySubStyle();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor4 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableFont serializableFont2 = new ThoNohT.NohBoard.Extra.SerializableFont();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor5 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            ThoNohT.NohBoard.Extra.SerializableColor serializableColor6 = new ThoNohT.NohBoard.Extra.SerializableColor();
-            this.AcceptButton2 = new System.Windows.Forms.Button();
-            this.CancelButton2 = new System.Windows.Forms.Button();
-            this.chkOverwriteLoose = new System.Windows.Forms.CheckBox();
-            this.chkOverwritePressed = new System.Windows.Forms.CheckBox();
-            this.pressed = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
-            this.loose = new ThoNohT.NohBoard.Controls.KeySubStylePanel();
-            this.lblOutlineWarning = new System.Windows.Forms.Label();
-            this.SuspendLayout();
-            // 
-            // AcceptButton2
-            // 
-            this.AcceptButton2.Location = new System.Drawing.Point(285, 375);
-            this.AcceptButton2.Name = "AcceptButton2";
-            this.AcceptButton2.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton2.TabIndex = 10;
-            this.AcceptButton2.Text = "Accept";
-            this.AcceptButton2.UseVisualStyleBackColor = true;
-            this.AcceptButton2.Click += new System.EventHandler(this.AcceptButton2_Click);
-            // 
-            // CancelButton2
-            // 
-            this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(204, 375);
-            this.CancelButton2.Name = "CancelButton2";
-            this.CancelButton2.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton2.TabIndex = 11;
-            this.CancelButton2.Text = "Cancel";
-            this.CancelButton2.UseVisualStyleBackColor = true;
-            this.CancelButton2.Click += new System.EventHandler(this.CancelButton2_Click);
-            // 
-            // chkOverwriteLoose
-            // 
-            this.chkOverwriteLoose.AutoSize = true;
-            this.chkOverwriteLoose.Location = new System.Drawing.Point(14, 343);
-            this.chkOverwriteLoose.Name = "chkOverwriteLoose";
-            this.chkOverwriteLoose.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwriteLoose.TabIndex = 18;
-            this.chkOverwriteLoose.Text = "Overwrite default style";
-            this.chkOverwriteLoose.UseVisualStyleBackColor = true;
-            this.chkOverwriteLoose.CheckedChanged += new System.EventHandler(this.chkOverwriteLoose_CheckedChanged);
-            // 
-            // chkOverwritePressed
-            // 
-            this.chkOverwritePressed.AutoSize = true;
-            this.chkOverwritePressed.Location = new System.Drawing.Point(191, 343);
-            this.chkOverwritePressed.Name = "chkOverwritePressed";
-            this.chkOverwritePressed.Size = new System.Drawing.Size(130, 17);
-            this.chkOverwritePressed.TabIndex = 19;
-            this.chkOverwritePressed.Text = "Overwrite default style";
-            this.chkOverwritePressed.UseVisualStyleBackColor = true;
-            this.chkOverwritePressed.CheckedChanged += new System.EventHandler(this.chkOverwritePressed_CheckedChanged);
-            // 
-            // pressed
-            // 
-            this.pressed.Location = new System.Drawing.Point(189, 12);
-            this.pressed.Name = "pressed";
-            this.pressed.Size = new System.Drawing.Size(171, 331);
-            serializableColor1.Blue = ((byte)(0));
-            serializableColor1.Green = ((byte)(0));
-            serializableColor1.Red = ((byte)(0));
-            keySubStyle1.Background = serializableColor1;
-            keySubStyle1.BackgroundImageFileName = "";
-            serializableFont1.AlternateFontFamily = null;
-            serializableFont1.DownloadUrl = null;
-            serializableFont1.FontFamily = "Courier New";
-            serializableFont1.Size = 10F;
-            serializableFont1.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle1.Font = serializableFont1;
-            serializableColor2.Blue = ((byte)(0));
-            serializableColor2.Green = ((byte)(0));
-            serializableColor2.Red = ((byte)(0));
-            keySubStyle1.Outline = serializableColor2;
-            keySubStyle1.OutlineWidth = 1;
-            keySubStyle1.ShowOutline = false;
-            serializableColor3.Blue = ((byte)(0));
-            serializableColor3.Green = ((byte)(0));
-            serializableColor3.Red = ((byte)(0));
-            keySubStyle1.Text = serializableColor3;
-            this.pressed.SubStyle = keySubStyle1;
-            this.pressed.TabIndex = 13;
-            this.pressed.Title = "Pressed";
-            // 
-            // loose
-            // 
-            this.loose.Location = new System.Drawing.Point(12, 12);
-            this.loose.Name = "loose";
-            this.loose.Size = new System.Drawing.Size(171, 331);
-            serializableColor4.Blue = ((byte)(0));
-            serializableColor4.Green = ((byte)(0));
-            serializableColor4.Red = ((byte)(0));
-            keySubStyle2.Background = serializableColor4;
-            keySubStyle2.BackgroundImageFileName = "";
-            serializableFont2.AlternateFontFamily = null;
-            serializableFont2.DownloadUrl = null;
-            serializableFont2.FontFamily = "Courier New";
-            serializableFont2.Size = 10F;
-            serializableFont2.Style = ThoNohT.NohBoard.Extra.SerializableFontStyle.Regular;
-            keySubStyle2.Font = serializableFont2;
-            serializableColor5.Blue = ((byte)(0));
-            serializableColor5.Green = ((byte)(0));
-            serializableColor5.Red = ((byte)(0));
-            keySubStyle2.Outline = serializableColor5;
-            keySubStyle2.OutlineWidth = 1;
-            keySubStyle2.ShowOutline = false;
-            serializableColor6.Blue = ((byte)(0));
-            serializableColor6.Green = ((byte)(0));
-            serializableColor6.Red = ((byte)(0));
-            keySubStyle2.Text = serializableColor6;
-            this.loose.SubStyle = keySubStyle2;
-            this.loose.TabIndex = 12;
-            this.loose.Title = "Loose";
-            // 
-            // lblOutlineWarning
-            // 
-            this.lblOutlineWarning.AutoSize = true;
-            this.lblOutlineWarning.Location = new System.Drawing.Point(9, 363);
-            this.lblOutlineWarning.Name = "lblOutlineWarning";
-            this.lblOutlineWarning.Size = new System.Drawing.Size(173, 39);
-            this.lblOutlineWarning.TabIndex = 20;
-            this.lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutli" +
-    "ne behind the pressed key.";
-            this.lblOutlineWarning.Visible = false;
-            // 
-            // KeyStyleForm
-            // 
-            this.AcceptButton = this.AcceptButton2;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(370, 410);
-            this.Controls.Add(this.lblOutlineWarning);
-            this.Controls.Add(this.chkOverwritePressed);
-            this.Controls.Add(this.chkOverwriteLoose);
-            this.Controls.Add(this.pressed);
-            this.Controls.Add(this.loose);
-            this.Controls.Add(this.CancelButton2);
-            this.Controls.Add(this.AcceptButton2);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "KeyStyleForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Key Style";
-            this.Load += new System.EventHandler(this.KeyStyleForm_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            Keyboard.Styles.KeySubStyle keySubStyle3 = new Keyboard.Styles.KeySubStyle();
+            Extra.SerializableColor serializableColor7 = new Extra.SerializableColor();
+            Extra.SerializableFont serializableFont3 = new Extra.SerializableFont();
+            Extra.SerializableColor serializableColor8 = new Extra.SerializableColor();
+            Extra.SerializableColor serializableColor9 = new Extra.SerializableColor();
+            Keyboard.Styles.KeySubStyle keySubStyle4 = new Keyboard.Styles.KeySubStyle();
+            Extra.SerializableColor serializableColor10 = new Extra.SerializableColor();
+            Extra.SerializableFont serializableFont4 = new Extra.SerializableFont();
+            Extra.SerializableColor serializableColor11 = new Extra.SerializableColor();
+            Extra.SerializableColor serializableColor12 = new Extra.SerializableColor();
+            AcceptButton2 = new System.Windows.Forms.Button();
+            CancelButton2 = new System.Windows.Forms.Button();
+            chkOverwriteLoose = new System.Windows.Forms.CheckBox();
+            chkOverwritePressed = new System.Windows.Forms.CheckBox();
+            pressed = new KeySubStylePanel();
+            loose = new KeySubStylePanel();
+            lblOutlineWarning = new System.Windows.Forms.Label();
+            SuspendLayout();
+            AcceptButton2.Location = new System.Drawing.Point(340, 475);
+            AcceptButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AcceptButton2.Name = "AcceptButton2";
+            AcceptButton2.Size = new System.Drawing.Size(80, 23);
+            AcceptButton2.TabIndex = 10;
+            AcceptButton2.Text = "Accept";
+            AcceptButton2.UseVisualStyleBackColor = true;
+            AcceptButton2.Click += AcceptButton2_Click;
+            CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelButton2.Location = new System.Drawing.Point(255, 475);
+            CancelButton2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CancelButton2.Name = "CancelButton2";
+            CancelButton2.Size = new System.Drawing.Size(80, 23);
+            CancelButton2.TabIndex = 11;
+            CancelButton2.Text = "Cancel";
+            CancelButton2.UseVisualStyleBackColor = true;
+            CancelButton2.Click += CancelButton2_Click;
+            chkOverwriteLoose.Location = new System.Drawing.Point(10, 420);
+            chkOverwriteLoose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            chkOverwriteLoose.Name = "chkOverwriteLoose";
+            chkOverwriteLoose.Size = new System.Drawing.Size(200, 23);
+            chkOverwriteLoose.TabIndex = 18;
+            chkOverwriteLoose.Text = "Overwrite default style";
+            chkOverwriteLoose.UseVisualStyleBackColor = true;
+            chkOverwriteLoose.CheckedChanged += chkOverwriteLoose_CheckedChanged;
+            chkOverwritePressed.Location = new System.Drawing.Point(220, 420);
+            chkOverwritePressed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            chkOverwritePressed.Name = "chkOverwritePressed";
+            chkOverwritePressed.Size = new System.Drawing.Size(200, 23);
+            chkOverwritePressed.TabIndex = 19;
+            chkOverwritePressed.Text = "Overwrite default style";
+            chkOverwritePressed.UseVisualStyleBackColor = true;
+            chkOverwritePressed.CheckedChanged += chkOverwritePressed_CheckedChanged;
+            pressed.Location = new System.Drawing.Point(220, 10);
+            pressed.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            pressed.Name = "pressed";
+            pressed.Size = new System.Drawing.Size(200, 395);
+            serializableColor7.Blue = 0;
+            serializableColor7.Green = 0;
+            serializableColor7.Red = 0;
+            keySubStyle3.Background = serializableColor7;
+            keySubStyle3.BackgroundImageFileName = "";
+            serializableFont3.AlternateFontFamily = null;
+            serializableFont3.DownloadUrl = null;
+            serializableFont3.FontFamily = "Courier New";
+            serializableFont3.Size = 10F;
+            serializableFont3.Style = Extra.SerializableFontStyle.Regular;
+            keySubStyle3.Font = serializableFont3;
+            serializableColor8.Blue = 0;
+            serializableColor8.Green = 0;
+            serializableColor8.Red = 0;
+            keySubStyle3.Outline = serializableColor8;
+            keySubStyle3.OutlineWidth = 1;
+            keySubStyle3.ShowOutline = false;
+            serializableColor9.Blue = 0;
+            serializableColor9.Green = 0;
+            serializableColor9.Red = 0;
+            keySubStyle3.Text = serializableColor9;
+            pressed.SubStyle = keySubStyle3;
+            pressed.TabIndex = 13;
+            pressed.Title = "Pressed";
+            loose.Location = new System.Drawing.Point(10, 10);
+            loose.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            loose.Name = "loose";
+            loose.Size = new System.Drawing.Size(200, 395);
+            serializableColor10.Blue = 0;
+            serializableColor10.Green = 0;
+            serializableColor10.Red = 0;
+            keySubStyle4.Background = serializableColor10;
+            keySubStyle4.BackgroundImageFileName = "";
+            serializableFont4.AlternateFontFamily = null;
+            serializableFont4.DownloadUrl = null;
+            serializableFont4.FontFamily = "Courier New";
+            serializableFont4.Size = 10F;
+            serializableFont4.Style = Extra.SerializableFontStyle.Regular;
+            keySubStyle4.Font = serializableFont4;
+            serializableColor11.Blue = 0;
+            serializableColor11.Green = 0;
+            serializableColor11.Red = 0;
+            keySubStyle4.Outline = serializableColor11;
+            keySubStyle4.OutlineWidth = 1;
+            keySubStyle4.ShowOutline = false;
+            serializableColor12.Blue = 0;
+            serializableColor12.Green = 0;
+            serializableColor12.Red = 0;
+            keySubStyle4.Text = serializableColor12;
+            loose.SubStyle = keySubStyle4;
+            loose.TabIndex = 12;
+            loose.Title = "Loose";
+            lblOutlineWarning.Location = new System.Drawing.Point(10, 450);
+            lblOutlineWarning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblOutlineWarning.Name = "lblOutlineWarning";
+            lblOutlineWarning.Size = new System.Drawing.Size(200, 50);
+            lblOutlineWarning.TabIndex = 20;
+            lblOutlineWarning.Text = "Setting a smaller outline for pressed\r\nthan loose keys will show the loose\r\noutline behind the pressed key.";
+            lblOutlineWarning.Visible = false;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = CancelButton2;
+            ClientSize = new System.Drawing.Size(429, 506);
+            Controls.Add(lblOutlineWarning);
+            Controls.Add(chkOverwritePressed);
+            Controls.Add(chkOverwriteLoose);
+            Controls.Add(pressed);
+            Controls.Add(loose);
+            Controls.Add(CancelButton2);
+            Controls.Add(AcceptButton2);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "KeyStyleForm";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Key Style";
+            Load += KeyStyleForm_Load;
+            ResumeLayout(false);
 
         }
 

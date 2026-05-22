@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -63,9 +63,54 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         /// </summary>
         public static int PressHold { get; set; } = 0;
 
+        /// <summary>
+        /// While &gt; 0, keyboard/mouse traps do not block other applications (e.g. settings dialog text boxes).
+        /// </summary>
+        private static int modalUiNestCount;
+
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// Disables input trapping until <see cref="ExitModalUiScope"/> (nestable).
+        /// </summary>
+        public static void EnterModalUiScope() => modalUiNestCount++;
+
+        /// <summary>
+        /// Restores trapping after a modal dialog closes.
+        /// </summary>
+        public static void ExitModalUiScope()
+        {
+            if (modalUiNestCount > 0)
+                modalUiNestCount--;
+        }
+
+        /// <summary>
+        /// True while a modal dialog (e.g. settings) is open.
+        /// </summary>
+        public static bool IsModalUiActive => modalUiNestCount > 0;
+
+        /// <summary>
+        /// Runs UI that must not compete with overlay repaint or input traps (file dialogs, etc.).
+        /// </summary>
+        public static void RunModalUi(Action action) => RunModalUi(() => { action(); return 0; });
+
+        /// <summary>
+        /// Runs modal UI and returns a result (nested color pickers, file dialogs, etc.).
+        /// </summary>
+        public static T RunModalUi<T>(Func<T> func)
+        {
+            EnterModalUiScope();
+            try
+            {
+                return func();
+            }
+            finally
+            {
+                ExitModalUiScope();
+            }
+        }
 
         /// <summary>
         /// Enables the mouse hook.

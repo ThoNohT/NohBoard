@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Marius Becker <marius.becker.8@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
 {
     using System;
     using System.Windows.Forms;
-    using Extra;
+    using ThoNohT.NohBoard.Extra;
 
     /// <summary>
     /// The form used to change a key's boundaries to a rectangle.
@@ -34,6 +34,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         public RectangleBoundaryForm()
         {
             InitializeComponent();
+            this.ApplyLocalizedUiTexts();
         }
 
         /// <summary>
@@ -42,6 +43,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         public RectangleBoundaryForm(TRectangle rectangle)
         {
             InitializeComponent();
+            this.ApplyLocalizedUiTexts();
 
             var position = rectangle.Position;
             this.txtPosition.X = position.X;
@@ -71,6 +73,15 @@ namespace ThoNohT.NohBoard.Forms.Properties
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void ApplyLocalizedUiTexts()
+        {
+            this.Text = PropertyDialogsLocalization.RectangleBoundaryTitle;
+            this.lblPosition.Text = PropertyDialogsLocalization.PositionLabel;
+            this.lblSize.Text = PropertyDialogsLocalization.SizeLabel;
+            this.btnCancel.Text = PropertyDialogsLocalization.Cancel;
+            this.btnApply.Text = PropertyDialogsLocalization.Apply;
         }
     }
 }
