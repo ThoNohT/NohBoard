@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,21 @@ namespace ThoNohT.NohBoard.Hooking
         /// The time of the last location update.
         /// </summary>
         private static int? lastLocationUpdate;
+
+        /// <summary>
+        /// The accumulated relative movement since the last speed update, as reported by the raw input API.
+        /// </summary>
+        private static int rawMovementX;
+
+        /// <summary>
+        /// The accumulated relative movement on the vertical axis since the last speed update.
+        /// </summary>
+        private static int rawMovementY;
+
+        /// <summary>
+        /// The time of the last raw movement update.
+        /// </summary>
+        private static int? rawMovementUpdate;
 
         /// <summary>
         /// Timers used to determine how long to keep a scroll direction as pressed.
@@ -289,6 +304,11 @@ namespace ThoNohT.NohBoard.Hooking
         }
 
         /// <summary>
+        /// Gets a value indicating whether the mouse speed is measured relative to the center of the screen.
+        /// </summary>
+        public static bool MouseFromCenter => mouseFromCenter;
+
+        /// <summary>
         /// Registers a new location for the mouse.
         /// </summary>
         /// <param name="location">The new location.</param>
@@ -314,6 +334,39 @@ namespace ThoNohT.NohBoard.Hooking
             // Update the stored values
             lastLocationUpdate = time;
             lastLocation = mouseFromCenter ? GetScreenCenterForPoint(location) ?? location : location;
+
+            updated = true;
+        }
+
+        /// <summary>
+        /// Registers relative mouse movement as reported by the raw input API. This is used instead of
+        /// <see cref="RegisterLocation" /> because games that capture the mouse keep the cursor at the same position,
+        /// while the relative movement of the mouse is still available through raw input.
+        /// </summary>
+        /// <param name="dx">The relative movement on the horizontal axis.</param>
+        /// <param name="dy">The relative movement on the vertical axis.</param>
+        /// <param name="time">The time at which the movement was registered.</param>
+        public static void RegisterRawMovement(int dx, int dy, int time)
+        {
+            if (rawMovementUpdate == null)
+            {
+                // After the first movement sample, we can't determine any speed yet.
+                rawMovementUpdate = time;
+                return;
+            }
+
+            rawMovementX += dx;
+            rawMovementY += dy;
+
+            // Don't update the speed more often than the update interval.
+            if (time - rawMovementUpdate.Value < updateInterval) return;
+
+            var dt = time - rawMovementUpdate.Value;
+            speedHistory.Add(new SizeF((float)rawMovementX / dt, (float)rawMovementY / dt));
+
+            rawMovementX = 0;
+            rawMovementY = 0;
+            rawMovementUpdate = time;
 
             updated = true;
         }

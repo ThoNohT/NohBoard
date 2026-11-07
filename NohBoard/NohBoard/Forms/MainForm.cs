@@ -78,6 +78,72 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Constructors
 
+        #region Raw input and overlay hotkeys
+
+        /// <summary>
+        /// Registers the raw input devices for the window. This makes the keyboard and mouse state also update for
+        /// input that is not seen by the low level hooks, such as input that is sent to an elevated application.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            RawInputManager.Initialize(this.Handle);
+        }
+
+        /// <summary>
+        /// Unregisters the raw input devices.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            RawInputManager.Uninitialize();
+
+            base.OnHandleDestroyed(e);
+        }
+
+        /// <summary>
+        /// Feeds the raw input messages into the keyboard and mouse state.
+        /// </summary>
+        /// <param name="m">The window message.</param>
+        protected override void WndProc(ref Message m)
+        {
+            if (RawInputManager.ProcessMessage(m.Msg, m.LParam))
+            {
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// Handles the overlay hotkeys. These are handled by the window itself, so they only work while NohBoard is
+        /// the foreground window.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    this.ToggleTransparency();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    break;
+
+                case Keys.F2:
+                    this.ToggleBorderless();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    break;
+            }
+
+            if (!e.Handled) base.OnKeyDown(e);
+        }
+
+        #endregion Raw input and overlay hotkeys
+
         #region Version check
 
         /// <summary>
@@ -141,7 +207,8 @@ namespace ThoNohT.NohBoard.Forms
             else
                 HookManager.DisableMouseHook();
 
-            // The keyboard hook is always enabled, as it is also used for the global overlay hotkeys (F1/F2).
+            // The keyboard hook is always enabled: it feeds the keyboard state and also sees synthetic input that is
+            // not reported through raw input. Raw input is registered in parallel in OnHandleCreated.
             HookManager.EnableKeyboardHook();
 
             //Prompt to download any fonts we don't have yet.
@@ -689,6 +756,13 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                // A minimized layered window can not be painted. The key state keeps being updated, so the overlay
+                // shows the correct state again as soon as the window is restored.
+                return;
+            }
+
             // In transparent mode there is no regular invalidation painting, so render the layered window when the
             // input state changed. Idle frames are skipped so a static overlay does not burn CPU.
             if (this.layeredModeActive)

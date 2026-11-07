@@ -18,11 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace ThoNohT.NohBoard.Forms
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Security.Principal;
     using System.Windows.Forms;
     using Extra;
     using Hooking;
@@ -192,11 +193,6 @@ namespace ThoNohT.NohBoard.Forms
         #region Fields
 
         /// <summary>
-        /// The hotkeys that are currently held down, used to ignore the auto repeat of the keyboard hook.
-        /// </summary>
-        private readonly HashSet<int> overlayHotkeysDown = new HashSet<int>();
-
-        /// <summary>
         /// The menu item that toggles the transparency.
         /// </summary>
         private ToolStripMenuItem mnuToggleTransparency;
@@ -232,11 +228,6 @@ namespace ThoNohT.NohBoard.Forms
         private FormBorderStyle originalBorderStyle = FormBorderStyle.FixedSingle;
 
         /// <summary>
-        /// Whether the form was top most before it was made borderless.
-        /// </summary>
-        private bool originalTopMost;
-
-        /// <summary>
         /// The off screen bitmap that is used to compose the layered window.
         /// </summary>
         private Bitmap layeredBitmap;
@@ -266,15 +257,14 @@ namespace ThoNohT.NohBoard.Forms
         #region Initialization and cleanup
 
         /// <summary>
-        /// Sets up the overlay features: the global hotkeys and the corresponding menu items.
+        /// Sets up the overlay features: the corresponding menu items. The hotkeys themselves are handled by the
+        /// window key events in <see cref="OnKeyDown(KeyEventArgs)"/>.
         /// </summary>
         private void InitializeOverlayFeatures()
         {
             // All layout coordinates are managed by the application itself, so the automatic WinForms scaling is
             // switched off. The DPI dependent scaling is applied in <see cref="ApplyDpiScaling"/>.
             this.AutoScaleMode = AutoScaleMode.None;
-
-            HookManager.KeyEvent += this.HookManager_KeyEvent;
 
             this.mnuToggleTransparency = new ToolStripMenuItem("Toggle &transparency (F1)");
             this.mnuToggleTransparency.Click += (s, e) =>
@@ -295,6 +285,61 @@ namespace ThoNohT.NohBoard.Forms
 
             this.MainMenu.Items.Insert(insertIndex, this.mnuToggleTransparency);
             this.MainMenu.Items.Insert(insertIndex + 1, this.mnuToggleBorderless);
+            this.MainMenu.Items.Insert(insertIndex + 2, new ToolStripSeparator());
+
+            // When NohBoard is not running elevated, it is not able to see input that is sent to elevated
+            // applications. Offer to restart as administrator so the overlay keeps working in that case as well.
+            if (!IsElevated)
+            {
+                var mnuRestartElevated = new ToolStripMenuItem("Restart as &administrator");
+                mnuRestartElevated.Click += (s, e) =>
+                {
+                    this.menuOpen = false;
+                    this.RestartElevated();
+                };
+
+                this.MainMenu.Items.Insert(insertIndex + 3, mnuRestartElevated);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current process is running elevated (as administrator).
+        /// </summary>
+        private static bool IsElevated
+        {
+            get
+            {
+                using (var identity = WindowsIdentity.GetCurrent())
+                {
+                    return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Restarts NohBoard with administrator privileges, so that input that is sent to elevated applications can
+        /// be seen as well. Does nothing when the process is already elevated.
+        /// </summary>
+        private void RestartElevated()
+        {
+            if (IsElevated) return;
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Application.ExecutablePath,
+                    UseShellExecute = true,
+                    Verb = "runas",
+                });
+            }
+            catch
+            {
+                // The user cancelled the elevation prompt; keep running as is.
+                return;
+            }
+
+            this.Close();
         }
 
         /// <summary>
@@ -321,8 +366,6 @@ namespace ThoNohT.NohBoard.Forms
                 GlobalSettings.Settings.BorderlessMode = this.borderlessMode;
             }
 
-            HookManager.KeyEvent -= this.HookManager_KeyEvent;
-
             this.layeredModeActive = false;
             this.DisableLayeredWindow();
             this.ReleaseLayeredBuffer();
@@ -330,46 +373,7 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Initialization and cleanup
 
-        #region Hotkeys and modes
-
-        /// <summary>
-        /// Handles the global key events from the keyboard hook.
-        /// </summary>
-        /// <param name="keyCode">The virtual key code of the key.</param>
-        /// <param name="down">Whether the key was pressed (<c>true</c>) or released (<c>false</c>).</param>
-        private void HookManager_KeyEvent(int keyCode, bool down)
-        {
-            if (keyCode != VkF1 && keyCode != VkF2) return;
-
-            // While a property dialog is detecting key codes, it owns the keyboard.
-            if (HookManager.KeyboardInsert != null) return;
-
-            if (!down)
-            {
-                this.overlayHotkeysDown.Remove(keyCode);
-                return;
-            }
-
-            // Ignore the auto repeat of a key that is already held down.
-            if (!this.overlayHotkeysDown.Add(keyCode)) return;
-
-            // Toggle from the message loop: the hook procedure must return as fast as possible.
-            if (this.IsHandleCreated && !this.IsDisposed)
-            {
-                try
-                {
-                    this.BeginInvoke((Action)(() =>
-                    {
-                        if (keyCode == VkF1) this.ToggleTransparency();
-                        else this.ToggleBorderless();
-                    }));
-                }
-                catch (InvalidOperationException)
-                {
-                    // The form is closing, the hotkey can be ignored.
-                }
-            }
-        }
+        #region Modes
 
         /// <summary>
         /// Whether the window should be painted with a transparent background. This is the case when the user pressed
@@ -438,8 +442,9 @@ namespace ThoNohT.NohBoard.Forms
         #region Window border
 
         /// <summary>
-        /// Applies the window border style and top most state that follow from the current overlay modes. The client
-        /// area is kept at exactly the same position on the screen.
+        /// Applies the window border style that follows from the current overlay modes. The client area is kept at
+        /// exactly the same position on the screen. The window is never made top most: NohBoard stays an ordinary
+        /// window, so other applications can be brought to the foreground on top of it.
         /// </summary>
         private void UpdateWindowBorder()
         {
@@ -451,15 +456,11 @@ namespace ThoNohT.NohBoard.Forms
             if (wantBorderless)
             {
                 this.originalBorderStyle = this.FormBorderStyle;
-                this.originalTopMost = this.TopMost;
-
                 this.FormBorderStyle = FormBorderStyle.None;
-                this.TopMost = true;
             }
             else
             {
                 this.FormBorderStyle = this.originalBorderStyle;
-                this.TopMost = this.originalTopMost;
             }
 
             this.borderlessApplied = wantBorderless;
@@ -568,6 +569,10 @@ namespace ThoNohT.NohBoard.Forms
         private void RenderLayeredFrame()
         {
             if (!this.IsHandleCreated || !this.layeredModeActive) return;
+
+            // A minimized window has no visible surface to paint; painting it would also place the layered bitmap at
+            // invalid screen coordinates.
+            if (this.WindowState == FormWindowState.Minimized) return;
 
             var definition = GlobalSettings.CurrentDefinition;
             if (definition == null || definition.Width <= 0 || definition.Height <= 0) return;
