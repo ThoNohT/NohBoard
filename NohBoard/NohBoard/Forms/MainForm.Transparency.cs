@@ -85,6 +85,110 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Constants
 
+        #region DPI
+
+        /// <summary>
+        /// The factor with which the logical (96 DPI) layout coordinates have to be multiplied to get device pixels.
+        /// In debug builds this can be overridden with the <c>NOHBOARD_DPI_SCALE</c> environment variable, which makes
+        /// it possible to test the scaled rendering on a machine with a different scaling factor.
+        /// </summary>
+        private float DpiScale => DebugDpiScaleOverride ?? (this.DeviceDpi / 96f);
+
+#if DEBUG
+        /// <summary>
+        /// An optional DPI scale override for debug builds, read from the environment.
+        /// </summary>
+        private static readonly float? DebugDpiScaleOverride = ParseDebugDpiScale();
+
+        /// <summary>
+        /// Parses the <c>NOHBOARD_DPI_SCALE</c> environment variable.
+        /// </summary>
+        /// <returns>The parsed scale, or <c>null</c> when it is not set or invalid.</returns>
+        private static float? ParseDebugDpiScale()
+        {
+            var value = Environment.GetEnvironmentVariable("NOHBOARD_DPI_SCALE");
+            return float.TryParse(
+                value,
+                System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var scale) && scale > 0
+                ? scale
+                : (float?)null;
+        }
+#else
+        /// <summary>
+        /// No DPI scale override exists in release builds.
+        /// </summary>
+        private static readonly float? DebugDpiScaleOverride = null;
+#endif
+
+        /// <summary>
+        /// Converts a logical length into device pixels.
+        /// </summary>
+        /// <param name="value">The logical length.</param>
+        /// <returns>The length in device pixels.</returns>
+        private int ScaleToDevice(int value)
+        {
+            return (int)Math.Round(value * this.DpiScale);
+        }
+
+        /// <summary>
+        /// Converts a point in device pixels into the logical coordinates of the keyboard definition.
+        /// </summary>
+        /// <param name="point">The point in device pixels, relative to the client area.</param>
+        /// <returns>The point in logical coordinates.</returns>
+        private Point ToLogical(Point point)
+        {
+            return new Point(
+                (int)Math.Round(point.X / this.DpiScale),
+                (int)Math.Round(point.Y / this.DpiScale));
+        }
+
+        /// <summary>
+        /// Sizes the client area so that the keyboard definition is displayed at the system scaling factor.
+        /// </summary>
+        private void SetClientSizeToDefinition()
+        {
+            var definition = GlobalSettings.CurrentDefinition;
+            if (definition == null) return;
+
+            this.ClientSize = new Size(this.ScaleToDevice(definition.Width), this.ScaleToDevice(definition.Height));
+        }
+
+        /// <summary>
+        /// Re-applies all sizes that depend on the DPI of the monitor the window is on. This is called when the window
+        /// is moved to a monitor with a different scaling factor.
+        /// </summary>
+        private void ApplyDpiScaling()
+        {
+            if (!this.IsHandleCreated) return;
+
+            this.SetClientSizeToDefinition();
+            this.ResetBackBrushes();
+
+            if (this.layeredModeActive)
+            {
+                this.RenderLayeredFrame();
+            }
+            else
+            {
+                this.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Re-applies the DPI dependent sizes when the window is moved to a monitor with a different scaling factor.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+
+            this.ApplyDpiScaling();
+        }
+
+        #endregion DPI
+
         #region Fields
 
         /// <summary>
@@ -166,6 +270,10 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void InitializeOverlayFeatures()
         {
+            // All layout coordinates are managed by the application itself, so the automatic WinForms scaling is
+            // switched off. The DPI dependent scaling is applied in <see cref="ApplyDpiScaling"/>.
+            this.AutoScaleMode = AutoScaleMode.None;
+
             HookManager.KeyEvent += this.HookManager_KeyEvent;
 
             this.mnuToggleTransparency = new ToolStripMenuItem("Toggle &transparency (F1)");
@@ -464,7 +572,11 @@ namespace ThoNohT.NohBoard.Forms
             var definition = GlobalSettings.CurrentDefinition;
             if (definition == null || definition.Width <= 0 || definition.Height <= 0) return;
 
-            this.EnsureLayeredBuffer(definition.Width, definition.Height);
+            var width = this.ScaleToDevice(definition.Width);
+            var height = this.ScaleToDevice(definition.Height);
+            if (width <= 0 || height <= 0) return;
+
+            this.EnsureLayeredBuffer(width, height);
             if (this.layeredBitmap == null) return;
 
             using (var g = Graphics.FromImage(this.layeredBitmap))
@@ -480,10 +592,22 @@ namespace ThoNohT.NohBoard.Forms
                     using (var backgroundBrush = new SolidBrush(Color.FromArgb(
                         backgroundAlpha, backgroundColor.Red, backgroundColor.Green, backgroundColor.Blue)))
                     {
-                        g.FillRectangle(backgroundBrush, 0, 0, definition.Width, definition.Height);
+                        g.FillRectangle(backgroundBrush, 0, 0, width, height);
                     }
                 }
 
+                // Draw the pre-rendered loose key artwork. The back brush bitmaps have a transparent background, so
+                // all fully transparent parts of the layout stay transparent in the layered window as well.
+                var shiftDown = KeyboardState.ShiftDown;
+                var capsActive = KeyboardState.CapsActive;
+                if (this.backBrushes.ContainsKey(shiftDown) && this.backBrushes[shiftDown].ContainsKey(capsActive))
+                {
+                    g.FillRectangle(this.backBrushes[shiftDown][capsActive], 0, 0, width, height);
+                }
+
+                // The element definitions are in logical (96 DPI) coordinates, scale them to the device pixels of the
+                // monitor the window is currently on.
+                g.ScaleTransform(this.DpiScale, this.DpiScale);
                 this.RenderScene(g);
             }
 
@@ -506,18 +630,15 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         /// <summary>
-        /// Renders the entire keyboard scene onto the specified surface, including the edit mode overlays.
+        /// Renders the entire keyboard scene onto the specified surface, including the edit mode overlays. The surface
+        /// is expected to be scaled to logical (96 DPI) coordinates already; the background back-brush is painted by
+        /// the caller in device pixels.
         /// </summary>
         /// <param name="g">The surface to render on.</param>
         private void RenderScene(Graphics g)
         {
             var definition = GlobalSettings.CurrentDefinition;
             if (definition == null || this.backBrushes.Count == 0) return;
-
-            // Fill the appropriate back brush.
-            g.FillRectangle(
-                this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
-                new Rectangle(0, 0, definition.Width, definition.Height));
 
             // Render all keys.
             KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
@@ -653,7 +774,7 @@ namespace ThoNohT.NohBoard.Forms
                     AlphaFormat = AcSrcAlpha
                 };
 
-                UpdateLayeredWindow(
+                var updated = UpdateLayeredWindow(
                     this.Handle, screenDc, ref destination, ref size, memoryDc, ref source, 0, ref blend, UlwAlpha);
             }
             finally

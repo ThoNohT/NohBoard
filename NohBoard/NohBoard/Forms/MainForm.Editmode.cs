@@ -144,18 +144,21 @@ namespace ThoNohT.NohBoard.Forms
 
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
+            // The element definitions are in logical coordinates, the mouse position is in device pixels.
+            var mouseLocation = this.ToLogical(e.Location);
+
             ElementDefinition toManipulate;
             if (this.selectedDefinition != null)
             {
                 // Try to manipulate the selected definition, if one is selected.
-                this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown);
+                this.selectedDefinition.StartManipulating(mouseLocation, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown);
                 toManipulate = this.selectedDefinition;
             }
             else
             {
                 // If none is selected, allow any key to become the element to manipulate.
                 toManipulate = GlobalSettings.CurrentDefinition.Elements
-                    .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
+                    .LastOrDefault(x => x.StartManipulating(mouseLocation, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
             }
 
             if (toManipulate == null)
@@ -167,7 +170,7 @@ namespace ThoNohT.NohBoard.Forms
                 if (KeyboardState.AltDown)
                 {
                     this.movingEverythingStart = GlobalSettings.CurrentDefinition.Clone();
-                    this.movingEverythingFrom = e.Location;
+                    this.movingEverythingFrom = mouseLocation;
                 }
 
                 return;
@@ -196,6 +199,9 @@ namespace ThoNohT.NohBoard.Forms
 
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
+            // The element definitions are in logical coordinates, the mouse position is in device pixels.
+            var mouseLocation = this.ToLogical(e.Location);
+
             // Moving everything at once.
             if (this.movingEverythingFrom != null)
             {
@@ -203,7 +209,7 @@ namespace ThoNohT.NohBoard.Forms
                 newDef.Elements.Clear();
                 foreach (var element in this.movingEverythingStart.Elements)
                 {
-                    var diff = e.Location - this.movingEverythingFrom;
+                    var diff = mouseLocation - this.movingEverythingFrom;
                     newDef.Elements.Add(element.Translate(diff.Width, diff.Height));
                 }
 
@@ -214,26 +220,26 @@ namespace ThoNohT.NohBoard.Forms
 
             if (this.currentlyManipulating != null)
             {
-                var diff = (TPoint)e.Location - this.currentManipulationPoint;
+                var diff = (TPoint)mouseLocation - this.currentManipulationPoint;
                 this.cumulManipulation += diff;
 
                 this.currentlyManipulating = (this.currentlyManipulating.Value.id, this.manipulationStart.Manipulate(this.cumulManipulation));
-                this.currentManipulationPoint = e.Location;
+                this.currentManipulationPoint = mouseLocation;
             }
             else
             {
-                this.currentManipulationPoint = e.Location;
+                this.currentManipulationPoint = mouseLocation;
 
                 // If a definition is selected, don't highlight others.
                 if (this.selectedDefinition != null)
                 {
                     // Preview the manipulation.
-                    this.selectedDefinition.StartManipulating(e.Location, KeyboardState.AltDown, true, KeyboardState.CtrlDown);
+                    this.selectedDefinition.StartManipulating(mouseLocation, KeyboardState.AltDown, true, KeyboardState.CtrlDown);
                 }
                 else
                 {
                     this.highlightedDefinition = GlobalSettings.CurrentDefinition.Elements
-                        .LastOrDefault(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
+                        .LastOrDefault(x => x.StartManipulating(mouseLocation, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown));
                 }
             }
         }
@@ -273,7 +279,7 @@ namespace ThoNohT.NohBoard.Forms
             if (this.cumulManipulation.Length() == 0 && this.selectedDefinition != null)
             {
                 var elementsUnderCursor = GlobalSettings.CurrentDefinition.Elements
-                  .Where(x => x.StartManipulating(e.Location, KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
+                  .Where(x => x.StartManipulating(this.ToLogical(e.Location), KeyboardState.AltDown, translateOnly: KeyboardState.CtrlDown))
                   .Reverse();
 
                 var nextelementUnderCursor = elementsUnderCursor
@@ -409,9 +415,7 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     if (GlobalSettings.Settings.Undo())
                     {
-                        this.ClientSize = new Size(
-                          GlobalSettings.CurrentDefinition.Width,
-                          GlobalSettings.CurrentDefinition.Height);
+                        this.SetClientSizeToDefinition();
                     }
                     else
                     {
@@ -422,9 +426,7 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     if (GlobalSettings.Settings.Redo())
                     {
-                        this.ClientSize = new Size(
-                          GlobalSettings.CurrentDefinition.Width,
-                          GlobalSettings.CurrentDefinition.Height);
+                        this.SetClientSizeToDefinition();
                     }
                     else
                     {
@@ -466,7 +468,7 @@ namespace ThoNohT.NohBoard.Forms
             {
                 if (this.clipboard == null) return;
 
-                var newPos = this.PointToClient(MousePosition);
+                var newPos = this.ToLogical(this.PointToClient(MousePosition));
                 var validArea = new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width,
                         GlobalSettings.CurrentDefinition.Height);
                 if (!validArea.Contains(newPos)) return;
@@ -787,7 +789,7 @@ namespace ThoNohT.NohBoard.Forms
 
                     GlobalSettings.Settings.UpdateDefinition(def, false);
 
-                    this.ClientSize = new Size(def.Width, def.Height);
+                    this.SetClientSizeToDefinition();
 
                     this.ResetBackBrushes();
                 };
@@ -808,7 +810,13 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (!this.mnuToggleEditMode.Checked) return;
 
-            GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition.Resize(this.ClientSize), true);
+            // The window is displayed at the scaling factor of the monitor, the definition keeps logical (96 DPI)
+            // coordinates.
+            var logicalSize = new Size(
+                (int)Math.Round(this.ClientSize.Width / this.DpiScale),
+                (int)Math.Round(this.ClientSize.Height / this.DpiScale));
+
+            GlobalSettings.Settings.UpdateDefinition(GlobalSettings.CurrentDefinition.Resize(logicalSize), true);
 
             this.ResetBackBrushes();
         }

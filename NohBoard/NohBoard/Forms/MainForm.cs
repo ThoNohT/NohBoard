@@ -160,7 +160,7 @@ namespace ThoNohT.NohBoard.Forms
             this.highlightedDefinition = null;
             this.selectedDefinition = null;
 
-            this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
+            this.SetClientSizeToDefinition();
 
             this.ResetBackBrushes();
 
@@ -224,28 +224,35 @@ namespace ThoNohT.NohBoard.Forms
 
                 foreach (var caps in new[] { false, true })
                 {
-                    var bmp = new Bitmap(
-                        GlobalSettings.CurrentDefinition.Width,
-                        GlobalSettings.CurrentDefinition.Height);
-                    var g = Graphics.FromImage(bmp);
+                    var definition = GlobalSettings.CurrentDefinition;
+                    var bmp = new Bitmap(this.ScaleToDevice(definition.Width), this.ScaleToDevice(definition.Height));
 
-                    // Render the background image if set.
-                    var cs = GlobalSettings.CurrentStyle;
-                    if (cs.BackgroundImageFileName != null && FileHelper.StyleImageExists(cs.BackgroundImageFileName))
+                    using (var g = Graphics.FromImage(bmp))
                     {
-                        g.DrawImage(ImageCache.Get(cs.BackgroundImageFileName), this.ClientRectangle);
-                    }
+                        // The definition is stored in logical (96 DPI) coordinates, render it at the scaling factor of
+                        // the monitor the window is currently on.
+                        g.ScaleTransform(this.DpiScale, this.DpiScale);
 
-                    // Render the individual keys.
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements)
-                    {
-                        if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
+                        // Render the background image if set.
+                        var cs = GlobalSettings.CurrentStyle;
+                        if (cs.BackgroundImageFileName != null && FileHelper.StyleImageExists(cs.BackgroundImageFileName))
+                        {
+                            g.DrawImage(
+                                ImageCache.Get(cs.BackgroundImageFileName),
+                                new Rectangle(0, 0, definition.Width, definition.Height));
+                        }
 
-                        if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
+                        // Render the individual keys.
+                        foreach (var def in definition.Elements)
+                        {
+                            if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
 
-                        if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
+                            if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
 
-                        // No need to render mouse speed indicators in backbrush.
+                            if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
+
+                            // No need to render mouse speed indicators in backbrush.
+                        }
                     }
 
                     this.backBrushes[shift].Add(caps, new TextureBrush(bmp));
@@ -521,14 +528,15 @@ namespace ThoNohT.NohBoard.Forms
                     $"Save &To '{GlobalSettings.CurrentDefinition.Category}/{GlobalSettings.CurrentDefinition.Name}'";
 
                 var mousePos = this.PointToClient(Cursor.Position);
+                var logicalMousePos = this.ToLogical(mousePos);
                 this.elementUnderCursor =
-                    GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
+                    GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(logicalMousePos));
 
                 // Set the highlighted definition only if we're in edit mode, and there is not an already selected definition.
                 if (this.mnuToggleEditMode.Checked && this.selectedDefinition == null)
                 {
                     this.highlightedDefinition = this.elementUnderCursor;
-                    this.highlightedDefinition?.StartManipulating(mousePos, false);
+                    this.highlightedDefinition?.StartManipulating(logicalMousePos, false);
                 }
 
                 var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
@@ -609,6 +617,16 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
 
+            // The back-brushes are rendered at the device resolution of the current monitor, the pressed keys and the
+            // edit mode overlays are painted in logical coordinates.
+            e.Graphics.FillRectangle(
+                this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
+                0,
+                0,
+                this.ClientSize.Width,
+                this.ClientSize.Height);
+
+            e.Graphics.ScaleTransform(this.DpiScale, this.DpiScale);
             this.RenderScene(e.Graphics);
 
             base.OnPaint(e);
