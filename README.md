@@ -11,7 +11,8 @@ An initial version was made in C++, this originated from the desire to make some
 This fork adds an optional transparent, borderless overlay mode (branch `add-transparency-support`):
 
 - **F1** toggles per-pixel transparency (the window uses a layered window, so the desktop shows through the background instead of rendering it black). **F1/F2 only work while the NohBoard window is focused** — they are not global hotkeys.
-- **F2** toggles a borderless window (transparency implies borderless). In borderless mode the window can be dragged with the left mouse button outside edit mode. The window is a normal, non-topmost window and keeps rendering while minimized.
+- **F2** toggles a borderless window (transparency implies borderless); drag the four corners to **resize while keeping the layout aspect ratio** (the scale is remembered in `NohBoard.json`). In borderless mode the window can be dragged with the left mouse button outside edit mode. The window is a normal, non-topmost window and keeps rendering while minimized.
+- **Click-through**: while transparent and unfocused the mouse passes through the overlay; focus it (Alt+Tab / taskbar) to click and drag it again.
 - Keyboard/mouse input is captured both by the low-level hooks and by Raw Input (`RegisterRawInputDevices`), so keys pressed in games and elevated (UAC) windows are picked up more reliably. For the few cases where even that is not enough (some elevated processes), the context menu offers **Restart as administrator**.
 - Styles can request transparency explicitly: add `"Alpha": 0` (0–255, optional) to a style's `BackgroundColor`. A background with `Alpha < 255` starts transparent automatically. The mode is also remembered in `NohBoard.json` (`TransparentMode` / `BorderlessMode`).
 

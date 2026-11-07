@@ -230,6 +230,23 @@ namespace ThoNohT.NohBoard.Extra
         [DataMember]
         public bool BorderlessMode { get; set; }
 
+        /// <summary>
+        /// The user scale of the overlay relative to the size of the keyboard definition. This is changed by dragging
+        /// a corner of the borderless window and is kept between runs.
+        /// </summary>
+        private float overlayScale = 1f;
+
+        /// <summary>
+        /// The user scale of the overlay relative to the size of the keyboard definition. When the value is missing
+        /// from older settings files, the value is 1 (the size of the keyboard definition at the current DPI).
+        /// </summary>
+        [DataMember]
+        public float OverlayScale
+        {
+            get => this.overlayScale <= 0f ? 1f : this.overlayScale;
+            set => this.overlayScale = Math.Max(0.25f, Math.Min(8f, value));
+        }
+
         #endregion Window
 
         #region Editing

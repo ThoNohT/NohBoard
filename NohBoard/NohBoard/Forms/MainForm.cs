@@ -767,6 +767,10 @@ namespace ThoNohT.NohBoard.Forms
             // input state changed. Idle frames are skipped so a static overlay does not burn CPU.
             if (this.layeredModeActive)
             {
+                // Keep the click-through state in sync with the focus state. This also recovers when the deactivate
+                // message arrived before WinForms updated its focus state.
+                this.UpdateClickThrough();
+
                 if (KeyboardState.Updated || MouseState.Updated || this.mnuToggleEditMode.Checked || this.movingWindow)
                     this.RenderLayeredFrame();
 

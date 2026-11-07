@@ -9,8 +9,10 @@
 | --- | --- | --- |
 | 透明模式 | `F1` / 右键菜单 **Toggle transparency (F1)** | 使用分层窗口（per-pixel alpha）渲染，样式背景色被忽略，键帽 PNG 的透明通道原样保留。**仅在窗口有焦点时生效**，不是全局热键 |
 | 无边框模式 | `F2` / 右键菜单 **Toggle borderless window (F2)** | 去掉标题栏与边框；透明模式隐含无边框。**仅在窗口有焦点时生效** |
-| 拖动窗口 | 无边框状态下按住鼠标左键拖动 | 记录 `Cursor.Position` 与 `Location` 的差值，逐帧移动；窗口位移与光标位移一致 |
-| 状态记忆 | 关闭程序时 | `TransparentMode` / `BorderlessMode` 写入 `NohBoard.json`，重启后恢复 |
+| 拖动窗口 | 无边框状态下按住鼠标左键拖动（非四角区域） | 记录 `Cursor.Position` 与 `Location` 的差值，逐帧移动；窗口位移与光标位移一致 |
+| 缩放窗口 | 无边框状态下拖动窗口的四个角 | **保持布局宽高比**，缩放比例持久化到 `NohBoard.json` 的 `OverlayScale`；拖角时光标显示斜向双箭头 |
+| 点击穿透 | 透明模式且窗口**没有焦点**时自动生效 | 鼠标事件穿透到下方窗口；窗口获得焦点（Alt+Tab/任务栏）后恢复可点击、可拖动 |
+| 状态记忆 | 关闭程序时 | `TransparentMode` / `BorderlessMode` / `OverlayScale` 写入 `NohBoard.json`，重启后恢复 |
 | 普通窗口 | — | 不强制置顶（不使用 `TopMost`）；最小化时暂停渲染、状态继续更新，恢复后立即补画 |
 
 F1/F2 改成窗口内热键（`MainForm.OnKeyDown`）而不是全局低级钩子事件，因为用户明确要求“快捷键不要全局”：
@@ -77,17 +79,39 @@ F1/F2 由 `MainForm.OnKeyDown` 处理（`e.Handled = e.SuppressKeyPress = true`�
 可以被其它窗口覆盖，也可以最小化。最小化时 `RenderLayeredFrame` 与 `UpdateTimer_Tick` 直接返回，不产生无效的
 `UpdateLayeredWindow` 调用；键盘/鼠标状态照常更新，恢复窗口后下一帧立即补画。
 
+### 3.5 保持比例的窗口缩放
+
+无边框窗口没有系统边框，因此在四个角各留 18px 的“缩放手柄”（`HitTestResizeCorner` / `TryStartWindowResize` /
+`ContinueWindowResize`）：
+
+- 鼠标移到角上时显示 `SizeNWSE` / `SizeNESW` 光标；
+- 按住左键拖动只使用水平位移，按同一个比例同时改变宽高，**布局宽高比不变**（`OverlayScale` × 定义尺寸 × DPI）；
+- 拖动左/上角时同步补偿窗口 `Location`，被拖角的对角保持不动；
+- 缩放范围限制在 0.25×–8×；松开后保存到 `NohBoard.json` 的 `OverlayScale`，下次启动恢复。
+
+### 3.6 有焦点可点击、无焦点鼠标穿透
+
+分层窗口（per-pixel alpha）默认只在 alpha>0 的像素上接收鼠标，但整窗仍会拦截落在可见像素上的点击。为了满足
+“透明时仍然可以点击拖动、但没有焦点时鼠标穿透”：
+
+- `UpdateClickThrough()` 在窗口**透明且没有焦点**时给窗口加上 `WS_EX_TRANSPARENT`，鼠标事件全部穿透到下方窗口；
+- 窗口获得焦点（Alt+Tab 或任务栏选中）后，`OnActivated` 立即去掉该扩展样式，窗口恢复可点击、可拖动；
+- `OnDeactivate` 以及 `UpdateTimer_Tick`（透明模式下每帧）都会调用 `UpdateClickThrough()`，保证焦点状态与
+  扩展样式始终同步（避免 `Deactivate` 消息早于 WinForms 焦点状态更新导致的延迟）；
+- 注意：即使窗口有焦点，**完全透明的像素（alpha=0）依然会穿透**——这是分层窗口的固有行为；要拖动窗口请点击
+  键帽描边/文字等可见像素，或使用非透明模式。
+
 ## 4. 改动的文件
 
 | 文件 | 改动 |
 | --- | --- |
-| `NohBoard/NohBoard/Forms/MainForm.Transparency.cs` | 新增：分层窗口渲染、F1/F2 切换与菜单、无边框切换、拖动窗口、状态持久化、最小化早退、管理员重启菜单 |
+| `NohBoard/NohBoard/Forms/MainForm.Transparency.cs` | 新增：分层窗口渲染、F1/F2 切换与菜单、无边框切换、保持比例的四角缩放、点击穿透（`WS_EX_TRANSPARENT`）、拖动窗口、状态持久化、最小化早退、管理员重启菜单 |
 | `NohBoard/NohBoard/Forms/MainForm.cs` | `OnPaint` 拆分出 `RenderScene`；`OnKeyDown` 局部热键；`OnHandleCreated/OnHandleDestroyed/WndProc` 接 Raw Input；`UpdateTimer_Tick` 透明/最小化分支；启动时恢复状态；关闭时保存状态 |
 | `NohBoard/NohBoard/Forms/MainForm.Editmode.cs` | 编辑模式之外支持拖动无边框窗口 |
 | `NohBoard/Hooking/RawInputManager.cs` | 新增：注册 Raw Input（键盘/鼠标）、`WM_INPUT` 解析并桥接到 `KeyboardState` / `MouseState` |
 | `NohBoard/Hooking/MouseState.cs` | 新增 `MouseFromCenter` 与 `RegisterRawMovement`（原始相对位移算速度） |
 | `NohBoard/NohBoard/Extra/SerializableColor.cs` | 新增可选 `Alpha`（`DataMember`，`EmitDefaultValue=false`），`IsTransparent` |
-| `NohBoard/NohBoard/Extra/GlobalSettings.cs` | 新增 `TransparentMode` / `BorderlessMode` 两个持久化设置 |
+| `NohBoard/NohBoard/Extra/GlobalSettings.cs` | 新增 `TransparentMode` / `BorderlessMode` / `OverlayScale` 持久化设置 |
 
 > Raw Input 与输入捕获的细节见 [input-capture-and-hotkeys.md](input-capture-and-hotkeys.md)。
 
@@ -101,32 +125,35 @@ F1/F2 由 `MainForm.OnKeyDown` 处理（`e.Handled = e.SuppressKeyPress = true`�
 
 | 步骤 | 窗口矩形 | 黑色像素占比 | 洋红像素占比 |
 | --- | --- | --- | --- |
-| 初始（普通窗口，非置顶） | 1334×774（含边框） | 76.9% | 2.4% |
-| F2 无边框 | 1308×696 | 76.9% | — |
-| F1 透明 | 1308×696 | **0%** | **86.1%** |
-| 聚焦别的窗口后按 F1（验证非全局） | 1308×696 | **0%** | **86.1%** |
-| 再按 F1（关透明） | 1308×696 | 86.9% | 0% |
-| 重启（状态记忆） | 1308×696 | **0%** | **86.1%** |
-| 样式 `Alpha: 0`（无需 F1） | 1308×696 | **0%** | **86.1%** |
+| 初始（普通窗口，非置顶） | 1334×767（含边框） | 77.8% | 2.5% |
+| F2 无边框 | 1308×696 | 77.9% | — |
+| 拖右下角缩放（保持比例） | **1681×894** | — | — |
+| F1 透明 | 1681×894 | **0%** | **85.4%** |
+| 聚焦别的窗口后按 F1（验证非全局） | 1681×894 | **0%** | **85.4%** |
+| 再按 F1（关透明） | 1681×894 | 85.5% | 0% |
 
 其他验证（`artifacts/test-input-features.ps1` 自动化，全部断言通过）：
 
 - 窗口与无边框模式都不置顶（`GetWindowLong(GWL_EXSTYLE) & WS_EX_TOPMOST == 0`）；
-- 无边框下拖动：注入光标位移 611×305，窗口 `Location` 同步变化 611×305（完全跟手）；
-- 后台按键：NohBoard 不聚焦时按 A，窗口出现按键渲染（像素差 3385），松开后恢复（像素差 0）；
-- 最小化：最小化期间按 S，恢复后 S 的按下状态正确显示（像素差 3435），且恢复后不处于最小化；
-- 非全局热键：把焦点切到另一个小窗口后按 F1，NohBoard 保持透明（洋红 86.1%），说明 F1 没有被全局拦截。
+- 无边框下拖动：注入光标位移 611×306，窗口 `Location` 同步变化 611×306（完全跟手）；
+- 缩放：1308×696 → 1681×894，宽高比 1.8793 → 1.8803（误差 <0.1%），窗口确实变大；
+- 点击穿透：窗口失去焦点后 `WS_EX_TRANSPARENT` 被设置，点击窗口区域不会夺回焦点；
+- 可点击：重新聚焦后 `WS_EX_TRANSPARENT` 被清除，点击可见键帽像素保持焦点、可正常拖动；
+- 后台按键：NohBoard 不聚焦时按 A，窗口出现按键渲染（像素差 5724），松开后恢复（像素差 0）；
+- 最小化：最小化期间按 S，恢复后 S 的按下状态正确显示（像素差 5807），且恢复后不处于最小化；
+- 非全局热键：把焦点切到另一个小窗口后按 F1，NohBoard 保持透明（洋红 85.4%），说明 F1 没有被全局拦截。
 
 自动化脚本见 `artifacts/test-input-features.ps1`（本地测试用，未提交；DPI/打包见 [dpi-and-packaging.md](dpi-and-packaging.md)）。
 
 ## 6. 已知限制
 
 - 仅 Windows；`UpdateLayeredWindow` 在部分远程桌面/虚拟机/旧显卡驱动上可能表现为黑底（系统限制）。
-- 透明窗口没有标题栏，移动窗口需要在**非编辑模式**下按住左键拖动；编辑模式下按键/元素编辑优先。
-- **F1/F2 只在 NohBoard 拥有焦点时生效**（有意设计，不再作为全局热键）；全屏游戏时请先用 Alt+Tab 切回。
+- 透明窗口没有标题栏；移动窗口需要在**非编辑模式**下按住左键拖动（避开四角缩放手柄）。
+- **F1/F2 只在 NohBoard 拥有焦点时生效**（有意设计，不再作为全局热键）；无焦点时窗口还会鼠标穿透，
+  需要用 Alt+Tab 或任务栏重新聚焦。
 - 窗口不置顶，是普通窗口；需要压在游戏上方时请使用游戏/直播软件的置顶设置，或把窗口放在合适位置。
 - 最小化期间不渲染（但输入状态仍在更新），恢复后立即补画；任务栏里仍可看到普通窗口。
 - F1 是强制全透明，会忽略样式背景色的 alpha；若希望透明程度由配置决定，请使用样式 `Alpha` 字段。
-- 透明模式下窗口不可调整大小（`FormBorderStyle.None`）；如需修改布局尺寸，请先退出透明/无边框模式或使用编辑模式。
+- 透明模式下只有可见像素（描边/文字/按键图）可点击；完全透明处会穿透。缩放使用四角手柄，不显示系统边框。
 - OBS 采集分层窗口需要较新的 OBS 版本（窗口采集勾选“允许透明”/使用 Windows 10 1903+ 的捕获方式），否则可能采到黑底。
-- 覆盖 UAC 提权窗口需要 NohBoard 本身以管理员运行；菜单里的 **Restart as administrator** 会给当前 exe 提权重启（不影响配置文件）。
+- 覆盖 UAC 提权窗口需要 NohBoard 本身以管理员运行；发布版 exe 的 manifest 已要求管理员权限（双击即弹 UAC）。

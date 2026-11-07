@@ -139,6 +139,9 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (e.Button != MouseButtons.Left) return;
 
+            // Dragging a corner of a borderless window resizes it, preserving the aspect ratio of the layout.
+            if (this.TryStartWindowResize(e)) return;
+
             // In a borderless window the window itself can be dragged around.
             if (this.StartWindowDrag(e)) return;
 
@@ -194,6 +197,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            // Resize the borderless window when a corner is being dragged.
+            if (this.ContinueWindowResize()) return;
+
             // Drag the window around when it is borderless.
             if (this.ContinueWindowDrag()) return;
 
@@ -249,6 +255,13 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
+            // Stop resizing the window, if a corner was being dragged.
+            if (this.resizingWindow)
+            {
+                this.EndWindowResize();
+                return;
+            }
+
             // Stop dragging the window, if it was being dragged.
             if (this.movingWindow)
             {

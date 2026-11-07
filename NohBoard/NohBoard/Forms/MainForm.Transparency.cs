@@ -60,6 +60,16 @@ namespace ThoNohT.NohBoard.Forms
         private const int WsExLayered = 0x00080000;
 
         /// <summary>
+        /// The extended window style that makes mouse input pass through the window.
+        /// </summary>
+        private const int WsExTransparent = 0x00000020;
+
+        /// <summary>
+        /// The size of the corner area that can be dragged to resize the window.
+        /// </summary>
+        private const int ResizeGripSize = 18;
+
+        /// <summary>
         /// The flag for <c>UpdateLayeredWindow</c> that uses the alpha channel of the source bitmap.
         /// </summary>
         private const int UlwAlpha = 0x02;
@@ -90,10 +100,11 @@ namespace ThoNohT.NohBoard.Forms
 
         /// <summary>
         /// The factor with which the logical (96 DPI) layout coordinates have to be multiplied to get device pixels.
-        /// In debug builds this can be overridden with the <c>NOHBOARD_DPI_SCALE</c> environment variable, which makes
-        /// it possible to test the scaled rendering on a machine with a different scaling factor.
+        /// This includes the DPI scale of the current monitor and the user scale of the overlay. In debug builds this
+        /// can be overridden with the <c>NOHBOARD_DPI_SCALE</c> environment variable, which makes it possible to test
+        /// the scaled rendering on a machine with a different scaling factor.
         /// </summary>
-        private float DpiScale => DebugDpiScaleOverride ?? (this.DeviceDpi / 96f);
+        private float DpiScale => DebugDpiScaleOverride ?? ((this.DeviceDpi / 96f) * this.overlayScale);
 
 #if DEBUG
         /// <summary>
@@ -252,6 +263,42 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private Point windowDragLocationStart;
 
+        /// <summary>
+        /// The user scale of the overlay, changed by dragging a corner of the borderless window.
+        /// </summary>
+        private float overlayScale = 1f;
+
+        /// <summary>
+        /// Whether the window is currently being resized by dragging a corner.
+        /// </summary>
+        private bool resizingWindow;
+
+        /// <summary>
+        /// The corner that is currently being dragged to resize the window: 0 = bottom right, 1 = bottom left,
+        /// 2 = top right, 3 = top left.
+        /// </summary>
+        private int resizeCorner;
+
+        /// <summary>
+        /// The cursor position at the start of resizing the window.
+        /// </summary>
+        private Point resizeStartCursor;
+
+        /// <summary>
+        /// The client size at the start of resizing the window.
+        /// </summary>
+        private Size resizeStartClient;
+
+        /// <summary>
+        /// The window location at the start of resizing the window.
+        /// </summary>
+        private Point resizeStartLocation;
+
+        /// <summary>
+        /// Whether the resize cursor is currently shown.
+        /// </summary>
+        private bool resizeCursorActive;
+
         #endregion Fields
 
         #region Initialization and cleanup
@@ -352,6 +399,11 @@ namespace ThoNohT.NohBoard.Forms
 
             this.transparentMode = GlobalSettings.Settings.TransparentMode;
             this.borderlessMode = GlobalSettings.Settings.BorderlessMode;
+            this.overlayScale = GlobalSettings.Settings.OverlayScale;
+
+            // Apply the persisted user scale before the window mode is applied.
+            this.SetClientSizeToDefinition();
+            this.ResetBackBrushes();
             this.UpdateOverlayMode();
         }
 
@@ -364,6 +416,7 @@ namespace ThoNohT.NohBoard.Forms
             {
                 GlobalSettings.Settings.TransparentMode = this.transparentMode;
                 GlobalSettings.Settings.BorderlessMode = this.borderlessMode;
+                GlobalSettings.Settings.OverlayScale = this.overlayScale;
             }
 
             this.layeredModeActive = false;
@@ -435,6 +488,8 @@ namespace ThoNohT.NohBoard.Forms
                 this.DisableLayeredWindow();
                 this.Refresh();
             }
+
+            this.UpdateClickThrough();
         }
 
         #endregion Hotkeys and modes
@@ -530,6 +585,198 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Window dragging
 
+        #region Window resizing and click-through
+
+        /// <summary>
+        /// Starts resizing the window when the left mouse button is pressed in one of the corners of a borderless
+        /// window. The aspect ratio of the keyboard layout is preserved while resizing.
+        /// </summary>
+        /// <param name="e">The mouse event arguments.</param>
+        /// <returns><c>true</c> if the event was handled by resizing the window, <c>false</c> otherwise.</returns>
+        private bool TryStartWindowResize(MouseEventArgs e)
+        {
+            if (!this.borderlessApplied || this.mnuToggleEditMode.Checked || e.Button != MouseButtons.Left)
+                return false;
+
+            var corner = this.HitTestResizeCorner(e.Location);
+            if (corner < 0) return false;
+
+            this.resizingWindow = true;
+            this.resizeCorner = corner;
+            this.resizeStartCursor = Cursor.Position;
+            this.resizeStartClient = this.ClientSize;
+            this.resizeStartLocation = this.Location;
+            this.Capture = true;
+            this.SetResizeCursor(corner);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Continues resizing the window, if it is currently being resized. Both dimensions are scaled by the same
+        /// factor, keeping the aspect ratio of the keyboard layout intact.
+        /// </summary>
+        /// <returns><c>true</c> if the event was handled by resizing the window, <c>false</c> otherwise.</returns>
+        private bool ContinueWindowResize()
+        {
+            if (!this.resizingWindow) return false;
+
+            var definition = GlobalSettings.CurrentDefinition;
+            if (definition == null) return true;
+
+            var dpiFactor = this.DeviceDpi / 96f;
+            var deltaX = Cursor.Position.X - this.resizeStartCursor.X;
+
+            // Only the horizontal delta is used; the same scale is applied to both dimensions, so the aspect ratio of
+            // the keyboard layout does not change.
+            var fromLeft = this.resizeCorner == 1 || this.resizeCorner == 3;
+            var newWidth = (float)(fromLeft
+                ? this.resizeStartClient.Width - deltaX
+                : this.resizeStartClient.Width + deltaX);
+
+            var minimumWidth = definition.Width * dpiFactor * 0.25f;
+            var maximumWidth = definition.Width * dpiFactor * 8f;
+            newWidth = Math.Max(minimumWidth, Math.Min(maximumWidth, newWidth));
+
+            this.overlayScale = newWidth / (definition.Width * dpiFactor);
+
+            var newClientWidth = this.ScaleToDevice(definition.Width);
+            var newClientHeight = this.ScaleToDevice(definition.Height);
+
+            this.ClientSize = new Size(newClientWidth, newClientHeight);
+
+            // Keep the opposite corner of the window at the same position while resizing.
+            var location = this.resizeStartLocation;
+            if (fromLeft) location.X -= newClientWidth - this.resizeStartClient.Width;
+            if (this.resizeCorner == 2 || this.resizeCorner == 3)
+                location.Y -= newClientHeight - this.resizeStartClient.Height;
+            this.Location = location;
+
+            this.ResetBackBrushes();
+            if (this.layeredModeActive) this.RenderLayeredFrame();
+            else this.Refresh();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Ends resizing the window, if it is currently being resized, and persists the new scale.
+        /// </summary>
+        private void EndWindowResize()
+        {
+            if (!this.resizingWindow) return;
+
+            this.resizingWindow = false;
+            this.Capture = false;
+            this.SetResizeCursor(-1);
+
+            if (GlobalSettings.Settings != null)
+            {
+                GlobalSettings.Settings.OverlayScale = this.overlayScale;
+            }
+        }
+
+        /// <summary>
+        /// Returns the corner that can be dragged to resize the window at the specified point, or -1.
+        /// </summary>
+        /// <param name="location">The point relative to the client area.</param>
+        /// <returns>0 = bottom right, 1 = bottom left, 2 = top right, 3 = top left, -1 = no corner.</returns>
+        private int HitTestResizeCorner(Point location)
+        {
+            if (!this.borderlessApplied || this.mnuToggleEditMode.Checked) return -1;
+
+            var width = this.ClientSize.Width;
+            var height = this.ClientSize.Height;
+            var left = location.X <= ResizeGripSize;
+            var right = location.X >= width - ResizeGripSize;
+            var top = location.Y <= ResizeGripSize;
+            var bottom = location.Y >= height - ResizeGripSize;
+
+            if (right && bottom) return 0;
+            if (left && bottom) return 1;
+            if (right && top) return 2;
+            if (left && top) return 3;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Shows or resets the resize cursor for the given corner.
+        /// </summary>
+        /// <param name="corner">The corner, or -1 to reset the cursor.</param>
+        private void SetResizeCursor(int corner)
+        {
+            if (corner < 0)
+            {
+                if (!this.resizeCursorActive) return;
+
+                this.Cursor = Cursors.Default;
+                this.resizeCursorActive = false;
+                return;
+            }
+
+            this.Cursor = corner == 0 || corner == 3 ? Cursors.SizeNWSE : Cursors.SizeNESW;
+            this.resizeCursorActive = true;
+        }
+
+        /// <summary>
+        /// Updates the cursor when hovering over one of the resize corners.
+        /// </summary>
+        /// <param name="e">The mouse event arguments.</param>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (!this.resizingWindow && !this.movingWindow)
+            {
+                this.SetResizeCursor(this.HitTestResizeCorner(e.Location));
+            }
+
+            base.OnMouseMove(e);
+        }
+
+        /// <summary>
+        /// Makes a focused transparent window receive mouse input, and an unfocused transparent window click-through.
+        /// When the window has no focus, the mouse events are passed to the window below it.
+        /// </summary>
+        private void UpdateClickThrough()
+        {
+            if (!this.IsHandleCreated) return;
+
+            var exStyle = GetWindowLong(this.Handle, GwlExStyle);
+            var wantTransparent = this.layeredModeActive && !this.ContainsFocus;
+            var newStyle = wantTransparent
+                ? exStyle | WsExTransparent
+                : exStyle & ~WsExTransparent;
+
+            if (newStyle != exStyle)
+            {
+                SetWindowLong(this.Handle, GwlExStyle, newStyle);
+            }
+        }
+
+        /// <summary>
+        /// Re-applies the click-through state when the window gains the focus.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            this.UpdateClickThrough();
+        }
+
+        /// <summary>
+        /// Makes the window click-through when it loses the focus and is transparent.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnDeactivate(EventArgs e)
+        {
+            base.OnDeactivate(e);
+
+            this.UpdateClickThrough();
+        }
+
+        #endregion Window resizing and click-through
+
         #region Layered window
 
         /// <summary>
@@ -546,6 +793,7 @@ namespace ThoNohT.NohBoard.Forms
             }
 
             this.layeredModeActive = true;
+            this.UpdateClickThrough();
         }
 
         /// <summary>
@@ -560,6 +808,8 @@ namespace ThoNohT.NohBoard.Forms
             {
                 SetWindowLong(this.Handle, GwlExStyle, exStyle & ~WsExLayered);
             }
+
+            this.UpdateClickThrough();
         }
 
         /// <summary>
