@@ -57,45 +57,56 @@ Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
 版本号由 `gotri.exe` 在构建前根据 git 状态生成（`Version.cs` / `AssemblyInfo.cs`，均被 gitignore）：
 
-- 有 tag（如 `v1.4.0`）时版本为 `v1.4.0`，没有 tag 时退化为 `v1.3.0.<提交数>~<hash>`；
+- 有 tag（如 `v1.5.0`）时版本为 `v1.5.0`，没有 tag 时退化为 `v1.3.0.<提交数>~<hash>`；
 - 工作树有未提交改动时会带 `*`（dirty）。
 
 所以**发布前先提交并打 tag，再构建发布产物**。
 
 ### 2.2 构建发布包
 
+目标框架已升级到 **net8.0-windows**。发布脚本 `packaging/build-release.ps1` 会一次生成两个包（推荐直接执行脚本）：
+
 ```powershell
-# 在仓库根目录
-cd NohBoard
-dotnet publish NohBoard\NohBoard.csproj -c Release -r win-x64 --self-contained true
+powershell -ExecutionPolicy Bypass -File packaging\build-release.ps1 -Version v1.5.0
 ```
 
-产物：`NohBoard/NohBoard/bin/Release/netcoreapp3.1/win-x64/publish/NohBoard.exe`（单文件，含 .NET 运行时，目标机无需安装 .NET）。
+| 包 | exe 大小 | 是否依赖 .NET | 说明 |
+| --- | --- | --- | --- |
+| `NohBoard-v1.5.0-win-x64.zip` | **约 65 MB** | 否（自包含） | 单文件、已压缩；内置 .NET 8 桌面运行时（含 WPF 框架），所以体积大 |
+| `NohBoard-v1.5.0-win-x64-lite.zip` | **约 1.4 MB** | 需要 .NET 8 Desktop Runtime | 单文件框架依赖版；目标机需安装 Windows Desktop Runtime 8.x |
 
-组装发布目录：
+为什么旧版是 ~158 MB：`netcoreapp3.1` 的“自包含单文件”会把整个 .NET Core 3.1 桌面运行时（CoreCLR + BCL +
+WinForms + WPF 桌面框架）原样打包，且 .NET Core 3.1 的单文件发布**不支持压缩**，所以 158 MB 是必然结果。
+升级到 .NET 8 后开启 `EnableCompressionInSingleFile`（csproj 已配置），同样的自包含单文件降到约 65 MB；
+如果目标机器已装 .NET 8 Desktop Runtime，则用 lite 版只有 1.4 MB。
+
+对应 publish 命令：
 
 ```powershell
-$dist = "dist\NohBoard-v1.4.0-win-x64"
-New-Item -ItemType Directory -Path $dist -Force | Out-Null
-Copy-Item "NohBoard\NohBoard\bin\Release\netcoreapp3.1\win-x64\publish\NohBoard.exe" $dist
-Copy-Item "keyboards" $dist -Recurse
-Copy-Item "README.md","LICENSE","docs" $dist -Recurse
-Compress-Archive -Path $dist -DestinationPath "dist\NohBoard-v1.4.0-win-x64.zip" -Force
+# 自包含（压缩）单文件
+dotnet publish NohBoard\NohBoard.csproj -c Release -r win-x64 --self-contained true
+
+# 框架依赖单文件（小体积，需要 .NET 8 Desktop Runtime；框架依赖不支持单文件压缩）
+dotnet publish NohBoard\NohBoard.csproj -c Release -r win-x64 --self-contained false `
+  -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=false -o artifacts\publish-lite
 ```
 
 说明：
 
 - `keyboards/` 必须与 exe 同级（程序用 `ExePath/keyboards` 查找布局与样式）。
-- 用户配置 `NohBoard.json` 生成在 exe 同目录，首次运行后出现，不应打进发布包。
-- 若只发布框架依赖版：去掉 `--self-contained true`，目标机需要 .NET Core 3.1 运行时（或设置 `DOTNET_ROLL_FORWARD=Major` 用更高版本运行时）。
+- 发布包里的 `NohBoard.json` 是默认配置（Input Overlay + 透明 + 无边框）；程序首次运行会在 exe 同目录保存用户配置。
+- 进一步减小的可选方案：`PublishTrimmed`（WinForms 不支持裁剪，容易在运行时崩溃，不建议）；或者改用
+  框架依赖版（1.4 MB）并让用户安装 .NET Desktop Runtime。
+- 若不想升级 .NET 8，可退回 `netcoreapp3.1`，但自包含单文件会回到 ~158 MB（3.1 单文件不支持压缩）。
 
 ### 2.3 发布到 GitHub
 
 ```powershell
-git tag v1.4.0
+git tag v1.5.0
 git push origin add-transparency-support --tags
-gh release create v1.4.0 "dist\NohBoard-v1.4.0-win-x64.zip" `
-  --title "NohBoard v1.4.0 (transparency + DPI)" `
+gh release create v1.5.0 "dist\NohBoard-v1.5.0-win-x64.zip" `
+  "dist\NohBoard-v1.5.0-win-x64-lite.zip" `
+  --title "NohBoard v1.5.0" `
   --notes-file "dist\release-notes.md"
 ```
 
