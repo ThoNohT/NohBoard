@@ -595,7 +595,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <returns><c>true</c> if the event was handled by resizing the window, <c>false</c> otherwise.</returns>
         private bool TryStartWindowResize(MouseEventArgs e)
         {
-            if (!this.borderlessApplied || this.mnuToggleEditMode.Checked || e.Button != MouseButtons.Left)
+            if (this.mnuToggleEditMode.Checked || e.Button != MouseButtons.Left)
                 return false;
 
             var corner = this.HitTestResizeCorner(e.Location);
@@ -683,7 +683,7 @@ namespace ThoNohT.NohBoard.Forms
         /// <returns>0 = bottom right, 1 = bottom left, 2 = top right, 3 = top left, -1 = no corner.</returns>
         private int HitTestResizeCorner(Point location)
         {
-            if (!this.borderlessApplied || this.mnuToggleEditMode.Checked) return -1;
+            if (this.mnuToggleEditMode.Checked) return -1;
 
             var width = this.ClientSize.Width;
             var height = this.ClientSize.Height;
@@ -838,17 +838,16 @@ namespace ThoNohT.NohBoard.Forms
             {
                 g.Clear(Color.Transparent);
 
-                // Paint the configured background color only when it is (partially) translucent. A fully transparent
-                // background is not painted at all, and pressing F1 forces the background to be fully transparent.
+                // Fill the whole window with an almost invisible background layer. Pixels with an alpha of 0 are
+                // click-through for layered windows, so a single alpha step keeps the entire window hit-testable
+                // (clickable and draggable) while remaining visually transparent.
                 var backgroundAlpha = this.GetLayeredBackgroundAlpha();
-                if (backgroundAlpha > 0)
+                var fillAlpha = backgroundAlpha == 0 ? (byte)1 : backgroundAlpha;
+                var backgroundColor = GlobalSettings.CurrentStyle.BackgroundColor;
+                using (var backgroundBrush = new SolidBrush(Color.FromArgb(
+                    fillAlpha, backgroundColor.Red, backgroundColor.Green, backgroundColor.Blue)))
                 {
-                    var backgroundColor = GlobalSettings.CurrentStyle.BackgroundColor;
-                    using (var backgroundBrush = new SolidBrush(Color.FromArgb(
-                        backgroundAlpha, backgroundColor.Red, backgroundColor.Green, backgroundColor.Blue)))
-                    {
-                        g.FillRectangle(backgroundBrush, 0, 0, width, height);
-                    }
+                    g.FillRectangle(backgroundBrush, 0, 0, width, height);
                 }
 
                 // Draw the pre-rendered loose key artwork. The back brush bitmaps have a transparent background, so
