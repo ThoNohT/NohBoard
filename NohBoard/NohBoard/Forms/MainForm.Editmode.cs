@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -138,6 +138,10 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+
+            // In a borderless window the window itself can be dragged around.
+            if (this.StartWindowDrag(e)) return;
+
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
             ElementDefinition toManipulate;
@@ -187,6 +191,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            // Drag the window around when it is borderless.
+            if (this.ContinueWindowDrag()) return;
+
             if (!this.mnuToggleEditMode.Checked || this.menuOpen) return;
 
             // Moving everything at once.
@@ -236,6 +243,13 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
+            // Stop dragging the window, if it was being dragged.
+            if (this.movingWindow)
+            {
+                this.EndWindowDrag();
+                return;
+            }
+
             // Always reset this value when releasing the mouse.
             if (this.movingEverythingFrom != null)
             {

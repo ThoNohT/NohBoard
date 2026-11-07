@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -71,6 +71,9 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+
+            // Set up the transparent overlay support (F1/F2 hotkeys, layered window, borderless dragging).
+            this.InitializeOverlayFeatures();
         }
 
         #endregion Constructors
@@ -138,11 +141,8 @@ namespace ThoNohT.NohBoard.Forms
             else
                 HookManager.DisableMouseHook();
 
-            // Enable the keyboard hook only if there are keyboard keys on the screen.
-            if (GlobalSettings.CurrentDefinition.Elements.Any(x => x is KeyboardKeyDefinition))
-                HookManager.EnableKeyboardHook();
-            else
-                HookManager.DisableKeyboardHook();
+            // The keyboard hook is always enabled, as it is also used for the global overlay hotkeys (F1/F2).
+            HookManager.EnableKeyboardHook();
 
             //Prompt to download any fonts we don't have yet.
             var missingFonts = this.CheckMissingFonts();
@@ -163,6 +163,9 @@ namespace ThoNohT.NohBoard.Forms
             this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
 
             this.ResetBackBrushes();
+
+            // The transparency of the style may have changed, so re-evaluate the overlay mode.
+            this.RefreshOverlayMode();
 
             return missingFonts;
         }
@@ -418,6 +421,7 @@ namespace ThoNohT.NohBoard.Forms
 
             this.Activate();
             this.ApplySettings();
+            this.RestoreOverlayState();
         }
 
         /// <summary>
@@ -454,6 +458,8 @@ namespace ThoNohT.NohBoard.Forms
 
             HookManager.DisableMouseHook();
             HookManager.DisableKeyboardHook();
+
+            this.CleanupOverlayFeatures();
 
             GlobalSettings.Save();
         }
@@ -501,6 +507,12 @@ namespace ThoNohT.NohBoard.Forms
         private void MainMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             this.menuOpen = true;
+
+            if (this.mnuToggleTransparency != null)
+            {
+                this.mnuToggleTransparency.Checked = this.transparentMode;
+                this.mnuToggleBorderless.Checked = this.borderlessMode;
+            }
 
             this.mnuSaveDefinition.Enabled = GlobalSettings.CurrentDefinition != null;
             if (GlobalSettings.CurrentDefinition != null)
@@ -588,46 +600,16 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
+            // In transparent mode the window is painted through UpdateLayeredWindow instead, see
+            // MainForm.Transparency.cs.
+            if (this.layeredModeActive) return;
+
             e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
 
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
 
-            // Fill the appropriate back brush.
-            e.Graphics.FillRectangle(
-                this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
-                new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
-
-            // Render all keys.
-            KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
-            var kbKeys = KeyboardState.PressedKeys;
-            var mouseKeys = MouseState.PressedKeys.Select(k => (int)k).ToList();
-            MouseState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
-            MouseState.CheckScrollAndMovement();
-            var scrollCounts = MouseState.ScrollCounts;
-            var allDefs = GlobalSettings.CurrentDefinition.Elements;
-            foreach (var def in allDefs)
-            {
-                this.Render(e.Graphics, def, allDefs, kbKeys, mouseKeys, scrollCounts, false);
-            }
-
-            // Draw the element being manipulated
-            if (this.currentlyManipulating == null)
-            {
-                if (this.highlightedDefinition != this.selectedDefinition)
-                    // Draw highlighted only if it is not also selected.
-                    this.highlightedDefinition?.RenderHighlight(e.Graphics);
-
-                if (this.selectedDefinition != null)
-                {
-                    this.Render(e.Graphics, this.selectedDefinition, allDefs, kbKeys, mouseKeys, scrollCounts, true);
-                    this.selectedDefinition.RenderSelected(e.Graphics);
-                }
-            }
-            else
-            {
-                this.currentlyManipulating.Value.definition.RenderEditing(e.Graphics);
-            }
+            this.RenderScene(e.Graphics);
 
             base.OnPaint(e);
         }
@@ -689,6 +671,16 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            // In transparent mode there is no regular invalidation painting, so render the layered window when the
+            // input state changed. Idle frames are skipped so a static overlay does not burn CPU.
+            if (this.layeredModeActive)
+            {
+                if (KeyboardState.Updated || MouseState.Updated || this.mnuToggleEditMode.Checked || this.movingWindow)
+                    this.RenderLayeredFrame();
+
+                return;
+            }
+
             if (KeyboardState.Updated || MouseState.Updated)
                 this.Refresh();
         }

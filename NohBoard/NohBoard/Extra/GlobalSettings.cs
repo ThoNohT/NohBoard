@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -215,6 +215,22 @@ namespace ThoNohT.NohBoard.Extra
         public int Y { get; set; } = 25;
 
         #endregion State
+
+        #region Window
+
+        /// <summary>
+        /// Indicates whether the window is shown in transparent (per-pixel alpha layered) mode.
+        /// </summary>
+        [DataMember]
+        public bool TransparentMode { get; set; }
+
+        /// <summary>
+        /// Indicates whether the window is shown without a border and title bar.
+        /// </summary>
+        [DataMember]
+        public bool BorderlessMode { get; set; }
+
+        #endregion Window
 
         #region Editing
 

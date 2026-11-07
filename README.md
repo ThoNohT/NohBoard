@@ -6,6 +6,16 @@ NohBoard is a keyboard visualization program. I know certain applications alread
 
 An initial version was made in C++, this originated from the desire to make something with graphics, and what I knew was [OBS](http://github.com/jp9000/OBS), now replaced by [OBS Studio](http://github.com/jp9000/obs-studio). That's why I started in the same spirit, using C++, and rendering with DirectX. However, having spent most of my time on C# during at least the last decade or so, I decided that I would be much more able to create awesome things in this language. That's when I re-started. Rather than using DirectX, I switched to GDI+, as we're Windows only (I'm sorry, but I just really don't use any other OS, and so far it is still the go-to OS for gaming). No really fancy graphics are required, no 3D is required. This also makes it easier to capture, as a simple window capture in OBS will do the trick now, rather than having to fiddle with game capture which might not work due to a game typically being run at the same time as NohBoard.
 
+## Transparency and borderless overlay
+
+This fork adds an optional transparent, borderless overlay mode (branch `add-transparency-support`):
+
+- **F1** toggles per-pixel transparency (the window uses a layered window, so the desktop shows through the background instead of rendering it black).
+- **F2** toggles a borderless window (transparency implies borderless). In borderless mode the window can be dragged with the left mouse button outside edit mode.
+- Styles can request transparency explicitly: add `"Alpha": 0` (0–255, optional) to a style's `BackgroundColor`. A background with `Alpha < 255` starts transparent automatically. The mode is also remembered in `NohBoard.json` (`TransparentMode` / `BorderlessMode`).
+
+See [docs/transparency-support.md](docs/transparency-support.md) (Chinese) for configuration examples, implementation details and test results.
+
 ## Contributors
 
 **Maintainer / original author**
