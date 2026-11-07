@@ -116,3 +116,5 @@ NohBoard/Hooking/Properties/AssemblyInfo.cs
 NohBoard/NohBoard/Properties/AssemblyInfo.cs
 # Local test artifacts (overlay test harness)
 artifacts/
+# Local release output
+dist/
