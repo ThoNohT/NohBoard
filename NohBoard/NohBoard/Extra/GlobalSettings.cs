@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ namespace ThoNohT.NohBoard.Extra
     using System.Windows.Forms;
     using Hooking;
     using Keyboard;
+    using Localization;
     using static Hooking.Interop.Defines;
 
     /// <summary>
@@ -83,6 +84,13 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public string WindowTitle { get; set; } = "";
+
+        /// <summary>
+        /// The language in which the user interface is displayed. Defaults to the language of the operating system.
+        /// A change of this value only takes effect after NohBoard has been restarted.
+        /// </summary>
+        [DataMember]
+        public UiLanguage Language { get; set; } = UiLanguage.Auto;
 
         #endregion General
 
@@ -215,6 +223,39 @@ namespace ThoNohT.NohBoard.Extra
         public int Y { get; set; } = 25;
 
         #endregion State
+
+        #region Window
+
+        /// <summary>
+        /// Indicates whether the window is shown in transparent (per-pixel alpha layered) mode.
+        /// </summary>
+        [DataMember]
+        public bool TransparentMode { get; set; }
+
+        /// <summary>
+        /// Indicates whether the window is shown without a border and title bar.
+        /// </summary>
+        [DataMember]
+        public bool BorderlessMode { get; set; }
+
+        /// <summary>
+        /// The user scale of the overlay relative to the size of the keyboard definition. This is changed by dragging
+        /// a corner of the borderless window and is kept between runs.
+        /// </summary>
+        private float overlayScale = 1f;
+
+        /// <summary>
+        /// The user scale of the overlay relative to the size of the keyboard definition. When the value is missing
+        /// from older settings files, the value is 1 (the size of the keyboard definition at the current DPI).
+        /// </summary>
+        [DataMember]
+        public float OverlayScale
+        {
+            get => this.overlayScale <= 0f ? 1f : this.overlayScale;
+            set => this.overlayScale = Math.Max(0.25f, Math.Min(8f, value));
+        }
+
+        #endregion Window
 
         #region Editing
 

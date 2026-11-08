@@ -1,14 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ThoNohT.NohBoard</RootNamespace>
     <StartupObject>ThoNohT.NohBoard.Program</StartupObject>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <ApplicationIcon>NohBoard2.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Single self-contained file, compressed. The uncompressed self-contained build is huge because it bundles the
+         entire .NET desktop runtime (including WPF), compression brings the exe down to a reasonable size. -->
     <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 

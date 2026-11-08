@@ -6,6 +6,22 @@ NohBoard is a keyboard visualization program. I know certain applications alread
 
 An initial version was made in C++, this originated from the desire to make something with graphics, and what I knew was [OBS](http://github.com/jp9000/OBS), now replaced by [OBS Studio](http://github.com/jp9000/obs-studio). That's why I started in the same spirit, using C++, and rendering with DirectX. However, having spent most of my time on C# during at least the last decade or so, I decided that I would be much more able to create awesome things in this language. That's when I re-started. Rather than using DirectX, I switched to GDI+, as we're Windows only (I'm sorry, but I just really don't use any other OS, and so far it is still the go-to OS for gaming). No really fancy graphics are required, no 3D is required. This also makes it easier to capture, as a simple window capture in OBS will do the trick now, rather than having to fiddle with game capture which might not work due to a game typically being run at the same time as NohBoard.
 
+## Transparency and borderless overlay
+
+This fork adds transparency and borderless overlay modes (branch `add-transparency-support`):
+
+- **F1** toggles the transparency of the keyboard background and **no longer removes the window border**: a transparent window keeps its native border and title bar. **F2** toggles a borderless window. The two modes are independent, so all four combinations work: normal, transparent with border, borderless, and transparent borderless.
+- Both transparent modes render the keyboard with the **same per-pixel alpha** layered window, so the anti-aliased edges and soft shadows of the keyboard images are preserved and the mouse behaves identically. The bordered variant simply gets its native title bar and border from a small separate frame window that wraps the transparent content (the frame is a tool window: no taskbar/Alt+Tab entry). See [docs/transparency-support.md](docs/transparency-support.md).
+- **F1/F2 only work while the NohBoard window is focused** — they are not global hotkeys.
+- In transparent mode the window can be **dragged by the transparent area** (and by the native title bar in bordered mode) and the four corners **resize while keeping the layout aspect ratio** (the scale is remembered in `NohBoard.json`). The window is a normal, non-topmost window and keeps rendering while minimized.
+- **Click-through**: while transparent and unfocused the mouse passes through the overlay; focus it (Alt+Tab, taskbar, or the native title bar in bordered mode) to click and drag it again. In both transparent modes the whole window stays clickable while focused (a nearly invisible alpha=1 background layer keeps the transparent areas hit-testable).
+- Keyboard/mouse input is captured both by the low-level hooks and by Raw Input (`RegisterRawInputDevices`), so keys pressed in games and elevated (UAC) windows are picked up more reliably. For the few cases where even that is not enough (some elevated processes), the context menu offers **Restart as administrator**.
+- Styles can request transparency explicitly: add `"Alpha": 0` (0–255, optional) to a style's `BackgroundColor`. A background with `Alpha < 255` starts transparent automatically. The mode is also remembered in `NohBoard.json` (`TransparentMode` / `BorderlessMode`).
+- **Interface language**: the UI is localized in English and Simplified Chinese. It follows the Windows display language by default and can be switched under **Settings → Language** (takes effect after a restart). Missing translations fall back to English, so new languages can be added incrementally. See [docs/i18n.md](docs/i18n.md).
+- **Lite package**: the small framework-dependent build now ships a tiny launcher. When the .NET 8 Desktop Runtime is missing it shows a dialog with the official download page instead of the raw .NET host error. See [docs/lite-launcher.md](docs/lite-launcher.md).
+
+See [docs/transparency-support.md](docs/transparency-support.md) and [docs/input-capture-and-hotkeys.md](docs/input-capture-and-hotkeys.md) (Chinese) for configuration examples, implementation details and test results.
+
 ## Contributors
 
 **Maintainer / original author**

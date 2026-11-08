@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms
     using Hooking.Interop;
     using Keyboard;
     using Keyboard.ElementDefinitions;
+    using Localization;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -71,9 +72,70 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+
+            // Set up the transparent overlay support (F1/F2 hotkeys, layered window, borderless dragging).
+            this.InitializeOverlayFeatures();
         }
 
         #endregion Constructors
+
+        #region Raw input and overlay hotkeys
+
+        /// <summary>
+        /// Registers the raw input devices for the window. This makes the keyboard and mouse state also update for
+        /// input that is not seen by the low level hooks, such as input that is sent to an elevated application.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            RawInputManager.Initialize(this.Handle);
+        }
+
+        /// <summary>
+        /// Unregisters the raw input devices.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            RawInputManager.Uninitialize();
+
+            base.OnHandleDestroyed(e);
+        }
+
+        /// <summary>
+        /// Feeds the raw input messages into the keyboard and mouse state.
+        /// </summary>
+        /// <param name="m">The window message.</param>
+        protected override void WndProc(ref Message m)
+        {
+            if (RawInputManager.ProcessMessage(m.Msg, m.LParam))
+            {
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// Handles the overlay hotkeys. These are handled by the window itself, so they only work while NohBoard is
+        /// the foreground window. The native frame window of the bordered transparent mode forwards its hotkeys to the
+        /// same handler.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (this.HandleOverlayHotkey(e))
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+
+            if (!e.Handled) base.OnKeyDown(e);
+        }
+
+        #endregion Raw input and overlay hotkeys
 
         #region Version check
 
@@ -138,11 +200,9 @@ namespace ThoNohT.NohBoard.Forms
             else
                 HookManager.DisableMouseHook();
 
-            // Enable the keyboard hook only if there are keyboard keys on the screen.
-            if (GlobalSettings.CurrentDefinition.Elements.Any(x => x is KeyboardKeyDefinition))
-                HookManager.EnableKeyboardHook();
-            else
-                HookManager.DisableKeyboardHook();
+            // The keyboard hook is always enabled: it feeds the keyboard state and also sees synthetic input that is
+            // not reported through raw input. Raw input is registered in parallel in OnHandleCreated.
+            HookManager.EnableKeyboardHook();
 
             //Prompt to download any fonts we don't have yet.
             var missingFonts = this.CheckMissingFonts();
@@ -160,9 +220,12 @@ namespace ThoNohT.NohBoard.Forms
             this.highlightedDefinition = null;
             this.selectedDefinition = null;
 
-            this.ClientSize = new Size(GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height);
+            this.SetClientSizeToDefinition();
 
             this.ResetBackBrushes();
+
+            // The transparency of the style may have changed, so re-evaluate the overlay mode.
+            this.RefreshOverlayMode();
 
             return missingFonts;
         }
@@ -221,28 +284,35 @@ namespace ThoNohT.NohBoard.Forms
 
                 foreach (var caps in new[] { false, true })
                 {
-                    var bmp = new Bitmap(
-                        GlobalSettings.CurrentDefinition.Width,
-                        GlobalSettings.CurrentDefinition.Height);
-                    var g = Graphics.FromImage(bmp);
+                    var definition = GlobalSettings.CurrentDefinition;
+                    var bmp = new Bitmap(this.ScaleToDevice(definition.Width), this.ScaleToDevice(definition.Height));
 
-                    // Render the background image if set.
-                    var cs = GlobalSettings.CurrentStyle;
-                    if (cs.BackgroundImageFileName != null && FileHelper.StyleImageExists(cs.BackgroundImageFileName))
+                    using (var g = Graphics.FromImage(bmp))
                     {
-                        g.DrawImage(ImageCache.Get(cs.BackgroundImageFileName), this.ClientRectangle);
-                    }
+                        // The definition is stored in logical (96 DPI) coordinates, render it at the scaling factor of
+                        // the monitor the window is currently on.
+                        g.ScaleTransform(this.DpiScale, this.DpiScale);
 
-                    // Render the individual keys.
-                    foreach (var def in GlobalSettings.CurrentDefinition.Elements)
-                    {
-                        if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
+                        // Render the background image if set.
+                        var cs = GlobalSettings.CurrentStyle;
+                        if (cs.BackgroundImageFileName != null && FileHelper.StyleImageExists(cs.BackgroundImageFileName))
+                        {
+                            g.DrawImage(
+                                ImageCache.Get(cs.BackgroundImageFileName),
+                                new Rectangle(0, 0, definition.Width, definition.Height));
+                        }
 
-                        if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
+                        // Render the individual keys.
+                        foreach (var def in definition.Elements)
+                        {
+                            if (def is KeyboardKeyDefinition) ((KeyboardKeyDefinition)def).Render(g, false, shift, caps);
 
-                        if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
+                            if (def is MouseKeyDefinition) ((MouseKeyDefinition)def).Render(g, false, shift, caps);
 
-                        // No need to render mouse speed indicators in backbrush.
+                            if (def is MouseScrollDefinition) ((MouseScrollDefinition)def).Render(g, 0);
+
+                            // No need to render mouse speed indicators in backbrush.
+                        }
                     }
 
                     this.backBrushes[shift].Add(caps, new TextureBrush(bmp));
@@ -260,8 +330,8 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges)
             {
                 var result = MessageBox.Show(
-                    "You have unsaved changes. Loading a new keyboard will undo them. Are you sure you want to load a new keyboard?",
-                    "Discard changes",
+                    Loc.T("You have unsaved changes. Loading a new keyboard will undo them. Are you sure you want to load a new keyboard?"),
+                    Loc.T("Discard changes"),
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
 
@@ -308,7 +378,7 @@ namespace ThoNohT.NohBoard.Forms
 
                         this.LoadKeyboard();
 
-                        MessageBox.Show(ex.Message + Environment.NewLine + "Reverted keyboard change.");
+                        MessageBox.Show(ex.Message + Environment.NewLine + Loc.T("Reverted keyboard change."));
                     }
                 };
 
@@ -351,13 +421,24 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Load the settings
-            if (!GlobalSettings.Load())
+            var settingsLoaded = GlobalSettings.Load();
+
+            // The language is initialized before any text is translated. It is loaded from the settings, and can be
+            // overridden with the NOHBOARD_UI_LANGUAGE environment variable (used by the automated UI tests).
+            Loc.Initialize(GlobalSettings.Settings.Language);
+
+            if (!settingsLoaded)
             {
                 MessageBox.Show(
                     this,
-                    $"Failed to load the settings: {GlobalSettings.Errors}",
-                    "Failed to load settings");
+                    Loc.Format("Failed to load the settings: {0}", GlobalSettings.Errors),
+                    Loc.T("Failed to load settings"));
             }
+
+            // Translate the form and its context menu. Menu items that were created in code (the overlay menu items)
+            // are part of this menu and are translated as well.
+            Loc.Apply(this);
+            Loc.Apply(this.MainMenu);
 
             this.Location = new Point(GlobalSettings.Settings.X, GlobalSettings.Settings.Y);
             var title = GlobalSettings.Settings.WindowTitle;
@@ -377,7 +458,7 @@ namespace ThoNohT.NohBoard.Forms
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        "There was an error loading the saved keyboard definition file:" +
+                        Loc.T("There was an error loading the saved keyboard definition file:") +
                         $"{Environment.NewLine}{ex.Message}");
                     GlobalSettings.Settings.LoadedCategory = null;
                     GlobalSettings.Settings.LoadedKeyboard = null;
@@ -399,8 +480,8 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     GlobalSettings.Settings.LoadedStyle = null;
                     MessageBox.Show(
-                        $"Failed to load style {GlobalSettings.Settings.LoadedStyle}, loading default style.",
-                        "Error loading style.");
+                        Loc.Format("Failed to load style {0}, loading default style.", GlobalSettings.Settings.LoadedStyle),
+                        Loc.T("Error loading style."));
                 }
 
                 // Enable the mouse hook only if there are mouse keys on the screen.
@@ -418,6 +499,7 @@ namespace ThoNohT.NohBoard.Forms
 
             this.Activate();
             this.ApplySettings();
+            this.RestoreOverlayState();
         }
 
         /// <summary>
@@ -440,8 +522,8 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges && !CrashHandler.Crashed)
             {
                 var result = MessageBox.Show(
-                    "You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?",
-                    "Discard changes",
+                    Loc.T("You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?"),
+                    Loc.T("Discard changes"),
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
 
@@ -454,6 +536,8 @@ namespace ThoNohT.NohBoard.Forms
 
             HookManager.DisableMouseHook();
             HookManager.DisableKeyboardHook();
+
+            this.CleanupOverlayFeatures();
 
             GlobalSettings.Save();
         }
@@ -502,21 +586,31 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = true;
 
+            if (this.mnuToggleTransparency != null)
+            {
+                this.mnuToggleTransparency.Checked = this.transparentMode;
+                this.mnuToggleBorderless.Checked = this.borderlessMode;
+            }
+
             this.mnuSaveDefinition.Enabled = GlobalSettings.CurrentDefinition != null;
             if (GlobalSettings.CurrentDefinition != null)
             {
                 this.mnuSaveDefinitionAsName.Text =
-                    $"Save &To '{GlobalSettings.CurrentDefinition.Category}/{GlobalSettings.CurrentDefinition.Name}'";
+                    Loc.Format(
+                        "Save &To '{0}/{1}'",
+                        GlobalSettings.CurrentDefinition.Category,
+                        GlobalSettings.CurrentDefinition.Name);
 
                 var mousePos = this.PointToClient(Cursor.Position);
+                var logicalMousePos = this.ToLogical(mousePos);
                 this.elementUnderCursor =
-                    GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(mousePos));
+                    GlobalSettings.CurrentDefinition.Elements.FirstOrDefault(x => x.Inside(logicalMousePos));
 
                 // Set the highlighted definition only if we're in edit mode, and there is not an already selected definition.
                 if (this.mnuToggleEditMode.Checked && this.selectedDefinition == null)
                 {
                     this.highlightedDefinition = this.elementUnderCursor;
-                    this.highlightedDefinition?.StartManipulating(mousePos, false);
+                    this.highlightedDefinition?.StartManipulating(logicalMousePos, false);
                 }
 
                 var relevantElement = this.selectedDefinition ?? this.elementUnderCursor;
@@ -532,9 +626,10 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuEditElementStyle.Visible = this.mnuToggleEditMode.Checked;
             this.MainMenuSep1.Visible = this.mnuToggleEditMode.Checked;
 
-            this.mnuSaveStyleToName.Text = $"Save &To '{GlobalSettings.CurrentStyle.Name}'";
+            this.mnuSaveStyleToName.Text = Loc.Format("Save &To '{0}'", GlobalSettings.CurrentStyle.Name);
             this.mnuSaveStyleToName.Visible = !GlobalSettings.Settings.LoadedGlobalStyle;
-            this.mnuSaveToGlobalStyleName.Text = $"Save To &Global '{GlobalSettings.CurrentStyle.Name}'";
+            this.mnuSaveToGlobalStyleName.Text =
+                Loc.Format("Save To &Global '{0}'", GlobalSettings.CurrentStyle.Name);
             this.mnuSaveToGlobalStyleName.Enabled = GlobalSettings.CurrentStyle.IsGlobal;
             this.mnuSaveToGlobalStyleName.Visible = GlobalSettings.Settings.LoadedGlobalStyle;
 
@@ -542,7 +637,7 @@ namespace ThoNohT.NohBoard.Forms
 
             if (this.latestVersion != null && !this.mnuUpdate.Visible)
             {
-                this.mnuUpdate.Text = $"New version available: {this.latestVersion.Format()}.";
+                this.mnuUpdate.Text = Loc.Format("New version available: {0}.", this.latestVersion.Format());
                 this.mnuUpdate.Visible = true;
                 this.mnuUpdate.Click += (s, ea) => { Process.Start(new ProcessStartInfo { FileName = "https://github.com/ThoNohT/NohBoard/releases", UseShellExecute = true }); };
             }
@@ -588,46 +683,26 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
+            // In transparent mode the window is painted through UpdateLayeredWindow instead, see
+            // MainForm.Transparency.cs.
+            if (this.layeredModeActive) return;
+
+            e.Graphics.Clear(this.ClientBackgroundColor);
 
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
 
-            // Fill the appropriate back brush.
+            // The back-brushes are rendered at the device resolution of the current monitor, the pressed keys and the
+            // edit mode overlays are painted in logical coordinates.
             e.Graphics.FillRectangle(
                 this.backBrushes[KeyboardState.ShiftDown][KeyboardState.CapsActive],
-                new Rectangle(0, 0, GlobalSettings.CurrentDefinition.Width, GlobalSettings.CurrentDefinition.Height));
+                0,
+                0,
+                this.ClientSize.Width,
+                this.ClientSize.Height);
 
-            // Render all keys.
-            KeyboardState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
-            var kbKeys = KeyboardState.PressedKeys;
-            var mouseKeys = MouseState.PressedKeys.Select(k => (int)k).ToList();
-            MouseState.CheckKeyHolds(GlobalSettings.Settings.PressHold);
-            MouseState.CheckScrollAndMovement();
-            var scrollCounts = MouseState.ScrollCounts;
-            var allDefs = GlobalSettings.CurrentDefinition.Elements;
-            foreach (var def in allDefs)
-            {
-                this.Render(e.Graphics, def, allDefs, kbKeys, mouseKeys, scrollCounts, false);
-            }
-
-            // Draw the element being manipulated
-            if (this.currentlyManipulating == null)
-            {
-                if (this.highlightedDefinition != this.selectedDefinition)
-                    // Draw highlighted only if it is not also selected.
-                    this.highlightedDefinition?.RenderHighlight(e.Graphics);
-
-                if (this.selectedDefinition != null)
-                {
-                    this.Render(e.Graphics, this.selectedDefinition, allDefs, kbKeys, mouseKeys, scrollCounts, true);
-                    this.selectedDefinition.RenderSelected(e.Graphics);
-                }
-            }
-            else
-            {
-                this.currentlyManipulating.Value.definition.RenderEditing(e.Graphics);
-            }
+            e.Graphics.ScaleTransform(this.DpiScale, this.DpiScale);
+            this.RenderScene(e.Graphics);
 
             base.OnPaint(e);
         }
@@ -689,6 +764,27 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                // A minimized layered window can not be painted. The key state keeps being updated, so the overlay
+                // shows the correct state again as soon as the window is restored.
+                return;
+            }
+
+            // In transparent mode there is no regular invalidation painting, so render the layered window when the
+            // input state changed. Idle frames are skipped so a static overlay does not burn CPU.
+            if (this.layeredModeActive)
+            {
+                // Keep the click-through state in sync with the focus state. This also recovers when the deactivate
+                // message arrived before WinForms updated its focus state.
+                this.UpdateClickThrough();
+
+                if (KeyboardState.Updated || MouseState.Updated || this.mnuToggleEditMode.Checked || this.movingWindow)
+                    this.RenderLayeredFrame();
+
+                return;
+            }
+
             if (KeyboardState.Updated || MouseState.Updated)
                 this.Refresh();
         }
@@ -711,7 +807,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuGenerateLog_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will crash NohBoard in order to generate a log, are you sure you want to do this?", "Generate crash log", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(Loc.T("This will crash NohBoard in order to generate a log, are you sure you want to do this?"), Loc.T("Generate crash log"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 throw new Exception("A crash log was requested.");
             }

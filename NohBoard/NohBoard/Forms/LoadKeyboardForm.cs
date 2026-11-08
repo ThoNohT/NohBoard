@@ -24,6 +24,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Linq;
     using System.Windows.Forms;
     using Extra;
+    using Localization;
     using ThoNohT.NohBoard.Keyboard;
     using ThoNohT.NohBoard.Legacy;
 
@@ -80,7 +81,7 @@ namespace ThoNohT.NohBoard.Forms
             /// <returns>A string that represents the current object.</returns>
             public override string ToString()
             {
-                return this.Global ? $"global: {this.Name}" : this.Name;
+                return this.Global ? Loc.Format("global: {0}", this.Name) : this.Name;
             }
         }
 
@@ -120,6 +121,7 @@ namespace ThoNohT.NohBoard.Forms
         public LoadKeyboardForm()
         {
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         #endregion Constructors
@@ -131,24 +133,29 @@ namespace ThoNohT.NohBoard.Forms
         /// <param name="missingFonts"></param>
         public void ToggleFontsPanel(List<SerializableFont> missingFonts)
         {
+            // The form is scaled automatically by WinForms for the current DPI, so the window size must be derived from
+            // the (already scaled) control positions instead of from fixed pixel widths. Fixed widths only fit at 100%
+            // scaling and made the window show just its left half at higher scaling factors.
             if (!missingFonts.Any())
             {
                 // Hide the panel.
-                this.Width = 422;
+                this.ClientSize = new System.Drawing.Size(this.CloseButton.Right + 16, this.ClientSize.Height);
                 this.fontsGrid.Enabled = false;
                 this.btnRestart.Enabled = false;
             }
             else
             {
-                this.Width = 1025;
+                this.ClientSize = new System.Drawing.Size(this.btnRestart.Right + 16, this.ClientSize.Height);
                 this.fontsGrid.Enabled = true;
                 this.btnRestart.Enabled = true;
 
                 var gridData = missingFonts
-                    .Select(f => new MissingFont { Name = f.FontFamily, Link = f.DownloadUrl ?? "No download URL provided" })
+                    .Select(f => new MissingFont { Name = f.FontFamily, Link = f.DownloadUrl ?? Loc.T("No download URL provided") })
                     .ToList();
                 this.fontsGrid.DataSource = gridData;
+                this.fontsGrid.Columns[0].HeaderText = Loc.T("Font");
                 this.fontsGrid.Columns[0].Width = 140;
+                this.fontsGrid.Columns[1].HeaderText = Loc.T("Link");
                 this.fontsGrid.Columns[1].Width = 435;
 
                 this.fontsGrid.Update();
@@ -161,7 +168,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void LoadLegacyButton_Click(object sender, System.EventArgs e)
         {
-            var dialog = new OpenFileDialog { Filter = "Legacy Keyboard Files|*.kb" };
+            var dialog = new OpenFileDialog { Filter = Loc.T("Legacy Keyboard Files|*.kb") };
             var result = dialog.ShowDialog();
 
             if (result == DialogResult.Cancel) return;
@@ -237,8 +244,8 @@ namespace ThoNohT.NohBoard.Forms
             if (this.SelectedDefinition == null) return;
 
             var result = MessageBox.Show(
-                $"Are you sure you want to delete {this.SelectedCategory}/{this.SelectedDefinition}?",
-                "Delete definition",
+                Loc.Format("Are you sure you want to delete {0}/{1}?", this.SelectedCategory, this.SelectedDefinition),
+                Loc.T("Delete definition"),
                 MessageBoxButtons.YesNo);
 
             if (result != DialogResult.Yes)
@@ -262,7 +269,7 @@ namespace ThoNohT.NohBoard.Forms
                 if (this.StyleList.Items.Count == 0) this.DefinitionChanged?.Invoke(kbDef, null, false);
             } catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load keyboard {this.SelectedDefinition}: {ex.Message}");
+                MessageBox.Show(Loc.Format("Failed to load keyboard {0}: {1}", this.SelectedDefinition, ex.Message));
                 return;
             }
         }
@@ -281,7 +288,7 @@ namespace ThoNohT.NohBoard.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load keyboard {this.SelectedDefinition}: {ex.Message}");
+                MessageBox.Show(Loc.Format("Failed to load keyboard {0}: {1}", this.SelectedDefinition, ex.Message));
                 return;
             }
         }

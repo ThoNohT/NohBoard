@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Controls
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ThoNohT.NohBoard.Localization;
 
     /// <summary>
     /// A font chooser.
@@ -60,10 +61,10 @@ namespace ThoNohT.NohBoard.Controls
             var tooltip = new ToolTip();
             tooltip.SetToolTip(
                 this.txtLink,
-                "If a font is used that is not present on Windows systems by default, this field can be used " + nl +
+                Loc.T("If a font is used that is not present on Windows systems by default, this field can be used " + nl +
                 "to provide an URL to download the font from. The user can then click on the link, download the " + nl +
                 "font and be able to use the style with the correct font. Note that every link only needs to be " + nl +
-                "provided once, even if it is used in multiple key definitions.");
+                "provided once, even if it is used in multiple key definitions."));
 
             this.DisplayLabel.Left = this.Height + 2;
             this.DisplayLabel.Width = this.Width - this.Height - 2;

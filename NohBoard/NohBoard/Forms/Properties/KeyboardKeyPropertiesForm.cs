@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
     using System.Windows.Forms;
     using Extra;
     using Keyboard.ElementDefinitions;
+    using Localization;
 
     /// <summary>
     /// The form used to update the properties of a keyboard key.
@@ -70,6 +71,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.initialDefinition = initialDefinition;
             this.currentDefinition = (KeyboardKeyDefinition) initialDefinition.Clone();
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
@@ -286,7 +288,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
             if (this.detectingKeyCode)
             {
-                this.btnDetectKeyCode.Text = "Detecting...";
+                this.btnDetectKeyCode.Text = Loc.T("Detecting...");
                 Hooking.Interop.HookManager.KeyboardInsert = code =>
                 {
                     this.udKeyCode.Value = code;
@@ -295,7 +297,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             }
             else
             {
-                this.btnDetectKeyCode.Text = "Detect";
+                this.btnDetectKeyCode.Text = Loc.T("Detect");
                 Hooking.Interop.HookManager.KeyboardInsert = null;
             }
         }
@@ -305,7 +307,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         /// </summary>
         private void KeyboardKeyPropertiesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.btnDetectKeyCode.Text = "Detect";
+            this.btnDetectKeyCode.Text = Loc.T("Detect");
             Hooking.Interop.HookManager.KeyboardInsert = null;
         }
 

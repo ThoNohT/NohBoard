@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Controls
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ThoNohT.NohBoard.Localization;
 
     /// <summary>
     /// A color chooser.
@@ -45,7 +46,7 @@ namespace ThoNohT.NohBoard.Controls
         {
             this.Color = Color.Black;
             this.InitializeComponent();
-            this.DisplayLabel.Text = "Pick a color.";
+            this.DisplayLabel.Text = Loc.T("Pick a color.");
 
             this.DisplayLabel.Left = this.Height + 2;
             this.DisplayLabel.Width = this.Width - this.Height - 2;

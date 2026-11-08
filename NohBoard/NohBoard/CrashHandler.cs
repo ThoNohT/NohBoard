@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard
     using System.Text;
     using System.Windows.Forms;
     using ThoNohT.NohBoard.Extra;
+    using ThoNohT.NohBoard.Localization;
 
     /// <summary>
     /// Helper class for handling crashes.
@@ -58,8 +59,13 @@ namespace ThoNohT.NohBoard
 
             File.WriteAllText(logFile.FullName, $"{ShowException(ex)}{CollectState()}");
 
-            MessageBox.Show($"NohBoard crashed. Exception message: {ex.Message}{Environment.NewLine}" +
-                $"A crash log was generated: {logFile.FullName}", "NohBoard has crashed");
+            MessageBox.Show(
+                Loc.Format(
+                    "NohBoard crashed. Exception message: {0}{1}A crash log was generated: {2}",
+                    ex.Message,
+                    Environment.NewLine,
+                    logFile.FullName),
+                Loc.T("NohBoard has crashed"));
             Crashed = true;
             Application.Exit();
         }

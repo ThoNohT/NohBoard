@@ -24,6 +24,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
     using Extra;
     using Hooking;
     using Keyboard.ElementDefinitions;
+    using Localization;
 
     public partial class MouseElementPropertiesForm : Form
     {
@@ -72,7 +73,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
             if (initialDefinition is MouseKeyDefinition)
             {
-                this.Text = "Mouse Key Properties";
+                this.Text = Loc.T("Mouse Key Properties");
 
                 this.cmbKeyCode.Items.Clear();
                 this.cmbKeyCode.Items.Add(MouseKeyCode.LeftButton);
@@ -84,7 +85,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
 
             if (initialDefinition is MouseScrollDefinition)
             {
-                this.Text = "Mouse Scroll Properties";
+                this.Text = Loc.T("Mouse Scroll Properties");
 
                 this.cmbKeyCode.Items.Clear();
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollUp);
@@ -92,6 +93,8 @@ namespace ThoNohT.NohBoard.Forms.Properties
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollDown);
                 this.cmbKeyCode.Items.Add(MouseScrollKeyCode.ScrollLeft);
             }
+
+            Loc.Apply(this);
         }
 
         /// <summary>

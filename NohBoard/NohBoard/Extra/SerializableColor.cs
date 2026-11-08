@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -45,12 +45,33 @@ namespace ThoNohT.NohBoard.Extra
         public byte Blue { get; set; }
 
         /// <summary>
+        /// The serialized alpha component. This is null when the color is fully opaque, so that styles that do not
+        /// use transparency do not change their serialized format.
+        /// </summary>
+        [DataMember(Name = "Alpha", EmitDefaultValue = false)]
+        private byte? serializedAlpha;
+
+        /// <summary>
+        /// The alpha component of the color. Colors loaded from styles that do not specify an alpha are fully opaque.
+        /// </summary>
+        public byte Alpha
+        {
+            get => this.serializedAlpha ?? 255;
+            set => this.serializedAlpha = value == 255 ? (byte?)null : value;
+        }
+
+        /// <summary>
+        /// Whether this color is not fully opaque.
+        /// </summary>
+        public bool IsTransparent => this.Alpha != 255;
+
+        /// <summary>
         /// Converts a <see cref="SerializableColor"/> to a <see cref="Color"/>.
         /// </summary>
         /// <param name="src">The color to convert.</param>
         public static implicit operator Color(SerializableColor src)
         {
-            return Color.FromArgb(src.Red, src.Green, src.Blue);
+            return Color.FromArgb(src.Alpha, src.Red, src.Green, src.Blue);
         }
 
         /// <summary>
@@ -63,7 +84,8 @@ namespace ThoNohT.NohBoard.Extra
             {
                 Red = src.R,
                 Green = src.G,
-                Blue = src.B
+                Blue = src.B,
+                Alpha = src.A
             };
         }
 
@@ -83,7 +105,8 @@ namespace ThoNohT.NohBoard.Extra
         /// <returns>True if the color has changes, false otherwise.</returns>
         public bool IsChanged(SerializableColor other)
         {
-            return this.Red != other.Red || this.Green != other.Green || this.Blue != other.Blue;
+            return this.Red != other.Red || this.Green != other.Green || this.Blue != other.Blue
+                || this.Alpha != other.Alpha;
         }
     }
 

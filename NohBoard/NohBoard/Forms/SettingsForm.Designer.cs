@@ -74,6 +74,10 @@ namespace ThoNohT.NohBoard.Forms
             this.GeneralGroup = new System.Windows.Forms.GroupBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
+            this.LanguageGroup = new System.Windows.Forms.GroupBox();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
+            this.lblLanguage = new System.Windows.Forms.Label();
+            this.lblLanguageHint = new System.Windows.Forms.Label();
             this.TrapGroup.SuspendLayout();
             this.InputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udPressHold)).BeginInit();
@@ -81,6 +85,7 @@ namespace ThoNohT.NohBoard.Forms
             ((System.ComponentModel.ISupportInitialize)(this.udMouseSensitivity)).BeginInit();
             this.CapitalizationGroup.SuspendLayout();
             this.GeneralGroup.SuspendLayout();
+            this.LanguageGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // TrapGroup
@@ -270,7 +275,7 @@ namespace ThoNohT.NohBoard.Forms
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(334, 306);
+            this.OkButton.Location = new System.Drawing.Point(334, 362);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 7;
@@ -281,7 +286,7 @@ namespace ThoNohT.NohBoard.Forms
             // CancelButton2
             // 
             this.CancelButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton2.Location = new System.Drawing.Point(253, 306);
+            this.CancelButton2.Location = new System.Drawing.Point(253, 362);
             this.CancelButton2.Name = "CancelButton2";
             this.CancelButton2.Size = new System.Drawing.Size(75, 23);
             this.CancelButton2.TabIndex = 6;
@@ -393,13 +398,53 @@ namespace ThoNohT.NohBoard.Forms
             this.txtTitle.Size = new System.Drawing.Size(92, 20);
             this.txtTitle.TabIndex = 0;
             // 
+            // LanguageGroup
+            // 
+            this.LanguageGroup.Controls.Add(this.lblLanguageHint);
+            this.LanguageGroup.Controls.Add(this.cmbLanguage);
+            this.LanguageGroup.Controls.Add(this.lblLanguage);
+            this.LanguageGroup.Location = new System.Drawing.Point(10, 306);
+            this.LanguageGroup.Name = "LanguageGroup";
+            this.LanguageGroup.Size = new System.Drawing.Size(396, 50);
+            this.LanguageGroup.TabIndex = 10;
+            this.LanguageGroup.TabStop = false;
+            this.LanguageGroup.Text = "Language";
+            // 
+            // lblLanguage
+            // 
+            this.lblLanguage.AutoSize = true;
+            this.lblLanguage.Location = new System.Drawing.Point(7, 22);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(58, 13);
+            this.lblLanguage.TabIndex = 0;
+            this.lblLanguage.Text = "Language:";
+            // 
+            // cmbLanguage
+            // 
+            this.cmbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Location = new System.Drawing.Point(81, 19);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(140, 21);
+            this.cmbLanguage.TabIndex = 1;
+            // 
+            // lblLanguageHint
+            // 
+            this.lblLanguageHint.AutoSize = true;
+            this.lblLanguageHint.Location = new System.Drawing.Point(230, 22);
+            this.lblLanguageHint.Name = "lblLanguageHint";
+            this.lblLanguageHint.Size = new System.Drawing.Size(118, 13);
+            this.lblLanguageHint.TabIndex = 2;
+            this.lblLanguageHint.Text = "Takes effect after restart";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelButton2;
-            this.ClientSize = new System.Drawing.Size(422, 342);
+            this.ClientSize = new System.Drawing.Size(422, 395);
+            this.Controls.Add(this.LanguageGroup);
             this.Controls.Add(this.GeneralGroup);
             this.Controls.Add(this.CapitalizationGroup);
             this.Controls.Add(this.CancelButton2);
@@ -423,6 +468,8 @@ namespace ThoNohT.NohBoard.Forms
             this.CapitalizationGroup.PerformLayout();
             this.GeneralGroup.ResumeLayout(false);
             this.GeneralGroup.PerformLayout();
+            this.LanguageGroup.ResumeLayout(false);
+            this.LanguageGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -456,5 +503,9 @@ namespace ThoNohT.NohBoard.Forms
         private Label lblPresHoldDuration;
         private NumericUpDown udPressHold;
         private Label lblPressHold;
+        private GroupBox LanguageGroup;
+        private ComboBox cmbLanguage;
+        private Label lblLanguage;
+        private Label lblLanguageHint;
     }
 }

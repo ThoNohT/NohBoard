@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,14 @@ namespace ThoNohT.NohBoard.Hooking.Interop
         /// The keycode that toggles the mouse and or keyboard traps. Default is Scroll Lock.
         /// </summary>
 	    public static int TrapToggleKeyCode { get; set; } = VK_SCROLL;
+
+        /// <summary>
+        /// Raised for every key that is pressed or released, before the event is potentially trapped by the hook. The
+        /// event is not intended to be used for rendering, but for global hotkeys (for example to toggle the
+        /// transparent overlay) that should never swallow the key press. Handlers must be fast, as they are called
+        /// from the low level keyboard hook procedure.
+        /// </summary>
+        public static event Action<int, bool> KeyEvent;
 
         /// <summary>
         /// The time in milliseconds to hold the scroll key.

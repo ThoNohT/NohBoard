@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2016 by Eric Bataille <e.c.p.bataille@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -242,10 +242,15 @@ namespace ThoNohT.NohBoard.Hooking.Interop
                 case WM_KEYDOWN:
                 case WM_SYSKEYDOWN:
                     KeyboardState.AddPressedElement(code, PressHold);
+
+                    // Notify listeners (e.g. global hotkeys), but never let a listener break the hook.
+                    try { KeyEvent?.Invoke(code, true); } catch { }
                     break;
                 case WM_KEYUP:
                 case WM_SYSKEYUP:
                     KeyboardState.RemovePressedElement(code, PressHold);
+
+                    try { KeyEvent?.Invoke(code, false); } catch { }
 
                     // Toggle the mouse trap.
                     if (code == TrapToggleKeyCode) trapEnabled = !trapEnabled;

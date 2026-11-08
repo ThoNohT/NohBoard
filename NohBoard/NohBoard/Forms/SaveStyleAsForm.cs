@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Windows.Forms;
     using Extra;
     using Keyboard;
+    using Localization;
 
     /// <summary>
     /// The form used to save a style under a new name.
@@ -49,6 +50,7 @@ namespace ThoNohT.NohBoard.Forms
         public SaveStyleAsForm()
         {
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
@@ -108,8 +110,8 @@ namespace ThoNohT.NohBoard.Forms
             if (File.Exists(Path.Combine(this.rootPath, $"{this.SelectedStyle}{KeyboardStyle.StyleExtension}")))
             {
                 var result = MessageBox.Show(
-                    $"Style {this.SelectedStyle} already exists, do you want to overwrite it?",
-                    "Already exists",
+                    Loc.Format("Style {0} already exists, do you want to overwrite it?", this.SelectedStyle),
+                    Loc.T("Already exists"),
                     MessageBoxButtons.YesNoCancel);
 
                 if (result == DialogResult.No) return;
