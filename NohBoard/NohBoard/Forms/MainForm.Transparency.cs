@@ -38,14 +38,12 @@ namespace ThoNohT.NohBoard.Forms
     /// <item>opaque without a border,</item>
     /// <item>transparent without a border.</item>
     /// </list>
-    /// The two transparent variants use different techniques. A borderless transparent window is painted through
-    /// <c>UpdateLayeredWindow</c> with per-pixel alpha, so the alpha channel of the keyboard images and of the
-    /// configured background color is preserved. Per-pixel alpha replaces the entire window surface, including the
-    /// non-client area, so it can not be combined with a native border. A bordered transparent window therefore uses
-    /// color-key transparency (<c>Form.TransparencyKey</c> / <c>LWA_COLORKEY</c>): the client area background is
-    /// painted in a nearly black key color, which the system makes transparent, while the title bar and the border are
-    /// drawn by the system as usual. Both variants make it possible to use NohBoard as an overlay on top of other
-    /// applications.
+    /// Both transparent variants render the main window itself in exactly the same way: the window is borderless and
+    /// painted through <c>UpdateLayeredWindow</c> with per-pixel alpha, so the alpha channel of the keyboard images and
+    /// of the configured background color is preserved, and the mouse interaction is identical in both variants. When
+    /// the window should keep its native border, a separate frame window (<see cref="OverlayFrameForm" />) is placed
+    /// around the main window to supply the native title bar and border. This makes it possible to use NohBoard as an
+    /// overlay on top of other applications with or without a native frame.
     /// </summary>
     public partial class MainForm
     {
@@ -109,31 +107,9 @@ namespace ThoNohT.NohBoard.Forms
         #endregion Constants
 
         /// <summary>
-        /// The color that is used as the transparency key when the window is transparent but keeps its border. A
-        /// nearly black color is used as the matte color: the rendered keyboard is composited onto it, and almost all
-        /// keyboard styles have dark or neutral artwork that looks correct on it. Fully black is not used, because a
-        /// black text color that is only 1/255 away from the key color stays visible instead of becoming transparent.
-        /// The color is fully opaque: the color key is matched on the RGB values only, and an opaque color is also
-        /// required for the <see cref="Control.BackColor"/> property, which does not accept transparent colors.
-        /// </summary>
-        private static readonly Color ColorKeyTransparencyColor = Color.FromArgb(255, 1, 0, 0);
-
-        /// <summary>
-        /// Gets a value indicating whether the window currently uses color-key transparency. This is the case when the
-        /// background should be transparent but the window keeps its native border and title bar. Per-pixel alpha
-        /// (layered window) transparency always replaces the whole window surface, including the non-client area, so
-        /// it can only be used together with a borderless window. For a bordered window a layered window with a color
-        /// key is used instead, which keeps the native frame intact.
-        /// </summary>
-        private bool ColorKeyModeActive => this.IsTransparencyActive && !this.borderlessApplied;
-
-        /// <summary>
         /// Gets the color with which the client area background is filled in the normal (non layered) painting mode.
-        /// In color-key transparency mode this is the transparency key color, which makes the background transparent.
         /// </summary>
-        private Color ClientBackgroundColor => this.ColorKeyModeActive
-            ? ColorKeyTransparencyColor
-            : GlobalSettings.CurrentStyle.BackgroundColor;
+        private Color ClientBackgroundColor => GlobalSettings.CurrentStyle.BackgroundColor;
 
         #region DPI
 
@@ -225,6 +201,9 @@ namespace ThoNohT.NohBoard.Forms
             {
                 this.Refresh();
             }
+
+            // The non-client area of the frame window changes with the DPI, so its geometry has to be recalculated.
+            this.SyncOverlayFrameToMain();
         }
 
         /// <summary>
@@ -337,6 +316,24 @@ namespace ThoNohT.NohBoard.Forms
         /// Whether the resize cursor is currently shown.
         /// </summary>
         private bool resizeCursorActive;
+
+        /// <summary>
+        /// The native frame window that supplies the title bar and the border when the window is transparent but should
+        /// keep its native border. The main window itself is borderless in that mode.
+        /// </summary>
+        private OverlayFrameForm overlayFrame;
+
+        /// <summary>
+        /// Guards against re-entrancy while the geometry of the main window and of the frame window is synchronized:
+        /// moving one window moves the other one, which would otherwise trigger an endless loop.
+        /// </summary>
+        private bool syncingOverlayGeometry;
+
+        /// <summary>
+        /// Indicates whether the overlay modes are currently being re-applied. During a refresh the frame window is
+        /// synchronized once at the end instead of on every intermediate resize event.
+        /// </summary>
+        private bool refreshingOverlayMode;
 
         #endregion Fields
 
@@ -465,6 +462,7 @@ namespace ThoNohT.NohBoard.Forms
             this.layeredModeActive = false;
             this.DisableLayeredWindow();
             this.ReleaseLayeredBuffer();
+            this.DisposeOverlayFrame();
         }
 
         #endregion Initialization and cleanup
@@ -518,35 +516,36 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (!this.IsHandleCreated) return;
 
-            this.UpdateWindowBorder();
+            this.refreshingOverlayMode = true;
+            try
+            {
+                this.UpdateWindowBorder();
 
-            if (this.IsTransparencyActive && this.borderlessApplied)
-            {
-                // Transparent borderless window: per-pixel alpha through UpdateLayeredWindow.
-                this.layeredModeActive = false;
-                this.DisableColorKeyMode();
-                this.DisableLayeredWindow();
-                this.EnableLayeredWindow();
-                this.RenderLayeredFrame();
-            }
-            else if (this.IsTransparencyActive)
-            {
-                // Transparent window with its native border: color-key transparency. Per-pixel alpha would replace
-                // the whole window surface, including the title bar and the border, so it can not be used here.
-                this.layeredModeActive = false;
-                this.DisableLayeredWindow();
-                this.EnableColorKeyMode();
-            }
-            else
-            {
-                // Opaque window: plain GDI+ painting.
-                this.layeredModeActive = false;
-                this.DisableColorKeyMode();
-                this.DisableLayeredWindow();
-                this.Refresh();
-            }
+                if (this.IsTransparencyActive)
+                {
+                    // Both transparent variants paint the main window itself through UpdateLayeredWindow with
+                    // per-pixel alpha; the native border of the bordered variant is supplied by a separate frame
+                    // window.
+                    this.layeredModeActive = false;
+                    this.DisableLayeredWindow();
+                    this.EnableLayeredWindow();
+                    this.RenderLayeredFrame();
+                }
+                else
+                {
+                    // Opaque window: plain GDI+ painting, with a native border unless the borderless mode is active.
+                    this.layeredModeActive = false;
+                    this.DisableLayeredWindow();
+                    this.Refresh();
+                }
 
-            this.UpdateClickThrough();
+                this.UpdateOverlayFrameVisibility();
+                this.UpdateClickThrough();
+            }
+            finally
+            {
+                this.refreshingOverlayMode = false;
+            }
         }
 
         #endregion Hotkeys and modes
@@ -560,23 +559,31 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void UpdateWindowBorder()
         {
-            // The transparency mode no longer implies a borderless window: F1 only controls the transparency and F2
-            // only controls the border, so all four combinations are independent of each other.
-            var wantBorderless = this.borderlessMode;
-            if (wantBorderless == this.borderlessApplied) return;
+            // A transparent window always has to be borderless: the per-pixel alpha surface replaces the whole window,
+            // so there is no non-client area to draw. The native border of the bordered transparent variant is
+            // supplied by the separate frame window instead. F2 still controls the border of an opaque window.
+            var wantBorderless = this.IsTransparencyActive || this.borderlessMode;
+            var desiredStyle = wantBorderless
+                ? FormBorderStyle.None
+                : (this.mnuToggleEditMode.Checked ? FormBorderStyle.Sizable : this.originalBorderStyle);
+
+            if (this.FormBorderStyle == desiredStyle)
+            {
+                this.borderlessApplied = wantBorderless;
+                return;
+            }
 
             var clientOnScreen = this.RectangleToScreen(this.ClientRectangle);
 
-            if (wantBorderless)
+            // Remember the normal bordered style. The resizable border of the edit mode is managed by the edit mode
+            // itself, so it is not remembered as the original style.
+            if (this.FormBorderStyle != FormBorderStyle.None
+                && this.FormBorderStyle != FormBorderStyle.Sizable)
             {
                 this.originalBorderStyle = this.FormBorderStyle;
-                this.FormBorderStyle = FormBorderStyle.None;
-            }
-            else
-            {
-                this.FormBorderStyle = this.originalBorderStyle;
             }
 
+            this.FormBorderStyle = desiredStyle;
             this.borderlessApplied = wantBorderless;
 
             // Keep the client area at exactly the same place on the screen.
@@ -744,11 +751,6 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (this.mnuToggleEditMode.Checked) return -1;
 
-            // In color-key transparency mode the transparent background of the window is click-through, so the corner
-            // grips that are painted on that background can not be grabbed. Do not show a resize cursor that suggests
-            // otherwise; the window can still be resized by pressing F2 or by using its native border.
-            if (this.ColorKeyModeActive) return -1;
-
             var width = this.ClientSize.Width;
             var height = this.ClientSize.Height;
             var left = location.X <= ResizeGripSize;
@@ -798,18 +800,17 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         /// <summary>
-        /// Makes a focused transparent borderless window receive mouse input, and an unfocused one click-through.
-        /// When the window has no focus, the mouse events are passed to the window below it. This only applies to the
-        /// per-pixel alpha mode; a window with color-key transparency keeps receiving mouse input, because its title
-        /// bar and its keys have to stay clickable (only the key colored background is click-through, which is the
-        /// default system behaviour for layered windows).
+        /// Makes a focused transparent window receive mouse input, and an unfocused one click-through. When the whole
+        /// window group (main window and, in the bordered transparent mode, its frame window) has no focus, the mouse
+        /// events are passed to the window below it. The frame window counts as part of the group, so clicking the
+        /// native title bar of the frame keeps the main window clickable.
         /// </summary>
         private void UpdateClickThrough()
         {
             if (!this.IsHandleCreated) return;
 
             var exStyle = GetWindowLong(this.Handle, GwlExStyle);
-            var wantTransparent = this.layeredModeActive && !this.ContainsFocus;
+            var wantTransparent = this.layeredModeActive && !this.WindowGroupContainsFocus;
             var newStyle = wantTransparent
                 ? exStyle | WsExTransparent
                 : exStyle & ~WsExTransparent;
@@ -844,61 +845,245 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Window resizing and click-through
 
-        #region Color key transparency
+        #region Overlay frame
 
         /// <summary>
-        /// Enables color-key transparency for a window that keeps its native border. The client area background is
-        /// painted in <see cref="ColorKeyTransparencyColor"/>, which the system turns into fully transparent pixels.
-        /// The title bar and the border are drawn by the system and stay visible.
+        /// Gets a value indicating whether the window group (the main window and its native frame window) currently
+        /// contains the keyboard focus. The frame window counts as part of the group, so clicking the native title bar
+        /// keeps the main window clickable instead of making it click-through.
         /// </summary>
-        private void EnableColorKeyMode()
+        private bool WindowGroupContainsFocus =>
+            this.ContainsFocus || (this.overlayFrame != null && this.overlayFrame.ContainsFocus);
+
+        /// <summary>
+        /// Handles the overlay hotkeys (F1 and F2). This is called both from the main window and from the native frame
+        /// window, so the hotkeys also work while the frame has the focus.
+        /// </summary>
+        /// <param name="e">The key event arguments.</param>
+        /// <returns><c>true</c> if the key was handled, <c>false</c> otherwise.</returns>
+        internal bool HandleOverlayHotkey(KeyEventArgs e)
         {
-            if (!this.IsHandleCreated) return;
+            if (e == null) return false;
 
-            var keyColor = ColorKeyTransparencyColor;
-
-            // Setting TransparencyKey makes WinForms turn the window into a layered window with LWA_COLORKEY. This must
-            // happen after the layered style of the per-pixel alpha mode has been removed, because a layered window
-            // that was painted through UpdateLayeredWindow can not be switched to color-key painting directly.
-            if (this.TransparencyKey != keyColor)
+            switch (e.KeyCode)
             {
-                this.TransparencyKey = keyColor;
+                case Keys.F1:
+                    this.ToggleTransparency();
+                    return true;
+
+                case Keys.F2:
+                    this.ToggleBorderless();
+                    return true;
             }
 
-            // The background color is what WinForms paints behind the keyboard, so it has to be the key color as well.
-            // OnPaint additionally clears the client area with the same color, see ClientBackgroundColor.
-            if (this.BackColor != keyColor)
-            {
-                this.BackColor = keyColor;
-            }
-
-            this.Invalidate();
-            this.Refresh();
+            return false;
         }
 
         /// <summary>
-        /// Disables color-key transparency and restores the normal background color of the current style.
+        /// Re-evaluates the click-through state when the focus of the frame window changed.
         /// </summary>
-        private void DisableColorKeyMode()
+        internal void NotifyOverlayFrameFocusChanged()
         {
-            if (!this.IsHandleCreated) return;
+            this.UpdateClickThrough();
+        }
 
-            // Setting the key to Color.Empty also removes the WS_EX_LAYERED style that WinForms added for the color
-            // key, because the form is not using transparency through Opacity.
-            if (this.TransparencyKey != Color.Empty)
+        /// <summary>
+        /// Keeps the main window at the client area of the frame window while the user drags the frame by its native
+        /// title bar.
+        /// </summary>
+        internal void NotifyOverlayFrameGeometryChanged()
+        {
+            if (this.overlayFrame == null || !this.overlayFrame.Visible) return;
+            if (this.syncingOverlayGeometry) return;
+            if (!this.IsTransparencyActive || this.borderlessMode) return;
+            if (this.WindowState != FormWindowState.Normal) return;
+
+            this.syncingOverlayGeometry = true;
+            try
             {
-                this.TransparencyKey = Color.Empty;
+                // In this mode the main window is borderless, so its bounds are exactly its client area on the screen.
+                var clientOnScreen = this.overlayFrame.ClientScreenRectangle;
+                if (this.PointToScreen(Point.Empty) != clientOnScreen.Location)
+                {
+                    this.Location = clientOnScreen.Location;
+                }
             }
-
-            var backgroundColor = GlobalSettings.CurrentStyle?.BackgroundColor ?? Color.Black;
-            var opaqueBackground = Color.FromArgb(255, backgroundColor);
-            if (this.BackColor != opaqueBackground)
+            finally
             {
-                this.BackColor = opaqueBackground;
+                this.syncingOverlayGeometry = false;
             }
         }
 
-        #endregion Color key transparency
+        /// <summary>
+        /// Re-aligns the frame window when it was moved to a monitor with a different scaling factor.
+        /// </summary>
+        internal void NotifyOverlayFrameDpiChanged()
+        {
+            this.SyncOverlayFrameToMain();
+        }
+
+        /// <summary>
+        /// Shows or hides the native frame window, depending on the current overlay modes and the window state.
+        /// </summary>
+        private void UpdateOverlayFrameVisibility()
+        {
+            var wantFrame = this.IsTransparencyActive
+                && !this.borderlessMode
+                && this.IsHandleCreated
+                && this.Visible
+                && this.WindowState != FormWindowState.Minimized;
+
+            if (wantFrame)
+            {
+                this.ShowOverlayFrame();
+            }
+            else
+            {
+                this.HideOverlayFrame();
+            }
+        }
+
+        /// <summary>
+        /// Shows the native frame window without activating it and aligns it with the main window.
+        /// </summary>
+        private void ShowOverlayFrame()
+        {
+            if (!this.IsHandleCreated || !this.Visible) return;
+            if (this.WindowState == FormWindowState.Minimized) return;
+
+            if (this.overlayFrame == null)
+            {
+                this.overlayFrame = new OverlayFrameForm(this);
+            }
+
+            this.overlayFrame.SyncTitleAndIcon();
+
+            if (!this.overlayFrame.Visible)
+            {
+                this.overlayFrame.ApplyGeometry(this.ClientSize, this.PointToScreen(Point.Empty));
+                this.overlayFrame.ShowWithoutActivating();
+                this.overlayFrame.PlaceBehind(this.Handle);
+            }
+
+            this.SyncOverlayFrameToMain();
+        }
+
+        /// <summary>
+        /// Hides the native frame window. When the frame had the focus, the focus is given back to the main window.
+        /// </summary>
+        private void HideOverlayFrame()
+        {
+            if (this.overlayFrame == null) return;
+            if (!this.overlayFrame.Visible) return;
+
+            var frameHadFocus = this.overlayFrame.ContainsFocus;
+            this.overlayFrame.HideFrame();
+
+            if (frameHadFocus && !this.ContainsFocus && this.Visible)
+            {
+                this.Activate();
+            }
+        }
+
+        /// <summary>
+        /// Disposes the native frame window.
+        /// </summary>
+        private void DisposeOverlayFrame()
+        {
+            var frame = this.overlayFrame;
+            if (frame == null) return;
+
+            this.overlayFrame = null;
+            this.syncingOverlayGeometry = true;
+            try
+            {
+                frame.DisposeFrame();
+            }
+            finally
+            {
+                this.syncingOverlayGeometry = false;
+            }
+        }
+
+        /// <summary>
+        /// Sizes and moves the native frame window so that its client area exactly matches the client area of the main
+        /// window. The non-client area of the frame is measured every time, so the alignment also stays correct when
+        /// the DPI of the monitor changes.
+        /// </summary>
+        private void SyncOverlayFrameToMain()
+        {
+            if (this.overlayFrame == null || !this.overlayFrame.Visible) return;
+            if (this.syncingOverlayGeometry) return;
+            if (!this.IsTransparencyActive || this.borderlessMode) return;
+            if (this.WindowState != FormWindowState.Normal) return;
+
+            this.syncingOverlayGeometry = true;
+            try
+            {
+                this.overlayFrame.SyncTitleAndIcon();
+                this.overlayFrame.ApplyGeometry(this.ClientSize, this.PointToScreen(Point.Empty));
+            }
+            finally
+            {
+                this.syncingOverlayGeometry = false;
+            }
+        }
+
+        /// <summary>
+        /// Keeps the native frame window aligned when the main window is moved.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnMove(EventArgs e)
+        {
+            base.OnMove(e);
+
+            this.SyncOverlayFrameToMain();
+        }
+
+        /// <summary>
+        /// Hides the frame window while the main window is minimized and shows it again when the main window is
+        /// restored. Also keeps the frame aligned when the main window is resized.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.HideOverlayFrame();
+                return;
+            }
+
+            // During a mode refresh the final visibility and geometry are applied at the end of the refresh.
+            if (this.refreshingOverlayMode) return;
+
+            this.UpdateOverlayFrameVisibility();
+        }
+
+        /// <summary>
+        /// Shows the frame window once the main window is displayed.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            this.UpdateOverlayFrameVisibility();
+        }
+
+        /// <summary>
+        /// Keeps the title of the frame window in sync with the title of the main window.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+
+            this.overlayFrame?.SyncTitleAndIcon();
+        }
+
+        #endregion Overlay frame
 
         #region Layered window
 
@@ -911,9 +1096,8 @@ namespace ThoNohT.NohBoard.Forms
 
             var exStyle = GetWindowLong(this.Handle, GwlExStyle);
 
-            // Remove a possibly existing layered style first: after SetLayeredWindowAttributes (which is what the
-            // color-key transparency mode uses) has been called for the window, UpdateLayeredWindow keeps failing
-            // until the layered style bit has been cleared and set again.
+            // Remove a possibly existing layered style first and set it again afterwards. This resets any layered
+            // window attributes that might have been set for the window and makes sure UpdateLayeredWindow is accepted.
             if ((exStyle & WsExLayered) != 0)
             {
                 SetWindowLong(this.Handle, GwlExStyle, exStyle & ~WsExLayered);

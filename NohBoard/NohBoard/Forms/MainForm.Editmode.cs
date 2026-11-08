@@ -111,6 +111,10 @@ namespace ThoNohT.NohBoard.Forms
             this.FormBorderStyle =
                 this.mnuToggleEditMode.Checked ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle;
 
+            // The edit mode changes the border style directly, so the overlay mode has to be re-applied: a transparent
+            // window has to stay borderless (per-pixel alpha), and the native frame window has to follow the change.
+            this.RefreshOverlayMode();
+
             if (!this.mnuToggleEditMode.Checked)
             {
                 this.currentlyManipulating = null;

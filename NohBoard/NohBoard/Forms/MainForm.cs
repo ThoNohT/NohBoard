@@ -120,24 +120,16 @@ namespace ThoNohT.NohBoard.Forms
 
         /// <summary>
         /// Handles the overlay hotkeys. These are handled by the window itself, so they only work while NohBoard is
-        /// the foreground window.
+        /// the foreground window. The native frame window of the bordered transparent mode forwards its hotkeys to the
+        /// same handler.
         /// </summary>
         /// <param name="e">The event arguments.</param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            if (this.HandleOverlayHotkey(e))
             {
-                case Keys.F1:
-                    this.ToggleTransparency();
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                    break;
-
-                case Keys.F2:
-                    this.ToggleBorderless();
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
-                    break;
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
 
             if (!e.Handled) base.OnKeyDown(e);
