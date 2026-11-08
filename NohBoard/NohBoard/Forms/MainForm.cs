@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms
     using Hooking.Interop;
     using Keyboard;
     using Keyboard.ElementDefinitions;
+    using Localization;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -337,8 +338,8 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges)
             {
                 var result = MessageBox.Show(
-                    "You have unsaved changes. Loading a new keyboard will undo them. Are you sure you want to load a new keyboard?",
-                    "Discard changes",
+                    Loc.T("You have unsaved changes. Loading a new keyboard will undo them. Are you sure you want to load a new keyboard?"),
+                    Loc.T("Discard changes"),
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
 
@@ -385,7 +386,7 @@ namespace ThoNohT.NohBoard.Forms
 
                         this.LoadKeyboard();
 
-                        MessageBox.Show(ex.Message + Environment.NewLine + "Reverted keyboard change.");
+                        MessageBox.Show(ex.Message + Environment.NewLine + Loc.T("Reverted keyboard change."));
                     }
                 };
 
@@ -428,13 +429,24 @@ namespace ThoNohT.NohBoard.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Load the settings
-            if (!GlobalSettings.Load())
+            var settingsLoaded = GlobalSettings.Load();
+
+            // The language is initialized before any text is translated. It is loaded from the settings, and can be
+            // overridden with the NOHBOARD_UI_LANGUAGE environment variable (used by the automated UI tests).
+            Loc.Initialize(GlobalSettings.Settings.Language);
+
+            if (!settingsLoaded)
             {
                 MessageBox.Show(
                     this,
-                    $"Failed to load the settings: {GlobalSettings.Errors}",
-                    "Failed to load settings");
+                    Loc.Format("Failed to load the settings: {0}", GlobalSettings.Errors),
+                    Loc.T("Failed to load settings"));
             }
+
+            // Translate the form and its context menu. Menu items that were created in code (the overlay menu items)
+            // are part of this menu and are translated as well.
+            Loc.Apply(this);
+            Loc.Apply(this.MainMenu);
 
             this.Location = new Point(GlobalSettings.Settings.X, GlobalSettings.Settings.Y);
             var title = GlobalSettings.Settings.WindowTitle;
@@ -454,7 +466,7 @@ namespace ThoNohT.NohBoard.Forms
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        "There was an error loading the saved keyboard definition file:" +
+                        Loc.T("There was an error loading the saved keyboard definition file:") +
                         $"{Environment.NewLine}{ex.Message}");
                     GlobalSettings.Settings.LoadedCategory = null;
                     GlobalSettings.Settings.LoadedKeyboard = null;
@@ -476,8 +488,8 @@ namespace ThoNohT.NohBoard.Forms
                 {
                     GlobalSettings.Settings.LoadedStyle = null;
                     MessageBox.Show(
-                        $"Failed to load style {GlobalSettings.Settings.LoadedStyle}, loading default style.",
-                        "Error loading style.");
+                        Loc.Format("Failed to load style {0}, loading default style.", GlobalSettings.Settings.LoadedStyle),
+                        Loc.T("Error loading style."));
                 }
 
                 // Enable the mouse hook only if there are mouse keys on the screen.
@@ -518,8 +530,8 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.UnsavedDefinitionChanges || GlobalSettings.UnsavedStyleChanges && !CrashHandler.Crashed)
             {
                 var result = MessageBox.Show(
-                    "You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?",
-                    "Discard changes",
+                    Loc.T("You have unsaved changes. If you exit now you will lose them. Are you sure you want to exit?"),
+                    Loc.T("Discard changes"),
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
 
@@ -592,7 +604,10 @@ namespace ThoNohT.NohBoard.Forms
             if (GlobalSettings.CurrentDefinition != null)
             {
                 this.mnuSaveDefinitionAsName.Text =
-                    $"Save &To '{GlobalSettings.CurrentDefinition.Category}/{GlobalSettings.CurrentDefinition.Name}'";
+                    Loc.Format(
+                        "Save &To '{0}/{1}'",
+                        GlobalSettings.CurrentDefinition.Category,
+                        GlobalSettings.CurrentDefinition.Name);
 
                 var mousePos = this.PointToClient(Cursor.Position);
                 var logicalMousePos = this.ToLogical(mousePos);
@@ -619,9 +634,10 @@ namespace ThoNohT.NohBoard.Forms
             this.mnuEditElementStyle.Visible = this.mnuToggleEditMode.Checked;
             this.MainMenuSep1.Visible = this.mnuToggleEditMode.Checked;
 
-            this.mnuSaveStyleToName.Text = $"Save &To '{GlobalSettings.CurrentStyle.Name}'";
+            this.mnuSaveStyleToName.Text = Loc.Format("Save &To '{0}'", GlobalSettings.CurrentStyle.Name);
             this.mnuSaveStyleToName.Visible = !GlobalSettings.Settings.LoadedGlobalStyle;
-            this.mnuSaveToGlobalStyleName.Text = $"Save To &Global '{GlobalSettings.CurrentStyle.Name}'";
+            this.mnuSaveToGlobalStyleName.Text =
+                Loc.Format("Save To &Global '{0}'", GlobalSettings.CurrentStyle.Name);
             this.mnuSaveToGlobalStyleName.Enabled = GlobalSettings.CurrentStyle.IsGlobal;
             this.mnuSaveToGlobalStyleName.Visible = GlobalSettings.Settings.LoadedGlobalStyle;
 
@@ -629,7 +645,7 @@ namespace ThoNohT.NohBoard.Forms
 
             if (this.latestVersion != null && !this.mnuUpdate.Visible)
             {
-                this.mnuUpdate.Text = $"New version available: {this.latestVersion.Format()}.";
+                this.mnuUpdate.Text = Loc.Format("New version available: {0}.", this.latestVersion.Format());
                 this.mnuUpdate.Visible = true;
                 this.mnuUpdate.Click += (s, ea) => { Process.Start(new ProcessStartInfo { FileName = "https://github.com/ThoNohT/NohBoard/releases", UseShellExecute = true }); };
             }
@@ -679,7 +695,7 @@ namespace ThoNohT.NohBoard.Forms
             // MainForm.Transparency.cs.
             if (this.layeredModeActive) return;
 
-            e.Graphics.Clear(GlobalSettings.CurrentStyle.BackgroundColor);
+            e.Graphics.Clear(this.ClientBackgroundColor);
 
             if (GlobalSettings.CurrentDefinition == null || !this.backBrushes.Any())
                 return;
@@ -799,7 +815,7 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void mnuGenerateLog_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will crash NohBoard in order to generate a log, are you sure you want to do this?", "Generate crash log", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(Loc.T("This will crash NohBoard in order to generate a log, are you sure you want to do this?"), Loc.T("Generate crash log"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 throw new Exception("A crash log was requested.");
             }

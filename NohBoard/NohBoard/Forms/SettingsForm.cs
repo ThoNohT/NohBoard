@@ -24,6 +24,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Windows.Forms;
     using Extra;
     using Hooking;
+    using Localization;
     using ThoNohT.NohBoard.Hooking.Interop;
 
     /// <summary>
@@ -47,6 +48,7 @@ namespace ThoNohT.NohBoard.Forms
         public SettingsForm()
         {
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
@@ -87,7 +89,26 @@ namespace ThoNohT.NohBoard.Forms
 
             this.udPressHold.Value = GlobalSettings.Settings.PressHold;
 
+            this.PopulateLanguages();
+
             this.SetToolTips();
+        }
+
+        /// <summary>
+        /// Fills the language selection with the translated names of the supported languages and selects the language
+        /// that is stored in the settings. The language only changes after NohBoard has been restarted.
+        /// </summary>
+        private void PopulateLanguages()
+        {
+            this.cmbLanguage.Items.Clear();
+            this.cmbLanguage.Items.Add(Loc.T("Auto (follow system)"));
+            this.cmbLanguage.Items.Add(Loc.T("English"));
+            this.cmbLanguage.Items.Add(Loc.T("Simplified Chinese"));
+
+            var languageIndex = (int)GlobalSettings.Settings.Language;
+            if (languageIndex < 0 || languageIndex >= this.cmbLanguage.Items.Count) languageIndex = 0;
+
+            this.cmbLanguage.SelectedIndex = languageIndex;
         }
 
         /// <summary>
@@ -98,47 +119,58 @@ namespace ThoNohT.NohBoard.Forms
             var nl = Environment.NewLine;
 
             var tooltip = new ToolTip();
-            tooltip.SetToolTip(this.txtToggleKey, "Double click to change the toggle key for the mouse/keyboard trap.");
+            tooltip.SetToolTip(
+                this.txtToggleKey,
+                Loc.T("Double click to change the toggle key for the mouse/keyboard trap."));
 
             tooltip.SetToolTip(
                 this.udMouseSensitivity,
-                "The sensitivity with which the mouse speed indicator reacts to mouse movement.");
+                Loc.T("The sensitivity with which the mouse speed indicator reacts to mouse movement."));
 
-            tooltip.SetToolTip(this.udScrollHold, "The time (in milliseconds) before a mouse scroll is released.");
+            tooltip.SetToolTip(
+                this.udScrollHold,
+                Loc.T("The time (in milliseconds) before a mouse scroll is released."));
 
             tooltip.SetToolTip(
                 this.chkTrapKeyboard,
-                "Check to let the keyboard be trapped by pressing the trap toggle key.");
-            tooltip.SetToolTip(this.chkTrapMouse, "Check to let the mouse be trapped by pressing the trap toggle key.");
+                Loc.T("Check to let the keyboard be trapped by pressing the trap toggle key."));
+            tooltip.SetToolTip(
+                this.chkTrapMouse,
+                Loc.T("Check to let the mouse be trapped by pressing the trap toggle key."));
 
             tooltip.SetToolTip(
                 this.rdbFollowKeystate,
-                "Show capitalized letter when shift or caps is pressed, " + nl
-                + "but normal letters when both or neither are pressed.");
-            tooltip.SetToolTip(this.rdbAlwaysCaps, "Always show capitalized letters.");
-            tooltip.SetToolTip(this.rdbAlwaysLower, "Always show lower-case letters.");
+                Loc.T("Show capitalized letter when shift or caps is pressed, " + nl
+                + "but normal letters when both or neither are pressed."));
+            tooltip.SetToolTip(this.rdbAlwaysCaps, Loc.T("Always show capitalized letters."));
+            tooltip.SetToolTip(this.rdbAlwaysLower, Loc.T("Always show lower-case letters."));
 
-            tooltip.SetToolTip(this.chkFollowShiftCapsInsensitive,
-                "When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
+            tooltip.SetToolTip(
+                this.chkFollowShiftCapsInsensitive,
+                Loc.T("When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
                 "key is still used to shift to the alternate text on the element, for all elements that are not " + nl +
-                "sensitive to caps lock.");
-            tooltip.SetToolTip(this.chkFollowShiftCapsSensitive,
-                "When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
+                "sensitive to caps lock."));
+            tooltip.SetToolTip(
+                this.chkFollowShiftCapsSensitive,
+                Loc.T("When Always show capitalized or lower-case letters is selected, checking this means the shift " + nl +
                 "key is still used to shift to the alternate text on the element, for all elements that are " + nl +
-                "sensitive to caps lock.");
+                "sensitive to caps lock."));
 
             tooltip.SetToolTip(
                 this.chkMouseFromCenter,
-                "Some games keep resetting the cursor position to the center of the screen. This setting uses " + nl +
+                Loc.T("Some games keep resetting the cursor position to the center of the screen. This setting uses " + nl +
                 "this fact and compares the current mouse position to the center of the screen, rather than its " + nl +
-                "last position.");
+                "last position."));
 
             tooltip.SetToolTip(
                 this.txtTitle,
-                "Fill in if you want a custom window title." + nl
-                + "If left empty, the default window title of \"NohBoard + version number\" will be shown.");
+                Loc.T("Fill in if you want a custom window title." + nl
+                + "If left empty, the default window title of \"NohBoard + version number\" will be shown."));
 
-            tooltip.SetToolTip(this.udPressHold, "TODO: Tooltip about holding presses.");
+            tooltip.SetToolTip(this.udPressHold, Loc.T("TODO: Tooltip about holding presses."));
+
+            tooltip.SetToolTip(this.cmbLanguage, Loc.T("The language of the user interface."));
+            tooltip.SetToolTip(this.lblLanguageHint, Loc.T("Changes take effect after NohBoard is restarted."));
         }
 
         /// <summary>
@@ -171,7 +203,24 @@ namespace ThoNohT.NohBoard.Forms
 
             GlobalSettings.Settings.PressHold = (int)this.udPressHold.Value;
 
+            // The language is only applied on the next start, apply it in the Start/main form initialization.
+            var previousLanguage = GlobalSettings.Settings.Language;
+            GlobalSettings.Settings.Language = this.cmbLanguage.SelectedIndex < 0
+                ? UiLanguage.Auto
+                : (UiLanguage)this.cmbLanguage.SelectedIndex;
+            var languageChanged = GlobalSettings.Settings.Language != previousLanguage;
+
             GlobalSettings.Save();
+
+            if (languageChanged)
+            {
+                MessageBox.Show(
+                    this,
+                    Loc.T("The language change takes effect after restarting NohBoard."),
+                    Loc.T("Language"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
 
             this.DialogResult = DialogResult.OK;
         }

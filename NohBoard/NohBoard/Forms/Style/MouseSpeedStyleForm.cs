@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Forms.Style
     using System;
     using System.Windows.Forms;
     using Keyboard.Styles;
+    using Localization;
 
     /// <summary>
     /// The form used to define the style of a mouse speed indicator.
@@ -74,6 +75,7 @@ namespace ThoNohT.NohBoard.Forms.Style
 
             this.currentStyle = (MouseSpeedIndicatorStyle)initialStyle?.Clone();
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         #endregion Constructors

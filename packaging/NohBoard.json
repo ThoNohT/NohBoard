@@ -19,6 +19,6 @@
   "X": 100,
   "Y": 100,
   "TransparentMode": true,
-  "BorderlessMode": true,
+  "BorderlessMode": false,
   "OverlayScale": 1
 }

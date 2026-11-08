@@ -30,10 +30,22 @@ namespace ThoNohT.NohBoard.Forms
     using Hooking.Interop;
 
     /// <summary>
-    /// Adds overlay behaviour to the main form: a per-pixel transparent window (toggled with F1) and a borderless
-    /// window (toggled with F2). The transparent window is implemented with a layered window that is painted through
-    /// <c>UpdateLayeredWindow</c>, so that the alpha channel of the keyboard images and of the configured background
-    /// color is preserved. This makes it possible to use NohBoard as an overlay on top of other applications.
+    /// Adds overlay behaviour to the main form: a transparent background (toggled with F1) and a borderless window
+    /// (toggled with F2). These are independent modes, which gives four combinations:
+    /// <list type="bullet">
+    /// <item>opaque with the native border (the normal window),</item>
+    /// <item>transparent with the native border,</item>
+    /// <item>opaque without a border,</item>
+    /// <item>transparent without a border.</item>
+    /// </list>
+    /// The two transparent variants use different techniques. A borderless transparent window is painted through
+    /// <c>UpdateLayeredWindow</c> with per-pixel alpha, so the alpha channel of the keyboard images and of the
+    /// configured background color is preserved. Per-pixel alpha replaces the entire window surface, including the
+    /// non-client area, so it can not be combined with a native border. A bordered transparent window therefore uses
+    /// color-key transparency (<c>Form.TransparencyKey</c> / <c>LWA_COLORKEY</c>): the client area background is
+    /// painted in a nearly black key color, which the system makes transparent, while the title bar and the border are
+    /// drawn by the system as usual. Both variants make it possible to use NohBoard as an overlay on top of other
+    /// applications.
     /// </summary>
     public partial class MainForm
     {
@@ -95,6 +107,33 @@ namespace ThoNohT.NohBoard.Forms
         private const uint BiRgb = 0;
 
         #endregion Constants
+
+        /// <summary>
+        /// The color that is used as the transparency key when the window is transparent but keeps its border. A
+        /// nearly black color is used as the matte color: the rendered keyboard is composited onto it, and almost all
+        /// keyboard styles have dark or neutral artwork that looks correct on it. Fully black is not used, because a
+        /// black text color that is only 1/255 away from the key color stays visible instead of becoming transparent.
+        /// The color is fully opaque: the color key is matched on the RGB values only, and an opaque color is also
+        /// required for the <see cref="Control.BackColor"/> property, which does not accept transparent colors.
+        /// </summary>
+        private static readonly Color ColorKeyTransparencyColor = Color.FromArgb(255, 1, 0, 0);
+
+        /// <summary>
+        /// Gets a value indicating whether the window currently uses color-key transparency. This is the case when the
+        /// background should be transparent but the window keeps its native border and title bar. Per-pixel alpha
+        /// (layered window) transparency always replaces the whole window surface, including the non-client area, so
+        /// it can only be used together with a borderless window. For a bordered window a layered window with a color
+        /// key is used instead, which keeps the native frame intact.
+        /// </summary>
+        private bool ColorKeyModeActive => this.IsTransparencyActive && !this.borderlessApplied;
+
+        /// <summary>
+        /// Gets the color with which the client area background is filled in the normal (non layered) painting mode.
+        /// In color-key transparency mode this is the transparency key color, which makes the background transparent.
+        /// </summary>
+        private Color ClientBackgroundColor => this.ColorKeyModeActive
+            ? ColorKeyTransparencyColor
+            : GlobalSettings.CurrentStyle.BackgroundColor;
 
         #region DPI
 
@@ -313,6 +352,10 @@ namespace ThoNohT.NohBoard.Forms
             // switched off. The DPI dependent scaling is applied in <see cref="ApplyDpiScaling"/>.
             this.AutoScaleMode = AutoScaleMode.None;
 
+            // The English texts are used as localization keys: this runs in the constructor, before
+            // Loc.Initialize() has been called with the configured language, so the translation is applied later by
+            // Loc.Apply(this.MainMenu) in MainForm_Load. Translating here would translate against the system
+            // language and make it impossible to switch back to English afterwards.
             this.mnuToggleTransparency = new ToolStripMenuItem("Toggle &transparency (F1)");
             this.mnuToggleTransparency.Click += (s, e) =>
             {
@@ -477,14 +520,28 @@ namespace ThoNohT.NohBoard.Forms
 
             this.UpdateWindowBorder();
 
-            if (this.IsTransparencyActive)
+            if (this.IsTransparencyActive && this.borderlessApplied)
             {
+                // Transparent borderless window: per-pixel alpha through UpdateLayeredWindow.
+                this.layeredModeActive = false;
+                this.DisableColorKeyMode();
+                this.DisableLayeredWindow();
                 this.EnableLayeredWindow();
                 this.RenderLayeredFrame();
             }
+            else if (this.IsTransparencyActive)
+            {
+                // Transparent window with its native border: color-key transparency. Per-pixel alpha would replace
+                // the whole window surface, including the title bar and the border, so it can not be used here.
+                this.layeredModeActive = false;
+                this.DisableLayeredWindow();
+                this.EnableColorKeyMode();
+            }
             else
             {
+                // Opaque window: plain GDI+ painting.
                 this.layeredModeActive = false;
+                this.DisableColorKeyMode();
                 this.DisableLayeredWindow();
                 this.Refresh();
             }
@@ -503,7 +560,9 @@ namespace ThoNohT.NohBoard.Forms
         /// </summary>
         private void UpdateWindowBorder()
         {
-            var wantBorderless = this.transparentMode || this.borderlessMode;
+            // The transparency mode no longer implies a borderless window: F1 only controls the transparency and F2
+            // only controls the border, so all four combinations are independent of each other.
+            var wantBorderless = this.borderlessMode;
             if (wantBorderless == this.borderlessApplied) return;
 
             var clientOnScreen = this.RectangleToScreen(this.ClientRectangle);
@@ -685,6 +744,11 @@ namespace ThoNohT.NohBoard.Forms
         {
             if (this.mnuToggleEditMode.Checked) return -1;
 
+            // In color-key transparency mode the transparent background of the window is click-through, so the corner
+            // grips that are painted on that background can not be grabbed. Do not show a resize cursor that suggests
+            // otherwise; the window can still be resized by pressing F2 or by using its native border.
+            if (this.ColorKeyModeActive) return -1;
+
             var width = this.ClientSize.Width;
             var height = this.ClientSize.Height;
             var left = location.X <= ResizeGripSize;
@@ -734,8 +798,11 @@ namespace ThoNohT.NohBoard.Forms
         }
 
         /// <summary>
-        /// Makes a focused transparent window receive mouse input, and an unfocused transparent window click-through.
-        /// When the window has no focus, the mouse events are passed to the window below it.
+        /// Makes a focused transparent borderless window receive mouse input, and an unfocused one click-through.
+        /// When the window has no focus, the mouse events are passed to the window below it. This only applies to the
+        /// per-pixel alpha mode; a window with color-key transparency keeps receiving mouse input, because its title
+        /// bar and its keys have to stay clickable (only the key colored background is click-through, which is the
+        /// default system behaviour for layered windows).
         /// </summary>
         private void UpdateClickThrough()
         {
@@ -777,6 +844,62 @@ namespace ThoNohT.NohBoard.Forms
 
         #endregion Window resizing and click-through
 
+        #region Color key transparency
+
+        /// <summary>
+        /// Enables color-key transparency for a window that keeps its native border. The client area background is
+        /// painted in <see cref="ColorKeyTransparencyColor"/>, which the system turns into fully transparent pixels.
+        /// The title bar and the border are drawn by the system and stay visible.
+        /// </summary>
+        private void EnableColorKeyMode()
+        {
+            if (!this.IsHandleCreated) return;
+
+            var keyColor = ColorKeyTransparencyColor;
+
+            // Setting TransparencyKey makes WinForms turn the window into a layered window with LWA_COLORKEY. This must
+            // happen after the layered style of the per-pixel alpha mode has been removed, because a layered window
+            // that was painted through UpdateLayeredWindow can not be switched to color-key painting directly.
+            if (this.TransparencyKey != keyColor)
+            {
+                this.TransparencyKey = keyColor;
+            }
+
+            // The background color is what WinForms paints behind the keyboard, so it has to be the key color as well.
+            // OnPaint additionally clears the client area with the same color, see ClientBackgroundColor.
+            if (this.BackColor != keyColor)
+            {
+                this.BackColor = keyColor;
+            }
+
+            this.Invalidate();
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Disables color-key transparency and restores the normal background color of the current style.
+        /// </summary>
+        private void DisableColorKeyMode()
+        {
+            if (!this.IsHandleCreated) return;
+
+            // Setting the key to Color.Empty also removes the WS_EX_LAYERED style that WinForms added for the color
+            // key, because the form is not using transparency through Opacity.
+            if (this.TransparencyKey != Color.Empty)
+            {
+                this.TransparencyKey = Color.Empty;
+            }
+
+            var backgroundColor = GlobalSettings.CurrentStyle?.BackgroundColor ?? Color.Black;
+            var opaqueBackground = Color.FromArgb(255, backgroundColor);
+            if (this.BackColor != opaqueBackground)
+            {
+                this.BackColor = opaqueBackground;
+            }
+        }
+
+        #endregion Color key transparency
+
         #region Layered window
 
         /// <summary>
@@ -787,10 +910,16 @@ namespace ThoNohT.NohBoard.Forms
             if (!this.IsHandleCreated) return;
 
             var exStyle = GetWindowLong(this.Handle, GwlExStyle);
-            if ((exStyle & WsExLayered) == 0)
+
+            // Remove a possibly existing layered style first: after SetLayeredWindowAttributes (which is what the
+            // color-key transparency mode uses) has been called for the window, UpdateLayeredWindow keeps failing
+            // until the layered style bit has been cleared and set again.
+            if ((exStyle & WsExLayered) != 0)
             {
-                SetWindowLong(this.Handle, GwlExStyle, exStyle | WsExLayered);
+                SetWindowLong(this.Handle, GwlExStyle, exStyle & ~WsExLayered);
             }
+
+            SetWindowLong(this.Handle, GwlExStyle, exStyle | WsExLayered);
 
             this.layeredModeActive = true;
             this.UpdateClickThrough();

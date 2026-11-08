@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
     using System;
     using System.Windows.Forms;
     using Extra;
+    using Localization;
 
     /// <summary>
     /// The form used to change a key's boundaries to a rectangle.
@@ -34,6 +35,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
         public RectangleBoundaryForm()
         {
             InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
@@ -50,6 +52,8 @@ namespace ThoNohT.NohBoard.Forms.Properties
             var size = rectangle.Size;
             this.txtSize.X = size.Width;
             this.txtSize.Y = size.Height;
+
+            Loc.Apply(this);
         }
 
         /// <summary>

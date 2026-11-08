@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms
     using System.Linq;
     using System.Windows.Forms;
     using Extra;
+    using Localization;
 
     /// <summary>
     /// The form used to save a keyboard under a new name.
@@ -44,6 +45,7 @@ namespace ThoNohT.NohBoard.Forms
         public SaveKeyboardAsForm()
         {
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
@@ -98,8 +100,8 @@ namespace ThoNohT.NohBoard.Forms
                 StringComparison.InvariantCultureIgnoreCase))
             {
                 var result = MessageBox.Show(
-                    $"{Constants.GlobalStylesFolder} cannot be used for a category name.",
-                    "Invalid name",
+                    Loc.Format("{0} cannot be used for a category name.", Constants.GlobalStylesFolder),
+                    Loc.T("Invalid name"),
                     MessageBoxButtons.OKCancel);
 
                 if (result == DialogResult.OK)
@@ -113,9 +115,11 @@ namespace ThoNohT.NohBoard.Forms
             if (FileHelper.FromKbs(this.SelectedCategory, this.SelectedDefinition).Exists)
             {
                 var result = MessageBox.Show(
-                    $"Keyboard {this.SelectedCategory}/{this.SelectedDefinition} already exists, " +
-                    "do you want to overwrite it?",
-                    "Already exists",
+                    Loc.Format(
+                        "Keyboard {0}/{1} already exists, do you want to overwrite it?",
+                        this.SelectedCategory,
+                        this.SelectedDefinition),
+                    Loc.T("Already exists"),
                     MessageBoxButtons.YesNoCancel);
 
                 if (result == DialogResult.No) return;

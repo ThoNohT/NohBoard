@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms.Style
     using Controls;
     using Extra;
     using Keyboard;
+    using Localization;
     using ThoNohT.NohBoard.Keyboard.Styles;
 
     /// <summary>
@@ -69,6 +70,7 @@ namespace ThoNohT.NohBoard.Forms.Style
             this.initialStyle = initialStyle ?? new KeyboardStyle();
             this.currentStyle = this.initialStyle.Clone();
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         #endregion Constructors

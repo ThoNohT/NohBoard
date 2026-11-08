@@ -25,6 +25,7 @@ namespace ThoNohT.NohBoard.Extra
     using System.Windows.Forms;
     using Hooking;
     using Keyboard;
+    using Localization;
     using static Hooking.Interop.Defines;
 
     /// <summary>
@@ -83,6 +84,13 @@ namespace ThoNohT.NohBoard.Extra
         /// </summary>
         [DataMember]
         public string WindowTitle { get; set; } = "";
+
+        /// <summary>
+        /// The language in which the user interface is displayed. Defaults to the language of the operating system.
+        /// A change of this value only takes effect after NohBoard has been restarted.
+        /// </summary>
+        [DataMember]
+        public UiLanguage Language { get; set; } = UiLanguage.Auto;
 
         #endregion General
 

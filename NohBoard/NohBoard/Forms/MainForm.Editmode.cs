@@ -22,6 +22,7 @@ namespace ThoNohT.NohBoard.Forms
     using Keyboard;
     using Keyboard.ElementDefinitions;
     using Keyboard.Styles;
+    using Localization;
     using Properties;
     using Style;
     using System;
@@ -106,7 +107,7 @@ namespace ThoNohT.NohBoard.Forms
         {
             this.menuOpen = false;
 
-            this.mnuToggleEditMode.Text = this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing";
+            this.mnuToggleEditMode.Text = Loc.T(this.mnuToggleEditMode.Checked ? "Stop Editing" : "Start Editing");
             this.FormBorderStyle =
                 this.mnuToggleEditMode.Checked ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle;
 
@@ -692,8 +693,8 @@ namespace ThoNohT.NohBoard.Forms
             if (def.Boundaries.Count < 4)
             {
                 MessageBox.Show(
-                    "You cannot remove another boundary, there must be at least 3.",
-                    "Error removing boundary",
+                    Loc.T("You cannot remove another boundary, there must be at least 3."),
+                    Loc.T("Error removing boundary"),
                     MessageBoxButtons.OK);
                 return;
             }
@@ -847,7 +848,7 @@ namespace ThoNohT.NohBoard.Forms
 
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
-                MessageBox.Show("Please load or save a style before editing element styles.");
+                MessageBox.Show(Loc.T("Please load or save a style before editing element styles."));
                 return;
             }
 
@@ -938,7 +939,7 @@ namespace ThoNohT.NohBoard.Forms
 
             if (GlobalSettings.Settings.LoadedStyle == null)
             {
-                MessageBox.Show("Please load or save a style before editing the keyboard style.");
+                MessageBox.Show(Loc.T("Please load or save a style before editing the keyboard style."));
                 return;
             }
 

@@ -20,6 +20,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
     using System;
     using System.Windows.Forms;
     using Keyboard.ElementDefinitions;
+    using Localization;
     using ThoNohT.NohBoard.Controls;
     using ThoNohT.NohBoard.Extra;
 
@@ -65,6 +66,7 @@ namespace ThoNohT.NohBoard.Forms.Properties
             this.initialDefinition = initialDefinition ?? throw new ArgumentNullException(nameof(initialDefinition));
             this.currentDefinition = (MouseSpeedIndicatorDefinition)this.initialDefinition.Clone();
             this.InitializeComponent();
+            Loc.Apply(this);
         }
 
         /// <summary>
